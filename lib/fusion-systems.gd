@@ -1,3 +1,5 @@
+DeclareInfoClass("InfoFusion");
+
 DeclareCategory("IsFusionSystem", IsObject);
 BindGlobal("FusionSystemFamily", NewFamily("FusionSystemFamily"));
 
