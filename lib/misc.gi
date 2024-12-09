@@ -7,18 +7,20 @@ InstallGlobalFunction(OnImageTuples, function(L, phi)
 end );
 
 InstallGlobalFunction(OnHomConjugation, function(phi, psi)
-    local A, C, CGens, CImageGens;
+    local A, B, B0, A0, psi1, psiA, psiB;
 
     A := Source(phi);
-    C := Image(psi, A);
-    
-    if phi = IdentityMapping(A) then 
-        return IdentityMapping(C);
-    fi;
+    B := Image(phi);
 
-    psi := RestrictedHomomorphism(psi, A, C);
+    B0 := Image(psi, B);
+    A0 := Image(psi, A);
 
-    return InverseGeneralMapping(psi) * phi * psi;
+    psiA := RestrictedHomomorphism(psi, B, B0);
+    psi1 := RestrictedInverseGeneralMapping(psi);
+    Assert(0, IsGroupHomomorphism(psi1));
+    psiB := RestrictedHomomorphism(psi1, A0, A);
+
+    return psiB * phi * psiA;
 end );
 
 InstallGlobalFunction(OnHomListConjugation, function(L, psi)
@@ -233,21 +235,21 @@ InstallMethod(ExtendAut, "generic method",
         L := GeneratorsOfGroup(Source(phi));
         L0 := List(L, x -> Image(phi, x));
         
-        psi := RepresentativeAction(A, L, L0, OnImageTuples);
+        return RepresentativeAction(A, L, L0, OnImageTuples);
 
-        if psi = fail then 
-            return fail;
-        elif Order(psi) = Order(phi) then 
-            return psi;
-        fi;
-        
-        C := Stabilizer(A, L, OnImageTuples);
-        psi0 := First(RightCoset(C, psi), psi -> Order(psi) = Order(phi));
-        if psi0 <> fail then 
-            return psi0;
-        else 
-            return psi;
-        fi;
+        # psi := RepresentativeAction(A, L, L0, OnImageTuples);
+        # if psi = fail then 
+        #     return fail;
+        # elif Order(psi) = Order(phi) then 
+        #     return psi;
+        # fi;
+        # C := Stabilizer(A, L, OnImageTuples);
+        # psi0 := First(RightCoset(C, psi), psi -> Order(psi) = Order(phi));
+        # if psi0 <> fail then 
+        #     return psi0;
+        # else 
+        #     return psi;
+        # fi;
     end );
 
 InstallMethod(PrCore, "generic method",

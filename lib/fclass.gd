@@ -3,9 +3,10 @@ DeclareInfoClass("InfoFClass");
 
 DeclareAttribute("Reps", IsFClass);
 DeclareOperation("\=", [IsFClass, IsFClass]);
-DeclareProperty("IsSaturated", IsFClass);
+DeclareOperation("IsSaturated", [IsFClass, IsGroupOfAutomorphisms]);
 DeclareOperation("\in", [IsGroup, IsFClass]);
 DeclareOperation("FindMap", [IsFClass, IsGroup]);
+DeclareProperty("IsCentric", IsFClass);
 
 DeclareGlobalFunction("OrbitUpToClass");
 

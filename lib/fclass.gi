@@ -1,13 +1,19 @@
-InstallMethod(Reps, "for F-class",
+InstallMethod(Reps, "generic method",
     [IsFClassRep],
     function(C)
         return C!.R.class;
     end );
 
-InstallMethod(Representative, "for F-class",
+InstallMethod(Representative, "generic method",
     [IsFClassRep],
     function(C)
         return C!.A;
+    end );
+
+InstallMethod(ViewObj, "generic method",
+    [IsFClass], 0,
+    function(C)
+        Print(Representative(C), "^F");
     end );
 
 # G : the semidirect product S : Out_F(S)
@@ -106,6 +112,12 @@ InstallMethod(FClass, "for a fusion system and a group",
         return FClass(F!.G, F!.f, A, R, F!.S);
     end);
 
+InstallMethod(\^, "generic method",
+    [IsGroup, IsFusionSystem],
+    function(A,F)
+        return FClass(F,A);
+    end );
+
 InstallOtherMethod(FClass, "for all data",
     [IsGroup, IsGroupHomomorphism, IsGroup, IsRecord, IsGroup],
     function(G,f,A,R,S)
@@ -141,6 +153,12 @@ InstallMethod(\in, "for a subgroup and F-class",
         return ForAny(Reps(C), T -> Image(f,A) in Image(f,T)^G);
     end );
 
+InstallMethod(\<, "for F-classes",
+    [IsFClassRep, IsFClassRep],
+    function(C1, C2)
+        return Representative(C1) < Representative(C2);
+    end );
+
 # find a way to iterate through the elements
 
 InstallMethod(FindMap, "for a F-Class and a subgroup",
@@ -164,8 +182,8 @@ InstallMethod(FindMap, "for a F-Class and a subgroup",
         for i in [1..Length(Subs)] do 
             T := Subs[i];
             if Image(f,B) in Image(f,T)^G then 
-                x := RepresentativeAction(G,Image(f,B),Image(f,T));
-                x := ConjugatorIsomorphism(Image(f,B),x);
+                x := RepresentativeAction(G,Image(f,T),Image(f,B));
+                x := ConjugatorIsomorphism(Image(f,T),x);
                 x := OnHomConjugation(x, RestrictedInverseGeneralMapping(f));
                 return Maps[i]*x;
             fi;
@@ -221,4 +239,63 @@ InstallMethod(\=, "for two F-classes",
         L2 := List(L2, A -> Image(f,A)^G);
 
         return Set(L1) = Set(L2);
+    end );
+
+InstallMethod(IsCentric, "for a F-class",
+    [IsFClassRep],
+    function(C)
+        local S;
+
+        S := Source(C!.f);
+        return ForAll(Reps(C), T -> Centralizer(S,T) = Center(T));
+    end );
+
+InstallMethod(IsSaturated, "for a fusion system and a F-class",
+    [IsFusionSystem, IsFClassRep],
+    function(F, C)
+        local Subs, Maps, f, S, p, R, AutR, AutSR, T, CheckSaturated, i, B, AutSB;
+
+        Subs := Reps(C);
+        Maps := C!.R.maps;
+        f := F!.f;
+        S := Source(f);
+        p := F!.p;
+        
+        R := Representative(C);
+        AutR := AutF(F, R);
+        AutSR := Automizer(S,R);
+        T := RightTransversal(AutR, AutSR);
+
+        CheckSaturated := function(i)
+            local j, A, phi, alpha, N;
+
+            for j in [1..Length(Subs)] do 
+                A := Subs[j];
+                for phi in T do 
+                    alpha := InverseGeneralMapping(Maps[j])*phi*Maps[i];
+                    Assert(0, IsGroupHomomorphism(alpha));
+
+                    N := NPhi(S, alpha);
+                    if N <> Source(alpha) and ExtendAut(alpha, AutF(F,N)) = fail then
+                        return false;
+                    fi;
+                od;
+            od;
+
+            return true;
+        end;
+
+        for i in [1..Length(Subs)] do 
+            B := Subs[i];
+            AutSB := Index(Normalizer(Image(f,S),Image(f,B)), Centralizer(Image(f,S),Image(f,B)));
+
+            # B is fully automized
+            if Size(AutR)/AutSB mod p <> 0 then 
+                if CheckSaturated(i) then 
+                    return true;
+                fi;
+            fi;
+        od;
+
+        return false;
     end );
