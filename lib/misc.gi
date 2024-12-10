@@ -9,11 +9,17 @@ end );
 InstallGlobalFunction(OnHomConjugation, function(phi, psi)
     local A, B, B0, A0, psi1, psiA, psiB;
 
+    Assert(0, IsGroupHomomorphism(phi) and IsGroupHomomorphism(psi));
+
     A := Source(phi);
     B := Image(phi);
 
+    Assert(0, IsSubset(Source(psi), A));
+    Assert(0, IsSubset(Source(psi), B));
+
     B0 := Image(psi, B);
     A0 := Image(psi, A);
+    Assert(0, IsGroup(A0) and IsGroup(B0));
 
     psiA := RestrictedHomomorphism(psi, B, B0);
     psi1 := RestrictedInverseGeneralMapping(psi);

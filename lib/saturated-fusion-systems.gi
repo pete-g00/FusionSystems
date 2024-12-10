@@ -80,7 +80,7 @@ AutFA := function(C, B, AutFA, AutFB)
         C := ContainingConjugates(G, Image(f,T), Image(f,B));
         for X in C do 
             A1 := PreImage(f,X[1]);
-            x := ConjugatorIsomorphism(X[1], X[2]);
+            x := ConjugatorIsomorphism(Image(f,T), X[2]);
             x := OnHomConjugation(x, RestrictedInverseGeneralMapping(f));;
             AutFX := OnAutGroupConjugation(AutFA, Maps[i]*x);
             AutFB := ClosureGroup(AutFB, Automizer(AutFX, B));

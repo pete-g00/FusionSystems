@@ -55,7 +55,6 @@ InstallGlobalFunction(OrbitUpToClass, function(G, f, A, d)
         for i in [2..Length(entries)] do
             Subs := Reps(entries[i][1]);
             Maps := entries[i][1]!.R.maps;
-            Auto := entries[i][2];
             for j in [1..Length(Subs)] do
                 # all essubs, up to Aut-S class, to be considered
                 E := Subs[j];
@@ -63,6 +62,7 @@ InstallGlobalFunction(OrbitUpToClass, function(G, f, A, d)
                 Info(InfoFClass, 1, "Have ", Length(C), " Aut_F(S)-conjugates of E containing A");
                 # find all F-conjugates
                 for B in C do 
+                    Auto := entries[i][2];
                     B1 := PreImage(f, B[1]);
                     # maps E^f -> B1^f
                     x := B[2];
@@ -299,3 +299,9 @@ InstallMethod(IsSaturated, "for a fusion system and a F-class",
 
         return false;
     end );
+
+
+#I  [ (1,2,3)(4,5,6)(7,8,9), (1,4,7)(2,5,8)(3,6,9) ] -> [ (1,2,3)(4,5,6)(7,8,9), (1,6,9)(2,4,7)(3,5,8) ] ), Group( [ (1,2,3)(4,5,6)(7,8,9), (1,4,7)(2,5,8)(3,6,9) ] ) ]
+#I  The Aut_F(E)-orbit has 1 subgroups up to Aut_F(S)-class
+#I  of which 0 are new
+#I  [ (1,2,3)(4,5,6)(7,8,9), (1,4,7)(2,5,8)(3,6,9) ] -> [ (1,2,3)(4,5,6)(7,8,9), (1,5,8)(2,6,9)(3,4,7) ] ), Group( [ (1,2,3)(4,5,6)(7,8,9), (1,6,9)(2,4,7)(3,5,8) ] 
