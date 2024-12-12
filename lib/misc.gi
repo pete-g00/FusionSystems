@@ -1,3 +1,20 @@
+InstallMethod(IsomType, "generic method",
+    [IsGroup],
+    function(A)
+        if IdGroupsAvailable(Size(A)) then 
+            return IdGroup(A);
+        fi;
+
+        return [
+            Size(A),
+            Exponent(A),
+            List(LowerCentralSeries(A), Size),
+            List(UpperCentralSeries(A), Size),
+            List(DerivedSeries(A), Size),
+            Size(FrattiniSubgroup(A)),
+        ];
+    end );
+
 InstallGlobalFunction(OnImage, function(x, phi)
     return Image(phi, x);
 end );
@@ -36,6 +53,10 @@ end );
 InstallGlobalFunction(OnAutGroupConjugation, function(A, psi)
     local B;
 
+    Assert(0, IsGroupOfAutomorphisms(A));
+    Assert(0, IsGroupHomomorphism(psi));
+    Assert(0, IsSubset(Source(psi), Source(Representative(A))));
+
     if IsTrivial(A) then 
         return Group(IdentityMapping(Image(psi, Source(Representative(A)))));
     fi;
@@ -51,6 +72,12 @@ end );
 InstallGlobalFunction(OnCoCl, function(P)
     return function(x, phi)
         return Image(phi, Representative(x))^P;
+    end;
+end );
+
+InstallGlobalFunction(OnCoCle, function(P)
+    return function(x, a)
+        return (Representative(x)^a)^P;
     end;
 end );
 
@@ -364,133 +391,38 @@ InstallMethod(HasStronglyPEmbeddedSub, "generic method",
         return false;
     end );
 
-InstallMethod(IsStronglyPEmbedded, "general method",
-    [IsGroup, IsGroup, IsScalar],
-    function(G, M, p)
-        local NGM;
-
-        if PValuation(Size(G), p) <> PValuation(Size(M), p) then 
-            return false;
-        fi;
-
-        NGM := Normalizer(G, M);
-        # If the normalizer grows, then there exists a g \in G \setminus M s.t. M \cap M^g = M (assuming M is not a p'-group)
-        if NGM <> M and PValuation(Size(M), p) <> 0 then 
-            return false; 
-        fi;
-
-        # Transversing NGM to avoid duplicate M^g tests
-        return ForAll(RightTransversal(G, NGM), g -> g in M or PValuation(Size(Intersection(M, M^g)), p) = 0);
-    end );
-
-InstallMethod(PartitionBySort, "general method",
-    [IsListOrCollection, IsFunction],
-    function(L, f)
-        local A, C, i, O;
-        
-        A := ShallowCopy(L);
-        Sort(A, function(x, y)
-            return f(x,y) <= 0;
-        end );
-        
-        C := [];
-        i := 1;
-
-        while i <= Length(A) do 
-            O := [A[i]];
-            while i+1 <= Length(A) and f(A[i], A[i+1]) = 0 do 
-                i := i+1;
-                Add(O, A[i]);
-            od;
-            Add(C, O);
-            i := i+1;
-        od;
-        
-        return C;
-    end );
-
-InstallMethod(PartitionByFn, "general method",
-    [IsListOrCollection, IsFunction],
-    function(L, f)
-        local A, C, X, i;
-
-        A := ShallowCopy(L);
-        if IsEmpty(L) then 
-            return A;
-        fi;
-
-        C := [];
-        for X in L do 
-            i := PositionProperty(C, Y -> f(X,Representative(Y)));
-            if i <> fail then 
-                Add(C[i], X);
-            else 
-                Add(C, [X]);
-            fi;
-        od;
-
-        return C;
-    end );
-
-InstallGlobalFunction(UnionEnumerator, function(printFn, colls, fam...)
-    local LenFn;
-
-    if IsEmpty(fam) then 
-        if IsEmpty(colls) then 
-            Error("Type not given for an empty collection");
-        fi;
-
-        fam := FamilyObj(colls[1]);
-    else 
-        fam := fam[1];
+DescendReps := function(x, P, G)
+    local T, N, L;
+    
+    if not IsSubnormal(G, P) then 
+        Error("P must be subnormal in G");
     fi;
 
-    LenFn := Length;
-    if not IsEmpty(colls) and IsCollection(colls[1]) then 
-        LenFn := Size;
+    T := P;
+    while T <> G do 
+        N := Normalizer(G,T);
+        L := Orbit(N, x^T, OnCoCle(T));
+        L := List(L, Representative);
+        T := N;
+    od;
+
+    return L;
+end;
+
+AscendReps := function(L, G, P)
+    local T, N;
+    
+    if not IsSubnormal(G, P) then 
+        Error("P must be subnormal in G");
     fi;
 
-    if not IsEmpty(colls) and ForAll(colls, coll -> IsListOrCollection(colls) and FamilyObj(colls) = fam) then 
-        Error(String(colls));
-    fi;
+    T := P;
+    while T <> G do 
+        N := Normalizer(G,T);
+        L := Orbits(N, List(L, A -> A^T), OnCoCle(T));
+        L := List(L, A -> Representative(Representative(A)));
+        T := N;
+    od;
 
-    return EnumeratorByFunctions(CollectionsFamily(fam),
-        rec(
-            ElementNumber := function ( enum, n )
-                local i, k;
-
-                i := 0;
-                k := 1;
-                
-                while n > i + LenFn(enum!.colls[k]) do 
-                    i := i + LenFn(enum!.colls[k]);
-                    k := k+1;
-                od;
-                
-                return enum!.colls[k][n-i];
-            end,
-            NumberElement := function( enum, elm )
-                local offset, k, i;
-
-                offset := 0;
-                for k in [1..LenFn(enum!.colls)] do
-                    i := Position(enum!.colls[k], elm);
-                    if i <> fail then 
-                        return offset + i;
-                    fi;
-
-                    offset := offset + LenFn(enum!.colls[k]);
-                od;
-
-                return fail;
-            end,
-            Length := function( enum )
-                return Sum(List(enum!.colls, Size));
-            end,
-            PrintObj := function( enum )
-                printFn();
-            end,
-            colls := colls
-        )
-    );
-end );
+    return L;
+end;

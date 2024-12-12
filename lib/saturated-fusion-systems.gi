@@ -1,7 +1,52 @@
+# computes the restrictions of automorphisms on B coming from the F-Class C,
+# where a representative A of C has automizer AutFA. We build on the current automizer AutFB
+AutFA := function(C, B, AutA, AutB)
+    local L, M, i, Co, A, X, m, AutFO, Im, t, Aut;
+
+    # for this class of essential subgroup C and AutA
+    # find all subs conjugate to B s.t. they lie in an Aut_F(S)-conjugate of C
+    # add the automizers for every orbit
+    L := Reps(B);
+    M := B!.R.maps;
+    
+    Info(InfoFusion, 1, "Given automizer has order ", Size(AutA));
+
+    for i in [1..Length(L)] do 
+        Co := ContainingFConjugates(C, L[i]);
+        for A in Co do 
+            X := A[1];
+            m := A[2];
+
+            AutFO := OnAutGroupConjugation(AutA, m);
+            Im := Automizer(Image(m), Image(m));
+            Aut := Automizer(ClosureGroup(AutFO, Im), L[i]);
+            Aut := OnAutGroupConjugation(Aut, InverseGeneralMapping(M[i]));
+            Info(InfoFusion, 1, "Induced automizer has order ", Size(Aut));
+            AutB := ClosureGroup(AutB, Aut);
+        od;
+    od;
+    
+    return AutB;
+end;
+
+FAutomizer := function(C, d)
+    local A, Aut, T;
+
+    A := Representative(C);
+    Aut := Automizer(A,A);
+
+    for T in d!.entries do 
+        Aut := AutFA(T[1], C, T[2], Aut);
+    od;
+
+    SetIsGroupOfAutomorphisms(Aut, true);
+    return Aut;
+end;
+
 InstallMethod(SaturatedFusionSystem, "for a group and a list of automorphisms",
     [IsGroup, IsList],
     function(S, L)
-        local p, SGens, AutFS, B, G, f, Sf, d, E, X, R, C, I, cmaps, L0, AutFX;
+        local p, SGens, AutFS, B, G, f, Sf, d, E, X, R, C, Aut, I, cmaps, L0, AutFX;
 
         p := FindPrimeOfPrimePower(Size(S));
         Assert(0, p <> fail);
@@ -19,7 +64,7 @@ InstallMethod(SaturatedFusionSystem, "for a group and a list of automorphisms",
 
         Sf := FClass(G,f,S,rec(class := [S], maps := [IdentityMapping(S)]),S);
         d := NewDictionary(Sf, true);
-        AddDictionary(d, Sf, B);
+        AddDictionary(d, Sf, ClosureGroup(Automizer(S,S),B));
 
         L := Filtered(L, x -> Source(x) <> S);
 
@@ -36,14 +81,15 @@ InstallMethod(SaturatedFusionSystem, "for a group and a list of automorphisms",
             X := Source(L[1]);
             R := OrbitUpToClass(G, f, X, d);
             C := FClass(G, f, X, R, S);
+            Aut := FAutomizer(C, d);
             
             I := Filtered([1..Length(L)], i -> Source(L[i]) in C);
             cmaps := List(I, i -> FindMap(C, Source(L[i])));
             # conjugate hom[i] with ms[i]
             # construct the closure of Aut_F(S)
             # add it to the dictionary d
-            L0 := List([1..Length(I)], i -> OnHomConjugation(L[I[i]], cmaps[i]));
-            AutFX := Group(L0);
+            L0 := List([1..Length(I)], i -> OnHomConjugation(L[I[i]], InverseGeneralMapping(cmaps[i])));
+            AutFX := ClosureGroup(Aut, Group(L0));
             AddDictionary(d, C, AutFX);
 
             L := L{Difference([1..Length(L)], I)};
@@ -65,47 +111,15 @@ InstallMethod(Prime, "for a saturated fusion system",
         return F!.p;
     end );
 
-# computes the restrictions of automorphisms on B coming from the F-Class C,
-# where a representative A of C has automizer AutFA. We build on the current automizer AutFB
-AutFA := function(C, B, AutFA, AutFB)
-    local Subs, Maps, f, G, i, T, X, A1, x, AutFX;
-
-    Subs := Reps(C);
-    Maps := C!.R.maps;
-    f := C!.f;
-    G := C!.G;
-
-    for i in [1..Length(Subs)] do 
-        T := Subs[i];
-        C := ContainingConjugates(G, Image(f,T), Image(f,B));
-        for X in C do 
-            A1 := PreImage(f,X[1]);
-            x := ConjugatorIsomorphism(Image(f,T), X[2]);
-            x := OnHomConjugation(x, RestrictedInverseGeneralMapping(f));;
-            AutFX := OnAutGroupConjugation(AutFA, Maps[i]*x);
-            AutFB := ClosureGroup(AutFB, Automizer(AutFX, B));
-            AutFB := ClosureGroup(AutFB, Automizer(A1, B));
-        od;
-    od;
-
-    return AutFB;
-end;
-
 InstallMethod(AutF, "for a saturated fusion system and a subgroup",
     [IsSaturatedFusionSystemRep, IsGroup],
     function(F,A)
-        local d, Aut, T;
+        local C, d;
 
+        C := FClass(F,A);
         d := F!.d;
-        Aut := Automizer(A,A);
-
-        for T in d!.entries do 
-            Aut := AutFA(T[1], A, T[2], Aut);
-        od;
-
-        SetIsGroupOfAutomorphisms(Aut, true);
         
-        return Aut;
+        return FAutomizer(C,d);
     end );
 
 InstallMethod(RepresentativeFIsomorphism, "for a saturated fusion system and subgroups",
@@ -122,11 +136,13 @@ InstallMethod(FClasses, "for a saturated fusion system",
         S := UnderlyingGroup(F);
         C := ConjugacyClassesSubgroups(S);
         C := List(C, Representative);
+        # Group up to Aut-F class
         
         L := [];
         for A in C do 
             # TODO: Only check by size/group id
             if ForAll(L, X -> not A in X) then 
+                Info(InfoFusion, 1, "New class of order ", Size(A));
                 Add(L, FClass(F,A));
             fi;
         od;

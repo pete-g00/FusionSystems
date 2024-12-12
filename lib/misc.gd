@@ -6,6 +6,11 @@
 #! @Description
 #! Given a map $\phi \colon A \to B$ and an element $x \in A$, returns the evaluated value $x^\phi$.
 #! @Arguments x phi
+DeclareAttribute("IsomType", IsGroup);
+
+#! @Description
+#! Given a map $\phi \colon A \to B$ and an element $x \in A$, returns the evaluated value $x^\phi$.
+#! @Arguments x phi
 DeclareGlobalFunction("OnImage");
 
 #! @Description
@@ -38,6 +43,7 @@ DeclareGlobalFunction("OnAutGroupConjugation");
 #! 
 #! @Arguments P
 DeclareGlobalFunction("OnCoCl");
+DeclareGlobalFunction("OnCoCle");
 
 #! @Description
 #! Given a homomorphism $\phi \colon P \to Q$, and $A \leq P$ and $Q \leq B$, 

@@ -3,10 +3,13 @@ DeclareInfoClass("InfoFClass");
 
 DeclareAttribute("Reps", IsFClass);
 DeclareOperation("\=", [IsFClass, IsFClass]);
-DeclareOperation("IsSaturated", [IsFClass, IsGroupOfAutomorphisms]);
 DeclareOperation("\in", [IsGroup, IsFClass]);
+# up to Aut_F(S) conjugacy
+DeclareOperation("ContainingFConjugates", [IsFClass, IsGroup]);
+DeclareOperation("ContainedFConjugates", [IsFClass, IsGroup]);
 DeclareOperation("FindMap", [IsFClass, IsGroup]);
 DeclareProperty("IsCentric", IsFClass);
+DeclareOperation("IsSaturated", [IsFClass, IsGroupOfAutomorphisms]);
 
 DeclareGlobalFunction("OrbitUpToClass");
 

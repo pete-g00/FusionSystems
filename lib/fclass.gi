@@ -25,76 +25,84 @@ InstallGlobalFunction(OrbitUpToClass, function(G, f, A, d)
     local   L, # Aut_F(S)-conjugates of A
             Acts, # the maps that conjugate A to another AutF_(S)-conjugate
             entries, # the entries in d
-            L0, L00, # Aut_F(S)-conjugates of A whose Aut_F(E_i)-conjugates haven't been found
-            X, # a F-conjugate of A
-            i,j,k,l, # counters
-            Subs, # the essential subgroups
-            Maps, # maps between essential subgroups in different Aut_F-classes
-            E, # essential subgroup
+            X,Y,Y0, # a F-conjugate of A
+            CL, # a F-class of essential subgroup
+            L0, # Aut_F(S)-reps of X up to E-class
+            A0, # Aut_F(S)-reps of X up to E-class (containing X)
+            i,j, # counters
             C, # Aut_F(S)-conjugates of E containing X (and maps)
             B, # a single Aut_F(S)-conjugate of E containing X (and maps)
-            B0,B1, # a single Aut_F(S)-conjugate of E containing X
-            rf1, rf0, # restrictions of f
-            x,y, # the element that conjugates an Aut_F(S)-conjugate of E
-            a, # a map that conjugates between Aut_F(S)-reps of an essential subgroup F-conjugates
-            alpha, # an automorphism of E that conjugates E to an Aut_F(S)-conjugate
+            B1, # a single Aut_F(S)-conjugate of E containing X
+            x,a,b, # the element that conjugates a F-conjugate of E
             Auto, # the automizer of B1 in F
             O, # the Auto-orbit of B1 (up to B1-class)
             T; # the maps from A to an Aut_F(S)-conjugate
 
     L := [A]; 
     Acts := [IdentityMapping(A)];
-    # L0 := [A];
 
     entries := d!.entries;
-    k := 1;
+    j := 1;
 
-    while k <= Length(L) do 
-        Info(InfoFClass, 1, "Looking at index ", k);
-        X := L[k];
+    while j <= Length(L) do 
+        Info(InfoFClass, 1, "Looking at index ", j);
+        X := L[j];
         for i in [2..Length(entries)] do
-            Subs := Reps(entries[i][1]);
-            Maps := entries[i][1]!.R.maps;
-            for j in [1..Length(Subs)] do
-                # all essubs, up to Aut-S class, to be considered
-                E := Subs[j];
-                C := ContainingConjugates(G, Image(f,E), Image(f,X));
-                Info(InfoFClass, 1, "Have ", Length(C), " Aut_F(S)-conjugates of E containing A");
-                # find all F-conjugates
-                for B in C do 
-                    Auto := entries[i][2];
-                    B1 := PreImage(f, B[1]);
-                    # maps E^f -> B1^f
-                    x := B[2];
-                    a := Maps[j];
-                    B0 := Image(a);
-                    y := RepresentativeAction(G,Image(f,B0),Image(f,E));
-                    x := ConjugatorIsomorphism(Image(f,B0),y*x);
-
-                    # E -> a(E) -> f(a(E)) -> f(a(E))^(yx) -> f^{-1}(f(a(E))^x)
-                    rf1 := RestrictedHomomorphism(f,B0,Image(f,B0));
-                    rf0 := RestrictedHomomorphism(RestrictedInverseGeneralMapping(f),Image(f,B1),B1);
-                    alpha := a*rf1*x*rf0;
-                    Assert(0, IsGroupHomomorphism(alpha));
-                    Auto := OnAutGroupConjugation(Auto, alpha);
-                    
-                    # check which ones are not already Aut_F(S)-conjugate in E and append those
-                    O := Orbit(Auto, X^B1, OnCoCl(B1));
-                    O := Set(List(O, A -> Image(f,Representative(A))^G));
-                    Info(InfoFClass, 1, "The Aut_F(E)-orbit has ", Length(O), " subgroups up to Aut_F(S)-class");
-                    
-                    O := List(O, A -> PreImage(f,Representative(A)));
-                    O := Filtered(O, A -> ForAll(L, P -> not Image(f,A) in Image(f,P)^G));
-                    Info(InfoFClass, 1, "of which ", Length(O), " are new");
-
-                    Append(L, O);
-                    
-                    T := List(O, Y -> Acts[k]*RestrictedHomomorphism(RepresentativeAction(Auto, X, Y, OnImage),X,Y));
-                    Append(Acts, T);
+            CL := entries[i][1];
+            C := ContainingFConjugates(CL, X);
+            Info(InfoFClass, 2, "Have ", Length(C), " F-conjugate(s) of E containing A, up to Aut_F(S)-class");
+            # find all F-conjugates
+            for B in C do 
+                Auto := entries[i][2];
+                B1 := B[1];
+                L0 := DescendReps(Image(f,X), Image(f,B1), Image(f));
+                L0 := List(L0, A -> PreImage(f,A));
+                Info(InfoFClass, 2, "There are ", Length(L0), " Aut_F(S)-reps");
+                A0 := [];
+                for Y in L0 do 
+                    if IsSubset(B1,Y) then 
+                        Add(A0, Y);
+                    elif ForAll(L, A -> not Image(f,X) in Image(f,A)^G) then
+                        Add(L, Y);
+                        a := RepresentativeAction(B1, X, Y, OnImage);
+                        Info(InfoFClass, 2, [Source(Acts[j]), X,Y]);
+                        Add(Acts, Acts[j]*ConjugatorIsomorphism(X, RepresentativeAction(B1, X, Y)));
+                    fi;
                 od;
+                Info(InfoFClass, 2, "of which ", Length(A0), " contain Y");
+                
+                x := B[2];
+                Auto := OnAutGroupConjugation(Auto, x);
+                
+                # check which ones are not already Aut_F(S)-conjugate in E and append those
+                O := Flat(Orbits(Auto, A0, OnImage));
+                Info(InfoFClass, 2, "The Aut_F(E)-orbit has ", Length(O), " subgroups up to Aut(E)-class");
+                
+                # O := List(O, A -> PreImage(f,Representative(A)));
+                # O := Filtered(O, A -> ForAll(L, P -> not Image(f,A) in Image(f,P)^G));
+
+                # Y is Aut(E)-conjugate to Aut_F(S)-conjugate of X
+                for Y in O do 
+                    if ForAll(L, P -> not Image(f,Y) in Image(f,P)^G) then 
+                        Add(L, Y);
+                        Y0 := First(A0, X -> RepresentativeAction(Auto, X, Y, OnImage) <> fail);
+                        a := RepresentativeAction(Auto, Y0, Y, OnImage);
+                        Assert(0, a <> fail);
+                        b := RepresentativeAction(G, Image(f,X), Image(f,Y0));
+                        Assert(0, b <> fail);
+                        b := OnHomConjugation(ConjugatorIsomorphism(Image(f,X), b), RestrictedInverseGeneralMapping(f));
+                        Add(Acts, Acts[j]*b*RestrictedHomomorphism(a, Y0, Y));
+                    fi;
+                od;
+                Info(InfoFClass, 2, "Have ", Length(L), " classes now");
+
+                # Append(L, O);
+                
+                # T := List(O, Y -> Acts[j]*RestrictedHomomorphism(RepresentativeAction(Auto, X, Y, OnImage),X,Y));
+                # Append(Acts, T);
             od;
         od;
-        k := k+1;
+        j := j+1;
     od;
 
     return rec(
@@ -145,7 +153,12 @@ InstallMethod(Size, "for a F-class",
 InstallMethod(\in, "for a subgroup and F-class",
     [IsGroup, IsFClassRep],
     function(A, C)
-        local f, G;
+        local B, f, G;
+
+        B := Representative(C);
+        if IsomType(A) <> IsomType(B) then 
+            return false;
+        fi;
 
         f := C!.f;
         G := C!.G;
@@ -203,6 +216,59 @@ InstallMethod(AsSSortedList, "for a F-class",
 
         for T in Reps(C) do 
             Append(L, List(Image(f,T)^G, X -> PreImage(f,X)));
+        od;
+
+        return L;
+    end );
+
+InstallMethod(Enumerator, "for a F-class", [IsFClassRep], AsSSortedList);
+
+InstallMethod(ContainingFConjugates, "generic method",
+    [IsFClassRep, IsGroup],
+    function(C, A)
+        local Subs, Maps, f, G, L, i, Co, T, X, A1, x;
+    
+        Subs := Reps(C);
+        Maps := C!.R.maps;
+        f := C!.f;
+        G := C!.G;
+        L := [];
+
+        for i in [1..Length(Subs)] do 
+            T := Subs[i];
+            Co := ContainingConjugates(G, Image(f,T), Image(f,A));
+            for X in Co do 
+                A1 := PreImage(f,X[1]);
+                x := ConjugatorIsomorphism(Image(f,T), X[2]);
+                x := OnHomConjugation(x, RestrictedInverseGeneralMapping(f));;
+                Add(L, [A1, Maps[i]*x]);
+            od;
+        od;
+
+        return L;
+    end );
+
+InstallMethod(ContainedFConjugates, "generic method",
+    [IsFClassRep, IsGroup],
+    function(C, A)
+        local Subs, Maps, f, G, L, i, Co, T, X, A1, x, mi;
+    
+        Subs := Reps(C);
+        Maps := C!.R.maps;
+        f := C!.f;
+        G := C!.G;
+        L := [];
+
+        for i in [1..Length(Subs)] do 
+            T := Subs[i];
+            # returns [A^x, x] such that A^x \leq T
+            Co := ContainedConjugates(G, Image(f,T), Image(f,A));
+            for X in Co do 
+                A1 := PreImage(f,X[1]);
+                x := ConjugatorIsomorphism(Image(f,A), X[2]);
+                x := OnHomConjugation(x, RestrictedInverseGeneralMapping(f));;
+                Add(L, [A1, x]);
+            od;
         od;
 
         return L;
@@ -287,10 +353,11 @@ InstallMethod(IsSaturated, "for a fusion system and a F-class",
 
         for i in [1..Length(Subs)] do 
             B := Subs[i];
-            AutSB := Index(Normalizer(Image(f,S),Image(f,B)), Centralizer(Image(f,S),Image(f,B)));
+            AutSB := IndexNC(Normalizer(Image(f,S),Image(f,B)), Centralizer(Image(f,S),Image(f,B)));
+            Info(InfoWarning, 1, [Size(AutF(F,B)), AutSB]);
 
             # B is fully automized
-            if Size(AutR)/AutSB mod p <> 0 then 
+            if Size(AutF(F,B))/AutSB mod p <> 0 then 
                 if CheckSaturated(i) then 
                     return true;
                 fi;
@@ -300,8 +367,3 @@ InstallMethod(IsSaturated, "for a fusion system and a F-class",
         return false;
     end );
 
-
-#I  [ (1,2,3)(4,5,6)(7,8,9), (1,4,7)(2,5,8)(3,6,9) ] -> [ (1,2,3)(4,5,6)(7,8,9), (1,6,9)(2,4,7)(3,5,8) ] ), Group( [ (1,2,3)(4,5,6)(7,8,9), (1,4,7)(2,5,8)(3,6,9) ] ) ]
-#I  The Aut_F(E)-orbit has 1 subgroups up to Aut_F(S)-class
-#I  of which 0 are new
-#I  [ (1,2,3)(4,5,6)(7,8,9), (1,4,7)(2,5,8)(3,6,9) ] -> [ (1,2,3)(4,5,6)(7,8,9), (1,5,8)(2,6,9)(3,4,7) ] ), Group( [ (1,2,3)(4,5,6)(7,8,9), (1,6,9)(2,4,7)(3,5,8) ] 
