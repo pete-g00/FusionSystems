@@ -24,3 +24,7 @@ DeclareOperation("IsFEssential", [IsFusionSystem, IsGroup]);
 DeclareProperty("IsSaturated", IsFusionSystem);
 DeclareOperation("\=", [IsFusionSystem, IsFusionSystem]);
 DeclareOperation("IsomorphismFusionSystems", [IsFusionSystem, IsFusionSystem]);
+
+DeclareOperation("Core", [IsFusionSystem]);
+DeclareAttribute("FocalSubgroup", IsFusionSystem);
+DeclareProperty("IsReduced", IsFusionSystem);

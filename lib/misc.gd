@@ -13,10 +13,14 @@ DeclareAttribute("IsomType", IsGroup);
 #! @Arguments x phi
 DeclareGlobalFunction("OnImage");
 
+DeclareGlobalFunction("OnImageNM");
+
 #! @Description
 #! Given a map $\phi \colon A \to B$ and an list $L \subseteq A$, applies the map $\phi$ on each $L$.
 #! @Arguments x phi
 DeclareGlobalFunction("OnImageTuples");
+
+DeclareGlobalFunction("OnImageTuplesNM");
 
 #! @Description
 #! Given a map $\phi \colon A \to B$ and a map $\psi \colon C \to D$, with $A, B \leq C$, 
@@ -43,6 +47,7 @@ DeclareGlobalFunction("OnAutGroupConjugation");
 #! 
 #! @Arguments P
 DeclareGlobalFunction("OnCoCl");
+DeclareGlobalFunction("OnCoClNM");
 DeclareGlobalFunction("OnCoCle");
 
 #! @Description
@@ -99,13 +104,6 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphisms, IsGroup]);
 #! @EndGroup
 
 #! @Description
-#! Given a group $G$ and a subgroup $H$, the operation `AutomizerHomomorphism(G, H)` constructs the automizer homomorphism $c \colon N_G(H) \to \Aut_G(H)$. This is the homomorphism that maps every $g \in N_G(H)$ to the automorphism map $c_g \in \Aut(H)$ given by conjugation, i.e. $c_g(x) = x^g$ for $x \in H$.
-#! 
-#! @Arguments G H
-#! @Returns a homomorphism
-DeclareOperation("AutomizerHomomorphism", [IsGroup, IsGroup]);
-
-#! @Description
 #! Given a group $G$ and a prime $p$, the operation `PrCore(G,p)` constructs the $p'$-core subgroup of $G$: $O_{p'}(G)$.
 #!
 #! @Arguments G p
@@ -125,29 +123,12 @@ DeclareOperation("PResidue", [IsGroup, IsPosInt]);
 #! @Returns a group
 DeclareOperation("NPhi", [IsGroup, IsGroupHomomorphism]);
 
-# TODO: Improve code
-#! @Description 
-#! Given two homomorphisms $\phi$ and $\psi$, checks whether $\psi$ is a restriction of $\phi$
-#! 
-#! @Arguments phi psi
-#! @Returns `true` or `false`
-DeclareOperation("IsRestrictedHomomorphism", [IsGroupHomomorphism, IsGroupHomomorphism]);
-
-# TODO: The ability to restrict the domain and the codomain of a group homomorphism
-
-# # Checks whether a homomorphism fixes the given subgroup
-# DeclareOperation("NormalizesSubgroup", [IsGroupHomomorphism, IsGroup]);
-
-# # Checks whether a homomorphism acts trivially on the given subgroup
-# DeclareOperation("CentralizesSubgroup", [IsGroupHomomorphism, IsGroup]);
-
-# TODO: Improve code
-#! @Description 
-#! Let $G$ be a group, with subgroups $A$ and $B$ and a homomorphism $\phi \colon A \to B$. If $L \subseteq \Aut(P)$, then the operation `FindHomExtension(phi, L)` finds an extension in $L$ of $\phi$. If we cannot find an extension, then the operation returns `fail`.
-#! 
-#! @Arguments phi L
-#! @Returns an automorphism or `fail`
-DeclareOperation("FindHomExtension", [IsGroupHomomorphism, IsCollection]);
+#! @Description
+#! Given a group $S$, a subgroup $A \leq S$ and a subgroup $X \leq \Aut(A)$, constructs the subgroup
+#! $$\{x \in X \mid N_x = N_S(A)\}.$$
+#! @Arguments S X
+#! @Returns a group
+DeclareOperation("FindMaxNPhi", [IsGroup, IsGroupOfAutomorphisms]);
 
 #! @Description
 #! Let $G$ be a group, with subgroup $A$ and an automorphism $\phi \colon A \to A$. If $A \leq \Aut(G)$, then the operation `ExtendAut(phi, A)` extends the automorphism $\phi$ to an automorphism in $G$, using the maps in $A$. If we cannot find an extension, then the operation returns `fail`. If possible, the order of the extension is the same as the order of $\phi$.
@@ -164,28 +145,11 @@ DeclareOperation("ExtendAut", [IsGroupHomomorphism, IsGroup]);
 
 # FindCentralizingAutExtension => find an extension of phi : A -> B to psi : QA -> QB where psi centralizes Q
 
-# RangeRestrictedMapping
-# SourceRangeRestrictedMapping
-
 #! @Description
 #! Given a group $G$ and a prime $p$, checks whether $G$ has a strongly $p$-embedded subgroup.
 #! @Arguments G p
 #! @Returns `true` or `false`
-DeclareOperation("HasStronglyPEmbeddedSub", [IsGroup, IsScalar]);
-
-#! @Description
-#! Given a group $G$, a subgroup $M$ and a prime $p$, checks whether $H$ is strongly $p$-embedded.
-#! @Arguments G M p
-#! @Returns `true` or `false`
-DeclareOperation("IsStronglyPEmbedded", [IsGroup, IsGroup, IsScalar]);
-
-#! @Description
-#! Given a list $L$ and a function that compares two elements in the list, partitions them.
-DeclareOperation("PartitionBySort", [IsListOrCollection, IsFunction]);
-
-#! @Description
-#! Given a list $L$ and a function that compares two elements in the list, partitions them.
-DeclareOperation("PartitionByFn", [IsListOrCollection, IsFunction]);
+DeclareOperation("HasStronglyPEmbeddedSubgroup", [IsGroup, IsScalar]);
 
 #! @BeginExample
 #! gap> P := Group((1,2,3), (1,3));
@@ -198,5 +162,22 @@ DeclareOperation("PartitionByFn", [IsListOrCollection, IsFunction]);
 #! true
 #! @EndExample
 
-# TODO: Probably need to do something better here?
-DeclareGlobalFunction("UnionEnumerator");
+#! @Description
+#! Let $G$ be a group with $H \leq G$. The list $L$ consists of elements up to $H$-conjugacy. The operation `AscendReps(L, G, H)` returns a subset of $L$ that consists of an element up to $G$-conjugacy. This method only works if $H$ is subnormal in $G$. 
+#! @Arguments L G H
+#! @Returns a list
+DeclareGlobalFunction("AscendReps");
+
+#! @Description
+#! Let $G$ be a group with $H \leq G$ The operation `DescendReps(x, G, H)` $G$-conjugates of $x$ that consists of a single element up to $H$-conjugacy. This method only works if $H$ is subnormal in $G$. 
+#! @Arguments x G H
+#! @Returns a list
+DeclareGlobalFunction("DescendReps");
+
+#! @Description
+#! Let $G$ be a group and $f$ a boolean function on $G$. This function returns the set 
+# $${x \in G | f(x)}$$
+# given that it forms a subgroup of $G$. A subgroup $H$ might be given that is known to already satisfy this property. The function will not work if the elements in $G$ satisfying this property is not a subgroup.
+#! @Arguments G f [H]
+#! @Returns a group
+DeclareGlobalFunction("FindSubgroup");

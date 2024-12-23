@@ -9,10 +9,11 @@ AutFA := function(C, B, AutA, AutB)
     L := Reps(B);
     M := B!.R.maps;
     
-    Info(InfoFusion, 1, "Given automizer has order ", Size(AutA));
+    Info(InfoFusion, 1, "Given automizer has ", Length(GeneratorsOfGroup(AutA)), " generators");
 
     for i in [1..Length(L)] do 
         Co := ContainingFConjugates(C, L[i]);
+        Info(InfoFusion, 1, "Have ", Length(Co), " F-conjugates containing A");
         for A in Co do 
             X := A[1];
             m := A[2];
@@ -21,7 +22,7 @@ AutFA := function(C, B, AutA, AutB)
             Im := Automizer(Image(m), Image(m));
             Aut := Automizer(ClosureGroup(AutFO, Im), L[i]);
             Aut := OnAutGroupConjugation(Aut, InverseGeneralMapping(M[i]));
-            Info(InfoFusion, 1, "Induced automizer has order ", Size(Aut));
+            Info(InfoFusion, 1, "Induced automizer has ", Length(GeneratorsOfGroup(Aut)), " generators");
             AutB := ClosureGroup(AutB, Aut);
         od;
     od;
@@ -43,6 +44,7 @@ FAutomizer := function(C, d)
     return Aut;
 end;
 
+# TODO: Add nocheck, that guarantees that no essential subgroup is a subgroup of another
 InstallMethod(SaturatedFusionSystem, "for a group and a list of automorphisms",
     [IsGroup, IsList],
     function(S, L)
@@ -149,3 +151,59 @@ InstallMethod(FClasses, "for a saturated fusion system",
 
         return L;
     end );
+
+InstallMethod(Core, "for a saturated fusion system",
+    [IsSaturatedFusionSystemRep], 
+    function(F)
+        local E, N, A, R, n;
+
+        E := F!.d!.entries;
+        N := NormalSubgroups(UnderlyingGroup(F));
+        for A in E do 
+            R := Representative(A[1]);
+            N := Filtered(N, X -> IsSubset(R, X) and IsNormal(R, X));
+            N := Orbits(A[2], N, OnImage);
+            N := Filtered(N, X -> Size(X) = 1);
+            N := List(N, Representative);
+        od;
+
+        n := Maximum(List(N, Size));
+        return First(N, A -> Size(A) = n);
+    end );
+
+InstallMethod(FocalSubgroup, "for a saturated fusion system",
+    [IsSaturatedFusionSystemRep],
+    function(F)
+        local T, E, A, R, Aut, T0;
+
+        T := TrivialSubgroup(UnderlyingGroup(F));
+        E := F!.d!.entries;
+        
+        for A in E do 
+            R := Representative(A[1]);
+            Aut := A[2];
+            T0 := List(GeneratorsOfGroup(Aut), alpha -> List(GeneratorsOfGroup(R), x -> x^-1*Image(alpha,x)));
+            T := ClosureGroup(T, Flat(T0));
+        od;
+
+        return T;
+    end );
+
+InstallMethod(IsReduced, "for a saturated fusion system",
+    [IsSaturatedFusionSystemRep],
+    function(F)
+        return IsTrivial(Core(F)) and FocalSubgroup(F) = UnderlyingGroup(F);
+    end );
+
+Foc := function(S, L)
+    local T, A, X, T0;
+
+    T := TrivialSubgroup(S);
+    for A in L do 
+        X := Source(Identity(A));
+        T0 := List(GeneratorsOfGroup(A), alpha -> List(GeneratorsOfGroup(X), x -> x^-1*Image(alpha, x)));
+        T := ClosureGroup(T, Flat(T0));
+    od;
+
+    return T;
+end;

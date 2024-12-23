@@ -19,7 +19,6 @@ InstallMethod(ViewObj, "generic method",
 # G : the semidirect product S : Out_F(S)
 # f : the inclusion map of S into G
 # A : a subgroup of S
-# L : list of Aut_F(E_i), up to Aut_F(S)-class
 # d: dictionary of essential subgroups
 InstallGlobalFunction(OrbitUpToClass, function(G, f, A, d)
     local   L, # Aut_F(S)-conjugates of A
@@ -354,7 +353,6 @@ InstallMethod(IsSaturated, "for a fusion system and a F-class",
         for i in [1..Length(Subs)] do 
             B := Subs[i];
             AutSB := IndexNC(Normalizer(Image(f,S),Image(f,B)), Centralizer(Image(f,S),Image(f,B)));
-            Info(InfoWarning, 1, [Size(AutF(F,B)), AutSB]);
 
             # B is fully automized
             if Size(AutF(F,B))/AutSB mod p <> 0 then 
@@ -366,4 +364,53 @@ InstallMethod(IsSaturated, "for a fusion system and a F-class",
 
         return false;
     end );
+
+# InstallMethod(IsSaturated, "for a fusion system and a F-class, given AutF",
+#     [IsFusionSystem, IsFClassRep, IsGroupOfAutomorphisms],
+#     function(F, C, AutR)
+#         local Subs, Maps, f, S, p, R, AutSR, T, CheckSaturated, i, B, AutSB;
+
+#         Subs := Reps(C);
+#         Maps := C!.R.maps;
+#         f := F!.f;
+#         S := Source(f);
+#         p := F!.p;
+        
+#         R := Representative(C);
+#         AutSR := Automizer(S,R);
+#         T := RightTransversal(AutR, AutSR);
+
+#         CheckSaturated := function(i)
+#             local j, A, phi, alpha, N;
+
+#             for j in [1..Length(Subs)] do 
+#                 A := Subs[j];
+#                 for phi in T do 
+#                     alpha := InverseGeneralMapping(Maps[j])*phi*Maps[i];
+#                     Assert(0, IsGroupHomomorphism(alpha));
+
+#                     N := NPhi(S, alpha);
+#                     if N <> Source(alpha) and ExtendAut(alpha, AutF(F,N)) = fail then
+#                         return false;
+#                     fi;
+#                 od;
+#             od;
+
+#             return true;
+#         end;
+
+#         for i in [1..Length(Subs)] do 
+#             B := Subs[i];
+#             AutSB := IndexNC(Normalizer(Image(f,S),Image(f,B)), Centralizer(Image(f,S),Image(f,B)));
+
+#             # B is fully automized
+#             if Size(AutF(F,B))/AutSB mod p <> 0 then 
+#                 if CheckSaturated(i) then 
+#                     return true;
+#                 fi;
+#             fi;
+#         od;
+
+#         return false;
+#     end );
 
