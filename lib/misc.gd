@@ -48,23 +48,26 @@ DeclareGlobalFunction("OnAutGroupConjugation");
 #! @Arguments P
 DeclareGlobalFunction("OnCoCl");
 DeclareGlobalFunction("OnCoClNM");
+DeclareGlobalFunction("OnCoClTuples");
+DeclareGlobalFunction("OnCoClTuplesNM");
 DeclareGlobalFunction("OnCoCle");
+
 
 #! @Description
 #! Given a homomorphism $\phi \colon P \to Q$, and $A \leq P$ and $Q \leq B$, 
 #! returns the induced homomorphism $\psi \colon A \to B$.
 #! 
 #! This version does not check whether $A \leq P$ and $Q \leq B$.
-#! @Arguments phi A B
-DeclareOperation("RestrictedHomomorphismNC", [IsGroupHomomorphism, IsGroup, IsGroup]);
+#! @Arguments phi A [B]
+DeclareGlobalFunction("RestrictedHomomorphismNC");
 
 #! @Description
 #! Given a homomorphism $\phi \colon P \to Q$, and $A \leq P$ and $Q \leq B$, 
 #! returns the induced homomorphism $\psi \colon A \to B$.
 #! 
 #! This version checks whether $A \leq P$ and $Q \leq B$.
-#! @Arguments phi A B
-DeclareOperation("RestrictedHomomorphism", [IsGroupHomomorphism, IsGroup, IsGroup]);
+#! @Arguments phi A [B]
+DeclareGlobalFunction("RestrictedHomomorphism");
 
 # TODO: Improve code
 # Given subgroups $A$ and $B$ of some group $G$, and a $g \in G$ such that 
@@ -168,11 +171,17 @@ DeclareOperation("HasStronglyPEmbeddedSubgroup", [IsGroup, IsScalar]);
 #! @Returns a list
 DeclareGlobalFunction("AscendReps");
 
+DeclareGlobalFunction("AscendRepsAutomorphismGroup");
+
 #! @Description
 #! Let $G$ be a group with $H \leq G$ The operation `DescendReps(x, G, H)` $G$-conjugates of $x$ that consists of a single element up to $H$-conjugacy. This method only works if $H$ is subnormal in $G$. 
 #! @Arguments x G H
 #! @Returns a list
 DeclareGlobalFunction("DescendReps");
+
+DeclareGlobalFunction("DescendRepsAutomorphismGroup");
+
+DeclareOperation("NormalizerChain", [IsGroup, IsGroup]);
 
 #! @Description
 #! Let $G$ be a group and $f$ a boolean function on $G$. This function returns the set 
@@ -181,3 +190,5 @@ DeclareGlobalFunction("DescendReps");
 #! @Arguments G f [H]
 #! @Returns a group
 DeclareGlobalFunction("FindSubgroup");
+
+DeclareOperation("RepresentativesUpToClass", [IsGroup, IsGroup, IsGroup]);

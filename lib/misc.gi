@@ -69,21 +69,30 @@ InstallGlobalFunction(OnHomListConjugation, function(L, psi)
 end );
 
 InstallGlobalFunction(OnAutGroupConjugation, function(A, psi)
-    local B;
+    local B, x;
 
     Assert(0, IsGroupOfAutomorphisms(A));
     Assert(0, IsGroupHomomorphism(psi));
     Assert(0, IsSubset(Source(psi), AutomorphismDomain(A)));
 
-    if IsTrivial(A) then 
+    if IsTrivial(A) then
+        A := Group(IdentityMapping(AutomorphismDomain(A))); 
         B := Group(IdentityMapping(Image(psi, AutomorphismDomain(A))));
     else 
         B := Group(OnHomListConjugation(GeneratorsOfGroup(A), psi));
     fi;
-
-    if HasSize(Kernel(psi)) and HasSize(A) then 
-        SetSize(B, Size(A)/Size(Kernel(psi)));
+    
+    if not HasNiceMonomorphism(A) then 
+        AssignNiceMonomorphismAutomorphismGroup(A, AutomorphismDomain(A));
     fi;
+    x := GroupHomomorphismByImages(B, A);
+    x := x*NiceMonomorphism(A);
+
+    SetNiceMonomorphism(B, x);
+    SetIsInjective(x, true);
+    SetFilterObj(x, IsNiceMonomorphism);
+    SetIsHandledByNiceMonomorphism(B, true);
+    SetIsGroupOfAutomorphisms(B, true);
 
     return B;
 end );
@@ -94,41 +103,67 @@ InstallGlobalFunction(OnCoCl, function(P)
     end;
 end );
 
+InstallGlobalFunction(OnCoCle, function(P)
+    return function(x, g)
+        return (Representative(x)^g)^P;
+    end;
+end );
+
 InstallGlobalFunction(OnCoClNM, function(P, f)
     return function(x, phi)
         return Image(PreImagesRepresentative(f, phi), Representative(x))^P;
     end;
 end );
 
-InstallGlobalFunction(OnCoCle, function(P)
-    return function(x, a)
-        return (Representative(x)^a)^P;
+InstallGlobalFunction(OnCoClTuples, function(P)
+    return function(L, phi)
+        return List(L, x -> Image(phi, Representative(x))^P);
     end;
 end );
 
-InstallMethod(RestrictedHomomorphismNC, "generic method",
-    [IsGroupHomomorphism, IsGroup, IsGroup],
-    function(phi, A, B)
-        local AGens, ImageAGens;
+InstallGlobalFunction(OnCoClTuplesNM, function(P, f)
+    return function(L, phi)
+        return List(L, 
+            x -> Image(PreImagesRepresentative(f, phi), Representative(x))^P);
+    end;
+end );
+
+InstallGlobalFunction(RestrictedHomomorphismNC, function(arg)
+        local phi, A, B, AGens, ImageAGens;
+
+        phi := arg[1];
+        A := arg[2];
+
+        if Length(arg) = 3 then 
+            B := arg[3];
+        else 
+            B := Image(phi, A);
+        fi;
     
         AGens := GeneratorsOfGroup(A);
         ImageAGens := List(AGens, a -> Image(phi, a));
         return GroupHomomorphismByImagesNC(A, B, AGens, ImageAGens);
     end);
 
-InstallMethod(RestrictedHomomorphism, "generic method",
-    [IsGroupHomomorphism, IsGroup, IsGroup],
-    function(phi, A, B)
-        local P, Q;
+InstallGlobalFunction(RestrictedHomomorphism, function(arg)
+        local phi, A, B, P, Q;
+
+        phi := arg[1];
+        A := arg[2];
 
         P := Source(phi);
         if not IsSubset(P, A) then 
             Error("A is not a subgroup of the domain.");
         fi;
 
-        Q := Image(phi, A);
-        if not IsSubset(B, Q) then 
-            Error("The codomain is not a subgroup of B.");
+        if Length(arg) = 3 then 
+            B := arg[3];
+            Q := Image(phi, A);
+            if not IsSubset(B, Q) then 
+                Error("The codomain is not a subgroup of B.");
+            fi;
+        else 
+            B := Image(phi, A);
         fi;
 
         return RestrictedHomomorphismNC(phi, A, B);
@@ -178,6 +213,9 @@ InstallMethod(Automizer, "for an overgroup",
         Assert(0, n <> fail);
 
         SetNiceMonomorphism(AutGH, n);
+        SetIsInjective(n, true);
+        SetFilterObj(n, IsNiceMonomorphism);
+        SetIsHandledByNiceMonomorphism(AutGH, true);
         SetIsGroupOfAutomorphisms(AutGH, true);
 
         return AutGH;
@@ -203,9 +241,13 @@ InstallOtherMethod(Automizer, "for automorphism overgroup",
             return Auts;
         fi;
 
+        if not HasNiceMonomorphism(Auts) then 
+            AssignNiceMonomorphismAutomorphismGroup(Auts, G);
+        fi;
+
         f := NiceMonomorphism(Auts);
         NGA := Stabilizer(Image(f, Auts), H, OnImageNM(f));
-        CGA := Kernel(ActionHomomorphism(Image(f, Auts), H, OnImageNM(f)));
+        CGA := Kernel(ActionHomomorphism(NGA, H, OnImageNM(f)));
         q := NaturalHomomorphismByNormalSubgroup(NGA, CGA);
         
         L := GeneratorsOfGroup(Image(q));
@@ -215,10 +257,13 @@ InstallOtherMethod(Automizer, "for automorphism overgroup",
         L0 := List(L, a -> RestrictedHomomorphismNC(PreImagesRepresentative(f, PreImagesRepresentative(q, a)), H, H));
         AutGH := Group(L0);
         
-        n := GroupHomomorphismByImages(AutGH, Image(q));
+        n := GroupHomomorphismByImages(AutGH, Image(q), L0, L);
         Assert(0, n <> fail);
-
+        
         SetNiceMonomorphism(AutGH, n);
+        SetIsInjective(n, true);
+        SetFilterObj(n, IsNiceMonomorphism);
+        SetIsHandledByNiceMonomorphism(AutGH, true);
         SetIsGroupOfAutomorphisms(AutGH, true);
 
         return AutGH;
@@ -244,19 +289,20 @@ InstallMethod(NPhi, "generic method",
 InstallMethod(ExtendAut, "generic method",
     [IsGroupHomomorphism, IsGroupOfAutomorphisms],
     function(phi, A)
-        local L, L0, f, x;
+        local L, L0, n, x;
         
         L := GeneratorsOfGroup(Source(phi));
         L0 := List(L, x -> Image(phi, x));
 
-        f := NiceMonomorphism(A);
-        x := RepresentativeAction(Image(f,A), L, L0, OnImageTuplesNM(f));
-
-        if x = fail then 
-            return fail;
+        if not HasNiceMonomorphism(A) then 
+            AssignNiceMonomorphismAutomorphismGroup(A, AutomorphismDomain(A));
         fi;
 
-        return PreImage(f,x);
+        n := NiceMonomorphism(A);
+        x := RepresentativeAction(Image(n,A), L, L0, OnImageTuplesNM(n));
+
+        if x = fail then return fail; fi;
+        return PreImagesRepresentative(n,x);
     end );
 
 InstallMethod(PResidue, "generic method", 
@@ -371,41 +417,88 @@ InstallMethod(HasStronglyPEmbeddedSubgroup, "generic method",
         return false;
     end );
 
-InstallGlobalFunction(DescendReps, function(x, P, G)
-        local T, N, L;
+InstallMethod(NormalizerChain, "generic method",
+    [IsGroup, IsGroup],
+    function(A, B)
+        local N;
         
-        if not IsSubnormal(G, P) then 
-            Error("P must be subnormal in G");
+        if not (IsSubnormal(B, A) and IsSubset(B, A)) then 
+            Error("A must be a subnormal subgroup of B");
         fi;
 
-        T := P;
-        while T <> G do 
-            N := Normalizer(G,T);
-            L := Orbit(N, x^T, OnCoCle(T));
-            L := List(L, Representative);
-            T := N;
+        N := [A];
+        while N[Length(N)] <> B do 
+            Add(N, Normalizer(B, N[Length(N)]));
         od;
 
-        return L;
+        return N;
     end );
+
+InstallGlobalFunction(DescendReps, function(x, P, G)
+    local N, L, i;
+
+    if Size(x^G) < 500 or not (IsSubnormal(G, P) and IsSubset(G, P)) then 
+        L := Orbits(P, x^G);
+        return List(L, Representative);
+    fi;
+
+    N := NormalizerChain(P, G);
+    L := [x];
+    for i in [1..Length(N)-1] do
+        L := List(L, A -> A^N[i]); 
+        L := Flat(Orbits(N[i+1], L, OnCoCle(N[i])));
+        L := List(L, Representative);
+    od;
+
+    return L;
+end );
 
 InstallGlobalFunction(AscendReps, function(L, G, P)
-        local T, N;
-        
-        if not IsSubnormal(G, P) then 
-            Error("P must be subnormal in G");
-        fi;
+    local D, N, i;
+    
+    if Sum(List(L, A -> Size(A^P))) < 500 or not (IsSubnormal(G, P) and IsSubset(G, P)) then 
+        D := Flat(List(L, A -> AsList(A^P)));
+        L := Orbits(G, D);
+        return List(L, Representative);
+    fi;
+    
+    N := NormalizerChain(P, G);
+    for i in [1..Length(N)-1] do
+        L := List(L, A -> A^N[i]); 
+        L := Orbits(N[i+1], L, OnCoCle(N[i]));
+        L := List(L, A -> Representative(Representative(A)));
+    od;
 
-        T := P;
-        while T <> G do 
-            N := Normalizer(G,T);
-            L := Orbits(N, List(L, A -> A^T), OnCoCle(T));
-            L := List(L, A -> Representative(Representative(A)));
-            T := N;
-        od;
+    return L;
+end );
 
-        return L;
-    end );
+InstallGlobalFunction(AscendRepsAutomorphismGroup, function(L, A)
+    local P, n;
+
+    P := AutomorphismDomain(A);
+    
+    if not HasNiceMonomorphism then 
+        AssignNiceMonomorphismAutomorphismGroup(A, P);
+    fi;
+
+    n := NiceMonomorphism(A);
+    L := Orbits(Image(n,A), List(L, X -> X^P), OnCoClNM(P,n));
+    return List(L, X -> Representative(Representative(X)));
+end );
+
+InstallGlobalFunction(DescendRepsAutomorphismGroup, function(x, A)
+    local P, n, L;
+
+    P := AutomorphismDomain(A);
+    
+    if not HasNiceMonomorphism then 
+        AssignNiceMonomorphismAutomorphismGroup(A, P);
+    fi;
+    
+    n := NiceMonomorphism(A);
+    L := Orbit(Image(n,A), x^P, OnCoClNM(P,n));
+    return List(L, Representative);
+end );
 
 InstallGlobalFunction(FindSubgroup, function(arg)
     local G, # the group
@@ -464,3 +557,124 @@ InstallMethod(FindMaxNPhi, "generic method",
 
         return PreImage(f, T);
     end );
+
+# InstallOtherMethod(ContainingConjugates, "for semidirect product",
+#     [IsGroup, IsGroupOfAutomorphisms, IsGroup, IsGroup],
+#     function(S, C, A, B)
+#         local L0, n, L, X, St, R, x, X0, i, f;
+
+#         L0 := ContainingConjugates(S, A, B);
+
+#         if not HasNiceMonomorphism(C) then 
+#             AssignNiceMonomorphismAutomorphismGroup(C, S);
+#         fi;
+
+#         n := NiceMonomorphism(C);
+#         L := Set([]);
+
+#         for X in L0 do 
+#             St := Stabilizer(Image(n,C), X[1], OnImageNM(n));
+#             R := RightTransversal(Image(n,C), St);
+#             for x in R do 
+#                 X0 := OnImageNM(n)(X[1], x);
+#                 i := PositionSortedBy(L, X0, First);
+
+#                 if not i in [1..Length(L)] or L[i][1] <> X0 then 
+#                     f := ConjugatorIsomorphism(B, X[2])*PreImage(n,x);
+#                     AddSet(L, [X0, f]);
+#                 fi;
+#             od;
+#         od;
+
+#         return L;
+#     end );
+
+# InstallOtherMethod(ContainedConjugates, "for semidirect product",
+#     [IsGroup, IsGroupOfAutomorphisms, IsGroup, IsGroup],
+#     function(S, C, A, B)
+#         local L0, n, L, X, St, R, x, X0, i, f;
+
+#         L0 := ContainedConjugates(S, A, B);
+
+#         if not HasNiceMonomorphism(C) then 
+#             AssignNiceMonomorphismAutomorphismGroup(C, S);
+#         fi;
+
+#         n := NiceMonomorphism(C);
+#         L := Set([]);
+
+#         for X in L0 do 
+#             St := Stabilizer(Image(n,C), X[1], OnImageNM(n));
+#             R := RightTransversal(Image(n,C), St);
+#             for x in R do 
+#                 X0 := OnImageNM(n)(X[1], x);
+#                 i := PositionSortedBy(L, X0, First);
+
+#                 if not i in [1..Length(L)] or L[i][1] <> X0 then 
+#                     f := ConjugatorIsomorphism(A, X[2])*PreImage(n,x);
+#                     AddSet(L, [X0, f]);
+#                 fi;
+#             od;
+#         od;
+
+#         return L;
+#     end );
+
+InstallMethod(RepresentativesUpToClass, "generic method",
+    [IsGroup, IsGroup, IsGroup],
+    function(A, B, N)
+        local C, L;
+
+        C := A^B;
+        
+        if not IsSubnormal(N, B) and IsSubset(B, N) then 
+            Error("N must be a subnormal subgroup in G");
+        fi;
+
+        if Size(C) < 5000 then 
+            L := Orbit(N, C);
+            return List(L, Representative);
+        fi;
+
+        L := NormalizerChain(A, B);
+        
+
+        # N0 := Normalizer(B,A);
+
+        # while N0 <> B do 
+            
+        # od;
+
+        # if IsGroupOfAutomorphisms(B) and IsGroupOfAutomorphisms(N) then 
+        #     RepresentativesUpToClass(A, B, N);
+        # fi;
+
+        # if not IsNormal(B, N) then 
+        #     Error("N is not normal in B");
+        # elif not IsSubset(B, A) then
+        #     Error("A is not a subset of B");
+        # fi;
+
+        # L := Orbit(B, A^N);
+        # return List(L, Representative);
+    end );
+
+# InstallOtherMethod(RepresentativesUpToClass, "for automorphisms",
+#     [IsGroup, IsGroupOfAutomorphisms, IsGroupOfAutomorphisms],
+#     function(A, B, N)
+#         local G, n, L;
+        
+#         if AutomorphismDomain(B) <> AutomorphismDomain(N) then 
+#             Error("The automorphism subgroups are not on the same group");
+#         fi;
+
+#         G := AutomorphismDomain(B);
+
+#         n := NiceMonomorphism(B);
+#         L := Orbit(Image(n,B), A^G, OnCoClNM(G,n));
+        
+#         n := NiceMonomorphism(N);
+#         L := Orbits(Image(n,N), L, OnCoClNM(G,n));
+
+#         return List(L, A -> Representative(Representative(A)));
+#     end );

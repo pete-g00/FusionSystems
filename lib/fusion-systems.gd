@@ -8,8 +8,8 @@ DeclareAttribute("Prime", IsFusionSystem);
 DeclareOperation("AutF", [IsFusionSystem, IsGroup]);
 DeclareOperation("RepresentativeFIsomorphism", [IsFusionSystem, IsGroup, IsGroup]);
 DeclareAttribute("FClasses", IsFusionSystem);
-DeclareAttribute("FClassesReps", IsFusionSystem);
-DeclareOperation("FClassReps", [IsFusionSystem, IsGroup]);
+DeclareAttribute("CentricFClasses", IsFusionSystem);
+DeclareAttribute("KnownFClasses", IsFusionSystem);
 
 DeclareOperation("AreFConjugate", [IsFusionSystem, IsGroup, IsGroup]);
 DeclareOperation("\in", [IsGroupHomomorphism, IsFusionSystem]);
