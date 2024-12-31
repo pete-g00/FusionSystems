@@ -3,5 +3,5 @@ DeclareRepresentation("IsSaturatedFusionSystemRep",
 
 DeclareOperation("FClass", [IsFusionSystem, IsGroup]);
 DeclareOperation("\^", [IsGroup, IsFusionSystem]);
-DeclareOperation("SaturatedFusionSystemNC", [IsGroup, IsList]);
+DeclareOperation("SaturatedFusionSystem", [IsGroup, IsList]);
 DeclareOperation("IsSaturated", [IsFusionSystem, IsFClass]);

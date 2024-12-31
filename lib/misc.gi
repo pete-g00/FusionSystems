@@ -1,17 +1,24 @@
 InstallMethod(IsomType, "generic method",
     [IsGroup],
     function(A)
+        local LCS, UCS, DS;
+
         if IdGroupsAvailable(Size(A)) then 
             return IdGroup(A);
         fi;
 
+        LCS := LowerCentralSeries(A);
+        UCS := UpperCentralSeries(A);
+        DS := DerivedSeries(A);
+        
         return [
             Size(A),
             Exponent(A),
-            List(LowerCentralSeries(A), Size),
-            List(UpperCentralSeries(A), Size),
-            List(DerivedSeries(A), Size),
-            Size(FrattiniSubgroup(A)),
+            AbelianInvariants(A),
+            List(LCS{[2..Length(LCS)]}, IsomType),
+            List(UCS{[2..Length(UCS)]}, IsomType),
+            List(DS{[2..Length(DS)]}, IsomType),
+            IsomType(FrattiniSubgroup(A))
         ];
     end );
 
@@ -204,12 +211,12 @@ InstallMethod(Automizer, "for an overgroup",
         
         L := GeneratorsOfGroup(Image(q));
         if IsEmpty(L) then 
-            L := [IdentityMapping(Image(q))];
+            L := [Identity(Image(q))];
         fi;
         L0 := List(L, a -> ConjugatorAutomorphismNC(H, PreImagesRepresentative(q, a)));
         AutGH := Group(L0);
         
-        n := GroupHomomorphismByImages(AutGH, Image(q));
+        n := GroupHomomorphismByImages(AutGH, Image(q), L0, L);
         Assert(0, n <> fail);
 
         SetNiceMonomorphism(AutGH, n);
@@ -252,7 +259,7 @@ InstallOtherMethod(Automizer, "for automorphism overgroup",
         
         L := GeneratorsOfGroup(Image(q));
         if IsEmpty(L) then 
-            L := [IdentityMapping(Image(q))];
+            L := [Image(q)];
         fi;
         L0 := List(L, a -> RestrictedHomomorphismNC(PreImagesRepresentative(f, PreImagesRepresentative(q, a)), H, H));
         AutGH := Group(L0);

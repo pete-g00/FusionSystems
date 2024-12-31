@@ -50,16 +50,16 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
             Add(BL, BlistList([1..Length(L0)], []));
         od;
 
-        Add(L, rec(A := A0, L := X, BL := BL, m := m));
+        Add(L, rec(sub := A0, L := X, BL := BL, map := m));
     end;
 
     DoMarkFound := function(A0, E0, i, j)
         local L0, D, NSA, k;
 
         L0 := L[i];
-        D := ContainedConjugates(S, E0, L0.A, true);
+        D := ContainedConjugates(S, E0, L0.sub, true);
         D := E0^(D[2]^-1);
-        NSA := Normalizer(S, L0.A);
+        NSA := Normalizer(S, L0.sub);
         k := PositionProperty(L0.L[j], X -> RepresentativeAction(NSA, X, D) <> fail);
         Assert(0, k <> fail and not L0.BL[j][k]);
         L0.BL[j][k] := true;
@@ -69,7 +69,7 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
         local i;
 
         for i in [1..Length(L)] do 
-            if RepresentativeAction(S, L[i].A, A0) <> fail then
+            if RepresentativeAction(S, L[i].sub, A0) <> fail then
                 DoMarkFound(A0, E0, i, j);
                 return i;
             fi;
@@ -100,7 +100,7 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
     while f <> fail do
         Info(InfoFClass, 2, "Looking at ", [f.i,f.j,f.k]);
 
-        A0 := L[f.i].A;
+        A0 := L[f.i].sub;
         E := L[f.i].L[f.j][f.k];
         Auto := AutF(d[f.j]);
         a := FindMap(d[f.j], E);
@@ -121,7 +121,7 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
                 m := RepresentativeAction(Image(n, Auto), A0, T, OnImageNM(n));
                 m := PreImagesRepresentative(n, m);
                 m := RestrictedHomomorphismNC(m, A0, T);
-                InitializeClass(T, L[f.i].m * m);
+                InitializeClass(T, L[f.i].map * m);
                 DoMarkFound(T, E, Length(L), f.j);
             else 
                 Info(InfoFClass, 3, "Found Aut_F(S)-conjugate at index ", i);
@@ -131,7 +131,7 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
         St := Stabilizer(Image(n, Auto), A0, OnImageNM(n));
         if not IsTrivial(St) then 
             StA0 := Group(List(GeneratorsOfGroup(St), a -> RestrictedHomomorphismNC(PreImagesRepresentative(n, a), A0, A0)));
-            StA := OnAutGroupConjugation(StA0, InverseGeneralMapping(L[f.i].m));
+            StA := OnAutGroupConjugation(StA0, InverseGeneralMapping(L[f.i].map));
             Aut := ClosureGroup(Aut, StA);
         fi;
 
@@ -139,7 +139,7 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
     od;
     
     return rec(
-        class := List(L, c -> rec(sub := c.A, map := c.m)), 
+        class := L, 
         autf := Aut
     );
 end );
@@ -151,8 +151,8 @@ InstallMethod(FClass, "for a fusion system and a group",
 
         # check if FClass has already been found
         L := F!.knownclasses;
-        i := PositionSortedBy(L, Size(A), T -> Size(Representative(T)));
-        while i <= Length(L) and Size(A) = Size(Representative(L[i])) do 
+        i := PositionSortedBy(L, IsomType(A), T -> IsomType(Representative(T)));
+        while i <= Length(L) and IsomType(A) = IsomType(Representative(L[i])) do 
             if A in L[i] then return L[i]; fi;
             i := i+1;
         od;
@@ -205,16 +205,16 @@ InstallOtherMethod(\in, "for a subgroup and F-class",
         return ForAny(C!.data, T -> RepresentativeAction(S, A, T.sub) <> fail);
     end );
 
-InstallMethod(\<, "for F-classes",
+InstallOtherMethod(\<, "for F-classes",
     [IsFClassRep, IsFClassRep],
     function(C1, C2)
         local S;
 
         S := UnderlyingGroup(UnderlyingFusionSystem(C1));
-        if C1 = C2 then 
-            return false;
-        elif Size(Representative(C1)) < Size(Representative(C2)) then 
+        if IsomType(Representative(C1)) < IsomType(Representative(C2)) then 
             return true;
+        elif IsomType(Representative(C1)) > IsomType(Representative(C2)) or C1 = C2 then 
+            return false;
         fi;
 
         return Representative(C1) < Representative(C2);
@@ -305,21 +305,40 @@ InstallMethod(IsCentric, "for a F-class",
 InstallMethod(IsRadical, "generic method",
     [IsFClassRep],
     function(C)
-        local A, S, p, AutFC, ASA, n, InnA;
+        local A, S, p, AutFC, InnA, n, AutFCp, i, X, AutSA;
 
         A := Representative(C);
         S := UnderlyingGroup(UnderlyingFusionSystem(C));
         p := Prime(UnderlyingFusionSystem(C));
         AutFC := AutF(C);
-        ASA := Automizer(S, A);
         InnA := Automizer(A, A);
 
         if not HasNiceMonomorphism(AutFC) then 
-            AssignNiceMonomorphismAutomorphismGroup(AutFC);
+            AssignNiceMonomorphismAutomorphismGroup(AutFC, A);
         fi;
         n := NiceMonomorphism(AutFC);
 
-        return Intersection(Image(n, PCore(AutFC, p)), Image(n,ASA)) = Image(n, InnA);
+        AutFC := Image(n, AutFC);
+        AutFCp := PCore(AutFC, p);
+        InnA := Image(n, InnA);
+
+        for i in [1..Length(C!.data)] do 
+            X := C!.data[i];
+            Info(InfoFClass, 4, "Checking radical on index ", i);
+            AutSA := Automizer(S, X!.sub);
+            AutSA := OnAutGroupConjugation(AutSA, InverseGeneralMapping(X!.map));
+            AutSA := Image(n, AutSA);
+
+            if Intersection(AutFCp, AutSA) <> InnA then
+                Info(InfoFClass, 4, "Is not radical");
+                return false; 
+            else 
+                Info(InfoFClass, 5, " passes condition");
+            fi;
+        od;
+        Info(InfoFClass, 4, "Is radical");
+
+        return true;
     end );
 
 InstallMethod(IsSaturated, "for a fusion system and a F-class, given AutF",
