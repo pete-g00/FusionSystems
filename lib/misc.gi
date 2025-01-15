@@ -259,7 +259,7 @@ InstallOtherMethod(Automizer, "for automorphism overgroup",
         
         L := GeneratorsOfGroup(Image(q));
         if IsEmpty(L) then 
-            L := [Image(q)];
+            L := [Identity(Image(q))];
         fi;
         L0 := List(L, a -> RestrictedHomomorphismNC(PreImagesRepresentative(f, PreImagesRepresentative(q, a)), H, H));
         AutGH := Group(L0);
@@ -555,6 +555,9 @@ InstallMethod(FindMaxNPhi, "generic method",
               T; # the subgroup
 
         A := AutomorphismDomain(X);
+        if not HasNiceMonomorphism(X) then 
+            AssignNiceMonomorphismAutomorphismGroup(X, A);
+        fi;
         f := NiceMonomorphism(X);
 
         NSA := Normalizer(S, A);
@@ -685,3 +688,146 @@ InstallMethod(RepresentativesUpToClass, "generic method",
 
 #         return List(L, A -> Representative(Representative(A)));
 #     end );
+
+# finding a map A -> B in S : C, where $C \leq \Aut(S)$
+RepresentativeActionSDProd := function(S, C, A, B)
+    local n, a, Aa, f;
+
+    if not HasNiceMonomorphism(C) then 
+        AssignNiceMonomorphismAutomorphismGroup(C, S);
+    fi;
+    n := NiceMonomorphism(C);
+
+    a := RepresentativeAction(Image(n,C), A^S, B^S, OnCoClNM(S,n));
+    if a = fail then 
+        return fail;
+    fi;
+
+    a := PreImagesRepresentative(n, a);
+    Aa := Image(a, A);
+    f := ConjugatorIsomorphism(Aa, RepresentativeAction(S, Aa, B));
+
+    return RestrictedHomomorphism(a, A, Aa)*f;
+end;
+
+ContainedConjugatesSDProd := function(arg)
+    local InitializeRep, S, C, A, B, onlyone, n, L, St, T, t, D, L0, l, x;
+
+    S := arg[1];
+    C := arg[2];
+    A := arg[3];
+    B := arg[4];
+
+    onlyone := Length(arg) = 4 or arg[5];
+
+    if not HasNiceMonomorphism(C) then 
+        AssignNiceMonomorphismAutomorphismGroup(C, S);
+    fi;
+    n := NiceMonomorphism(C);
+
+    if IsSubset(A, B) and onlyone then 
+        return [B, IdentityMapping(B)];
+    fi;
+
+    L := [];
+    St := Stabilizer(Image(n,C), A^S, OnCoClNM(S,n));
+    T := RightTransversal(Image(n,C), St);
+
+    InitializeRep := function(t)
+        local A0, a;
+
+        t := PreImagesRepresentative(n, t);
+        A0 := Image(t, A);
+        a := ConjugatorIsomorphism(A, t);
+
+        return [A0, a];
+    end;
+    
+    for t in T do 
+        D := InitializeRep(t);
+        L0 := ContainedConjugates(S, D[1], B, onlyone);
+        if onlyone and L0 <> fail then
+            x := D[2]*ConjugatorIsomorphism(D[1], L0[2]);
+            return [L0[1], x]; 
+        else 
+            for l in L0 do 
+                x := D[2]*ConjugatorIsomorphism(D[1], l[2]);
+                Add(L, [l[1], x]);
+            od;
+        fi;
+    od;
+
+    if onlyone then 
+        return fail;
+    else 
+        return L;
+    fi;
+end;
+
+# finds representatives of A^G containing B up to N-conjugacy
+ContainedConjugatesDet := function(G, N, A, B)
+    local L;
+
+    L := ContainedConjugates(G, B, A, true);
+    if L = fail then 
+        return [];
+    fi;
+
+    L := DescendReps(L[1], N, G);
+    return Filtered(L, A0 -> IsSubset(B, A0));
+end;
+
+ContainingConjugatesDet := function(G, N, A, B)
+    local L;
+
+    L := ContainedConjugates(G, B, A, true);
+    if L = fail then 
+        return [];
+    fi;
+
+    B := B^(L[2]^-1);
+    L := DescendReps(B, N, G);
+    return Filtered(L, B0 -> IsSubset(B0, A));
+end;
+
+ContainedConjugatesDetSDProd := function(G, X, N, A, B)
+    local n, L;
+
+    if not HasNiceMonomorphism(X) then 
+        AssignNiceMonomorphismAutomorphismGroup(X, G);
+    fi;
+
+    n := NiceMonomorphism(X);
+    L := Orbit(Image(n,X), A, OnImageNM(n));
+
+    return Flat(List(L, A -> ContainedConjugatesDetSDProd(G, N, A, B)));
+end;
+
+ContainingConjugatesDetSDProd := function(G, X, N, A, B)
+    local n, L;
+    
+    if not HasNiceMonomorphism(X) then 
+        AssignNiceMonomorphismAutomorphismGroup(X, G);
+    fi;
+
+    n := NiceMonomorphism(X);
+    L := Orbit(Image(n,X), B, OnImageNM(n));
+
+    return Flat(List(L, B -> ContainedConjugatesDetSDProd(G, N, A, B)));
+end;
+
+ProbablyIsomorphic := function(A, B)
+    local s, a, b, L;
+
+    Assert(0, IsSolvable(A) and IsSolvable(B));
+    if Size(A) <> Size(B) then return false; fi;
+    
+    s := Size(A);
+    a := CodePcGroup(A);
+    b := CodePcGroup(B);
+    if a = b then return true; fi;
+
+    L := [rec(code := a, order := s), rec(code := b, order := s)];
+    L := RandomIsomorphismTest(L, 1);
+    return Length(L) = 1;
+end;

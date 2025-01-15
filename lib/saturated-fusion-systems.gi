@@ -1,29 +1,43 @@
-InstallMethod(SaturatedFusionSystemNC, "for a group and a list of automizers",
+InstallMethod(SaturatedFusionSystem, "generic method",
     [IsGroup, IsList],
     function(S, L)
-        local p, d, A, P, C, F, D;
-        
+        local p, d, A, P, R, C, F, D;
+
         p := FindPrimeOfPrimePower(Size(S));
+
         Assert(0, p <> fail);
         Assert(0, ForAll(L, IsGroupOfAutomorphisms));
 
         d := [];
-        for A in L do 
-            P := AutomorphismDomain(A);
-            C := Objectify(NewType(CollectionsFamily(FamilyObj(P)), IsFClassRep),
-                rec(data := [rec(sub := P, map := IdentityMapping(P))]));
-            SetRepresentative(C, P);
-            SetAutF(C, A);
-            Add(d, C);
-        od;
 
         F := Objectify(NewType(FusionSystemFamily, IsSaturatedFusionSystemRep), rec());
         SetUnderlyingGroup(F, S);
         SetPrime(F, p);
 
-        for D in d do 
-            SetUnderlyingFusionSystem(D, F);
+        SortBy(L, A -> Size(AutomorphismDomain(A)));
+
+        if AutomorphismDomain(L[Length(L)]) <> S then 
+            Add(L, Automizer(S,S));
+        fi;
+        L := Reversed(L);
+
+        for A in L do 
+            P := AutomorphismDomain(A);
+            R := AutomizerClass(P, S, d);
+            
+            if not IsSubset(A, R.autf) then 
+                return fail;
+            fi;
+
+            C := Objectify(NewType(CollectionsFamily(FamilyObj(P)), IsFClassRep),
+                rec(data := R.class));
+            Add(d, C);
+
+            SetRepresentative(C, P);
+            SetAutF(C, A);
+            SetUnderlyingFusionSystem(C, F);            
         od;
+
         F!.essclasses := Immutable(d);
         F!.knownclasses := Set(d);
 
@@ -79,7 +93,7 @@ InstallMethod(FClasses, "for a saturated fusion system",
 InstallMethod(CentricFClasses, "for a saturated fusion system",
     [IsSaturatedFusionSystemRep],
     function(F)
-        local S, C, L, A, C0;
+        local S, C, L, A, i, C0;
 
         S := UnderlyingGroup(F);
         Info(InfoFusion, 1, "Finding subgroups of S");
@@ -124,7 +138,7 @@ InstallMethod(Core, "for a saturated fusion system",
                 AssignNiceMonomorphismAutomorphismGroup(A, R);
             fi;
             n := NiceMonomorphism(AutF(C));
-            N := Orbits(Image(n,A), N, OnImageNC(n));
+            N := Orbits(Image(n,A), N, OnImageNM(n));
             N := Filtered(N, X -> Size(X) = 1);
             N := List(N, Representative);
         od;
@@ -151,24 +165,11 @@ InstallMethod(FocalSubgroup, "for a saturated fusion system",
         return T;
     end );
 
-# InstallMethod(IsReduced, "for a saturated fusion system",
-#     [IsSaturatedFusionSystemRep],
-#     function(F)
-#         return IsTrivial(Core(F)) and FocalSubgroup(F) = UnderlyingGroup(F);
-#     end );
-
-# Foc := function(S, L)
-#     local T, A, X, T0;
-
-#     T := TrivialSubgroup(S);
-#     for A in L do 
-#         X := Source(Identity(A));
-#         T0 := List(GeneratorsOfGroup(A), alpha -> List(GeneratorsOfGroup(X), x -> x^-1*Image(alpha, x)));
-#         T := ClosureGroup(T, Flat(T0));
-#     od;
-
-#     return T;
-# end;
+InstallMethod(IsReduced, "for a saturated fusion system",
+    [IsSaturatedFusionSystemRep],
+    function(F)
+        return IsTrivial(Core(F)) and FocalSubgroup(F) = UnderlyingGroup(F);
+    end );
 
 InstallMethod(IsSaturated, "for a saturated fusion system",
     [IsSaturatedFusionSystemRep],
@@ -176,12 +177,20 @@ InstallMethod(IsSaturated, "for a saturated fusion system",
         local S, C, L;
 
         L := CentricFClasses(F);
-        L := Filtered(L, C -> IsCentric(C) and IsRadical(C));
+        L := Filtered(L, IsRadical);
+
+        S := UnderlyingGroup(F);
         
-        if ForAny(L, C -> Representative(C)=S or not C in F!.essclasses) then 
+        if ForAny(F!.essclasses, C -> not C in L) then 
+            Info(InfoFusion, 1, "A generating subgroup isn't radical or centric");
             return false;
         fi;
+        
+        if ForAny(L, C -> not C in F!.essclasses) then 
+            Info(InfoFusion, 1, "A non-generating subgroup is radical and centric");
+            return false;
+        fi;
+        Info(InfoFusion, 1, "Checking saturated condition for the generating subgroups");
 
         return ForAll(L, IsSaturated);
     end );
-

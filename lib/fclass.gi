@@ -1,23 +1,21 @@
 InstallGlobalFunction(AutomizerClass, function(A, S, d)
-    local   InitializeClass,
-            DoMarkFound,
-            MarkFound,
-            FirstFalse,
-            L,
-            Aut,
-            f, i,
-            A0,
-            E0,
-            Auto,
-            a,
-            E,
-            n,
-            O,
-            St,
-            StA0,
-            StA,
-            T,
-            m;
+    local   InitializeClass, # creates the Blist for a new conjugate
+            DoMarkFound, # marks that some essential subgroup has been dealt with
+            MarkFound, # container for DoMarkFound
+            FirstFalse, # finds the first essential subgroup class not dealt with
+            L, # the list of F-classes
+            Aut, # the automizer subgroup
+            f, i, # counters
+            A0, # a conjugate of A
+            E, # some conjugate of an essential subgroup
+            Auto, # the automorphism group of the essential subgroup
+            n, # nice monomorphism for Auto
+            O, # Orbit of Auto-classe of A0
+            St, # Stabilizer of Auto-class of A0
+            StA0, # Restriction of the stabilizer automorphism group onto A0
+            StA, # conjugation of the stabilizer automorphism group onto A
+            T, # an element in O
+            m; # a map A0 -> T
     
     L := [];
     
@@ -50,27 +48,27 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
             Add(BL, BlistList([1..Length(L0)], []));
         od;
 
-        Add(L, rec(sub := A0, L := X, BL := BL, map := m));
+        Add(L, rec(sub := A0, L := X, BL := BL, map := m, norm := NSA));
     end;
 
-    DoMarkFound := function(A0, E0, i, j)
-        local L0, D, NSA, k;
+    DoMarkFound := function(E0, i, j)
+        local L0, NSA, k;
 
         L0 := L[i];
-        D := ContainedConjugates(S, E0, L0.sub, true);
-        D := E0^(D[2]^-1);
-        NSA := Normalizer(S, L0.sub);
-        k := PositionProperty(L0.L[j], X -> RepresentativeAction(NSA, X, D) <> fail);
+        Assert(0, IsSubset(E0, L0.sub));
+        NSA := L0.norm;
+        k := PositionProperty(L0.L[j], X -> RepresentativeAction(NSA, X, E0) <> fail);
         Assert(0, k <> fail and not L0.BL[j][k]);
         L0.BL[j][k] := true;
     end;
 
     MarkFound := function(A0, E0, j)
-        local i;
+        local i, x;
 
         for i in [1..Length(L)] do 
-            if RepresentativeAction(S, L[i].sub, A0) <> fail then
-                DoMarkFound(A0, E0, i, j);
+            x := RepresentativeAction(S, A0, L[i].sub);
+            if x <> fail then
+                DoMarkFound(E0^x, i, j);
                 return i;
             fi;
         od;
@@ -102,10 +100,7 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
 
         A0 := L[f.i].sub;
         E := L[f.i].L[f.j][f.k];
-        Auto := AutF(d[f.j]);
-        a := FindMap(d[f.j], E);
-
-        Auto := OnAutGroupConjugation(Auto, a);
+        Auto := Automizer(d[f.j], E);
         n := NiceMonomorphism(Auto);
 
         O := Orbit(Image(n, Auto), A0^E, OnCoClNM(E, n));
@@ -122,7 +117,7 @@ InstallGlobalFunction(AutomizerClass, function(A, S, d)
                 m := PreImagesRepresentative(n, m);
                 m := RestrictedHomomorphismNC(m, A0, T);
                 InitializeClass(T, L[f.i].map * m);
-                DoMarkFound(T, E, Length(L), f.j);
+                DoMarkFound(E, Length(L), f.j);
             else 
                 Info(InfoFClass, 3, "Found Aut_F(S)-conjugate at index ", i);
             fi;
@@ -208,23 +203,14 @@ InstallOtherMethod(\in, "for a subgroup and F-class",
 InstallOtherMethod(\<, "for F-classes",
     [IsFClassRep, IsFClassRep],
     function(C1, C2)
-        local S;
-
-        S := UnderlyingGroup(UnderlyingFusionSystem(C1));
-        if IsomType(Representative(C1)) < IsomType(Representative(C2)) then 
-            return true;
-        elif IsomType(Representative(C1)) > IsomType(Representative(C2)) or C1 = C2 then 
-            return false;
-        fi;
-
-        return Representative(C1) < Representative(C2);
+        return IsomType(Representative(C1)) < IsomType(Representative(C2));
     end );
 
 # find a map from A=Representative(D) to B in F
 InstallMethod(FindMap, "for a F-Class and a subgroup",
     [IsFClassRep, IsGroup],
     function(C, B)
-        local   S,  # attributes of C
+        local   S,
                 T,  # an Aut_F(S)-rep of C
                 x,  # S-conjugator to B
                 b;  # S-conjugation map
