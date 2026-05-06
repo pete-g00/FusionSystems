@@ -554,7 +554,7 @@ FrattiniCharInNormaliserCheck:=function(Q, E, S, QImageIntersectEIsInQ, frattini
 end;
 
 
-PossibleAutFE:=function(E)
+PossibleAutFE:=function(E, onlyOpPrime...)
 
 #Arguments:
 #E is a p-group.
@@ -569,7 +569,7 @@ PossibleAutFE:=function(E)
 #Would this be quicker?
 
 	local p, gpsToCheck, possibleOutFE, pi, OutGp, m, d, A, hom, twoValuation, G, possibleOutFEModOp, possibleOutFEProdOp, AK, comps, K,
-		homToActionModFrattini, outGpAsFaithfulAction, OpOutGp, modOp, outGpModOp;
+		homToActionModFrattini, outGpAsFaithfulAction, OpOutGp, modOp, outGpModOp, possibleAutFE;
 
 	if not IsPrimePowerInt(Order(E)) then	#Sanity check.
 		Print("Error, the argument must be a non-trivial p-group.");
@@ -586,7 +586,7 @@ PossibleAutFE:=function(E)
 	fi;
 
 	pi:=NaturalHomomorphismByNormalSubgroup(A, InnerAutomorphismGroup(E));
-	OutGp:=pi(AutomorphismGroup(E));	#Out(E)
+	OutGp:=pi(A);	#Out(E)
 	OpOutGp:=PCore(OutGp, p);	#O_p(Out(E))
 	modOp:=NaturalHomomorphismByNormalSubgroup(OutGp, OpOutGp);
 	outGpModOp:=modOp(OutGp);	#Out(E)/O_p(Out(E))
@@ -674,6 +674,9 @@ PossibleAutFE:=function(E)
 	possibleOutFEModOp:=List(ConjugacyClassesSubgroups(outGpModOp), Representative);
 	#Use our function to test for SpE sbgp.
 	possibleOutFEModOp:=Filtered(possibleOutFEModOp, X -> ContainsStronglyPEmbeddedSubgroup(X,p));
+	if Length(onlyOpPrime)=1 and onlyOpPrime[1] then
+		possibleOutFEModOp:=Filtered(possibleOutFEModOp, X -> X=NormalClosure(X, SylowSubgroup(X,p)));
+	fi;
 	
 	possibleOutFEProdOp:=List(possibleOutFEModOp, X -> PreImage(modOp, X));
 	possibleOutFE:=[];
@@ -681,7 +684,7 @@ PossibleAutFE:=function(E)
 	for AK in possibleOutFEProdOp do
 		comps:=ComplementClassesRepresentatives(AK, OpOutGp);
 		if Length(comps)>0 then
-			Append(possibleOutFE, comps);
+			Append(possibleOutFE,[comps[1]]);# List(comps, X -> X^OutGp));
 		fi;
 	od;
 
@@ -693,7 +696,10 @@ PossibleAutFE:=function(E)
 	#	Append(possibleOutFE, List(Filtered(AllHomomorphismClasses(G,OutGp), hom -> IsInjective(hom)) , alpha -> alpha(G)) );
 	#od;
 
-	return List(possibleOutFE, X -> PreImage(pi, X));	#Return the preimages in Aut(E).
+	possibleAutFE:=List(Set(possibleOutFE), X -> PreImage(pi, X));	#Return the preimages in Aut(E).
+	return possibleAutFE;
+	#return Set(List(possibleAutFE, X -> ConjugacyClass(A, X)));
+
 end;
 
 #ExponentsAutPGroup
