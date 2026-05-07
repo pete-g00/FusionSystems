@@ -558,9 +558,11 @@ PossibleAutFE:=function(E, onlyOpPrime...)
 
 #Arguments:
 #E is a p-group.
+#onlyOpPrime is a Boolean variable.
 
 #Purpose and output:
 #Computes all possible subgroups of Aut(E) which appear as Aut_F(E) for some fusion system F with an essential subgroup E.
+#If onlyOpPrime=[true], then we filter to groups A for which O^{p'}(A)=A.
 #Returns the list of all such subgroups up to Aut(E)-conjugacy.
 
 #Questions:
@@ -569,7 +571,7 @@ PossibleAutFE:=function(E, onlyOpPrime...)
 #Would this be quicker?
 
 	local p, gpsToCheck, possibleOutFE, pi, OutGp, m, d, A, hom, twoValuation, G, possibleOutFEModOp, possibleOutFEProdOp, AK, comps, K,
-		homToActionModFrattini, outGpAsFaithfulAction, OpOutGp, modOp, outGpModOp, possibleAutFE;
+		homToActionModFrattini, outGpAsFaithfulAction, OpOutGp, modOp, outGpModOp, possibleAutFE, niceMon, niceA, B;
 
 	if not IsPrimePowerInt(Order(E)) then	#Sanity check.
 		Print("Error, the argument must be a non-trivial p-group.");
@@ -580,14 +582,27 @@ PossibleAutFE:=function(E, onlyOpPrime...)
 
 	gpsToCheck:=[];
 	possibleOutFE:=[];
+
+
 	A:=AutomorphismGroup(E);
+
 	if IsPrimePowerInt(Order(A)) then	#If Aut(E) is a p-group then no possible Aut_F(E) exist for E essential.
 		return possibleOutFE;
 	fi;
 
-	pi:=NaturalHomomorphismByNormalSubgroup(A, InnerAutomorphismGroup(E));
-	OutGp:=pi(A);	#Out(E)
+	niceMon:=NiceMonomorphism(A);
+	niceA:=niceMon(A);
+
+	if IsAbelian(E) then
+		pi:=IdentityMapping(niceA);
+	else
+		pi:=NaturalHomomorphismByNormalSubgroup(niceA, niceMon(InnerAutomorphismGroup(E)));
+	fi;
+	OutGp:=pi(niceA);	#Out(E)
 	OpOutGp:=PCore(OutGp, p);	#O_p(Out(E))
+	if PValuation(Index(OutGp, OpOutGp), p)=0 then
+		return possibleOutFE;
+	fi;
 	modOp:=NaturalHomomorphismByNormalSubgroup(OutGp, OpOutGp);
 	outGpModOp:=modOp(OutGp);	#Out(E)/O_p(Out(E))
 	#We can work mod O_p(Out(E)) as any possible Out_F(E) intersects this trivially.
@@ -696,7 +711,7 @@ PossibleAutFE:=function(E, onlyOpPrime...)
 	#	Append(possibleOutFE, List(Filtered(AllHomomorphismClasses(G,OutGp), hom -> IsInjective(hom)) , alpha -> alpha(G)) );
 	#od;
 
-	possibleAutFE:=List(Set(possibleOutFE), X -> PreImage(pi, X));	#Return the preimages in Aut(E).
+	possibleAutFE:=List(Set(possibleOutFE), X -> PreImage(niceMon*pi, X));	#Return the preimages in Aut(E).
 	return possibleAutFE;
 	#return Set(List(possibleAutFE, X -> ConjugacyClass(A, X)));
 
@@ -706,6 +721,50 @@ end;
 
 #Example test - takes ~20 secs.
 #List(AllSmallGroups(Size, [4,8,16,32,64], RankPGroup, [1..4]), PossibleAutFE);;
+
+
+OnImage:=function(x, phi)
+
+	return phi(x);
+
+end;
+
+
+PossibleAutFEForP:=function(E, P)
+
+#Arguments:
+#P is a p-group.
+#E is a subgroup of P.
+
+#Purpose and output:
+#Returns a list of possible A=Aut_F(E) for which E can be essential in a fusion system on P.
+
+#Notes:
+#This list may not be optimal.
+
+	local p, possAutFE, niceMon, NModE, possAutPE, possAutFENorms, N, autN, I;
+	p:=SmallestRootInt(Order(E));
+	possAutFE:=PossibleAutFE(E);
+	niceMon:=NiceMonomorphism(AutomorphismGroup(E));
+	possAutFE:=List(possAutFE, niceMon);
+	NModE:=Normaliser(P, E)/E;		#N/E
+	NModE:=Filtered(possAutFE, X -> Order(SylowSubgroup(X,p))=Order(NModE));
+	NModE:=Filtered(possAutFE, X -> IsomorphismGroups(SylowSubgroup(X,p), NModE)<>fail);
+	possAutPE:=List(possAutFE, X -> SylowSubgroup(X,p));
+	possAutFENorms:=List([1..Length(possAutFE)], i -> Normaliser(possAutFE[i], possAutPE[i]));
+	N:=Normaliser(P,E);
+	autN:=AutomorphismGroup(N);
+	I:=PositionsProperty(possAutFENorms, X -> Order(autN) mod Order(X) = 0 and Exponent(autN) mod Exponent(X) = 0);
+	possAutFE:=possAutFE{I};
+	stab := Stabiliser(autN, E, OnImage);
+	stab := Group(List(GeneratorsOfGroup(stab), x -> niceMon(RestrictedInverseGeneralMapping(RestrictedMapping(x, E)))));
+	I := PositionsProperty(possAutFENorms, X -> IsSubset(stab, X));
+	possAutFE := possAutFE{I};
+
+	return List(possAutFE, X -> PreImage(niceMon, X));
+
+end;
+
 
 
 FrattiniQuotientYieldsSubspace:=function(E, Q)
