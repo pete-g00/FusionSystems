@@ -4,11 +4,11 @@ InstallMethod(Holomorph, "method for finding holomorph", [IsPGroup],
 function(S)
     local AutS, AutS_nm, n;
 
-    AutS := AutomorphismGroupPGroup(S);
+    AutS := AutomorphismGroupPGroup(S, "Over");
     
     if AutS.glOrder = 1 then 
         AutS_nm := PcGroupAutPGroup(AutS);
-        AutS := ConvertHybridAutGroup(AutS);
+        AutS := Group(AutS.agAutos);
         n := GroupHomomorphismByImagesNC(AutS_nm, AutS);
         SetAutomorphismGroup(S, AutS);
         SetNiceMonomorphism(AutS, InverseGeneralMapping(n));
@@ -20,7 +20,7 @@ function(S)
         n := NiceMonomorphism(AutS);
         AutS_nm := Image(n);
 
-        return SemidirectProduct(AutS_nm, RestrictedInverseGeneralMapping(n), AutS_nm);
+        return SemidirectProduct(AutS_nm, RestrictedInverseGeneralMapping(n), S);
     fi;
 end );
 
