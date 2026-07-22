@@ -351,6 +351,9 @@ InstallMethod(PE_RadicalTest, "proto-essential radical test", [IsPGroup, IsPGrou
 
     Info(InfoFusion, 1, "Constructing Aut(E) with OutSE of type ", i, " and order ", Index(Normalizer(S,E), E), 
         " with [Rank(E), Class(E)] = ", [Rank(E), NilpotencyClassOfGroup(E)]);
+
+    # TODO: Bring more of sol/nsol together.
+    # TODO: Optimise for the case when Aut(E) is already found.
     
     AutE := AutomorphismGroupPGroup(E, "Over");
     Info(InfoFusion, 2, "\tAut(E) has order ", AutE.size);
@@ -366,6 +369,54 @@ InstallMethod(PE_RadicalTest, "proto-essential radical test", [IsPGroup, IsPGrou
         return IsProtoEssentialSubgroup_Aut_nsol(S, E, i, AutE);
     fi;
 end);
+
+InstallMethod(PE_InvolutionsConjugate, "proto-essential involutions check", [IsPGroup, IsPGroup, IsInt], function(S, E, i)
+    local p, AutE, AutSE, InnE, n, q, OutE, OutSE, N, C;
+
+    p := PrimePGroup(S);
+
+    if p <> 2 or i = 0 then 
+        return true;
+    fi;
+
+    Info(InfoFusion, 1, "Involution conjugate check");
+
+    AutE := AutomorphismGroup(E);
+    AutSE := Automizer(S, E);
+    if not IsAbelian(E) then 
+        InnE := InnerAutomorphismGroup(E);
+    else
+        InnE := TrivialSubgroup(AutE);
+    fi; 
+
+    n := NiceMonomorphism(AutE);
+    AutE := NiceObject(AutE);
+    if IsBound(AutE!.autrec) then 
+        AutSE := PcSubAutPGroup(AutE, AutSE);
+        InnE := PcSubAutPGroup(AutE, InnE);
+    else 
+        AutSE := Image(n, AutSE);
+        InnE := Image(n, InnE);
+    fi;
+
+    # check all the involutions in Out_S(E) are conjugate in N_{\Out(E)}(\Out_S(E))
+    q := NaturalHomomorphismByNormalSubgroup(AutE, InnE);
+    OutE := Image(q, AutE);
+    OutSE := Image(q, AutSE);
+    N := Normalizer(OutE, OutSE);
+
+    C := ClassesSolvableGroup(OutSE, 0);
+    C := List(C, x -> x.representative);
+    C := Filtered(C, x -> Order(x) = 2);
+
+    if ForAll(C, x -> IsConjugate(N, x, C[1])) then 
+        Info(InfoFusion, 1, "Check passed");
+        return true;
+    else 
+        Info(InfoFusion, 1, "Check failed");
+        return false;
+    fi;
+end );
 
 InstallMethod(IsProtoEssentialSubgroup, [IsPGroup, IsPGroup], function(S, E)
     local i;
@@ -387,9 +438,12 @@ InstallMethod(IsProtoEssentialSubgroup, [IsPGroup, IsPGroup], function(S, E)
         return false;
     fi;
 
-    return PE_RadicalTest(S, E, i);
-end);
+    if not PE_RadicalTest(S, E, i) then 
+        return false;
+    fi;
 
+    return PE_InvolutionsConjugate(S, E, i);
+end);
 
 InstallMethod(PE_ValidAutomizers, "method for finding valid automizers", [IsPGroup, IsPGroup], function(S, E)
     local   AutE, # Aut(E)
@@ -532,7 +586,6 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         # Deals with a bug in CompositionSeriesThrough
         j := Position(L, TrivialSubgroup(S0));
         L := L{[1..j]};
-        Info(InfoFusion, 1, Length(L), " iterations");
         
         j := Position(L, DerivedSubgroup(S0));
         L := L{[j+1..Length(L)]};
@@ -574,57 +627,81 @@ end);
 
 InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials using the main proto-essentials", 
     [IsPGroup, IsList], function(S, L)
-    local   I, # the conjugates of essentials already considered
+    local   G, # holomorph of S
+            i, # Embedding of S to G
+            S0, # Image of S in G
+            I, # the conjugates of essentials already considered
             J, # the conjugates of essentials that still need to be considered
             L0, # the conjugates of essentials
-            i, # position of the current essential
+            j, # position of the current essential
             E, # current essential
             T, # the proto-essentials
             N, # the normal subgroups of S
             A0, # the conjugates of E
-            A, # the larger proto-essentials containing E, up to Aut(S)-conjugacy
+            A0F, # the current conjugates of E
+            A, # the larger proto-essentials containing E
             F, # an element in A
+            E0, # some Aut(S)-conjugate of E contained inside F
             AutF, # Aut(F)
             n; # nice monomorphism for Aut(F)
+    
+    if IsEmpty(L) then 
+        return L;
+    fi;
+
+    Info(InfoFusion, 1, "Generating all proto-essential subgroups");
+        
+    G := Holomorph(S);
+    i := Embedding(G, 2);
+    S0 := Image(i, S);
 
     I := [];
-    L0 := ShallowCopy(L);
+    L0 := List(L, A -> Image(i, A));
     T := [];
 
-    while Length(I) <> Length(L) do 
+    while Length(I) <> Length(L0) do 
+        # we're dealing with some subgroup of largest order not yet considered
         J := Difference([1..Length(L0)], I);
-        i := PositionMaximum(List(L0{J}, Size));
-        i := J[i];
-        E := L0[i];
-        Add(I, i);
+        j := PositionMaximum(List(L0{J}, Size));
+        j := J[j];
+        E := L0[j];
+        Add(I, j);
+        Info(InfoFusion, 2, "Looking at position ", j);
 
-        # in case we're working with something in L that is normal, we only need to consider normal subgroups that can be conjugate
-        if E in L and IsNormal(S, E) then 
-            N := NormalSubgroups(S);
-            N := Filtered(N, A ->   Size(A) = Size(E) and 
-                                    Rank(A) = Rank(E) and 
-                                    NilpotencyClassOfGroup(A) = NilpotencyClassOfGroup(E) and 
-                                    Exponent(A) = Exponent(E));
-            
-        fi;
+        A0 := [E]; 
+        A := List(T, X -> ContainedConjugates(G, X, E, true));
+        A := Filtered(A, X -> X <> fail);
+        Info(InfoFusion, 3, "\t", Length(A), " valid conjugate(s) of overgroup essentials");
 
-        # TODO: Need to use containing conjugates (also up to Aut(S)-conjugacy)
-        A0 := [E]; # go to S-conjugacy here (?)
-        A := Filtered(T, X -> IsSubset(X, E));
-        
         for F in A do
-            Error("DON'T");
-            AutF := AutomorphismGroup(F);
+            E0 := E^(F[2]);
+
+            AutF := AutomorphismGroup(F[1]);
             n := NiceMonomorphism(AutF);
-            AutF := Image(n,AutF);
-            Append(A0, List(A0, X -> Orbit(AutF, X, OnImageNM(n))));
-            Info(InfoWarning, 1, Length(A0));
+            AutF := NiceObject(AutF);
+            
+            # Find Aut(F)-conjugates of subgroups in A0 that are not already present (up to Aut(S)-conjugacy)
+            Info(InfoFusion, 3, "\t", "Finding Aut(F)-orbit of E");
+            A0F := Orbit(AutF, E0, OnImageNM(n));
+            Info(InfoFusion, 3, "\t", "Found");
+            Info(InfoFusion, 3, "\t", "Orbit to Aut(S)-conjugacy");
+            A0F := Orbits(G, A0F);
+            Info(InfoFusion, 3, "\t", "Found");
+            A0F := Filtered(A0F, X -> ForAll(A0, Y -> not Y in X));
+            A0F := List(A0F, Representative);
+            Append(A0, A0F);
+            Info(InfoFusion, 3, "\t", Length(A0F), " new subs");
         od;
 
-        if E in L or IsProtoEssentialSubgroup(S, E) then 
+        A0 := Filtered(A0, X -> ForAll(L0, Y -> not IsConjugate(G, X, Y)));
+        Append(L0, A0);
+
+        if E in L0 or IsProtoEssentialSubgroup(S0, E) then 
+            Info(InfoFusion, 2, "\t", "E is essential");
             Add(T, E);
         fi;
     od;
+    T := List(T, A -> PreImage(i, A));
 
     return T;
 end);

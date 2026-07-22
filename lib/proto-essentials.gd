@@ -58,9 +58,20 @@ DeclareOperation("PE_LiftTest", [IsPGroup, IsPGroup, IsInt]);
 #! @Returns true or false
 DeclareOperation("PE_RadicalTest", [IsPGroup, IsPGroup, IsInt]);
 
+#! @Description 
+#! Checks whether $E$ passes the involution conjugate test with respect to $S$. The value $i \geq 0$ is the one returned by `PE_RankTest'.
+#! In particular, if $p=2$ and $i>0$, we check that all involutions in $\Out_S(E)$ are conjugate in $N_{\Out(E)}(\Out_S(E))$.
+#! This test requires the computation of $\Aut(E)$.
+#! @Arguments S E i
+#! @Returns true or false
+DeclareOperation("PE_InvolutionsConjugate", [IsPGroup, IsPGroup, IsInt]);
+
 #! @Description
-#! Returns the list of the `main' proto-essential subgroups of $S$. These are precisely the ones found by the algorithm in paper2 which avoids computing all the subgroups of $S$ and iterates over some central series of $S'$. If `onlyone' is true, then only the first iteration is completed (this can detect whether the group supports corefree fusion systems). Otherwise, all iterations are run. Running `GenerateProtoEssentials`on the list $L$ returned generates all the essentials have been found.
-#! @Arguments S [onlyone]
+#! Returns the list of the `main' proto-essential subgroups of $S$. These are precisely the ones found by the algorithm in paper2 which avoids computing all the subgroups of $S$ and iterates over some central series of $S'$. 
+#! If `onlyOne' is true, then only the first iteration is completed (this can detect whether the group supports corefree fusion systems). 
+#! If `onlyOne' is false, then all iterations except the first one is completed. Otherwise, all iterations are run. 
+#! Running `GenerateProtoEssentials`on the list $L$ returned generates all the essentials have been found.
+#! @Arguments S [onlyOne]
 #! @Returns a list
 DeclareGlobalFunction("MainProtoEssentials");
 
