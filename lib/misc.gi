@@ -66,6 +66,55 @@ InstallGlobalFunction(OnImageNM, function(n)
     end;
 end );
 
+InstallGlobalFunction(OnImageTuples, function(L, phi)
+    return List(L, x -> OnImage(x, phi));
+end );
+
+InstallGlobalFunction(OnImageTuplesNM, function (n)
+    return function (L, phi)
+        return List(L, x -> OnImageNM(n)(x, phi));
+    end;
+end);
+
+InstallMethod(RestrictedAutomorphism,  "method for restricting isomorphism to an automorphism", 
+    [IsGroupHomomorphism and IsBijective, IsGroup], function(phi, T)
+    local g, h;
+
+    Assert(0, Image(phi,T) = T);
+    
+    g := GeneratorsOfGroup(T);
+    h := List(g, x -> Image(phi,x));
+
+    return GroupHomomorphismByImagesNC(T, T, g, h);
+end );
+
+InstallMethod(RestrictedAutomorphismSubgroup, "method for finding restricted automorphism subgroup", 
+    [IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite], function(AutG, H)
+    local g, h, AutH;
+
+    g := GeneratorsOfGroup(AutG);
+    h := List(g, phi -> RestrictedAutomorphism(phi, H));
+
+    AutH := Group(h);
+    
+    SetIsGroupOfAutomorphismsFiniteGroup(AutH, true);
+    SetAutomorphismDomain(AutH, H);
+
+    return AutH;
+end );
+
+InstallMethod(RestrictedAutomorphismStabilizerSubgroup, "method for finding restricted automorphism subgroup", 
+    [IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite], function(AutG, H)
+    local n, AutG0;
+
+    n := NiceMonomorphism(AutG);
+    AutG := Image(n, AutG);
+
+    AutG0 := Stabilizer(AutG, H, OnImageNM(n));
+    AutG0 := PreImage(n, AutG0);
+
+    return RestrictedAutomorphismSubgroup(AutG0, H);
+end );
 
 # Computes $O^{p'}(G)$
 PrimeResidual := function(G,p)
@@ -144,4 +193,91 @@ CSThru :=  function(G,normals)
     od;
 
     return cs;
+end;
+
+# $\Aut_\calF(E)^g$ for some $g \in S$ and $E \leq S$
+InstallOtherMethod(\^, "method to conjugate automorphism group by an element of an overgroup", 
+[IsGroupOfAutomorphisms, IsMultiplicativeElementWithInverse], function(Aut0, g)
+local E, c, t, G;
+
+    E := AutomorphismDomain(Aut0);
+    c := ConjugatorIsomorphism(E, g);
+    t := List(GeneratorsOfGroup(Aut0), x -> InverseGeneralMapping(c) * x * c);
+    G := Group(t);
+
+    SetIsGroupOfAutomorphismsFiniteGroup(G, true);
+    SetAutomorphismDomain(G, E^g);
+
+return G;
+end );
+
+IsInvariant := function(A,P)
+    # VALID ONLY FOR FINITE P (for infinite P, need to also check x^(a^-1) in P)
+    # Elements of A should be allowed to act on elements of P via
+    # exponentiation, e.g. A is a subgroup of the automorphism group
+    # of a group containing P as a subgroup, or A is a group acting on
+    # a set of which P is a subset
+    if ForAll(GeneratorsOfGroup(A), 
+            a->ForAll(GeneratorsOfGroup(P), x->x^a in P)) then
+        return true;
+    fi;
+    return false;
+end;
+
+# Computes the smallest A-invariant subgroup of the automorphism
+# domain of A containing P. 
+InvariantClosure := function(A,P)
+    local S, gensA, gensP, N, a, x, cnj;
+    if IsGroupOfAutomorphisms(A) then
+        S := AutomorphismDomain(A);
+    else 
+        Error(A, "must be a group of automorphisms.");
+    fi;
+    if not IsSubgroup(S,P) then
+        Error(A, "must be a group of automorphisms of a group containing", P, "as a subgroup");
+    fi;
+    gensA := GeneratorsOfGroup(A);
+    N := P;
+    while not IsInvariant(A,N) do
+        gensN := GeneratorsOfGroup(N);
+	    for a in gensA do
+	        for x in gensN do
+	            cnj := x^a;
+	            if not cnj in N then
+	                N := ClosureGroup(N,cnj);
+	            fi;
+	        od;
+	    od;
+    od;
+    return N;
+end;
+
+# Computes the commutator subgroup of a subgroup A of automorphism
+# group of S with a subgroup of S. Currently only implemented when the
+# subgroup is A-invariant. The routine uses the fact (presumably
+# true!) that in this case [A,P] is the smallest A-invariant normal
+# subgroup of P containing all commutators x^-1*x^a of generators x of
+# P with generators a of A. 
+
+AutCommutatorSubgroup := function(A,P)
+    local C, a, x, c;
+    if not IsGroupOfAutomorphisms(A) then
+        Error(A, "must be a group of automorphisms.");
+    fi;
+    if not IsSubgroup(AutomorphismDomain(A), P) then
+        Error(A, "must act on a group of which", P, "is a subgroup");
+    fi;
+    if not IsInvariant(A,P) then
+        Error(P, "should be", A, "-invariant");
+    fi;
+    C := TrivialSubgroup(P);
+    for a in GeneratorsOfGroup(A) do
+        for x in GeneratorsOfGroup(P) do
+            c := x^-1*x^a;
+            if not c in C then
+                C := ClosureGroup(C,c);
+            fi;
+        od;
+    od;
+    return InvariantClosure(A,NormalClosure(P,C));
 end;
