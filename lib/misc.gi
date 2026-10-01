@@ -56,10 +56,8 @@ InstallMethod(CentralizerMod, "method for groups", [IsGroup, IsGroup, IsGroup], 
 end );
 
 
-InstallGlobalFunction(OnImage, function(n)
-    return function(x, phi)
-        return Image(phi, x);
-    end;
+InstallGlobalFunction(OnImage, function(x, phi)
+    return Image(phi, x);
 end );
 
 InstallGlobalFunction(OnImageNM, function(n)
@@ -82,3 +80,68 @@ PcSubAutPGroup := function(AutPC, A)
     return Subgroup(AutPC, L);
 end;
 
+CSThru :=  function(G,normals)
+    local cs,i,j,pre,post,c,new,rev;
+  
+    cs:=CompositionSeries(G);
+
+    # find normal subgroups not yet in
+    normals:=Filtered(normals,x->not x in cs);
+    
+    # do we satisfy by sheer dumb luck?
+    if Length(normals)=0 then return cs;fi;
+
+    SortBy(normals,x->-Size(x));
+
+    # check that this is a valid series
+    Assert(0,ForAll([2..Length(normals)],i->IsSubset(normals[i-1],normals[i])));
+
+    # Now move series through normals by closure/intersection
+    for j in normals do
+        # first in cs that does not contain j
+        pre:=PositionProperty(cs,x->not IsSubset(x,j));
+    
+        # first contained in j.
+        post:=PositionProperty(cs,x->Size(j)>=Size(x) and IsSubset(j,x));
+    
+        # if j is in the series, then pre>post. pre=post impossible
+        if pre<post then
+    
+        # so from pre to post-1 needs to be changed
+        new:=cs{[1..pre-1]};
+
+        rev:=[j];
+        i:=post-1;
+        repeat
+            if not IsSubset(Last(rev),cs[i]) then
+            c:=ClosureGroup(cs[i],j);
+            if Size(c)>Size(Last(rev)) then
+                # proper down step
+                Add(rev,c);
+            fi;
+            fi;
+            i:=i-1;
+            # at some point this must reach j, then no further step needed
+        until Size(c)=Size(cs[pre-1]) or i<pre;
+
+        Append(new,Filtered(Reversed(rev),x->Size(x)<Size(cs[pre-1])));
+
+        i:=pre;
+        repeat
+            if not IsSubset(cs[i],Last(new)) then
+            c:=Intersection(cs[i],j);
+            if Size(c)<Size(Last(new)) then
+                # proper down step
+                Add(new,c);
+            fi;
+            fi;
+            i:=i+1;
+        until Size(c)=Size(cs[post]);
+        
+
+        cs:=Concatenation(new,cs{[post+1..Length(cs)]});
+        fi;
+    od;
+
+    return cs;
+end;
