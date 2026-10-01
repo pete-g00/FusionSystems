@@ -10,7 +10,7 @@ DeclareAttribute("AllProtoEssentials", IsPGroup);
 #! Checks whether $E$ is proto-essential in $S$. We do so by running a number of tests, given below. The algorithm avoids computing $\Aut(E)$ if possible.
 #! @Arguments S E
 #! @Returns true or false
-DeclareOperation("IsProtoEssentialSubgroup", [IsPGroup, IsPGroup]);
+DeclareOperation("IsProtoEssential", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #! Checks whether $\Out_S(E)$ can be a Sylow $p$-subgroup of a strongly $p$-embedded subgroup. If so, we return a value specifying the type, namely:
