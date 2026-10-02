@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<!DOCTYPE Book SYSTEM "gapdoc.dtd"
+[
+    <#Include SYSTEM "_entities.xml">
+]
+>
+<Book Name="FusionSystems">
+<#Include SYSTEM "title.xml">
+<TableOfContents/>
+<Body>
+<#Include SYSTEM "_Chapter_ProtoEssentialSubgroups.xml">
+<#Include SYSTEM "_Chapter_ProtoEssentialChecks.xml">
+<#Include SYSTEM "_Chapter_AutomizerSequences.xml">
+<#Include SYSTEM "_AutoDocMainFile.xml">
+</Body>
+<Bibliography Databases="FusionSystems.bib"/>
+<TheIndex/>
+</Book>
