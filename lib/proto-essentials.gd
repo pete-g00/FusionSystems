@@ -1,91 +1,51 @@
 DeclareInfoClass("InfoFusion");
 
+#! @Chapter Proto-essential subgroups
+#! @ChapterLabel ProtoEssentialSubgroups
+
+#! @Section Brief description of the algorithm
+
+#! Let $S$ be a finite $p$-group. Recall that $E$ is proto-essential in $S$ if there **could** exist a saturated fusion system $\mathcal{F}$ on $S$ such that $E \in \mathcal{E}(\mathcal{F})$. See Chapter <Ref Chap="Chapter_ProtoEssentialChecks" /> on the proto-essential tests.
+
+#! In this section, we describe the algorithm for constructing all the proto-essential subgroups of $S$. This is based on <Cite Key="sporadics2" Where="Section 3"/>.
+
+#! We fix a central series of $S$:
+#! $$1 = Z_0 \leq Z_1 \leq \dots \leq Z_n = S,$$ 
+#! where $|Z_i| = p^i$ for $1 \leq i \leq n$, and there exists some $1 \leq j \leq n$ such that $Z_j = S'$.
+#! For $0 \leq i &lt; j$, let $\pi_i \colon S \to S/Z_i$ be the projection map, and
+#! $$\mathfrak{C}_i := \{E \mid E = \pi^{-1}(C_S(x)), x \in S/Z_i \textrm{ of order } p \textrm{ with } E \textrm{ proto-essential in } S\}.$$
+#! We let $\mathfrak{C} := \bigcup_{i=0}^j \mathfrak{C}_i$. In <Cite Key="sporadics2" Where="Theorem 3.6"/>, Gautam shows that if $\mathcal{F}$ is a saturated fusion system on $S$ with $E \in \mathcal{E}(\mathcal{F})$, then $E$ is $\mathcal{F}$-conjugate to some $X \in \mathfrak{C}$.
+
+#! @Section The operations
+
 #! @Description 
-#! Finds all the proto-essential subgroups of $S$, up to $\Aut(S)$-conjugacy. We make use of the algorithm given in paper2.
+#! The attribute `AllProtoEssentials` constructs all proto-essential subgroups of a $p$-group $S$. It works as follows:
+#! * it calls the function `AllProtoEssentials` which constructs the set $\mathfrak{C}$;
+#! * it then calls `GenerateProtoEssentials`, which uses $\mathfrak{C}$ to construct all proto-essential subgroups, switching from $\mathcal{F}$-conjugacy to $S$-conjugacy (independent of $\mathcal{F}$).
+#! 
+#! It should be pointed out that there is no known cases where `GenerateProtoEssentials` generates a further ($S$-conjugacy) class of proto-essential subgroups.
+#! Finds all the proto-essential subgroups of $S$, up to $S$-conjugacy.
 #! @Arguments S
 #! @Returns a list
 DeclareAttribute("AllProtoEssentials", IsPGroup);
 
-#! @Description 
-#! Checks whether $E$ is proto-essential in $S$. We do so by running a number of tests, given below. The algorithm avoids computing $\Aut(E)$ if possible.
-#! @Arguments S E
-#! @Returns true or false
-DeclareOperation("IsProtoEssential", [IsPGroup, IsPGroup]);
-
-#! @Description 
-#! Checks whether $\Out_S(E)$ can be a Sylow $p$-subgroup of a strongly $p$-embedded subgroup. If so, we return a value specifying the type, namely:
-#! * $0$ - $\Out_S(E)$ is cyclic;
-#! * $1$ - $\Out_S(E)$ is elementary abelian;
-#! * $2$ - Sylow $p$-subgroup of $\PSU_3(p^n)$.
-#! Further tests have not been implemented yet. We further test that, if $E$ has rank $r$, then $\GL_r(p)$ is sufficiently 
-#! big that it has a valid section. This is based on SAM14, Chapter 6.
-#! 
-#! We return $-1$ if $\Out_S(E)$ cannot be a Sylow $p$-subgroup of a strongly $p$-embedded subgroup. 
-#! 
-#! This test requires the computation of $N_S(E)$ but not $\Aut(E)$.
-#! @Arguments S E
-#! @Returns a number
-DeclareOperation("PE_RankTest", [IsPGroup, IsPGroup]);
-
-#! @Description 
-#! Checks whether $E$ subgroup passes the Frattini test with respect to $S$. In particular, we check whether
-#! 
-#! $$C_{N_S(E)}(E/\Phi(E)) = E.$$
-#! 
-#! This test requires the computation of $N_S(E)$ but not $\Aut(E)$.
-#! @Arguments S E
-#! @Returns true or false
-DeclareOperation("PE_FrattiniTest", [IsPGroup, IsPGroup]);
-
-#! @Description 
-#! Checks whether $E$ passes the lift test with respect to $S$. The value $i \geq 0$ is the one returned by `PE_RankTest'.
-#! In particular, if $i > 0$, then we know that $\Out_S(E)$ is not cyclic, and 
-#! by saturation, the maps in $\Out_\calF(E)$ that normalize $\Out_S(E)$ must lift to $N_S(E)$. More in paper 1, Appendix A.
-#! 
-#! This test requires the computation of $\Aut(N_S(E))$ (which is typically solvable) but not $\Aut(E)$.
-#! @Arguments S E i
-#! @Returns true or false
-DeclareOperation("PE_LiftTest", [IsPGroup, IsPGroup, IsInt]);
-
-#! @Description 
-#! Checks whether $E$ passes the radical test with respect to $S$. The value $i \geq 0$ is the one returned by `PE_RankTest'.
-#! In particular, we check whether
-#! 
-#! $$O_p(\Aut(E)) \cap \Aut_S(E) = \Inn(E).$$
-#! 
-#! This test requires the computation of $\Aut(E)$.
-#! @Arguments S E i
-#! @Returns true or false
-DeclareOperation("PE_RadicalTest", [IsPGroup, IsPGroup, IsInt]);
-
-#! @Description 
-#! Checks whether $E$ passes the involution conjugate test with respect to $S$. The value $i \geq 0$ is the one returned by `PE_RankTest'.
-#! In particular, if $p=2$ and $i>0$, we check that all involutions in $\Out_S(E)$ are conjugate in $N_{\Out(E)}(\Out_S(E))$.
-#! This test requires the computation of $\Aut(E)$.
-#! @Arguments S E i
-#! @Returns true or false
-DeclareOperation("PE_InvolutionsConjugate", [IsPGroup, IsPGroup, IsInt]);
-
 #! @Description
-#! Returns the list of the `main' proto-essential subgroups of $S$. These are precisely the ones found by the algorithm in paper2 which avoids computing all the subgroups of $S$ and iterates over some central series of $S'$. 
-#! If `onlyOne' is true, then only the first iteration is completed (this can detect whether the group supports corefree fusion systems). 
-#! If `onlyOne' is false, then all iterations except the first one is completed. Otherwise, all iterations are run. 
-#! Running `GenerateProtoEssentials`on the list $L$ returned generates all the essentials have been found.
+#! Returns the list of the `main` proto-essential subgroups of $S$. A proto-essential subgroup is called **main** if it lies in $\mathfrak{C}$.
+#!  
+#! If `onlyOne` is true, then we only compute $\mathfrak{C}_0$. Otherwise, all iterations are run.
+#! Running `GenerateProtoEssentials`on the list $L$ returned generates all the proto-essentials subgroups of $S$.
 #! @Arguments S [onlyOne]
 #! @Returns a list
 DeclareGlobalFunction("MainProtoEssentials");
 
 #! @Description
-#! Uses the list $L$ containing the `main' proto-essential subgroups of $S$ to generate all the proto-essential subgroups of $S$.
+#! Uses the list $L$ containing the main proto-essential subgroups of $S$ (i.e. the set $\mathfrak{C}$) to generate all the proto-essential subgroups of $S$. 
 #! @Arguments S L
 #! @Returns a list
 DeclareOperation("GenerateProtoEssentials", [IsPGroup, IsList]);
 
 #! @Description 
-#! Finds valid automizers for $E$ in $S$. 
-#! This is not part of the proto-essentials test and forms the first step in the actual construction of fusion systems. Nonetheless, if a subgroup is proto-essential,
-#! then it must have a valid automizer. This function does not construct all subgroups of $\Aut(E)/O_p(\Aut(E))$, and instead uses iterative maximal subgroup condition 
-#! to do so.
+#! The operation `IsProtoEssential` checks whether a subgroup $E$ is proto-essential in $S$. This is a list of (non-exhaustive) tests that remove a subgroup being proto-essential. See Chapter <Ref Label="Chapter_ProtoEssentialChecks" /> for the tests.
 #! @Arguments S E
-#! @Returns a list of valid Aut_F(E)
-DeclareOperation("PE_ValidAutomizers", [IsPGroup, IsPGroup]);
+#! @Returns true or false
+DeclareOperation("IsProtoEssential", [IsPGroup, IsPGroup]);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<TitlePage>
+  <Title>
+    FusionSystems
+  </Title>
+  <Subtitle>
+    Utilities for computing fusion systems
+  </Subtitle>
+  <Version>
+    0.1
+  </Version>
+  <Author>
+    Josh Bridges
+<Homepage>https://www.birmingham.ac.uk/staff/profiles/maths/phd-students/bridges-joshua</Homepage>
+  </Author>
+  <Author>
+    Pete Gautam
+<Email>pratyush.gautam@manchester.ac.uk</Email>
+  </Author>
+  <Date>
+    15 October 2026
+  </Date>
+  </TitlePage>

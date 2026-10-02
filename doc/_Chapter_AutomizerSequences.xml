@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_AutomizerSequences">
+<Heading>Automizer Sequences</Heading>
+
+<P/>
+ Let <Math>S</Math> be a <Math>p</Math>-group, with proto-essential subgroups <Math>E_1, \dots, E_n</Math>. An <Emph>automizer sequence</Emph> is a list <Math>P := [H_{i_1}, \dots, H_{i_k}]</Math>, where <Math>H_{i_j} \leq \textrm{Aut}(E_{i_j})</Math> is a valid automizer for <Math>E_{i_j}</Math> in <Math>S</Math>. 
+ In other words, <Math>\textrm{Aut}_S(E_{i_j})</Math> is a Sylow <Math>p</Math>-subgroup of <Math>H_{i_j})</Math>, and <Math>H_{i_j}/\textrm{Inn}(E_{i_j})</Math> contains a strongly <Math>p</Math>-embedded subgroup. Note that we do not include a choice of <Math>H_S \leq \textrm{Aut}(S)</Math> here.
+ These are prototypes for saturated fusion systems. In this chapter, we describe processes to determine many important properties about automizer sequences that will allow us to determine whether the corresponding fusion system would be reduced.
+<Section Label="Chapter_Automizer_Sequences_Section_The_functions">
+<Heading>The functions</Heading>
+
+<ManSection>
+  <Oper Arg="S L" Name="FindReducedSequences" Label="for IsPGroup, IsList"/>
+ <Returns>a list of valid Aut_F(E)
+</Returns>
+ <Description>
+ Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of subgroups of <Math>S</Math>, all of which are proto-essential in <Math>S</Math>. We compute all possible automizer sequences involving the subgroups in <Math>L</Math> that could lead to reduced fusion systems.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S P1 P2" Name="IsomorphismSequences" Label="for IsPGroup, IsList, IsList"/>
+ <Returns>an isomorphism mapping
+</Returns>
+ <Description>
+ Given two automizer sequences <Math>P_1</Math> and <Math>P_2</Math>, check whether there exists some <Math>\phi \in \textrm{Aut}(S)</Math> such that <Math>P_1^\phi = P_2</Math>. This computation mimics isomorphism of fusion systems. The action of <Math>\phi</Math> is dependent of the ordering of the <Math>P_i</Math>'s.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S E" Name="PE_ValidAutomizers" Label="for IsPGroup, IsPGroup"/>
+ <Returns>a list
+</Returns>
+ <Description>
+ Finds valid automizers for <Math>E</Math> in <Math>S</Math>. 
+ This is not part of the proto-essentials test and forms the first step in the actual construction of fusion systems. Nonetheless, if a subgroup is proto-essential,
+ then it must have a valid automizer. This function does not construct all subgroups of <Math>\textrm{Aut}(E)/O_p(\textrm{Aut}(E))</Math>, and instead uses iterative maximal subgroup condition 
+ to do so.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S AutFE" Name="FindSmallestBorel" Label="for IsPGroup, IsGroupOfAutomorphismsFiniteGroup"/>
+ <Returns>a group
+</Returns>
+ <Description>
+ Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>E &lt; S</Math> with some fixed <Math>H_E \leq \textrm{Aut}(E)</Math> part of an automizer sequence. The operation <Code>FindSmallestBorel</Code> computes the subgroup of <Math>\textrm{Aut}(S)</Math> consisting of extensions from <Math>N_{H_E}(\textrm{Aut}_S(E))</Math>. If not every map in the normalizer subgroup exists, we return <Code>fail</Code>.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S AutFS AutFE" Name="IsAutomizerBorelCompatible" Label="for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+ Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>E &lt; S</Math> with some fixed <Math>H_E \leq \textrm{Aut}(E)</Math> part of an automizer sequence. Let <Math>H_S \leq \textrm{Aut}(S)</Math> be a subgroup. The operation <Code>IsAutomizerBorelCompatible</Code> checks whether the restrictions of <Math>H_S</Math> are <Emph>compatible</Emph> with <Math>H_E</Math>. In particular, if <Math>A_0 \leq \textrm{Aut}(E)</Math> consists of restrictions from <Math>H_S</Math>, we have that 
+ <Display>O^{p'}(\langle A_0, H_E \rangle) = H_E.</Display>
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S P" Name="IsCompatibleSequence" Label="for IsPGroup, IsGroupOfAutomorphismsFiniteGroup"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+ Let <Math>S</Math> be a <Math>p</Math>-group and let <Math>P</Math> be an automizer sequence. The operation <Code>IsCompatibleSequence</Code> checks whether <Math>P</Math> can lead to a saturated fusion system. Note that there can be false positives -- <Math>P</Math> may not lead to a saturated fusion system (based on the analysis of centric, radical subgroups) but passes this test.
+ </Description>
+</ManSection>
+
+</Section>
+
+</Chapter>
+
