@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_ProtoEssentialChecks">
+<Heading>Checks for proto-essentials</Heading>
+
+<Section Label="Chapter_Checks_for_proto-essentials_Section_Introduction">
+<Heading>Introduction</Heading>
+
+ In this chapter, we describe all the tests currently implemented in GAP that test whether a subgroup <Math>E</Math> of a <Math>p</Math>-group <Math>S</Math> is proto-essential. Recall that <Math>E</Math> is proto-essential in <Math>S</Math> if there <Emph>could</Emph> exist a saturated fusion system <Math>\mathcal{F}</Math> on <Math>S</Math> such that <Math>E \in \mathcal{E}(\mathcal{F})</Math>.
+ The tests are vastly different depending on the prime <Math>p</Math>. If <Math>p=2</Math>, then the tests are based on the tests in Andersen, Oliver and Ventura in <Cite Key="AOV" Where="Proposition 2.3"/>. At <Math>p</Math> odd, we make use of the tests given by Parker-Semeraro in <Cite Key="PS-MAGMA" /> and <Cite Key="sporadics1" Where="Appendix A"/>.
+</Section>
+
+<Section Label="Chapter_Checks_for_proto-essentials_Section_General_Tests">
+<Heading>General Tests</Heading>
+
+ These are tests that apply for any prime <Math>p</Math>.
+<ManSection>
+  <Oper Arg="S E" Name="PE_RankTest" Label="for IsPGroup, IsPGroup"/>
+ <Returns>a number
+</Returns>
+ <Description>
+ Checks whether <Math>\textrm{Out}_S(E)</Math> can be a Sylow <Math>p</Math>-subgroup of a strongly <Math>p</Math>-embedded subgroup. If so, we return a value specifying the type, namely:
+<List>
+<Item>
+<Math>0</Math> - <Math>\textrm{Out}_S(E)</Math> is cyclic;
+</Item>
+<Item>
+<Math>1</Math> - <Math>\textrm{Out}_S(E)</Math> is elementary abelian;
+</Item>
+<Item>
+<Math>2</Math> - Sylow <Math>p</Math>-subgroup of <Math>\textrm{PSU}_3(p^n)</Math>.
+</Item>
+</List>
+ Further tests have not been implemented yet. We further test that, if <Math>E</Math> has rank <Math>r</Math>, then <Math>\textrm{GL}_r(p)</Math> is sufficiently 
+ big that it has a valid section. This is based on SAM14, Chapter 6.
+<P/>
+ We return <Math>-1</Math> if <Math>\textrm{Out}_S(E)</Math> cannot be a Sylow <Math>p</Math>-subgroup of a strongly <Math>p</Math>-embedded subgroup. 
+<P/>
+ This test requires the computation of <Math>N_S(E)</Math> but not <Math>\textrm{Aut}(E)</Math>.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S E" Name="PE_FrattiniTest" Label="for IsPGroup, IsPGroup"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+ Checks whether <Math>E</Math> subgroup passes the Frattini test with respect to <Math>S</Math>. In particular, we check whether
+<P/>
+ <Display>C_{N_S(E)}(E/\Phi(E)) = E.</Display>
+<P/>
+ This test requires the computation of <Math>N_S(E)</Math> but not <Math>\textrm{Aut}(E)</Math>.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S E i" Name="PE_LiftTest" Label="for IsPGroup, IsPGroup, IsInt"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+ Checks whether <Math>E</Math> passes the lift test with respect to <Math>S</Math>. The value <Math>i \geq 0</Math> is the one returned by <Code>PE_RankTest</Code>.
+ In particular, if <Math>i > 0</Math>, then we know that <Math>\textrm{Out}_S(E)</Math> is not cyclic, and 
+ by saturation, the maps in <Math>\textrm{Out}_{\mathcal{F}}(E)</Math> that normalize <Math>\textrm{Out}_S(E)</Math> must lift to <Math>N_S(E)</Math>. More in paper 1, Appendix A.
+<P/>
+ This test requires the computation of <Math>\textrm{Aut}(N_S(E))</Math> (which is typically solvable) but not <Math>\textrm{Aut}(E)</Math>.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S E i" Name="PE_RadicalTest" Label="for IsPGroup, IsPGroup, IsInt"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+ Checks whether <Math>E</Math> passes the radical test with respect to <Math>S</Math>. The value <Math>i \geq 0</Math> is the one returned by <Code>PE_RankTest</Code>.
+ In particular, we check whether
+<P/>
+ <Display>O_p(\textrm{Aut}(E)) \cap \textrm{Aut}_S(E) = \textrm{Inn}(E).</Display>
+<P/>
+ This test requires the computation of <Math>\textrm{Aut}(E)</Math>.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S E i" Name="PE_InvolutionsConjugate" Label="for IsPGroup, IsPGroup, IsInt"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+ Checks whether <Math>E</Math> passes the involution conjugate test with respect to <Math>S</Math>. The value <Math>i \geq 0</Math> is the one returned by <Code>PE_RankTest</Code>.
+ In particular, if <Math>p=2</Math> and <Math>i>0</Math>, we check that all involutions in <Math>\textrm{Out}_S(E)</Math> are conjugate in <Math>N_{\textrm{Out}(E)}(\textrm{Out}_S(E))</Math>.
+ This test requires the computation of <Math>\textrm{Aut}(E)</Math>.
+ </Description>
+</ManSection>
+
+</Section>
+
+</Chapter>
+

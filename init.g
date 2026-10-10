@@ -1,7 +1,5 @@
-# FusionSystems: Utilities for computing fusion systems
-#
-# Reading the declaration part of the package.
-#
 ReadPackage( "FusionSystems", "lib/misc.gd");
 ReadPackage( "FusionSystems", "lib/proto-essentials.gd");
-ReadPackage( "FusionSystems", "lib/aov.gd");
+ReadPackage( "FusionSystems", "lib/proto-essential-checks.gd");
+ReadPackage("FusionSystems","lib/automizer-sequence.gd");
+ReadPackage("FusionSystems", "lib/aov.gd");

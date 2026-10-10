@@ -1,9 +1,7 @@
-#
-# FusionSystems: Utilities for computing fusion systems
-#
-# Reading the implementation part of the package.
-#
-ReadPackage("FusionSystems", "lib/misc.gi");
-ReadPackage("FusionSystems", "lib/valid-choices.g");
-ReadPackage("FusionSystems", "lib/proto-essentials.gi");
-ReadPackage("FusionSystems","lib/aov.gi");
+ReadPackage("FusionSystems","lib/misc.gi");
+ReadPackage("FusionSystems","lib/valid-choices.g");
+ReadPackage( "FusionSystems", "lib/proto-essentials.gi");
+ReadPackage( "FusionSystems", "lib/proto-essential-checks.gi");
+ReadPackage("FusionSystems","lib/automizer-sequence.gi");
+ReadPackage("FusionSystems","lib/pe-maxclass.g");
+ReadPackage("FusionSystems", "lib/aov.gi");

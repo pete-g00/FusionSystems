@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_ProtoEssentialSubgroups">
+<Heading>Proto-essential subgroups</Heading>
+
+<Section Label="Chapter_Proto-essential_subgroups_Section_Brief_description_of_the_algorithm">
+<Heading>Brief description of the algorithm</Heading>
+
+ Let <Math>S</Math> be a finite <Math>p</Math>-group. Recall that <Math>E</Math> is proto-essential in <Math>S</Math> if there <Emph>could</Emph> exist a saturated fusion system <Math>\mathcal{F}</Math> on <Math>S</Math> such that <Math>E \in \mathcal{E}(\mathcal{F})</Math>. See Chapter <Ref Chap="Chapter_ProtoEssentialChecks" /> on the proto-essential tests.
+ In this section, we describe the algorithm for constructing all the proto-essential subgroups of <Math>S</Math>. This is based on <Cite Key="sporadics2" Where="Section 3"/>.
+ We fix a central series of <Math>S</Math>:
+ <Display>1 = Z_0 \leq Z_1 \leq \dots \leq Z_n = S,</Display> 
+ where <Math>|Z_i| = p^i</Math> for <Math>1 \leq i \leq n</Math>, and there exists some <Math>1 \leq j \leq n</Math> such that <Math>Z_j = S'</Math>.
+ For <Math>0 \leq i &lt; j</Math>, let <Math>\pi_i \colon S \to S/Z_i</Math> be the projection map, and
+ <Display>\mathfrak{C}_i := \{E \mid E = \pi^{-1}(C_S(x)), x \in S/Z_i \textrm{ of order } p \textrm{ with } E \textrm{ proto-essential in } S\}.</Display>
+ We let <Math>\mathfrak{C} := \bigcup_{i=0}^j \mathfrak{C}_i</Math>. In <Cite Key="sporadics2" Where="Theorem 3.6"/>, Gautam shows that if <Math>\mathcal{F}</Math> is a saturated fusion system on <Math>S</Math> with <Math>E \in \mathcal{E}(\mathcal{F})</Math>, then <Math>E</Math> is <Math>\mathcal{F}</Math>-conjugate to some <Math>X \in \mathfrak{C}</Math>.
+</Section>
+
+<Section Label="Chapter_Proto-essential_subgroups_Section_The_operations">
+<Heading>The operations</Heading>
+
+<ManSection>
+  <Attr Arg="S" Name="AllProtoEssentials" Label="for IsPGroup"/>
+ <Returns>a list
+</Returns>
+ <Description>
+ The attribute <Code>AllProtoEssentials</Code> constructs all proto-essential subgroups of a <Math>p</Math>-group <Math>S</Math>. It works as follows:
+<List>
+<Item>
+it calls the function <Code>AllProtoEssentials</Code> which constructs the set <Math>\mathfrak{C}</Math>;
+</Item>
+<Item>
+it then calls <Code>GenerateProtoEssentials</Code>, which uses <Math>\mathfrak{C}</Math> to construct all proto-essential subgroups, switching from <Math>\mathcal{F}</Math>-conjugacy to <Math>S</Math>-conjugacy (independent of <Math>\mathcal{F}</Math>).
+</Item>
+</List>
+<P/>
+ It should be pointed out that there is no known cases where <Code>GenerateProtoEssentials</Code> generates a further (<Math>S</Math>-conjugacy) class of proto-essential subgroups.
+ Finds all the proto-essential subgroups of <Math>S</Math>, up to <Math>S</Math>-conjugacy.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Func Arg="S [onlyOne]" Name="MainProtoEssentials" />
+ <Returns>a list
+</Returns>
+ <Description>
+ Returns the list of the <Code>main</Code> proto-essential subgroups of <Math>S</Math>. A proto-essential subgroup is called <Emph>main</Emph> if it lies in <Math>\mathfrak{C}</Math>.
+<P/>
+ If <Code>onlyOne</Code> is true, then we only compute <Math>\mathfrak{C}_0</Math>. Otherwise, all iterations are run.
+ Running <Code>GenerateProtoEssentials</Code>on the list <Math>L</Math> returned generates all the proto-essentials subgroups of <Math>S</Math>.
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S L" Name="GenerateProtoEssentials" Label="for IsPGroup, IsList"/>
+ <Returns>a list
+</Returns>
+ <Description>
+ Uses the list <Math>L</Math> containing the main proto-essential subgroups of <Math>S</Math> (i.e. the set <Math>\mathfrak{C}</Math>) to generate all the proto-essential subgroups of <Math>S</Math>. 
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S E" Name="IsProtoEssential" Label="for IsPGroup, IsPGroup"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+ The operation <Code>IsProtoEssential</Code> checks whether a subgroup <Math>E</Math> is proto-essential in <Math>S</Math>. This is a list of (non-exhaustive) tests that remove a subgroup being proto-essential. See Chapter <Ref Label="Chapter_ProtoEssentialChecks" /> for the tests.
+ </Description>
+</ManSection>
+
+</Section>
+
+</Chapter>
+

@@ -5,3 +5,14 @@ DeclareGlobalFunction("OnQuotient");
 DeclareGlobalFunction("OnImage");
 
 DeclareGlobalFunction("OnImageNM");
+
+DeclareGlobalFunction("OnImageTuples");
+
+DeclareGlobalFunction("OnImageTuplesNM");
+
+# TODO: The NC versions that don't do the checks
+DeclareOperation("RestrictedAutomorphism", [IsGroupHomomorphism and IsBijective, IsGroup]);
+
+DeclareOperation("RestrictedAutomorphismSubgroup", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite]);
+
+DeclareOperation("RestrictedAutomorphismStabilizerSubgroup", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite]);

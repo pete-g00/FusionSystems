@@ -1,61 +1,3 @@
-CSThru := function(G,normals)
-    local cs,i,j,pre,post,c,new,rev;
-    cs:=CompositionSeries(G);
-    # find normal subgroups not yet in
-    normals:=Filtered(normals,x->not x in cs);
-    # do we satisfy by sheer dumb luck?
-    if Length(normals)=0 then return cs;fi;
-
-    SortBy(normals,x->-Size(x));
-    # check that this is a valid series
-    Assert(0,ForAll([2..Length(normals)],i->IsSubset(normals[i-1],normals[i])));
-
-    # Now move series through normals by closure/intersection
-    for j in normals do
-        # first in cs that does not contain j
-        pre:=PositionProperty(cs,x->not IsSubset(x,j));
-        # first contained in j.
-        post:=PositionProperty(cs,x->Size(j)>=Size(x) and IsSubset(j,x));
-
-        # if j is in the series, then pre>post. pre=post impossible
-        if pre<post then
-        # so from pre to post-1 needs to be changed
-        new:=cs{[1..pre-1]};
-
-        rev:=[j];
-        i:=post-1;
-        repeat
-            if not IsSubset(Last(rev),cs[i]) then
-            c:=ClosureGroup(cs[i],j);
-            if Size(c)>Size(Last(rev)) then
-                # proper down step
-                Add(rev,c);
-            fi;
-            fi;
-            i:=i-1;
-            # at some point this must reach j, then no further step needed
-        until Size(c)=Size(cs[pre-1]) or i<pre;
-        Append(new,Filtered(Reversed(rev),x->Size(x)<Size(cs[pre-1])));
-
-        i:=pre;
-        repeat
-            if not IsSubset(cs[i],Last(new)) then
-            c:=Intersection(cs[i],j);
-            if Size(c)<Size(Last(new)) then
-                # proper down step
-                Add(new,c);
-            fi;
-            fi;
-            i:=i+1;
-        until Size(c)=Size(cs[post]);
-
-        # change cs only if pre<post
-        cs:=Concatenation(new,cs{[post+1..Length(cs)]});
-        fi;
-    od;
-    return cs;
-end;
-
 FrattiniTest := function(S, P)
     local ucs, FP, Theta, g;
 
@@ -145,13 +87,6 @@ InstallMethod(PE_FAST2, "method to check whether E is proto-essential in S (fast
     return true;
 end);
 
-PcSubAutPGroup := function(AutPC, A)
-    local L;
-
-    L := List(GeneratorsOfGroup(A), x -> ImageAutPGroup(AutPC!.autrec, AutPC, x));
-    return Subgroup(AutPC, L);
-end;
-
 InstallMethod(PE_SLOW2, "method to check whether E is proto-essential in S (slow)", 
     [IsPGroup, IsPGroup], function(S, E)
     local AutE, OutSE, AutSE, AutE_c, InnE, OutE, Aut2, N, C, n, q, A;
@@ -232,6 +167,105 @@ InstallMethod(PE_SLOW2, "method to check whether E is proto-essential in S (slow
     fi;
 
     return true;
+end );
+
+InstallMethod(IsProtoEssential, "method to check whether a subgroup is proto-essential", 
+    [IsPGroup, IsPGroup], function(S, E)
+    local i;
+
+    if S = E or not IsSubset(E, Centralizer(S,E)) then 
+        return false;
+    fi;
+
+    if not PE_FrattiniTest(S, E) then 
+        return false;
+    fi;
+
+    i := PE_RankTest(S, E);
+    if i=-1 then 
+        return false;
+    fi;
+
+    if not PE_LiftTest(S, E, i) then 
+        return false;
+    fi;
+
+    if not PE_RadicalTest(S, E, i) then 
+        return false;
+    fi;
+
+    return PE_InvolutionsConjugate(S, E, i);
+end);
+
+# TODO: Accommodate for:
+# - not checking Aut(S)-conjugates of certain subgroups
+InstallGlobalFunction(MainProtoEssentials,  function(arg...)
+    local   S, # the group
+            onlyOne, # whether to only check the top iteration
+            p, # the prime
+            G, # holomorph of S
+            i, # Embedding of S to G
+            S0, # Image of S in G
+            L, # central series of S' (labelled Z_i)
+            j, # final position
+            q, # quotient map S/Z_i
+            Q, # quotients S/Z_i
+            C; # the proto-essential subgroups
+
+    S := arg[1];
+
+    if Length(arg) > 1 then 
+        onlyOne := arg[2];
+    else 
+        onlyOne := false;
+    fi;
+
+    if IsAbelian(S) then 
+        return [];
+    fi;
+
+    p := PrimePGroup(S);
+
+    if not onlyOne then 
+        L := LowerCentralSeries(S);
+        # Deals with a bug in CompositionSeriesThrough (will be fixed in v4.18)
+        L := CSThru(S, L);
+        
+        j := Position(L, DerivedSubgroup(S));
+        L := L{[j+1..Length(L)]};
+        Info(InfoFusion, 1, Length(L), " iterations");
+        
+        q := List(L, A -> NaturalHomomorphismByNormalSubgroup(S,A));
+
+        Info(InfoFusion, 1, "Finding conjugacy classes");
+        
+        Q := List(q, Image);
+        C := List(Q, A -> ClassesSolvableGroup(A,0));
+        C := List(C, A -> Filtered(A, a -> Order(a.representative) = p));
+        C := List(C, A -> List(A, a -> a.centralizer));
+        C := List([1..Length(C)], i -> List(C[i], A -> PreImage(q[i], A)));
+        C := Flat(C);
+    else 
+        Info(InfoFusion, 1, "Only the top iteration");
+        Info(InfoFusion, 1, "Finding conjugacy classes");
+
+        C := ClassesSolvableGroup(S, 0);
+        C := Filtered(C, a -> Order(a.representative) = p);
+        C := List(C, a -> a.centralizer);
+    fi;
+
+    Info(InfoFusion, 1, Length(C), " subgroups, including possibly duplicates");
+    Info(InfoFusion, 2, "\tFinding S-reps");
+
+    C := Orbits(S, C);
+    Info(InfoFusion, 1, Length(C), " up to S-conjugacy");
+
+    C := List(C, Representative);
+    
+    Info(InfoFusion, 1, "Checking proto-essentials");
+    C := Filtered(C, E -> IsProtoEssential(S,E));
+
+    return C;
 end);
 
 InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials using the main proto-essentials", 
@@ -271,12 +305,10 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
         j := J[j];
         E := L0[j];
         Add(I, j);
-        Info(InfoFusion, 2, "Looking at position ", j);
 
         A0 := [E]; 
         A := List(T, X -> ContainedConjugates(S, X, E, true));
         A := Filtered(A, X -> X <> fail);
-        Info(InfoFusion, 3, "\t", Length(A), " valid conjugate(s) of overgroup essentials");
 
         for F in A do
             E0 := E^(F[2]);
@@ -286,26 +318,30 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
             AutF := NiceObject(AutF);
             
             # Find Aut(F)-conjugates of subgroups in A0 that are not already present (up to Aut(S)-conjugacy)
-            Info(InfoFusion, 3, "\t", "Finding Aut(F)-orbit of E");
             A0F := Orbit(AutF, E0, OnImageNM(n));
-            Info(InfoFusion, 3, "\t", "Found");
-            Info(InfoFusion, 3, "\t", "Orbit to Aut(S)-conjugacy");
             A0F := Orbits(S, A0F);
-            Info(InfoFusion, 3, "\t", "Found");
             A0F := Filtered(A0F, X -> ForAll(A0, Y -> not Y in X));
             A0F := List(A0F, Representative);
             Append(A0, A0F);
-            Info(InfoFusion, 3, "\t", Length(A0F), " new subs");
         od;
 
         A0 := Filtered(A0, X -> ForAll(L0, Y -> not IsConjugate(S, X, Y)));
         Append(L0, A0);
 
-        if E in L0 or PE_FAST2(S0, E) or PE_SLOW2(S0, E) then 
-            Info(InfoFusion, 2, "\t", "E is essential");
+        if E in L0 or IsProtoEssential(S0, E) then 
             Add(T, E);
         fi;
     od;
 
     return T;
 end);
+
+InstallMethod(AllProtoEssentials, "generic method", [IsPGroup],
+function(S)
+    local L;
+
+    L := MainProtoEssentials(S);
+    L := GenerateProtoEssentials(S, L);
+
+    return L;
+end );
