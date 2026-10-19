@@ -1,0 +1,12 @@
+/doc/_*.html
+/doc/main*
+/doc/chap*mj.html
+/doc/chap*.txt
+/doc/*.css
+/doc/_Chunks.xml
+/doc/chap*.html
+/doc/*.js
+/doc/manual*
+/doc/_entities.xml
+/doc/chooser.html
+/doc/_main*

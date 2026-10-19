@@ -10,9 +10,6 @@
 <#Include SYSTEM "title.xml">
 <TableOfContents/>
 <Body>
-<#Include SYSTEM "_Chapter_ProtoEssentialSubgroups.xml">
-<#Include SYSTEM "_Chapter_ProtoEssentialChecks.xml">
-<#Include SYSTEM "_Chapter_AutomizerSequences.xml">
 <#Include SYSTEM "_AutoDocMainFile.xml">
 </Body>
 <Bibliography Databases="FusionSystems.bib"/>

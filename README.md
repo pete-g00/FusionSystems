@@ -12,6 +12,7 @@ The current version of the package was created by:
 
 1. Josh Bridges, University of Birmingham
 1. Pete Gautam, University of Manchester
+1. Justin Lynd, University of Louisiana
 
 ## Contact
 

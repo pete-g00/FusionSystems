@@ -40,17 +40,49 @@ it then calls <Code>GenerateProtoEssentials</Code>, which uses <Math>\mathfrak{C
  </Description>
 </ManSection>
 
+<Example><![CDATA[
+gap> S := SmallGroup(3^4, 7);
+<pc group of size 81 with 4 generators>
+gap> L := AllProtoEssentials(S);
+[ Group([ f4, f1, f3 ]), Group([ f4, f2, f3 ]), Group([ f1, f4 ]) ]
+gap> List(L, StructureDescription);
+[ "(C3 x C3) : C3", "C3 x C3 x C3", "C3 x C3" ]
+]]></Example>
+
 <ManSection>
-  <Func Arg="S [onlyOne]" Name="MainProtoEssentials" />
+  <Func Arg="S [i]" Name="MainProtoEssentials" />
  <Returns>a list
 </Returns>
  <Description>
  Returns the list of the <Code>main</Code> proto-essential subgroups of <Math>S</Math>. A proto-essential subgroup is called <Emph>main</Emph> if it lies in <Math>\mathfrak{C}</Math>.
 <P/>
- If <Code>onlyOne</Code> is true, then we only compute <Math>\mathfrak{C}_0</Math>. Otherwise, all iterations are run.
- Running <Code>GenerateProtoEssentials</Code>on the list <Math>L</Math> returned generates all the proto-essentials subgroups of <Math>S</Math>.
+ If the second argument <Code>i</Code> is provided, the function behaves as follows:
+<List>
+<Item>
+<Math>i = 0</Math> -- we only compute <Math>\mathfrak{C}_0</Math>;
+</Item>
+<Item>
+<Math>i = -1</Math> -- we only compute <Math>\mathfrak{C} \setminus \mathfrak{C}_0</Math>; and
+</Item>
+<Item>
+<Math>i = 1</Math> -- we compute all <Math>\mathfrak{C}</Math>.
+</Item>
+</List>
+<P/>
+ If the argument is not provided, we compute all <Math>\mathfrak{C}</Math>. Running <Code>GenerateProtoEssentials</Code>on the list <Math>L</Math> returned generates 
+ all the proto-essentials subgroups of <Math>S</Math>.
  </Description>
 </ManSection>
+
+<Example><![CDATA[
+gap> S := SmallGroup(2^7, 931);
+<pc group of size 128 with 7 generators>
+gap> C0 := MainProtoEssentials(S, 0);
+[ Group([ f1, f2, f4, f6, f7 ]), Group([ f1, f3, f5, f6, f7 ]), 
+Group([ f2, f3, f4, f5, f6, f7 ]) ]
+gap> C := MainProtoEssentials(S, -1);
+[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f7, f1, f3, f4, f5, f6 ]) ]
+]]></Example>
 
 <ManSection>
   <Oper Arg="S L" Name="GenerateProtoEssentials" Label="for IsPGroup, IsList"/>
@@ -61,14 +93,14 @@ it then calls <Code>GenerateProtoEssentials</Code>, which uses <Math>\mathfrak{C
  </Description>
 </ManSection>
 
-<ManSection>
-  <Oper Arg="S E" Name="IsProtoEssential" Label="for IsPGroup, IsPGroup"/>
- <Returns>true or false
-</Returns>
- <Description>
- The operation <Code>IsProtoEssential</Code> checks whether a subgroup <Math>E</Math> is proto-essential in <Math>S</Math>. This is a list of (non-exhaustive) tests that remove a subgroup being proto-essential. See Chapter <Ref Label="Chapter_ProtoEssentialChecks" /> for the tests.
- </Description>
-</ManSection>
+<Example><![CDATA[
+gap> S := SmallGroup(3^6, 321);
+<pc group of size 729 with 6 generators>
+gap> L := MainProtoEssentials(S);
+[ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
+gap> L := GenerateProtoEssentials(S, L);
+[ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
+]]></Example>
 
 </Section>
 

@@ -1,202 +1,3 @@
-FrattiniTest := function(S, P)
-    local ucs, FP, Theta, g;
-
-    ucs := Reversed(UpperCentralSeries(P));
-    FP := FrattiniSubgroup(P);
-    for Theta in ucs{[1..Minimum(2,Length(ucs))]} do 
-        for g in RightTransversal(Normalizer(S,P),P) do
-            if g in P then 
-                continue; 
-            fi;
-            if IsSubgroup(ClosureGroup(Theta,FP), CommutatorSubgroup(Group(g),P))
-                    and IsSubgroup(FP, CommutatorSubgroup(Group(g), Theta)) then
-                return false;
-            fi;
-        od;   
-    od;
-    return true;
-end;
-
-LargeRankTest := function(S,P)
-    local FP,NSP,k,l,s,sP;
-
-    FP := FrattiniSubgroup(P);
-    NSP := Normalizer(S,P); 
-
-    k := PValuation(IndexNC(NSP, P), 2);
-    l := Rank(P);
-
-    if k >= 2 then
-        # Note [s,P/Phi(P)] = [s,P]Phi(P)/Phi(P), and we can check the
-        # inequality for s in a transversal to P in N_S(P), because for
-        # each s in P, we have [s,Phi(P)] \leq Phi(P). 
-        for s in RightTransversal(NSP,P) do
-            if s in P then continue; fi;
-            sP := CommutatorSubgroup(Group(s),P); 
-            # Since [s,P]Phi(P)/Phi(P) is elementary abelian, to require
-            # its rank \geq 2 is the same as requiring its order \geq 4. 
-            if IndexNC(sP, Intersection(sP,FP)) < 4 then
-                return false;
-            fi;
-        od;
-    fi;
-
-    return true;
-end;
-
-InstallMethod(PE_FAST2, "method to check whether E is proto-essential in S (fast)", 
-    [IsPGroup, IsPGroup], function(S, E)
-    local N, OutSE, i, A;
-
-    N := Normalizer(S, E);
-    # Out_S(E) must be: cyclic (order 2,4,8), quaternion (order 8) or eab (order 4, 8)
-    if Index(N, E) > 8 then 
-        Info(InfoFusion, 2, "\t(iii) \\Out_S(E) has order > 8");
-        return false;
-    elif Index(N, E) = 8 and IdGroup(N/E)[2] in [2,3] then 
-        Info(InfoFusion, 2, "\t(iii) \\Out_S(E) invalid of order 8");
-        return false;
-    fi;
-
-    if Size(E) <= 2^8 then 
-        N := Normalizer(S, E);
-        OutSE := N/E;
-        i := IdGroup(OutSE);
-        if not IdGroup(E) in ValidChoices!.(i[1])!.(i[2]) then 
-            Info(InfoFusion, 2, "\t(iv) E invalid for given \\Out_S(E)");
-            return false;
-        fi;
-    fi;
-    
-    if not FrattiniTest(S, E) then 
-        Info(InfoFusion, 2, "\t(v) Failed Frattini Test");
-        return false;
-    elif not LargeRankTest(S, E) then 
-        Info(InfoFusion, 2, "\t(vi) Failed rank test");
-        return false;
-    fi;
-
-    # order 2^9: only look at init aut-grp - check Syl-2 is not normal here
-    A := InitAutomorphismGroupOver(E);
-    # if A is a 2-group, then Aut(E) is also a 2-group
-    if A.size = 1 or (IsPrimePowerInt(A.size) and SmallestRootInt(A.size) = 2) then
-        Info(InfoFusion, 2, "\t(vii) Aut_0(E) 2-group");
-        return false;
-    fi;
-
-    return true;
-end);
-
-InstallMethod(PE_SLOW2, "method to check whether E is proto-essential in S (slow)", 
-    [IsPGroup, IsPGroup], function(S, E)
-    local AutE, OutSE, AutSE, AutE_c, InnE, OutE, Aut2, N, C, n, q, A;
-
-    AutE := AutomorphismGroupPGroup(E);
-    OutSE := Normalizer(S,E)/E;
-    
-    if IsPrimePowerInt(AutE.size) then 
-        Info(InfoFusion, 2, "\t(viii) Aut(E) is a 2-group");
-        return false;
-    fi;
-
-    AutSE := Automizer(S, E);
-
-    if AutE.glOrder = 1 then 
-        Info(InfoFusion, 3, "\tAut(E) is solvable");
-
-        AutE_c := ConvertHybridAutGroup(AutE);
-        SetAutomorphismGroup(E, AutE_c);
-        SetIsGroupOfAutomorphismsFiniteGroup(AutE_c, true);
-        AutE := PcGroupAutPGroup(AutE);
-        InnE := InnerAutGroupPGroup(AutE);
-        AutSE := PcSubAutPGroup(AutE, AutSE);
-    else 
-        Info(InfoFusion, 3, "\tAut(E) is not solvable");
-        AutE := ConvertHybridAutGroup(AutE);
-        
-        if not IsAbelian(E) then 
-            InnE := InnerAutomorphismGroup(E);
-        else 
-            InnE := TrivialSubgroup(AutE);
-        fi;
-
-        SetIsGroupOfAutomorphismsFiniteGroup(AutE, true);
-        n := NiceMonomorphism(AutE);
-        SetAutomorphismGroup(E, AutE);
-        SetNiceMonomorphism(AutE, n);
-
-        AutE := Image(n, AutE);
-        InnE := Image(n, InnE);
-        AutSE := Image(n, AutSE);
-    fi;
-
-    if Size(OutSE) > 2 and IsElementaryAbelian(OutSE) then 
-        N := Normalizer(AutE, AutSE);
-        if Size(N) mod (Size(OutSE)-1) <> 0 then 
-            Info(InfoFusion, 2, "\t(ix) N_{\\Out(E)}(\\Out_S(E)) does not have an element permuting the involutions transitively");
-            return false;
-        fi;
-    fi;
-
-    # radical test
-    Aut2 := PCore(AutE, 2);
-    if Size(Intersection(Aut2, AutSE)) <> IndexNC(E, Center(E)) then
-        Info(InfoFusion, 2, "\t(x) E is not S-radical");
-        return false;
-    fi;
-
-    # involution conjugate test
-    q := NaturalHomomorphismByNormalSubgroupNC(AutE, InnE);
-    OutE := Image(q);
-    OutSE := Image(q, AutSE);
-
-    if Size(OutSE) > 2 and IsElementaryAbelian(OutSE) then 
-        N := Normalizer(OutE, OutSE);
-        C := Centralizer(OutE, OutSE);
-        if IndexNC(N, C) mod (Size(OutSE)-1) <> 0 then 
-            Info(InfoFusion, 2, "\t(xi) N_{\\Out(E)}(\\Out_S(E)) does not have an element permuting the involutions transitively");
-            return false;
-        fi;
-        # lift check -- the element of order 2^a - 1 must lift to N_S(E)
-        N := Normalizer(S, E);
-        A := AutomorphismGroup(N);
-        if Size(A) mod (Size(OutSE)-1) <> 0 then 
-            Info(InfoFusion, 3, "\t(xi) The map permuting involutions transitively cannot lift to N_S(E)");
-            return false;
-        fi;
-    fi;
-
-    return true;
-end );
-
-InstallMethod(IsProtoEssential, "method to check whether a subgroup is proto-essential", 
-    [IsPGroup, IsPGroup], function(S, E)
-    local i;
-
-    if S = E or not IsSubset(E, Centralizer(S,E)) then 
-        return false;
-    fi;
-
-    if not PE_FrattiniTest(S, E) then 
-        return false;
-    fi;
-
-    i := PE_RankTest(S, E);
-    if i=-1 then 
-        return false;
-    fi;
-
-    if not PE_LiftTest(S, E, i) then 
-        return false;
-    fi;
-
-    if not PE_RadicalTest(S, E, i) then 
-        return false;
-    fi;
-
-    return PE_InvolutionsConjugate(S, E, i);
-end);
-
 # TODO: Accommodate for:
 # - not checking Aut(S)-conjugates of certain subgroups
 InstallGlobalFunction(MainProtoEssentials,  function(arg...)
@@ -210,6 +11,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
             j, # final position
             q, # quotient map S/Z_i
             Q, # quotients S/Z_i
+            C0, # the proto-essential subgroups in C0
             C; # the proto-essential subgroups
 
     S := arg[1];
@@ -217,7 +19,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
     if Length(arg) > 1 then 
         onlyOne := arg[2];
     else 
-        onlyOne := false;
+        onlyOne := 1;
     fi;
 
     if IsAbelian(S) then 
@@ -226,7 +28,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
 
     p := PrimePGroup(S);
 
-    if not onlyOne then 
+    if onlyOne in [1, -1] then 
         L := LowerCentralSeries(S);
         # Deals with a bug in CompositionSeriesThrough (will be fixed in v4.18)
         L := CSThru(S, L);
@@ -244,14 +46,23 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         C := List(C, A -> Filtered(A, a -> Order(a.representative) = p));
         C := List(C, A -> List(A, a -> a.centralizer));
         C := List([1..Length(C)], i -> List(C[i], A -> PreImage(q[i], A)));
-        C := Flat(C);
-    else 
+
+        if onlyOne = -1 then 
+            Info(InfoFusion, 1, "Excluding the top iteration");
+            C0 := C[Length(C)];
+            C := Filtered(Flat(C{[2..Length(C)]}), A -> ForAll(C0, B -> not IsConjugate(S, A, B)));
+        else 
+            C := Flat(C);
+        fi;
+    elif onlyOne = 0 then
         Info(InfoFusion, 1, "Only the top iteration");
         Info(InfoFusion, 1, "Finding conjugacy classes");
 
         C := ClassesSolvableGroup(S, 0);
         C := Filtered(C, a -> Order(a.representative) = p);
         C := List(C, a -> a.centralizer);
+    else 
+        Error("Second argument must be -1, 0 or 1");
     fi;
 
     Info(InfoFusion, 1, Length(C), " subgroups, including possibly duplicates");

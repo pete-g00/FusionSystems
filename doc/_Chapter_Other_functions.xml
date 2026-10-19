@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_Other_functions">
+<Heading>Other functions</Heading>
+
+<Section Label="Chapter_Other_functions_Section_Group_actions">
+<Heading>Group actions</Heading>
+
+<ManSection>
+  <Func Arg="q" Name="OnQuotient" />
+ <Returns>a function
+</Returns>
+ <Description>
+<P/>
+ Let <Math>G</Math> be a finite group, and <Math>A</Math> be a normal subgroup in <Math>U</Math>. Let <Math>q \colon G \to G/A</Math>. The function 
+ <Code>OnQuotient(q)</Code> returns a function, such that for <Math>t \in G/A</Math> and <Math>x \in G</Math>, <Code>OnQuotient(q)(t, x)</Code> 
+ returns <Math>q(xhx^{-1})</Math>, where <Math>h \in G</Math> satisfies <Math>q(h) = t</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="G A B" Name="CentralizerMod" Label="for IsGroup, IsGroup, IsGroup"/>
+ <Returns>a subgroup of G
+</Returns>
+ <Description>
+<P/>
+ Let <Math>G</Math> be a finite group, with subgroups <Math>B \leq A \leq G</Math>, with <Math>B</Math> normal in <Math>G</Math>. The function 
+ <Code>CentralizerMod(S, A, B)</Code> returns the subgroup <Math>C_G(A/B)</Math>, given by:
+<P/>
+ <Display>C_G(A/B) := \langle x \in G \mid [A, x] \leq B \rangle.</Display>
+<P/>
+ </Description>
+</ManSection>
+
+<Example><![CDATA[
+gap> S := SmallGroup(5^6, 643);
+<pc group of size 15625 with 6 generators>
+gap> U := UpperCentralSeries(S);
+[ Group([ a6, a5, a4, a3, a1, a2 ]), Group([ a6, a5, a4, a3 ]), 
+Group([ a6, a5, a4 ]), Group([ a6, a5 ]), Group([ a6 ]), Group([  ]) ]
+gap> R := CentralizerMod(S, U[4], U[6]);
+Group([ <identity> of ..., a2, a3, a4, a5, a6 ])
+gap> R = Centralizer(S, U[4]);
+true
+gap> A := CentralizerMod(S, U[3], U[5]);
+Group([ a1, <identity> of ..., a3, a4, a5, a6 ])
+gap> A = R;
+false
+]]></Example>
+
+<ManSection>
+  <Func Arg="x phi" Name="OnImage" />
+ <Returns>an element or a subset
+</Returns>
+ <Description>
+<P/>
+ Let <Math>\phi</Math> be a map and let <Math>x</Math> be either an element or a subset of the domain of <Math>\phi</Math>. 
+ The function <Code>OnImage(x, phi)</Code> returns <Math>\phi(x)</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Func Arg="n" Name="OnImageNM" />
+ <Returns>a function
+</Returns>
+ <Description>
+<P/>
+ Let <Math>G</Math> be a group and <Math>n</Math> a nice monomorphism for (a subgroup of) <Math>\mathrm{Aut}(G)</Math>, with image <Math>A</Math>.
+ The function <Code>OnImageNM(n)</Code> returns a function such that, for some element <Math>\phi \in A</Math> and
+ an element (or a subgroup) <Math>x</Math> of <Math>G</Math>, <Code>OnImageNM(n)(x, phi)</Code> return <Math>\hat{\phi}(x)</Math>, where 
+ <Math>\hat{\phi} \in \mathrm{Aut}(G)</Math> is the preimage of <Math>\phi</Math> with respect to the injective map <Math>n</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+<Example><![CDATA[
+gap> S := SmallGroup(5^6, 642);
+<pc group of size 15625 with 6 generators>
+gap> AutS := AutomorphismGroup(S);
+<group of size 1562500 with 10 generators>
+gap> n := NiceMonomorphism(AutS);
+<action isomorphism>
+gap> AutS := n(AutS);
+<permutation group of size 1562500 with 10 generators>
+gap> V := Group(S.2, S.6);
+<pc group with 2 generators>
+gap> A := Stabilizer(AutS, V, OnImageNM(n));
+<permutation group of size 12500 with 7 generators>
+]]></Example>
+
+<ManSection>
+  <Func Arg="L x" Name="OnImageTuples" />
+ <Returns>a list
+</Returns>
+ <Description>
+<P/>
+ Let <Math>\phi</Math> be a map and let <Math>L</Math> be a list of elements in the domain of <Math>\phi</Math>. 
+ The function <Code>OnImageTuples(L, x)</Code> returns a list containing <Math>\phi(x)</Math> for each <Math>x \in L</Math>, 
+ while maintaining the order.
+<P/>
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Func Arg="S A" Name="OnImageTuplesNM" />
+ <Returns>a function
+</Returns>
+ <Description>
+<P/>
+ Let <Math>G</Math> be a group and <Math>n</Math> a nice monomorphism for (a subgroup of) <Math>\mathrm{Aut}(G)</Math>, with image <Math>A</Math>.
+ The function <Code>OnImageTuplesNM(n)</Code> returns a function such that, for some element <Math>\phi \in A</Math> and
+ a list <Math>L</Math> of elements in <Math>G</Math>, <Code>OnImageTuplesNM(n)(L, phi)</Code> return a list of elements <Math>\hat{\phi}(x)</Math>, 
+ where <Math>x \in L</Math> and <Math>\hat{\phi} \in \mathrm{Aut}(G)</Math> is the preimage of <Math>\phi</Math> with 
+ respect to the injective map <Math>n</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+</Section>
+
+<Section Label="Chapter_Other_functions_Section_Group_automorphisms">
+<Heading>Group automorphisms</Heading>
+
+<ManSection Label="AutoDoc_generated_group1">
+  <Oper Arg="G H" Name="Automizer" Label="for IsGroup, IsGroup"/>
+  <Oper Arg="A H" Name="Automizer" Label="for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite"/>
+ <Returns>a subgroup of Aut(H)
+</Returns>
+ <Description>
+<P/>
+ Let <Math>G</Math> and <Math>H</Math> be subgroups of some finite group. The group <Code>Automizer(G, H)</Code> is the automizer subgroup
+ <Math>\mathrm{Aut}_G(H)</Math>, given by:
+<P/>
+ <Display>\mathrm{Aut}_G(H) := \langle c_g \mid g \in N_G(H) \rangle,</Display>
+<P/>
+ where <Math>c_g \colon H \to H</Math> is the conjugation automorphism. It is a subgroup of <Math>\mathrm{Aut}(A)</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+<Example><![CDATA[
+gap> G := AlternatingGroup(6);
+Alt( [ 1 .. 6 ] )
+gap> S := SylowSubgroup(G, 2);
+Group([ (1,2)(3,4), (1,3)(2,4), (1,2)(5,6) ])
+gap> M := MaximalSubgroups(S);
+[ Group([ (3,4)(5,6), (1,2)(3,4) ]), Group([ (1,3)(2,4), (1,2)(3,4) ]), 
+Group([ (1,3,2,4)(5,6), (1,2)(3,4) ]) ]
+gap> AutGM := List(M, A -> Automizer(G, A));
+[ <group with 2 generators>, <group with 2 generators>, <group with 2 generators> ]
+gap> List(AutGM, StructureDescription);
+[ "S3", "S3", "C2" ]
+]]></Example>
+
+ Alternatively, if <Math>A</Math> is a subgroup of <Math>\mathrm{Aut}(G)</Math>, then
+ <Code>Automizer(A, H)</Code> returns the subgroup <Math>\mathrm{Aut}_A(H)</Math> of <Math>\mathrm{Aut}(H)</Math> given by:
+<P/>
+ <Display>\mathrm{Aut}_A(H) := \{ \alpha|_H \mid \alpha \in A, \alpha(H) = H\}.</Display>
+<P/>
+<Example><![CDATA[
+gap> S := SmallGroup(5^6, 642);
+<pc group of size 15625 with 6 generators>
+gap> V := Group(S.2, S.6);
+<pc group with 2 generators>
+gap> AutS := AutomorphismGroup(S);
+<group of size 1562500 with 10 generators>
+gap> AutSV := Automizer(AutS, V);
+<group with 7 generators>
+gap> AutV := AutomorphismGroup(V);
+<group with 4 generators>
+gap> n := NiceMonomorphism(AutV);
+<action isomorphism>
+gap> AutV := n(AutV);
+<permutation group with 4 generators>
+gap> AutSV := n(AutSV);
+<permutation group with 7 generators>
+gap> Index(AutV, AutSV);
+24
+gap> Size(AutSV);
+20
+]]></Example>
+
+<ManSection Label="AutoDoc_generated_group2">
+<Heading>Restriction of homomorphisms</Heading>
+  <Oper Arg="phi X" Name="RestrictedHomomorphism" Label="for IsGroupHomomorphism, IsGroup"/>
+  <Oper Arg="phi X" Name="RestrictedAutomorphism" Label="for IsGroupHomomorphism and IsBijective, IsGroup"/>
+ <Returns>a group automorphism
+</Returns>
+ <Description>
+<P/>
+ Let <Math>\phi \colon A \to B</Math> be a group homomorphism, and let <Math>X \leq A</Math>. The function 
+ <Code>RestrictedHomomorphism(phi, X)</Code> returns the surjective group homomorphism 
+ <Math>\phi|_X \colon X \to \phi(X)</Math> given by restriction. If <Math>\phi</Math> is also an isomorphism that fixes <Math>X</Math>, 
+ then the function <Code>RestrictedAutomorphism(phi, X)</Code> returns the group automorphism 
+ <Math>\phi|_X \colon X \to \phi(X)</Math> given by restriction.
+<P/>
+ </Description>
+</ManSection>
+
+<ManSection Label="AutoDoc_generated_group3">
+<Heading>Transfer homomorphism</Heading>
+  <Oper Arg="G S" Name="TransferHomomorphism" Label="for IsGroup, IsGroup"/>
+  <Oper Arg="G S" Name="TransferHomomorphismFp" Label="for IsGroup, IsPGroup"/>
+ <Returns>a homomorphism
+</Returns>
+ <Description>
+<P/>
+ Let <Math>G</Math> be a finite group and <Math>S \leq G</Math>. The operation <Code>TransferHomomorphism(G, S)</Code> returns the transfer homomorphism
+ <Math>\mathrm{tr}_S^G \colon G \to S/S'</Math>. Moreover, if <Math>S</Math> is a <Math>p</Math>-group, then the operation <Code>TransferHomomorphismFp(G, S)</Code> 
+ returns the transfer homomorphism <Math>\mathrm{tr'}_S^G \colon G \to S/\Phi(S)</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+</Section>
+
+<Section Label="Chapter_Other_functions_Section_Semi-characteristic_subgroups">
+<Heading>Semi-characteristic subgroups</Heading>
+
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>A \leq S</Math>. We say that <Math>S</Math> is <Emph>semi-characteristic</Emph> in <Math>S</Math> if 
+<List>
+<Item>
+<Math>A</Math> is normal in <Math>S</Math>, and
+</Item>
+<Item>
+<Math>A</Math> is fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(S)))</Math>.
+</Item>
+</List>
+<ManSection>
+  <Attr Arg="S" Name="SemiAutomorphismGroup" Label="for IsPGroup"/>
+ <Returns>a subgroup of Aut(S)
+</Returns>
+ <Description>
+<P/>
+ Let <Math>S</Math> be a <Math>p</Math>-group. The operation <Code>SemiAutomorphismGroup</Code> returns the
+ semi-automorphism group of <Math>S</Math>, which is given by <Math>\langle \mathrm{Inn}(S), O^p(O^{p'}(\mathrm{Aut}(S)))\rangle</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Attr Arg="S" Name="SemiCharacteristicSubgroups" Label="for IsPGroup"/>
+ <Returns>a list
+</Returns>
+ <Description>
+<P/>
+ Let <Math>S</Math> be a <Math>p</Math>-group. The operation <Code>SemiCharacteristicSubgroups</Code> returns all the semi-characteristic subgroups
+ of <Math>S</Math>. These are the normal subgroups of <Math>S</Math> fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(S)))</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S A" Name="IsSemiCharacteristic" Label="for IsPGroup, IsPGroup"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+<P/>
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>A</Math> be a subgroup of <Math>S</Math>. The operation <Code>IsSemiCharacteristic</Code> checks whether
+ <Math>E</Math> is a semi-characteristic in <Math>S</Math>. That is, we check whether:
+<P/>
+<List>
+<Item>
+<Math>E</Math> is normal in <Math>S</Math>, and
+</Item>
+<Item>
+<Math>E</Math> is fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(S)}))</Math>.
+</Item>
+</List>
+<P/>
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Oper Arg="S A" Name="SemiCharacteristicClosure" Label="for IsPGroup, IsPGroup"/>
+ <Returns>a subgroup of Aut(E)
+</Returns>
+ <Description>
+<P/>
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>A</Math> be a subgroup of <Math>S</Math>. The operation <Code>SemiCharacteristicClosure</Code> returns the
+ smallest semi-characteristic subgroup of <Math>S</Math> containing <Math>A</Math>. This is the intersection of all semi-characteristic
+ subgroups of <Math>S</Math> containing <Math>A</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+<Example><![CDATA[
+gap> S := SmallGroup(2^8, 6331);
+<pc group of size 256 with 8 generators>
+gap> E1 := Group(S.1, S.2, S.4, S.5, S.6, S.7, S.8);
+<pc group with 7 generators>
+gap> E2 := Group(S.1, S.2, S.4, S.5, S.7, S.8);
+<pc group with 6 generators>
+gap> A := Group(S.5*S.8);
+<pc group with 1 generator>
+gap> AutomorphismGroup(E1);
+<group of size 6144 with 12 generators>
+gap> AutomorphismGroup(E2);
+<group of size 12288 with 13 generators>
+gap> IsCharacteristicSubgroup(E1, A);
+false
+gap> IsCharacteristicSubgroup(E2, A);
+false
+gap> IsPGroup(E1);
+true
+gap> IsPGroup(E2);
+true
+gap> SemiAutomorphismGroup(E1);
+<group of size 384 with 8 generators>
+gap> SemiAutomorphismGroup(E2);
+<group of size 3072 with 11 generators>
+gap> IsPGroup(A);
+true
+gap> IsSemiCharacteristic(E1, A);
+true
+gap> IsSemiCharacteristic(E2, A);
+false
+gap> SemiCharacteristicClosure(E2, A);
+Group([ f4, f5, f8, f4*f5, f4*f8, f5*f8, f4*f5*f8 ])
+]]></Example>
+
+</Section>
+
+</Chapter>
+
