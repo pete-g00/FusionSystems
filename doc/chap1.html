@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (FusionSystems) - Chapter 1: Automizer Sequences</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap1"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap1_mj.html">[MathJax on]</a></p>
+<p><a id="X7E5B05DD7D971312" name="X7E5B05DD7D971312"></a></p>
+<div class="ChapSects"><a href="chap1.html#X7E5B05DD7D971312">1 <span class="Heading">Automizer Sequences</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X8173135A7D187358">1.1 <span class="Heading">The functions</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X8470CDE284146146">1.1-1 FindReducedSequences</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X833D9B1081E67538">1.1-2 IsomorphismSequences</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7883D0967BF7D1EE">1.1-3 ValidAutomizers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7BE2D5B082F2BCA7">1.1-4 FindSmallestBorel</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X81A3ED2D7EBFAE5D">1.1-5 IsAutomizerBorelCompatible</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X78334C0C8079F141">1.1-6 IsCompatibleSequence</a></span>
+</div></div>
+</div>
+
+<h3>1 <span class="Heading">Automizer Sequences</span></h3>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, with proto-essential subgroups <span class="Math">E_1, \dots, E_n</span>. An <em>automizer sequence</em> is a list <span class="Math">P := [H_{i_1}, \dots, H_{i_k}]</span>, where <span class="Math">H_{i_j} \leq \textrm{Aut}(E_{i_j})</span> is a valid automizer for <span class="Math">E_{i_j}</span> in <span class="Math">S</span>. In other words, <span class="Math">\textrm{Aut}_S(E_{i_j})</span> is a Sylow <span class="Math">p</span>-subgroup of <span class="Math">H_{i_j})</span>, and <span class="Math">H_{i_j}/\textrm{Inn}(E_{i_j})</span> contains a strongly <span class="Math">p</span>-embedded subgroup. Note that we do not include a choice of <span class="Math">H_S \leq \textrm{Aut}(S)</span> here. These are prototypes for saturated fusion systems. In this chapter, we describe processes to determine many important properties about automizer sequences that will allow us to determine whether the corresponding fusion system would be reduced.</p>
+
+<p><a id="X8173135A7D187358" name="X8173135A7D187358"></a></p>
+
+<h4>1.1 <span class="Heading">The functions</span></h4>
+
+<p><a id="X8470CDE284146146" name="X8470CDE284146146"></a></p>
+
+<h5>1.1-1 FindReducedSequences</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FindReducedSequences</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of valid Aut_F(E)</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, and let <span class="Math">L</span> be a list of subgroups of <span class="Math">S</span>, all of which are proto-essential in <span class="Math">S</span>. We compute all possible automizer sequences involving the subgroups in <span class="Math">L</span> that could lead to reduced fusion systems.</p>
+
+<p><a id="X833D9B1081E67538" name="X833D9B1081E67538"></a></p>
+
+<h5>1.1-2 IsomorphismSequences</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsomorphismSequences</code>( <var class="Arg">S</var>, <var class="Arg">P1</var>, <var class="Arg">P2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: an isomorphism mapping</p>
+
+<p>Given two automizer sequences <span class="Math">P_1</span> and <span class="Math">P_2</span>, check whether there exists some <span class="Math">\phi \in \textrm{Aut}(S)</span> such that <span class="Math">P_1^\phi = P_2</span>. This computation mimics isomorphism of fusion systems. The action of <span class="Math">\phi</span> is dependent of the ordering of the <span class="Math">P_i</span>'s.</p>
+
+<p><a id="X7883D0967BF7D1EE" name="X7883D0967BF7D1EE"></a></p>
+
+<h5>1.1-3 ValidAutomizers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ValidAutomizers</code>( <var class="Arg">S</var>, <var class="Arg">E</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>Finds valid automizers for <span class="Math">E</span> in <span class="Math">S</span>. This is not part of the proto-essentials test and forms the first step in the actual construction of fusion systems. Nonetheless, if a subgroup is proto-essential, then it must have a valid automizer. This function does not construct all subgroups of <span class="Math">\textrm{Aut}(E)/O_p(\textrm{Aut}(E))</span>, and instead uses iterative maximal subgroup condition to do so.</p>
+
+<p><a id="X7BE2D5B082F2BCA7" name="X7BE2D5B082F2BCA7"></a></p>
+
+<h5>1.1-4 FindSmallestBorel</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FindSmallestBorel</code>( <var class="Arg">S</var>, <var class="Arg">AutFE</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a group</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, and let <span class="Math">E &lt; S</span> with some fixed <span class="Math">H_E \leq \textrm{Aut}(E)</span> part of an automizer sequence. The operation <code class="code">FindSmallestBorel</code> computes the subgroup of <span class="Math">\textrm{Aut}(S)</span> consisting of extensions from <span class="Math">N_{H_E}(\textrm{Aut}_S(E))</span>. If not every map in the normalizer subgroup exists, we return <code class="code">fail</code>.</p>
+
+<p><a id="X81A3ED2D7EBFAE5D" name="X81A3ED2D7EBFAE5D"></a></p>
+
+<h5>1.1-5 IsAutomizerBorelCompatible</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAutomizerBorelCompatible</code>( <var class="Arg">S</var>, <var class="Arg">AutFS</var>, <var class="Arg">AutFE</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, and let <span class="Math">E &lt; S</span> with some fixed <span class="Math">H_E \leq \textrm{Aut}(E)</span> part of an automizer sequence. Let <span class="Math">H_S \leq \textrm{Aut}(S)</span> be a subgroup. The operation <code class="code">IsAutomizerBorelCompatible</code> checks whether the restrictions of <span class="Math">H_S</span> are <em>compatible</em> with <span class="Math">H_E</span>. In particular, if <span class="Math">A_0 \leq \textrm{Aut}(E)</span> consists of restrictions from <span class="Math">H_S</span>, we have that</p>
+
+<p class="pcenter">O^{p'}(\langle A_0, H_E \rangle) = H_E.</p>
+
+<p><a id="X78334C0C8079F141" name="X78334C0C8079F141"></a></p>
+
+<h5>1.1-6 IsCompatibleSequence</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsCompatibleSequence</code>( <var class="Arg">S</var>, <var class="Arg">P</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group and let <span class="Math">P</span> be an automizer sequence. The operation <code class="code">IsCompatibleSequence</code> checks whether <span class="Math">P</span> can lead to a saturated fusion system. Note that there can be false positives -- <span class="Math">P</span> may not lead to a saturated fusion system (based on the analysis of centric, radical subgroups) but passes this test.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

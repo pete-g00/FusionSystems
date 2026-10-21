@@ -1,1 +1,132 @@
-Placeholder
+  
+  
+                                [1X FusionSystems [101X
+  
+  
+                            [1X Fusion systems in [5XGAP[105X [101X
+  
+  
+                                      0.1
+  
+  
+                                21 October 2026
+  
+  
+                                  Pete Gautam
+  
+                                  Justin Lynd
+  
+  
+  
+  Pete Gautam
+      Email:    [7Xmailto:pratyush.gautam@manchester.ac.uk[107X
+      Homepage: [7Xhttps://github.com/pete-g00[107X
+      Address:  [33X[0;14YAlan Turing Building,[133X
+                [33X[0;14YUniversity of Manchester,[133X
+                [33X[0;14YManchester,[133X
+                [33X[0;14YM13 9PY,[133X
+                [33X[0;14YUnited Kingdom[133X
+  
+  
+  Justin Lynd
+      Email:    [7Xmailto:lynd@louisiana.edu[107X
+      Homepage: [7Xhttps://userweb.ucs.louisiana.edu/~jxl7583/[107X
+      Address:  [33X[0;14YMathematics Department[133X
+                [33X[0;14YUniversity of Louisiana at Lafayette[133X
+                [33X[0;14Y217 Maxim Doucet Hall, P.O. Box 43568[133X
+                [33X[0;14YLafayette, LA 70504-3568 USA[133X
+  
+  
+  
+  -------------------------------------------------------
+  [1XAbstract[101X
+  [33X[0;0YThe  FusionSystems  package  allows  for  computation  with  fusion systems.
+  Currently, it supports finding proto-essential subgroups for a given p-group
+  and checking whether it could support reduced fusion systems.[133X
+  
+  
+  -------------------------------------------------------
+  [1XCopyright[101X
+  [33X[0;0YFusionSystems  is free software; you can redistribute and/or modify it under
+  the      terms      of      the      GNU      General     Public     License
+  ([7Xhttps://www.fsf.org/licenses/gpl.html[107X)  as  published  by the Free Software
+  Foundation;  either version 2 of the License, or (at your opinion) any later
+  version.[133X
+  
+  
+  -------------------------------------------------------
+  [1XAcknowledgements[101X
+  [33X[0;0YWe  thank Martin van Beek for helping expand the list of proto-essential and
+  reduced  checks.  We  also  thank  David  Burrell and Josh Bridges for their
+  contributions to the project.[133X
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (FusionSystems)[101X
+  
+  1 [33X[0;0YAutomizer Sequences[133X
+    1.1 [33X[0;0YThe functions[133X
+      1.1-1 FindReducedSequences
+      1.1-2 IsomorphismSequences
+      1.1-3 ValidAutomizers
+      1.1-4 FindSmallestBorel
+      1.1-5 IsAutomizerBorelCompatible
+      1.1-6 IsCompatibleSequence
+  2 [33X[0;0YOther functions[133X
+    2.1 [33X[0;0YGroup actions[133X
+      2.1-1 OnQuotient
+      2.1-2 CentralizerMod
+      2.1-3 OnImage
+      2.1-4 OnImageNM
+      2.1-5 OnImageTuples
+      2.1-6 OnImageTuplesNM
+    2.2 [33X[0;0YGroup automorphisms[133X
+      2.2-1 Automizer
+      2.2-2 [33X[0;0YRestriction of homomorphisms[133X
+      2.2-3 [33X[0;0YTransfer homomorphism[133X
+    2.3 [33X[0;0YSemi-characteristic subgroups[133X
+      2.3-1 SemiAutomorphismGroup
+      2.3-2 SemiCharacteristicSubgroups
+      2.3-3 IsSemiCharacteristic
+      2.3-4 SemiCharacteristicClosure
+  3 [33X[0;0YChecks for proto-essentials[133X
+    3.1 [33X[0;0YThe main functions[133X
+      3.1-1 IsProtoEssential
+      3.1-2 IsProtoEssentialNC
+    3.2 [33X[0;0YThe specific functions[133X
+      3.2-1 Zed0
+      3.2-2 Zed0Test
+      3.2-3 RankTest
+      3.2-4 ModuleTest
+      3.2-5 FrattiniTest
+      3.2-6 LiftTest
+      3.2-7 ValidAutTest
+      3.2-8 RadicalTest
+  4 [33X[0;0YProto-essential subgroups[133X
+    4.1 [33X[0;0YBrief description of the algorithm[133X
+    4.2 [33X[0;0YThe operations[133X
+      4.2-1 AllProtoEssentials
+      4.2-2 MainProtoEssentials
+      4.2-3 GenerateProtoEssentials
+  5 [33X[0;0YChecks for reduced fusion systems[133X
+    5.1 [33X[0;0YThe main functions[133X
+      5.1-1 PossiblySupportsReducedFusionSystems
+      5.1-2 PossiblySupportsReducedFusionSystems_PE
+    5.2 [33X[0;0YThe specific functions[133X
+      5.2-1 IsDSWGroup
+      5.2-2 ExponentTest
+      5.2-3 AbelianTest
+      5.2-4 DerivedCyclicTest
+      5.2-5 ValidAutTest
+      5.2-6 OmegaAbelianizationTest
+      5.2-7 [33X[0;0YTransfer test for a group[133X
+      5.2-8 [33X[0;0YTransfer test with a list[133X
+      5.2-9 C0Test
+      5.2-10 CTest
+      5.2-11 SemiCharacteristicGeneratedTest
+      5.2-12 CoreTest
+  
+  
+  [32X

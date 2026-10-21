@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (FusionSystems) - Chapter 3: Checks for proto-essentials</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap3"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap3_mj.html">[MathJax on]</a></p>
+<p><a id="X7A73DFD382D9C7CF" name="X7A73DFD382D9C7CF"></a></p>
+<div class="ChapSects"><a href="chap3.html#X7A73DFD382D9C7CF">3 <span class="Heading">Checks for proto-essentials</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7D3DC4ED855DC13C">3.1 <span class="Heading">The main functions</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7957360F807FC82A">3.1-1 IsProtoEssential</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7808730C7E611205">3.1-2 IsProtoEssentialNC</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X85683E4783BE234C">3.2 <span class="Heading">The specific functions</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7DBEBC14800167CD">3.2-1 Zed0</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X851311DE86369330">3.2-2 Zed0Test</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7A5DE7187BF3F208">3.2-3 RankTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7CC5E68381F09D12">3.2-4 ModuleTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X83A6E2E1864BAA7C">3.2-5 FrattiniTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X78A2281A78C9C48B">3.2-6 LiftTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X86FDD62186F7F9CA">3.2-7 ValidAutTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7D2C79FB78684AC9">3.2-8 RadicalTest</a></span>
+</div></div>
+</div>
+
+<h3>3 <span class="Heading">Checks for proto-essentials</span></h3>
+
+<p>In this chapter, we describe all the tests currently implemented in GAP that test whether a subgroup <span class="Math">E</span> of a <span class="Math">p</span>-group <span class="Math">S</span> is proto-essential. Recall that <span class="Math">E</span> is proto-essential in <span class="Math">S</span> if there <em>could</em> exist a saturated fusion system <span class="Math">\mathcal{F}</span> on <span class="Math">S</span> such that <span class="Math">E \in \mathcal{E}(\mathcal{F})</span>.</p>
+
+<p><a id="X7D3DC4ED855DC13C" name="X7D3DC4ED855DC13C"></a></p>
+
+<h4>3.1 <span class="Heading">The main functions</span></h4>
+
+<p><a id="X7957360F807FC82A" name="X7957360F807FC82A"></a></p>
+
+<h5>3.1-1 IsProtoEssential</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsProtoEssential</code>( <var class="Arg">S</var>, <var class="Arg">E</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group and <span class="Math">E</span> be a subgroup of <span class="Math">S</span>. The operation <code class="code">IsProtoEssential</code> checks whether <span class="Math">E</span> is a proto-essential subgroup of <span class="Math">S</span>.</p>
+
+<p>This function checks whether the group <span class="Math">E</span> satisfies certain properties with respect to <span class="Math">S</span> that are known to hold when <span class="Math">E</span> is an essential subgroup in some fusion system <span class="Math">\mathcal{F}</span> on <span class="Math">E</span>. In this process, we construct (in order):</p>
+
+
+<ul>
+<li><p><span class="Math">C_S(E)</span>;</p>
+
+</li>
+<li><p><span class="Math">N_S(E)</span>;</p>
+
+</li>
+<li><p><span class="Math">\mathrm{Aut}(N_S(E))</span>; and</p>
+
+</li>
+<li><p><span class="Math">\mathrm{Aut}(E)</span>.</p>
+
+</li>
+</ul>
+<p>Each computation is considered more expensive than the previous one. See Section &lt;Ref Label="Section_PEChecks"/&gt; for the list of tests currently implemented.</p>
+
+<p>Note that it is possible that <span class="Math">E</span> is found to be proto-essential even though there is no fusion system <span class="Math">\mathcal{F}</span> on <span class="Math">S</span> with <span class="Math">E \in \mathcal{E}(\mathcal{F})</span>. This can be for various reasons, for example, <span class="Math">E</span> could be essential in <span class="Math">\mathcal{F}</span> only if there is an overgroup of <span class="Math">E</span> that is also essential, but there is no such group. Some of these cases may be ruled out using automizer sequences, but it cannot be fully determined without constructing the actual fusion systems.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^4, 7);</span>
+&lt;pc group of size 81 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := SubgroupsSolvableGroup(S);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := Filtered(C, A -&gt; IsProtoEssential(S, A));</span>
+[ Group([ f3, f4, f1 ]), Group([ f1, f4 ]), Group([ f3, f4, f2 ]) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(C, StructureDescription);</span>
+[ "(C3 x C3) : C3", "C3 x C3", "C3 x C3 x C3" ]
+</pre></div>
+
+<p><a id="X7808730C7E611205" name="X7808730C7E611205"></a></p>
+
+<h5>3.1-2 IsProtoEssentialNC</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsProtoEssentialNC</code>( <var class="Arg">S</var>, <var class="Arg">E</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>The operation <code class="code">IsProtoEssentialNC</code> behaves like <code class="code">IsProtoEssential</code>, but further assumes that:</p>
+
+
+<ul>
+<li><p><span class="Math">E</span> is a proper subgroup of <span class="Math">S</span>;</p>
+
+</li>
+<li><p><span class="Math">C_S(E) \leq E</span>;</p>
+
+</li>
+<li><p><span class="Math">E</span> passes <code class="code">Zed0Test</code>.</p>
+
+</li>
+</ul>
+<p><a id="X85683E4783BE234C" name="X85683E4783BE234C"></a></p>
+
+<h4>3.2 <span class="Heading">The specific functions</span></h4>
+
+<p><a id="X7DBEBC14800167CD" name="X7DBEBC14800167CD"></a></p>
+
+<h5>3.2-1 Zed0</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Zed0</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a subgroup</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group. The function <code class="code">Zed0</code> computes the subgroup <span class="Math">Z_0</span> of <span class="Math">S</span>, which is given by:</p>
+
+<p class="pcenter">Z_0 := \langle x \in Z_2(S) \mid |[S, x]| \leq p \rangle.</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group and <span class="Math">E</span> be a subgroup of <span class="Math">S</span>. The function <code class="code">Zed0Test</code> checks that one of the following holds:</p>
+
+
+<ul>
+<li><p><span class="Math">Z_0 \leq E</span>; or</p>
+
+</li>
+<li><p><span class="Math">[N_S(E) : E] = p</span>, and there exists some <span class="Math">x \in \Omega(Z(E))</span> such that <span class="Math">E = C_S(x)</span>.</p>
+
+</li>
+</ul>
+<p>Note that this function is not used when constructing <span class="Math">\mathfrak{C}</span> as the choice of <span class="Math">x</span> is easier to find while the set <span class="Math">\mathfrak{C}_0</span> is being constructed. This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBAOV17">[AOV17, Proposition 2.3(a)]</a> (proven for <span class="Math">p=2</span>).</p>
+
+<p><a id="X851311DE86369330" name="X851311DE86369330"></a></p>
+
+<h5>3.2-2 Zed0Test</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Zed0Test</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a subgroup</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^7, 931);</span>
+&lt;pc group of size 128 with 7 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Z0 := Zed0(S);</span>
+Group([ f6, f7 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := SubgroupsSolvableGroup(S);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(C);</span>
+135
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Number(C, A -&gt; Zed0Test(S,A));</span>
+66
+</pre></div>
+
+<p><a id="X7A5DE7187BF3F208" name="X7A5DE7187BF3F208"></a></p>
+
+<h5>3.2-3 RankTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RankTest</code>( <var class="Arg">S</var>, <var class="Arg">E</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a number</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group and <span class="Math">E</span> be a subgroup of <span class="Math">S</span>. The function <code class="code">RankTest</code> checks that <span class="Math">\textrm{Out}_S(E)</span> is isomorphic to a Sylow <span class="Math">p</span>-subgroup of a group containing a strongly <span class="Math">p</span>-embedded subgroup. If so, we return a value specifying its type, namely:</p>
+
+
+<ul>
+<li><p><span class="Math">0</span> -- <span class="Math">\textrm{Out}_S(E)</span> is cyclic or quaternion;</p>
+
+</li>
+<li><p><span class="Math">1</span> -- <span class="Math">\textrm{Out}_S(E)</span> is elementary abelian of order <span class="Math">\geq p^2</span>;</p>
+
+</li>
+<li><p><span class="Math">2</span> -- Sylow <span class="Math">p</span>-subgroup of <span class="Math">\textrm{PSU}_3(p^n)</span>;</p>
+
+</li>
+<li><p><span class="Math">3</span> -- Sylow <span class="Math">2</span>-subgroup of <span class="Math">\mathrm{Sz}(2^{2n+1})</span>;</p>
+
+</li>
+<li><p><span class="Math">4</span> -- Sylow <span class="Math">3</span>-subgroup of <span class="Math">{^2\mathrm{G}}_2(3^{2n+1})</span>; and</p>
+
+</li>
+<li><p><span class="Math">5</span> -- <span class="Math">3^{1+2}_-</span> and <span class="Math">5^{1+2}_-</span>.</p>
+
+</li>
+</ul>
+<p>We return <span class="Math">-1</span> none of the cases above apply. During the process, we also check that the subgroup <span class="Math">E</span> has sufficiently high rank to ensure that <span class="Math">\mathrm{Aut}(E)</span> has a possible valid section.</p>
+
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBSAM14">[Sam14, Proposition 6.9]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^6, 479);</span>
+&lt;pc group of size 729 with 6 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">A := First(MaximalSubgroups(S), IsElementaryAbelian);</span>
+Group([ f2, f3, f4, f5, f6 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">B := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 3 </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">              and not IsElementaryAbelian(A));</span>
+Group([ f1, f3, f4, f5, f6 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 9);</span>
+Group([ f1, f2, f3, f5, f6 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">T := Intersection(A, B);</span>
+Group([ f3^2, f4^2, f5^2, f6^2 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">U := Intersection(A, B, C);</span>
+Group([ f3^2, f5^2, f6^2 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RankTest(S, A);</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RankTest(S, B);</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RankTest(S, C);</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RankTest(S, T);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RankTest(S, U);</span>
+-1
+</pre></div>
+
+<p><a id="X7CC5E68381F09D12" name="X7CC5E68381F09D12"></a></p>
+
+<h5>3.2-4 ModuleTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ModuleTest</code>( <var class="Arg">S</var>, <var class="Arg">E</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a number</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">2</span>-group and <span class="Math">E</span> be a subgroup of <span class="Math">S</span>. The function <code class="code">ModuleTest</code> checks that, if <span class="Math">\mathrm{Out}_S(E)</span> has order <span class="Math">2^k</span> (for <span class="Math">k \geq 2</span>), then for all <span class="Math">x \in \mathrm{Out}_S(E)</span>, if <span class="Math">x \neq 1</span>, then <span class="Math">[x, E/\Phi(E)]</span> is not cyclic.</p>
+
+<p>This test applies at <span class="Math">p=2</span>. It is based on <a href="chapBib.html#biBOV">[OV09, Proposition 3.3(c)]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^7, 931);</span>
+&lt;pc group of size 128 with 7 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := SubgroupsSolvableGroup(S);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(C);</span>
+135
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Number(C, A -&gt; Zed0Test(S,A) and ModuleTest(S,A));</span>
+24
+</pre></div>
+
+<p><a id="X83A6E2E1864BAA7C" name="X83A6E2E1864BAA7C"></a></p>
+
+<h5>3.2-5 FrattiniTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FrattiniTest</code>( <var class="Arg">S</var>, <var class="Arg">E</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group and <span class="Math">E</span> be a subgroup of <span class="Math">S</span>. The function <code class="code">FrattiniTest</code> checks that</p>
+
+<p class="pcenter">C_{N_S(E)}(E/\Phi(E)) = E.</p>
+
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBsporadics1">[Gau27, Appendix A]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^4, 7);</span>
+&lt;pc group of size 81 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">A := First(MaximalSubgroups(S), A -&gt; IsElementaryAbelian(A));</span>
+Group([ f2, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">B := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 3 </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">              and not IsElementaryAbelian(A));</span>
+Group([ f1, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 9);</span>
+Group([ f1*f2^2, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">T := Intersection(A, B);</span>
+Group([ f3^2, f4^2 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FrattiniTest(S, A);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FrattiniTest(S, B);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FrattiniTest(S, C);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FrattiniTest(S, T);</span>
+false
+</pre></div>
+
+<p><a id="X78A2281A78C9C48B" name="X78A2281A78C9C48B"></a></p>
+
+<h5>3.2-6 LiftTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LiftTest</code>( <var class="Arg">S</var>, <var class="Arg">E</var>, <var class="Arg">i</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, <span class="Math">E</span> be a subgroup of <span class="Math">S</span> of type <span class="Math">i</span> (see <code class="code">RankTest</code>). The function <code class="code">LiftTest</code> checks whether the maps in <span class="Math">N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))</span> are present as expected. In particular, there is some value <span class="Math">a</span> known to divide <span class="Math">N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))</span> for each choice of <span class="Math">i</span>. We check that <span class="Math">a</span> divides:</p>
+
+
+<ul>
+<li><p><span class="Math">|\mathrm{Aut}(N_S(E))|</span>;</p>
+
+</li>
+<li><p><span class="Math">|N_{\mathrm{Aut}(E)}(\mathrm{Aut}_S(E))|</span>; and</p>
+
+</li>
+<li><p><span class="Math">|N_{\mathrm{Out}(E)}(\mathrm{Out}_S(E)) : C_{\mathrm{Out}(E)}(\mathrm{Out}_S(E))|</span>.</p>
+
+</li>
+</ul>
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBsporadics1">[Gau27, Lemma A.1]</a> and <a href="chapBib.html#biBOV">[OV09, Proposition 3.3(b)]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^6, 479);</span>
+&lt;pc group of size 729 with 6 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">A := First(MaximalSubgroups(S), IsElementaryAbelian);</span>
+Group([ f2, f3, f4, f5, f6 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">B := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 3 </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">              and not IsElementaryAbelian(A));</span>
+Group([ f1, f3, f4, f5, f6 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 9);</span>
+Group([ f1, f2, f3, f5, f6 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">T := Intersection(A, B);</span>
+Group([ f3^2, f4^2, f5^2, f6^2 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LiftTest(S, A, 0);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LiftTest(S, B, 0);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LiftTest(S, C, 0);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LiftTest(S, T, 1);</span>
+false
+</pre></div>
+
+<p><a id="X86FDD62186F7F9CA" name="X86FDD62186F7F9CA"></a></p>
+
+<h5>3.2-7 ValidAutTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ValidAutTest</code>( <var class="Arg">S</var>, <var class="Arg">E</var>, <var class="Arg">i</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, <span class="Math">E</span> be a subgroup of <span class="Math">S</span> of type <span class="Math">i</span> (see <code class="code">RankTest</code>). The function <code class="code">ValidAutTest</code> checks whether there is a valid section of <span class="Math">\mathrm{Aut}(E)</span> that contains the expected <span class="Math">\mathrm{Aut}_{\mathcal{F}}(E)</span>. Note that this check is up to (order of) composition factors, and does not imply that the expected section actually exists inside <span class="Math">\mathrm{Aut}(E)</span>.</p>
+
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBSAM14">[Sam14, Proposition 6.9]</a> or <a href="chapBib.html#biBPS_MAGMA">[PS21, Proposition 4.5]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^4, 7);</span>
+&lt;pc group of size 81 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">A := First(MaximalSubgroups(S), A -&gt; IsElementaryAbelian(A));</span>
+Group([ f2, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">B := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 3 </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">              and not IsElementaryAbelian(A));</span>
+Group([ f1, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 9);</span>
+Group([ f1*f2^2, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ValidAutTest(S, A, 0);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ValidAutTest(S, B, 0);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ValidAutTest(S, C, 0);</span>
+false
+</pre></div>
+
+<p><a id="X7D2C79FB78684AC9" name="X7D2C79FB78684AC9"></a></p>
+
+<h5>3.2-8 RadicalTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RadicalTest</code>( <var class="Arg">S</var>, <var class="Arg">E</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, <span class="Math">E</span> be a proto-essential subgroup. The function <code class="code">RadicalTest</code>checks whether</p>
+
+<p class="pcenter">|O_p(\textrm{Aut}(E)) \cap \textrm{Aut}_S(E)| = [E : Z(E)].</p>
+
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBPS_MAGMA">[PS21, Proposition 4.8(2)]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^4, 7);</span>
+&lt;pc group of size 81 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">A := First(MaximalSubgroups(S), A -&gt; IsElementaryAbelian(A));</span>
+Group([ f2, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">B := First(MaximalSubgroups(S), A -&gt; </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">              Exponent(A) = 3 and not IsElementaryAbelian(A));</span>
+Group([ f1, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := First(MaximalSubgroups(S), A -&gt; Exponent(A) = 9);</span>
+Group([ f1*f2^2, f3, f4 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RadicalTest(S, A);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RadicalTest(S, B);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RadicalTest(S, C);</span>
+false
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

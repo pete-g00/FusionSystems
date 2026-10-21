@@ -1,0 +1,334 @@
+  
+  [1X3 [33X[0;0YChecks for proto-essentials[133X[101X
+  
+  [33X[0;0YIn this chapter, we describe all the tests currently implemented in GAP that
+  test  whether  a subgroup [23XE[123X of a [23Xp[123X-group [23XS[123X is proto-essential. Recall that [23XE[123X
+  is  proto-essential  in  [23XS[123X  if  there  [13Xcould[113X exist a saturated fusion system
+  [23X\mathcal{F}[123X on [23XS[123X such that [23XE \in \mathcal{E}(\mathcal{F})[123X.[133X
+  
+  
+  [1X3.1 [33X[0;0YThe main functions[133X[101X
+  
+  [1X3.1-1 IsProtoEssential[101X
+  
+  [33X[1;0Y[29X[2XIsProtoEssential[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X be a [23Xp[123X-group and [23XE[123X be a subgroup of [23XS[123X. The operation [10XIsProtoEssential[110X
+  checks whether [23XE[123X is a proto-essential subgroup of [23XS[123X.[133X
+  
+  [33X[0;0YThis  function  checks whether the group [23XE[123X satisfies certain properties with
+  respect  to [23XS[123X that are known to hold when [23XE[123X is an essential subgroup in some
+  fusion system [23X\mathcal{F}[123X on [23XE[123X. In this process, we construct (in order):[133X
+  
+  [30X    [33X[0;6Y[23XC_S(E)[123X;[133X
+  
+  [30X    [33X[0;6Y[23XN_S(E)[123X;[133X
+  
+  [30X    [33X[0;6Y[23X\mathrm{Aut}(N_S(E))[123X; and[133X
+  
+  [30X    [33X[0;6Y[23X\mathrm{Aut}(E)[123X.[133X
+  
+  [33X[0;0YEach  computation  is  considered  more expensive than the previous one. See
+  Section  <Ref  Label="Section_PEChecks"/>  for  the  list of tests currently
+  implemented.[133X
+  
+  [33X[0;0YNote  that  it is possible that [23XE[123X is found to be proto-essential even though
+  there    is    no    fusion   system   [23X\mathcal{F}[123X   on   [23XS[123X   with   [23XE   \in
+  \mathcal{E}(\mathcal{F})[123X.  This  can  be for various reasons, for example, [23XE[123X
+  could be essential in [23X\mathcal{F}[123X only if there is an overgroup of [23XE[123X that is
+  also essential, but there is no such group. Some of these cases may be ruled
+  out  using  automizer  sequences,  but it cannot be fully determined without
+  constructing the actual fusion systems.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(3^4, 7);[127X[104X
+    [4X[28X<pc group of size 81 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XC := SubgroupsSolvableGroup(S);;[127X[104X
+    [4X[25Xgap>[125X [27XC := Filtered(C, A -> IsProtoEssential(S, A));[127X[104X
+    [4X[28X[ Group([ f3, f4, f1 ]), Group([ f1, f4 ]), Group([ f3, f4, f2 ]) ][128X[104X
+    [4X[25Xgap>[125X [27XList(C, StructureDescription);[127X[104X
+    [4X[28X[ "(C3 x C3) : C3", "C3 x C3", "C3 x C3 x C3" ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.1-2 IsProtoEssentialNC[101X
+  
+  [33X[1;0Y[29X[2XIsProtoEssentialNC[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YThe  operation [10XIsProtoEssentialNC[110X behaves like [10XIsProtoEssential[110X, but further
+  assumes that:[133X
+  
+  [30X    [33X[0;6Y[23XE[123X is a proper subgroup of [23XS[123X;[133X
+  
+  [30X    [33X[0;6Y[23XC_S(E) \leq E[123X;[133X
+  
+  [30X    [33X[0;6Y[23XE[123X passes [10XZed0Test[110X.[133X
+  
+  
+  [1X3.2 [33X[0;0YThe specific functions[133X[101X
+  
+  [1X3.2-1 Zed0[101X
+  
+  [33X[1;0Y[29X[2XZed0[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya subgroup[133X
+  
+  [33X[0;0YLet  [23XS[123X be a [23Xp[123X-group. The function [10XZed0[110X computes the subgroup [23XZ_0[123X of [23XS[123X, which
+  is given by:[133X
+  
+  
+  [24X[33X[0;6YZ_0 := \langle x \in Z_2(S) \mid |[S, x]| \leq p \rangle.[133X
+  
+  [124X
+  
+  [33X[0;0YLet  [23XS[123X  be  a [23Xp[123X-group and [23XE[123X be a subgroup of [23XS[123X. The function [10XZed0Test[110X checks
+  that one of the following holds:[133X
+  
+  [30X    [33X[0;6Y[23XZ_0 \leq E[123X; or[133X
+  
+  [30X    [33X[0;6Y[23X[N_S(E) : E] = p[123X, and there exists some [23Xx \in \Omega(Z(E))[123X such that [23XE
+        = C_S(x)[123X.[133X
+  
+  [33X[0;0YNote  that  this  function is not used when constructing [23X\mathfrak{C}[123X as the
+  choice  of  [23Xx[123X  is  easier  to  find  while  the  set [23X\mathfrak{C}_0[123X is being
+  constructed.  This  test  applies  at  any  prime  [23Xp[123X. It is based on [AOV17,
+  Proposition 2.3(a)] (proven for [23Xp=2[123X).[133X
+  
+  [1X3.2-2 Zed0Test[101X
+  
+  [33X[1;0Y[29X[2XZed0Test[102X( [3XS[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya subgroup[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 931);[127X[104X
+    [4X[28X<pc group of size 128 with 7 generators>[128X[104X
+    [4X[25Xgap>[125X [27XZ0 := Zed0(S);[127X[104X
+    [4X[28XGroup([ f6, f7 ])[128X[104X
+    [4X[25Xgap>[125X [27XC := SubgroupsSolvableGroup(S);;[127X[104X
+    [4X[25Xgap>[125X [27XLength(C);[127X[104X
+    [4X[28X135[128X[104X
+    [4X[25Xgap>[125X [27XNumber(C, A -> Zed0Test(S,A));[127X[104X
+    [4X[28X66[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-3 RankTest[101X
+  
+  [33X[1;0Y[29X[2XRankTest[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya number[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a [23Xp[123X-group and [23XE[123X be a subgroup of [23XS[123X. The function [10XRankTest[110X checks
+  that  [23X\textrm{Out}_S(E)[123X  is  isomorphic  to  a  Sylow  [23Xp[123X-subgroup of a group
+  containing  a  strongly  [23Xp[123X-embedded  subgroup.  If  so,  we  return  a value
+  specifying its type, namely:[133X
+  
+  [30X    [33X[0;6Y[23X0[123X -- [23X\textrm{Out}_S(E)[123X is cyclic or quaternion;[133X
+  
+  [30X    [33X[0;6Y[23X1[123X -- [23X\textrm{Out}_S(E)[123X is elementary abelian of order [23X\geq p^2[123X;[133X
+  
+  [30X    [33X[0;6Y[23X2[123X -- Sylow [23Xp[123X-subgroup of [23X\textrm{PSU}_3(p^n)[123X;[133X
+  
+  [30X    [33X[0;6Y[23X3[123X -- Sylow [23X2[123X-subgroup of [23X\mathrm{Sz}(2^{2n+1})[123X;[133X
+  
+  [30X    [33X[0;6Y[23X4[123X -- Sylow [23X3[123X-subgroup of [23X{^2\mathrm{G}}_2(3^{2n+1})[123X; and[133X
+  
+  [30X    [33X[0;6Y[23X5[123X -- [23X3^{1+2}_-[123X and [23X5^{1+2}_-[123X.[133X
+  
+  [33X[0;0YWe  return  [23X-1[123X  none  of  the cases above apply. During the process, we also
+  check  that  the  subgroup  [23XE[123X  has  sufficiently  high  rank  to ensure that
+  [23X\mathrm{Aut}(E)[123X has a possible valid section.[133X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [Sam14, Proposition 6.9].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(3^6, 479);[127X[104X
+    [4X[28X<pc group of size 729 with 6 generators>[128X[104X
+    [4X[25Xgap>[125X [27XA := First(MaximalSubgroups(S), IsElementaryAbelian);[127X[104X
+    [4X[28XGroup([ f2, f3, f4, f5, f6 ])[128X[104X
+    [4X[25Xgap>[125X [27XB := First(MaximalSubgroups(S), A -> Exponent(A) = 3 [127X[104X
+    [4X[25X>[125X [27X              and not IsElementaryAbelian(A));[127X[104X
+    [4X[28XGroup([ f1, f3, f4, f5, f6 ])[128X[104X
+    [4X[25Xgap>[125X [27XC := First(MaximalSubgroups(S), A -> Exponent(A) = 9);[127X[104X
+    [4X[28XGroup([ f1, f2, f3, f5, f6 ])[128X[104X
+    [4X[25Xgap>[125X [27XT := Intersection(A, B);[127X[104X
+    [4X[28XGroup([ f3^2, f4^2, f5^2, f6^2 ])[128X[104X
+    [4X[25Xgap>[125X [27XU := Intersection(A, B, C);[127X[104X
+    [4X[28XGroup([ f3^2, f5^2, f6^2 ])[128X[104X
+    [4X[25Xgap>[125X [27XRankTest(S, A);[127X[104X
+    [4X[28X0[128X[104X
+    [4X[25Xgap>[125X [27XRankTest(S, B);[127X[104X
+    [4X[28X0[128X[104X
+    [4X[25Xgap>[125X [27XRankTest(S, C);[127X[104X
+    [4X[28X0[128X[104X
+    [4X[25Xgap>[125X [27XRankTest(S, T);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XRankTest(S, U);[127X[104X
+    [4X[28X-1[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-4 ModuleTest[101X
+  
+  [33X[1;0Y[29X[2XModuleTest[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya number[133X
+  
+  [33X[0;0YLet  [23XS[123X be a [23X2[123X-group and [23XE[123X be a subgroup of [23XS[123X. The function [10XModuleTest[110X checks
+  that,  if [23X\mathrm{Out}_S(E)[123X has order [23X2^k[123X (for [23Xk \geq 2[123X), then for all [23Xx \in
+  \mathrm{Out}_S(E)[123X, if [23Xx \neq 1[123X, then [23X[x, E/\Phi(E)][123X is not cyclic.[133X
+  
+  [33X[0;0YThis test applies at [23Xp=2[123X. It is based on [OV09, Proposition 3.3(c)].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 931);[127X[104X
+    [4X[28X<pc group of size 128 with 7 generators>[128X[104X
+    [4X[25Xgap>[125X [27XC := SubgroupsSolvableGroup(S);;[127X[104X
+    [4X[25Xgap>[125X [27XLength(C);[127X[104X
+    [4X[28X135[128X[104X
+    [4X[25Xgap>[125X [27XNumber(C, A -> Zed0Test(S,A) and ModuleTest(S,A));[127X[104X
+    [4X[28X24[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-5 FrattiniTest[101X
+  
+  [33X[1;0Y[29X[2XFrattiniTest[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group  and  [23XE[123X be a subgroup of [23XS[123X. The function [10XFrattiniTest[110X
+  checks that[133X
+  
+  
+  [24X[33X[0;6YC_{N_S(E)}(E/\Phi(E)) = E.[133X
+  
+  [124X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [Gau27, Appendix A].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(3^4, 7);[127X[104X
+    [4X[28X<pc group of size 81 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XA := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));[127X[104X
+    [4X[28XGroup([ f2, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XB := First(MaximalSubgroups(S), A -> Exponent(A) = 3 [127X[104X
+    [4X[25X>[125X [27X              and not IsElementaryAbelian(A));[127X[104X
+    [4X[28XGroup([ f1, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XC := First(MaximalSubgroups(S), A -> Exponent(A) = 9);[127X[104X
+    [4X[28XGroup([ f1*f2^2, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XT := Intersection(A, B);[127X[104X
+    [4X[28XGroup([ f3^2, f4^2 ])[128X[104X
+    [4X[25Xgap>[125X [27XFrattiniTest(S, A);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFrattiniTest(S, B);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFrattiniTest(S, C);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFrattiniTest(S, T);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-6 LiftTest[101X
+  
+  [33X[1;0Y[29X[2XLiftTest[102X( [3XS[103X, [3XE[103X, [3Xi[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group,  [23XE[123X  be a subgroup of [23XS[123X of type [23Xi[123X (see [10XRankTest[110X). The
+  function       [10XLiftTest[110X       checks      whether      the      maps      in
+  [23XN_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))[123X    are    present    as
+  expected.   In   particular,   there   is  some  value  [23Xa[123X  known  to  divide
+  [23XN_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))[123X  for  each choice of [23Xi[123X.
+  We check that [23Xa[123X divides:[133X
+  
+  [30X    [33X[0;6Y[23X|\mathrm{Aut}(N_S(E))|[123X;[133X
+  
+  [30X    [33X[0;6Y[23X|N_{\mathrm{Aut}(E)}(\mathrm{Aut}_S(E))|[123X; and[133X
+  
+  [30X    [33X[0;6Y[23X|N_{\mathrm{Out}(E)}(\mathrm{Out}_S(E))                              :
+        C_{\mathrm{Out}(E)}(\mathrm{Out}_S(E))|[123X.[133X
+  
+  [33X[0;0YThis  test  applies  at  any  prime [23Xp[123X. It is based on [Gau27, Lemma A.1] and
+  [OV09, Proposition 3.3(b)].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(3^6, 479);[127X[104X
+    [4X[28X<pc group of size 729 with 6 generators>[128X[104X
+    [4X[25Xgap>[125X [27XA := First(MaximalSubgroups(S), IsElementaryAbelian);[127X[104X
+    [4X[28XGroup([ f2, f3, f4, f5, f6 ])[128X[104X
+    [4X[25Xgap>[125X [27XB := First(MaximalSubgroups(S), A -> Exponent(A) = 3 [127X[104X
+    [4X[25X>[125X [27X              and not IsElementaryAbelian(A));[127X[104X
+    [4X[28XGroup([ f1, f3, f4, f5, f6 ])[128X[104X
+    [4X[25Xgap>[125X [27XC := First(MaximalSubgroups(S), A -> Exponent(A) = 9);[127X[104X
+    [4X[28XGroup([ f1, f2, f3, f5, f6 ])[128X[104X
+    [4X[25Xgap>[125X [27XT := Intersection(A, B);[127X[104X
+    [4X[28XGroup([ f3^2, f4^2, f5^2, f6^2 ])[128X[104X
+    [4X[25Xgap>[125X [27XLiftTest(S, A, 0);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XLiftTest(S, B, 0);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XLiftTest(S, C, 0);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XLiftTest(S, T, 1);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-7 ValidAutTest[101X
+  
+  [33X[1;0Y[29X[2XValidAutTest[102X( [3XS[103X, [3XE[103X, [3Xi[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group,  [23XE[123X  be a subgroup of [23XS[123X of type [23Xi[123X (see [10XRankTest[110X). The
+  function   [10XValidAutTest[110X   checks   whether  there  is  a  valid  section  of
+  [23X\mathrm{Aut}(E)[123X  that  contains  the expected [23X\mathrm{Aut}_{\mathcal{F}}(E)[123X.
+  Note  that  this check is up to (order of) composition factors, and does not
+  imply that the expected section actually exists inside [23X\mathrm{Aut}(E)[123X.[133X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [Sam14, Proposition 6.9] or
+  [PS21, Proposition 4.5].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(3^4, 7);[127X[104X
+    [4X[28X<pc group of size 81 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XA := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));[127X[104X
+    [4X[28XGroup([ f2, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XB := First(MaximalSubgroups(S), A -> Exponent(A) = 3 [127X[104X
+    [4X[25X>[125X [27X              and not IsElementaryAbelian(A));[127X[104X
+    [4X[28XGroup([ f1, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XC := First(MaximalSubgroups(S), A -> Exponent(A) = 9);[127X[104X
+    [4X[28XGroup([ f1*f2^2, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XValidAutTest(S, A, 0);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XValidAutTest(S, B, 0);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XValidAutTest(S, C, 0);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-8 RadicalTest[101X
+  
+  [33X[1;0Y[29X[2XRadicalTest[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group,  [23XE[123X  be  a  proto-essential  subgroup.  The  function
+  [10XRadicalTest[110Xchecks whether[133X
+  
+  
+  [24X[33X[0;6Y|O_p(\textrm{Aut}(E)) \cap \textrm{Aut}_S(E)| = [E : Z(E)].[133X
+  
+  [124X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [PS21, Proposition 4.8(2)].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(3^4, 7);[127X[104X
+    [4X[28X<pc group of size 81 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XA := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));[127X[104X
+    [4X[28XGroup([ f2, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XB := First(MaximalSubgroups(S), A -> [127X[104X
+    [4X[25X>[125X [27X              Exponent(A) = 3 and not IsElementaryAbelian(A));[127X[104X
+    [4X[28XGroup([ f1, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XC := First(MaximalSubgroups(S), A -> Exponent(A) = 9);[127X[104X
+    [4X[28XGroup([ f1*f2^2, f3, f4 ])[128X[104X
+    [4X[25Xgap>[125X [27XRadicalTest(S, A);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XRadicalTest(S, B);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XRadicalTest(S, C);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  

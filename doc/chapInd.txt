@@ -1,0 +1,58 @@
+  
+  
+  [1XIndex[101X
+  
+  [2XAbelianTest[102X, for IsPGroup 5.2-3 
+  [2XAllProtoEssentials[102X, for IsPGroup 4.2-1 
+  [2XAutomizer[102X, for IsGroup, IsGroup 2.2-1 
+      for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite 2.2-1 
+  [2XC0Test[102X, for IsPGroup, IsList 5.2-9 
+  [2XCentralizerMod[102X, for IsGroup, IsGroup, IsGroup 2.1-2 
+  [2XCoreTest[102X, for IsPGroup, IsList 5.2-12 
+  [2XCTest[102X, for IsPGroup, IsList 5.2-10 
+  [2XDerivedCyclicTest[102X, for IsPGroup 5.2-4 
+  [2XExponentTest[102X, for IsPGroup 5.2-2 
+  [2XFindReducedSequences[102X, for IsPGroup, IsList 1.1-1 
+  [2XFindSmallestBorel[102X, for IsPGroup, IsGroupOfAutomorphismsFiniteGroup 1.1-4 
+  [2XFrattiniTest[102X, for IsPGroup, IsPGroup 3.2-5 
+  [2XGenerateProtoEssentials[102X, for IsPGroup, IsList 4.2-3 
+  [2XIsAutomizerBorelCompatible[102X, for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup 1.1-5 
+  [2XIsCompatibleSequence[102X, for IsPGroup, IsList 1.1-6 
+  [2XIsDSWGroup[102X, for IsPGroup 5.2-1 
+  [2XIsomorphismSequences[102X, for IsPGroup, IsList, IsList 1.1-2 
+  [2XIsProtoEssential[102X, for IsPGroup, IsPGroup 3.1-1 
+  [2XIsProtoEssentialNC[102X, for IsPGroup, IsPGroup 3.1-2 
+  [2XIsSemiCharacteristic[102X, for IsPGroup, IsPGroup 2.3-3 
+  [2XLiftTest[102X, for IsPGroup, IsPGroup, IsInt 3.2-6 
+  [2XMainProtoEssentials[102X 4.2-2 
+  [2XModuleTest[102X, for IsPGroup, IsPGroup 3.2-4 
+  [2XOmegaAbelianizationTest[102X, for IsPGroup 5.2-6 
+  [2XOnImage[102X 2.1-3 
+  [2XOnImageNM[102X 2.1-4 
+  [2XOnImageTuples[102X 2.1-5 
+  [2XOnImageTuplesNM[102X 2.1-6 
+  [2XOnQuotient[102X 2.1-1 
+  [2XPossiblySupportsReducedFusionSystems[102X, for IsPGroup 5.1-1 
+  [2XPossiblySupportsReducedFusionSystems_PE[102X, for IsPGroup, IsList 5.1-2 
+  [2XRadicalTest[102X, for IsPGroup, IsPGroup 3.2-8 
+  [2XRankTest[102X, RankTest 3.2-3 
+  [2XRestrictedAutomorphism[102X, for IsGroupHomomorphism and IsBijective, IsGroup 2.2-2 
+  [2XRestrictedHomomorphism[102X, for IsGroupHomomorphism, IsGroup 2.2-2 
+  [2XSemiAutomorphismGroup[102X, for IsPGroup 2.3-1 
+  [2XSemiCharacteristicClosure[102X, for IsPGroup, IsPGroup 2.3-4 
+  [2XSemiCharacteristicGeneratedTest[102X, for IsPGroup, IsList 5.2-11 
+  [2XSemiCharacteristicSubgroups[102X, for IsPGroup 2.3-2 
+  [2XTransferFpMaximalTest[102X, for IsPGroup 5.2-7 
+  [2XTransferFpTest[102X, for IsPGroup, IsList 5.2-8 
+  [2XTransferHomomorphism[102X, for IsGroup, IsGroup 2.2-3 
+  [2XTransferHomomorphismFp[102X, for IsGroup, IsPGroup 2.2-3 
+  [2XTransferMaximalTest[102X, for IsPGroup 5.2-7 
+  [2XTransferTest[102X, for IsPGroup, IsList 5.2-8 
+  [2XValidAutomizers[102X, for IsPGroup, IsPGroup 1.1-3 
+  [2XValidAutTest[102X, for IsPGroup 5.2-5 
+      for IsPGroup, IsPGroup, IsInt 3.2-7 
+  [2XZed0[102X, for IsPGroup 3.2-1 
+  [2XZed0Test[102X, Zed0Test 3.2-2 
+  
+  
+  -------------------------------------------------------

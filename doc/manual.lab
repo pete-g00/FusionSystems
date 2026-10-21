@@ -1,0 +1,79 @@
+\GAPDocLabFile{fusionsystems}
+\makelabel{fusionsystems:Title page}{}{X7D2C85EC87DD46E5}
+\makelabel{fusionsystems:Abstract}{}{X7AA6C5737B711C89}
+\makelabel{fusionsystems:Copyright}{}{X81488B807F2A1CF1}
+\makelabel{fusionsystems:Acknowledgements}{}{X82A988D47DFAFCFA}
+\makelabel{fusionsystems:Table of Contents}{}{X8537FEB07AF2BEC8}
+\makelabel{fusionsystems:Automizer Sequences}{1}{X7E5B05DD7D971312}
+\makelabel{fusionsystems:The functions}{1.1}{X8173135A7D187358}
+\makelabel{fusionsystems:Other functions}{2}{X87C3D1B984960984}
+\makelabel{fusionsystems:Group actions}{2.1}{X87115591851FB7F4}
+\makelabel{fusionsystems:Group automorphisms}{2.2}{X783030917CB43959}
+\makelabel{fusionsystems:Restriction of homomorphisms}{2.2.2}{X874E7F578433266D}
+\makelabel{fusionsystems:Transfer homomorphism}{2.2.3}{X80F6FD3E7C7E4E8D}
+\makelabel{fusionsystems:Semi-characteristic subgroups}{2.3}{X7EA0263C874496CA}
+\makelabel{fusionsystems:Checks for proto-essentials}{3}{X7A73DFD382D9C7CF}
+\makelabel{fusionsystems:The main functions}{3.1}{X7D3DC4ED855DC13C}
+\makelabel{fusionsystems:The specific functions}{3.2}{X85683E4783BE234C}
+\makelabel{fusionsystems:Proto-essential subgroups}{4}{X87BC4E4D835004DD}
+\makelabel{fusionsystems:Brief description of the algorithm}{4.1}{X86D9F65382E5F487}
+\makelabel{fusionsystems:The operations}{4.2}{X7CB2CAF3805CB749}
+\makelabel{fusionsystems:Checks for reduced fusion systems}{5}{X87497673854B812F}
+\makelabel{fusionsystems:The main functions}{5.1}{X7D3DC4ED855DC13C}
+\makelabel{fusionsystems:The specific functions}{5.2}{X85683E4783BE234C}
+\makelabel{fusionsystems:Transfer test for a group}{5.2.7}{X82E6548F81B8F05C}
+\makelabel{fusionsystems:Transfer test with a list}{5.2.8}{X7ECB69FB82C13217}
+\makelabel{fusionsystems:Bibliography}{Bib}{X7A6F98FD85F02BFE}
+\makelabel{fusionsystems:References}{Bib}{X7A6F98FD85F02BFE}
+\makelabel{fusionsystems:Index}{Ind}{X83A0356F839C696F}
+\makelabel{fusionsystems:FindReducedSequences for IsPGroup, IsList}{1.1.1}{X8470CDE284146146}
+\makelabel{fusionsystems:IsomorphismSequences for IsPGroup, IsList, IsList}{1.1.2}{X833D9B1081E67538}
+\makelabel{fusionsystems:ValidAutomizers for IsPGroup, IsPGroup}{1.1.3}{X7883D0967BF7D1EE}
+\makelabel{fusionsystems:FindSmallestBorel for IsPGroup, IsGroupOfAutomorphismsFiniteGroup}{1.1.4}{X7BE2D5B082F2BCA7}
+\makelabel{fusionsystems:IsAutomizerBorelCompatible for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup}{1.1.5}{X81A3ED2D7EBFAE5D}
+\makelabel{fusionsystems:IsCompatibleSequence for IsPGroup, IsList}{1.1.6}{X78334C0C8079F141}
+\makelabel{fusionsystems:OnQuotient}{2.1.1}{X82E23FF785C4632A}
+\makelabel{fusionsystems:CentralizerMod for IsGroup, IsGroup, IsGroup}{2.1.2}{X7FABB45881ECF282}
+\makelabel{fusionsystems:OnImage}{2.1.3}{X7E7FE55986BF5133}
+\makelabel{fusionsystems:OnImageNM}{2.1.4}{X7A23D935862598AE}
+\makelabel{fusionsystems:OnImageTuples}{2.1.5}{X87D74FC97C12B4D4}
+\makelabel{fusionsystems:OnImageTuplesNM}{2.1.6}{X7B8996CD781FBFB9}
+\makelabel{fusionsystems:Automizer for IsGroup, IsGroup}{2.2.1}{X7D9EC37E869F3256}
+\makelabel{fusionsystems:Automizer for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite}{2.2.1}{X7D9EC37E869F3256}
+\makelabel{fusionsystems:RestrictedHomomorphism for IsGroupHomomorphism, IsGroup}{2.2.2}{X874E7F578433266D}
+\makelabel{fusionsystems:RestrictedAutomorphism for IsGroupHomomorphism and IsBijective, IsGroup}{2.2.2}{X874E7F578433266D}
+\makelabel{fusionsystems:TransferHomomorphism for IsGroup, IsGroup}{2.2.3}{X80F6FD3E7C7E4E8D}
+\makelabel{fusionsystems:TransferHomomorphismFp for IsGroup, IsPGroup}{2.2.3}{X80F6FD3E7C7E4E8D}
+\makelabel{fusionsystems:SemiAutomorphismGroup for IsPGroup}{2.3.1}{X7E8444CF8156B41C}
+\makelabel{fusionsystems:SemiCharacteristicSubgroups for IsPGroup}{2.3.2}{X7E88D38982158EB1}
+\makelabel{fusionsystems:IsSemiCharacteristic for IsPGroup, IsPGroup}{2.3.3}{X840438E7843A6128}
+\makelabel{fusionsystems:SemiCharacteristicClosure for IsPGroup, IsPGroup}{2.3.4}{X8759D1937F245ED7}
+\makelabel{fusionsystems:IsProtoEssential for IsPGroup, IsPGroup}{3.1.1}{X7957360F807FC82A}
+\makelabel{fusionsystems:IsProtoEssentialNC for IsPGroup, IsPGroup}{3.1.2}{X7808730C7E611205}
+\makelabel{fusionsystems:Zed0 for IsPGroup}{3.2.1}{X7DBEBC14800167CD}
+\makelabel{fusionsystems:Zed0Test Zed0Test}{3.2.2}{X851311DE86369330}
+\makelabel{fusionsystems:RankTest RankTest}{3.2.3}{X7A5DE7187BF3F208}
+\makelabel{fusionsystems:ModuleTest for IsPGroup, IsPGroup}{3.2.4}{X7CC5E68381F09D12}
+\makelabel{fusionsystems:FrattiniTest for IsPGroup, IsPGroup}{3.2.5}{X83A6E2E1864BAA7C}
+\makelabel{fusionsystems:LiftTest for IsPGroup, IsPGroup, IsInt}{3.2.6}{X78A2281A78C9C48B}
+\makelabel{fusionsystems:ValidAutTest for IsPGroup, IsPGroup, IsInt}{3.2.7}{X86FDD62186F7F9CA}
+\makelabel{fusionsystems:RadicalTest for IsPGroup, IsPGroup}{3.2.8}{X7D2C79FB78684AC9}
+\makelabel{fusionsystems:AllProtoEssentials for IsPGroup}{4.2.1}{X7CD47D387D876A60}
+\makelabel{fusionsystems:MainProtoEssentials}{4.2.2}{X86B32ED6791EF004}
+\makelabel{fusionsystems:GenerateProtoEssentials for IsPGroup, IsList}{4.2.3}{X86B251297A8CF204}
+\makelabel{fusionsystems:PossiblySupportsReducedFusionSystems for IsPGroup}{5.1.1}{X829638DD78A8FD08}
+\makelabel{fusionsystems:PossiblySupportsReducedFusionSystemsPE for IsPGroup, IsList}{5.1.2}{X87A01C45801E726C}
+\makelabel{fusionsystems:IsDSWGroup for IsPGroup}{5.2.1}{X83567EE27C9A327E}
+\makelabel{fusionsystems:ExponentTest for IsPGroup}{5.2.2}{X7E63D2A97A637BAD}
+\makelabel{fusionsystems:AbelianTest for IsPGroup}{5.2.3}{X7F0F966F7C7E4B8D}
+\makelabel{fusionsystems:DerivedCyclicTest for IsPGroup}{5.2.4}{X782BA19382650E0B}
+\makelabel{fusionsystems:ValidAutTest for IsPGroup}{5.2.5}{X7E28CE0083D26C55}
+\makelabel{fusionsystems:OmegaAbelianizationTest for IsPGroup}{5.2.6}{X852FEF1D87916D36}
+\makelabel{fusionsystems:TransferMaximalTest for IsPGroup}{5.2.7}{X82E6548F81B8F05C}
+\makelabel{fusionsystems:TransferFpMaximalTest for IsPGroup}{5.2.7}{X82E6548F81B8F05C}
+\makelabel{fusionsystems:TransferTest for IsPGroup, IsList}{5.2.8}{X7ECB69FB82C13217}
+\makelabel{fusionsystems:TransferFpTest for IsPGroup, IsList}{5.2.8}{X7ECB69FB82C13217}
+\makelabel{fusionsystems:C0Test for IsPGroup, IsList}{5.2.9}{X8660B3728652622E}
+\makelabel{fusionsystems:CTest for IsPGroup, IsList}{5.2.10}{X823B722F86499207}
+\makelabel{fusionsystems:SemiCharacteristicGeneratedTest for IsPGroup, IsList}{5.2.11}{X830693B38724090D}
+\makelabel{fusionsystems:CoreTest for IsPGroup, IsList}{5.2.12}{X8335DE5780AAD01F}

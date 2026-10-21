@@ -1,103 +1,103 @@
-#############################################################################
-##  
-##  Demo PackageInfo.g for the GitHubPagesForGAP
-##
-
 SetPackageInfo( rec(
 
-PackageName := "GitHubPagesForGAP",
-
-Subtitle := "A GitHub Pages generator for GAP packages",
-Version := "0.4",
-Date := "10/04/2025", # dd/mm/yyyy format
-License := "0BSD",
+PackageName := "FusionSystems",
+Subtitle := "Fusion systems in GAP",
+Version := "0.1",
+Date := "21/10/2026", # dd/mm/yyyy format
+License := "GPL-2.0-or-later",
 
 Persons := [
   rec(
-    LastName      := "Horn",
-    FirstNames    := "Max",
-    IsAuthor      := true,
-    IsMaintainer  := true,
-    Email         := "mhorn@rptu.de",
-    WWWHome       := "https://www.quendi.de/math",
-    GitHubUsername:= "fingolfin",
-    PostalAddress := Concatenation(
-                       "Fachbereich Mathematik\n",
-                       "RPTU Kaiserslautern-Landau\n",
-                       "Gottlieb-Daimler-Straße 48\n",
-                       "67663 Kaiserslautern\n",
-                       "Germany" ),
-    Place         := "Kaiserslautern, Germany",
-    Institution   := "RPTU Kaiserslautern-Landau"
+    FirstNames := "Pete",
+    LastName := "Gautam",
+    WWWHome := "https://github.com/pete-g00",
+    Email := "pratyush.gautam@manchester.ac.uk",
+    IsAuthor := true,
+    IsMaintainer := true,
+    PostalAddress := "Alan Turing Building,\nUniversity of Manchester,\nManchester,\n M13 9PY,\nUnited Kingdom",
+    Place := "Manchester",
+    Institution := "University of Manchester",
   ),
-
   rec(
-    LastName      := "Thor",
-    FirstNames    := "A. U.",
-    IsAuthor      := true,
-    IsMaintainer  := false,
-    #Email         := "author@example.com",
-  ),
-
-  rec(
-    LastName      := "Itor",
-    FirstNames    := "Jan",
-    IsAuthor      := false,
-    IsMaintainer  := true,
-    #Email         := "janitor@example.com",
+    FirstNames := "Justin",
+    LastName := "Lynd",
+    WWWHome := "https://userweb.ucs.louisiana.edu/~jxl7583/",
+    Email := "lynd@louisiana.edu",
+    IsAuthor := true,
+    IsMaintainer := false,
+    PostalAddress := "Mathematics Department\nUniversity of Louisiana at Lafayette\n217 Maxim Doucet Hall, P.O. Box 43568\nLafayette, LA 70504-3568 USA",
+    Place := "Louisiana",
+    Institution := "University of Louisiana",
   ),
 ],
 
-Status := "other",
-
-# The following are not strictly necessary in your own PackageInfo.g
-# (in the sense that update.g only looks at the usual fields
-# like PackageWWWHome, ArchiveURL etc.). But they are convenient
-# if you use exactly the scheme for your package website that we propose.
-GithubUser := "gap-system",
-GithubRepository := ~.PackageName,
-GithubWWW := Concatenation("https://github.com/", ~.GithubUser, "/", ~.GithubRepository),
-
-PackageWWWHome := Concatenation("https://", ~.GithubUser, ".github.io/", ~.GithubRepository, "/"),
-README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
+#SourceRepository := rec( Type := "TODO", URL := "URL" ),
+#IssueTrackerURL := "TODO",
+PackageWWWHome := "https://TODO/",
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
-# The following assumes you are using the Github releases system. If not, adjust
-# it accordingly.
-ArchiveURL     := Concatenation(~.GithubWWW,
-                    "/releases/download/v", ~.Version, "/",
-                    ~.GithubRepository, "-", ~.Version),
+README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
+ArchiveURL     := Concatenation( ~.PackageWWWHome,
+                                 "/", ~.PackageName, "-", ~.Version ),
 
-ArchiveFormats := ".tar.gz .tar.bz2",
+ArchiveFormats := ".tar.gz",
 
-AbstractHTML := 
-  "This is a pseudo package that contains no actual\
-  <span class=\"pkgname\">GAP</span> code. Instead, it is a template for other\
-  GAP packages that allows to quickly setup GitHub Pages.",
+##  Status information. Currently the following cases are recognized:
+##    "accepted"      for successfully refereed packages
+##    "submitted"     for packages submitted for the refereeing
+##    "deposited"     for packages for which the GAP developers agreed
+##                    to distribute them with the core GAP system
+##    "dev"           for development versions of packages
+##    "other"         for all other packages
+##
+Status := "dev",
+
+AbstractHTML   :=  "The FusionSystems package allows for computation with fusion systems. Currently, it supports finding proto-essential subgroups for a given p-group and checking whether it could support reduced fusion systems.",
 
 PackageDoc := rec(
-  BookName  := "GitHubPagesForGAP",
+  BookName  := "FusionSystems",
   ArchiveURLSubset := ["doc"],
   HTMLStart := "doc/chap0.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "A GitHub Pages generator for GAP packages",
+  LongTitle := "A GAP package on fusion systems",
 ),
 
-# The following dependencies are fake and for testing / demo purposes
 Dependencies := rec(
-  GAP := ">=4.8.1",
-  NeededOtherPackages := [
-    ["GAPDoc", ">= 1.2"],
-    ["IO", ">= 4.1"],
-  ],
-  SuggestedOtherPackages := [["orb", ">= 4.2"]],
-  ExternalConditions := []
+  GAP := ">= 4.7",
+  NeededOtherPackages := [["anupq",">=3.2.1"],["autpgrp",">=1.10.2"],["format",">=1.4.3"],["crisp",">=1.4.5"]],
+  SuggestedOtherPackages := [],
+  ExternalConditions := [ ],
 ),
 
 AvailabilityTest := ReturnTrue,
 
-Keywords := ["GitHub Pages", "GAP"]
+TestFile := "tst/testall.g",
+#Keywords := [ "TODO" ],
+
+AutoDoc := rec(
+    entities := rec(
+      FUSIONSYSYTEMS := "<Package>FusionSystems</PACKAGE>"
+    ),
+    TitlePage := rec(
+      Copyright := """
+      FusionSystems is free software; you can redistribute and/or modify
+      it under the terms of the <URL Text="GNU General Public License">
+      https://www.fsf.org/licenses/gpl.html</URL> as published by
+      the Free Software Foundation; either version 2 of the License, or (at
+      your opinion) any later version.
+      """,
+      Abstract := """
+      The FusionSystems package allows for computation with fusion systems. 
+      Currently, it supports finding proto-essential subgroups for a given 
+      p-group and checking whether it could support reduced fusion systems.
+      """,
+      Acknowledgements := """
+      We thank Martin van Beek for helping expand the list of proto-essential 
+      and reduced checks. We also thank David Burrell and Josh Bridges for their 
+      contributions to the project.
+      """
+    )
+)
 
 ));
-
 
