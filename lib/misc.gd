@@ -131,7 +131,7 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and Is
 #! Alternatively, if $A$ is a subgroup of $\mathrm{Aut}(G)$, then
 #! `Automizer(A, H)` returns the subgroup $\mathrm{Aut}_A(H)$ of $\mathrm{Aut}(H)$ given by:
 #! 
-#! $$\mathrm{Aut}_A(H) := \{ \alpha|_H \mid \alpha \in A, \alpha(H) = H\}.$$
+#! $$\mathrm{Aut}_A(H) := \langle \alpha|_H \mid \alpha \in A, \alpha(H) = H \rangle.$$
 #! 
 
 #! @BeginExampleSession
@@ -222,7 +222,7 @@ DeclareAttribute("SemiCharacteristicSubgroups", IsPGroup);
 #! $E$ is a semi-characteristic in $S$. That is, we check whether:
 #! 
 #! * $E$ is normal in $S$, and
-#! * $E$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)}))$.
+#! * $E$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$.
 #! 
 #! @Arguments S A
 #! @Returns true or false

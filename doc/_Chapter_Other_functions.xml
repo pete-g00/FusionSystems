@@ -158,7 +158,7 @@ gap> List(AutGM, StructureDescription);
  Alternatively, if <Math>A</Math> is a subgroup of <Math>\mathrm{Aut}(G)</Math>, then
  <Code>Automizer(A, H)</Code> returns the subgroup <Math>\mathrm{Aut}_A(H)</Math> of <Math>\mathrm{Aut}(H)</Math> given by:
 <P/>
- <Display>\mathrm{Aut}_A(H) := \{ \alpha|_H \mid \alpha \in A, \alpha(H) = H\}.</Display>
+ <Display>\mathrm{Aut}_A(H) := \langle \alpha|_H \mid \alpha \in A, \alpha(H) = H \rangle.</Display>
 <P/>
 <Example><![CDATA[
 gap> S := SmallGroup(5^6, 642);
@@ -267,7 +267,7 @@ gap> Size(AutSV);
 <Math>E</Math> is normal in <Math>S</Math>, and
 </Item>
 <Item>
-<Math>E</Math> is fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(S)}))</Math>.
+<Math>E</Math> is fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(S)))</Math>.
 </Item>
 </List>
 <P/>

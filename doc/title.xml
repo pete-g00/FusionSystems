@@ -12,22 +12,6 @@
     0.1
   </Version>
   <Author>
-    Josh Bridges
-<Address>
- School of Mathematics,<Br/>
-University of Birmingham,<Br/>
-Edgbaston,<Br/>
-Birmingham,<Br/>
-B15 2TT,<Br/>
-United Kingdom<Br/>
-</Address>
-<Homepage>https://www.birmingham.ac.uk/staff/profiles/maths/phd-students/bridges-joshua</Homepage>
-  </Author>
-  <Author>
-    David Burrell
-<Homepage>https://github.com/davidburrell/</Homepage>
-  </Author>
-  <Author>
     Pete Gautam
 <Address>
 Alan Turing Building,<Br/>
@@ -68,8 +52,9 @@ Lafayette, LA 70504-3568 USA<Br/>
       
   </Copyright>
   <Acknowledgements>
-          We thank Martin van Beek for helping expand
-      the list of proto-essential and reduced checks.
+          We thank Martin van Beek for helping expand the list of proto-essential 
+      and reduced checks. We also thank David Burrell and Josh Bridges for their 
+      contributions to the project.
       
   </Acknowledgements>
   </TitlePage>

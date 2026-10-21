@@ -3,32 +3,10 @@ SetPackageInfo( rec(
 PackageName := "FusionSystems",
 Subtitle := "Fusion systems in GAP",
 Version := "0.1",
-Date := "19/10/2026", # dd/mm/yyyy format
+Date := "21/10/2026", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
-  rec(
-    FirstNames := "Josh",
-    LastName := "Bridges",
-    WWWHome := "https://www.birmingham.ac.uk/staff/profiles/maths/phd-students/bridges-joshua",
-    # Email := "...",
-    IsAuthor := true,
-    IsMaintainer := false,
-    PostalAddress := " School of Mathematics,\nUniversity of Birmingham,\nEdgbaston,\nBirmingham,\nB15 2TT,\nUnited Kingdom",
-    Place := "Birmingham",
-    Institution := "University of Birmingham",
-  ),
-  # rec(
-  #   FirstNames := "David",
-  #   LastName := "Burrell",
-  #   WWWHome := "https://github.com/davidburrell/",
-  #   # Email := "davidburrell@ufl.edu",
-  #   IsAuthor := true,
-  #   IsMaintainer := false,
-  #   #PostalAddress := TODO,
-  #   #Place := TODO,
-  #   # Institution := TODO
-  # ),
   rec(
     FirstNames := "Pete",
     LastName := "Gautam",
@@ -114,8 +92,9 @@ AutoDoc := rec(
       p-group and checking whether it could support reduced fusion systems.
       """,
       Acknowledgements := """
-      We thank Martin van Beek for helping expand
-      the list of proto-essential and reduced checks.
+      We thank Martin van Beek for helping expand the list of proto-essential 
+      and reduced checks. We also thank David Burrell and Josh Bridges for their 
+      contributions to the project.
       """
     )
 )
