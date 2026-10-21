@@ -20,7 +20,7 @@
 #! * $\mathrm{Aut}(N_S(E))$; and
 #! * $\mathrm{Aut}(E)$.
 #! 
-#! Each computation is considered more expensive than the previous one. See Section <Ref Label="Section_PEChecks" />
+#! Each computation is considered more expensive than the previous one. See Section <Ref Label="PEChecks" />
 #! for the list of tests currently implemented.
 #! 
 #! Note that it is possible that $E$ is found to be proto-essential even though there is no fusion system $\mathcal{F}$ on $S$
@@ -47,7 +47,7 @@ DeclareOperation("IsProtoEssential", [IsPGroup, IsPGroup]);
 #! The operation `IsProtoEssentialNC` behaves like `IsProtoEssential`, but further assumes that:
 #! * $E$ is a proper subgroup of $S$;
 #! * $C_S(E) \leq E$;
-#! * $E$ passes `PE_Zed0Test` (see <Ref Label="Operation_PEZ0Test" />)
+#! * $E$ passes `PE_Zed0Test` (see <Ref Label="PEZ0Test" />)
 #!
 #! @Arguments S E
 #! @Returns true or false
@@ -94,7 +94,7 @@ DeclareOperation("PE_Zed0Test", [IsPGroup, IsPGroup]);
 #! 66
 #! @EndExampleSession 
 
-#! @Label Oper_PERankTest
+#! @Label PERankTest
 #! @Description 
 #!
 #! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `PE_RankTest` checks that $\textrm{Out}_S(E)$ 
@@ -120,7 +120,8 @@ DeclareOperation("PE_RankTest", [IsPGroup, IsPGroup]);
 #! <pc group of size 729 with 6 generators>
 #! gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
 #! Group([ f2, f3, f4, f5, f6 ])
-#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 
+#! >               and not IsElementaryAbelian(A));
 #! Group([ f1, f3, f4, f5, f6 ])
 #! gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 #! Group([ f1, f2, f3, f5, f6 ])
@@ -182,7 +183,8 @@ DeclareOperation("PE_FrattiniTest", [IsPGroup, IsPGroup]);
 #! <pc group of size 81 with 4 generators>
 #! gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
 #! Group([ f2, f3, f4 ])
-#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 
+#! >               and not IsElementaryAbelian(A));
 #! Group([ f1, f3, f4 ])
 #! gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 #! Group([ f1*f2^2, f3, f4 ])
@@ -209,7 +211,7 @@ DeclareOperation("PE_FrattiniTest", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `PE_RankTest` <Ref Label="Oper_PERankTest" />).  
+#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `PE_RankTest` <Ref Label="PERankTest" />).  
 #! The function `PE_LiftTest` checks 
 #! whether the maps in $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ are present as expected. In particular,
 #! there is some value $a$ known to divide $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ for each choice of $i$.
@@ -229,7 +231,8 @@ DeclareOperation("PE_LiftTest", [IsPGroup, IsPGroup, IsInt]);
 #! <pc group of size 729 with 6 generators>
 #! gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
 #! Group([ f2, f3, f4, f5, f6 ])
-#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 
+#! >               and not IsElementaryAbelian(A));
 #! Group([ f1, f3, f4, f5, f6 ])
 #! gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 #! Group([ f1, f2, f3, f5, f6 ])
@@ -247,7 +250,7 @@ DeclareOperation("PE_LiftTest", [IsPGroup, IsPGroup, IsInt]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `PE_RankTest` <Ref Label="Oper_PERankTest" />).
+#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `PE_RankTest` <Ref Label="PERankTest" />).
 #!  The function `PE_ValidAutTest` checks
 #! whether there is a valid section of $\mathrm{Aut}(E)$ that contains the expected $\mathrm{Aut}_{\mathcal{F}}(E)$.
 #! Note that this check is up to (order of) composition factors, and does not imply that the expected section actually
@@ -265,7 +268,8 @@ DeclareOperation("PE_ValidAutTest", [IsPGroup, IsPGroup, IsInt]);
 #! <pc group of size 81 with 4 generators>
 #! gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
 #! Group([ f2, f3, f4 ])
-#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 
+#! >               and not IsElementaryAbelian(A));
 #! Group([ f1, f3, f4 ])
 #! gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 #! Group([ f1*f2^2, f3, f4 ])
@@ -295,7 +299,8 @@ DeclareOperation("PE_RadicalTest", [IsPGroup, IsPGroup]);
 #! <pc group of size 81 with 4 generators>
 #! gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
 #! Group([ f2, f3, f4 ])
-#! gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+#! gap> B := First(MaximalSubgroups(S), A -> 
+#! >               Exponent(A) = 3 and not IsElementaryAbelian(A));
 #! Group([ f1, f3, f4 ])
 #! gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 #! Group([ f1*f2^2, f3, f4 ])

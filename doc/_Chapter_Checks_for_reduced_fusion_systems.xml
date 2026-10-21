@@ -27,8 +27,14 @@
 <P/>
  This function checks whether the group <Math>S</Math> satisfies certain properties that are known to hold for a <Math>p</Math>-group that 
  supports reduced fusion systems. In the process, we compute the proto-essential subgroups of <Math>S</Math>, along with their 
- automorphism groups. See <Ref Label="Section_red_specific_fn"/> for the list of specific tests currently implemented.
-  We do not construct automizer sequences.
+ automorphism groups. 
+<Alt Only="LaTeX"><![CDATA[
+ See \ref{Section_RedSpecificFn} for the list of specific tests currently implemented.
+]]></Alt>
+<Alt Not="LaTeX"><![CDATA[
+ See <Label Ref="Section_RedSpecificFn" /> for the list of specific tests currently implemented.
+]]></Alt>
+ We do not construct automizer sequences.
 <P/>
  </Description>
 </ManSection>
@@ -78,7 +84,7 @@ false
 
 </Section>
 
-<Section Label="Section_red_specific_fn">
+<Section Label="Section_RedSpecificFn">
 <Heading>The specific functions</Heading>
 
 <ManSection>

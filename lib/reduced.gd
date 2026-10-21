@@ -19,8 +19,14 @@
 #!
 #! This function checks whether the group $S$ satisfies certain properties that are known to hold for a $p$-group that 
 #! supports reduced fusion systems. In the process, we compute the proto-essential subgroups of $S$, along with their 
-#! automorphism groups. See <Ref Label="Section_red_specific_fn"/> for the list of specific tests currently implemented.
-#!  We do not construct automizer sequences.
+#! automorphism groups. 
+#! @BeginLatexOnly
+#! See \ref{Section_RedSpecificFn} for the list of specific tests currently implemented.
+#! @EndLatexOnly
+#! @BeginNotLatex
+#! See <Label Ref="Section_RedSpecificFn" /> for the list of specific tests currently implemented.
+#! @EndNotLatex
+#! We do not construct automizer sequences.
 #! 
 #! @Arguments S
 #! @Returns true or false
@@ -67,7 +73,7 @@ DeclareOperation("PossiblySupportsReducedFusionSystems_PE", [IsPGroup, IsList]);
 #! @EndExampleSession 
 
 #! @Section The specific functions
-#! @SectionLabel red_specific_fn
+#! @SectionLabel RedSpecificFn
 
 #! @Description 
 #! 

@@ -37,7 +37,7 @@
 </Item>
 </List>
 <P/>
- Each computation is considered more expensive than the previous one. See Section <Ref Label="Section_PEChecks" />
+ Each computation is considered more expensive than the previous one. See Section <Ref Label="PEChecks" />
  for the list of tests currently implemented.
 <P/>
  Note that it is possible that <Math>E</Math> is found to be proto-essential even though there is no fusion system <Math>\mathcal{F}</Math> on <Math>S</Math>
@@ -73,7 +73,7 @@ gap> List(C, StructureDescription);
 <Math>C_S(E) \leq E</Math>;
 </Item>
 <Item>
-<Math>E</Math> passes <Code>PE_Zed0Test</Code> (see <Ref Label="Operation_PEZ0Test" />)
+<Math>E</Math> passes <Code>PE_Zed0Test</Code> (see <Ref Label="PEZ0Test" />)
 </Item>
 </List>
 <P/>
@@ -134,7 +134,7 @@ gap> Number(C, A -> PE_Zed0Test(S,A));
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S E" Name="PE_RankTest" Label="Oper_PERankTest"/>
+  <Oper Arg="S E" Name="PE_RankTest" Label="PERankTest"/>
  <Returns>a number
 </Returns>
  <Description>
@@ -175,7 +175,8 @@ gap> S := SmallGroup(3^6, 479);
 <pc group of size 729 with 6 generators>
 gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
 Group([ f2, f3, f4, f5, f6 ])
-gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 
+>               and not IsElementaryAbelian(A));
 Group([ f1, f3, f4, f5, f6 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1, f2, f3, f5, f6 ])
@@ -238,7 +239,8 @@ gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
 Group([ f2, f3, f4 ])
-gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 
+>               and not IsElementaryAbelian(A));
 Group([ f1, f3, f4 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])
@@ -260,7 +262,7 @@ false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>PE_RankTest</Code> <Ref Label="Oper_PERankTest" />).  
+ Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>PE_RankTest</Code> <Ref Label="PERankTest" />).  
  The function <Code>PE_LiftTest</Code> checks 
  whether the maps in <Math>N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))</Math> are present as expected. In particular,
  there is some value <Math>a</Math> known to divide <Math>N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))</Math> for each choice of <Math>i</Math>.
@@ -287,7 +289,8 @@ gap> S := SmallGroup(3^6, 479);
 <pc group of size 729 with 6 generators>
 gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
 Group([ f2, f3, f4, f5, f6 ])
-gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 
+>               and not IsElementaryAbelian(A));
 Group([ f1, f3, f4, f5, f6 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1, f2, f3, f5, f6 ])
@@ -309,7 +312,7 @@ false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>PE_RankTest</Code> <Ref Label="Oper_PERankTest" />).
+ Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>PE_RankTest</Code> <Ref Label="PERankTest" />).
   The function <Code>PE_ValidAutTest</Code> checks
  whether there is a valid section of <Math>\mathrm{Aut}(E)</Math> that contains the expected <Math>\mathrm{Aut}_{\mathcal{F}}(E)</Math>.
  Note that this check is up to (order of) composition factors, and does not imply that the expected section actually
@@ -326,7 +329,8 @@ gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
 Group([ f2, f3, f4 ])
-gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 
+>               and not IsElementaryAbelian(A));
 Group([ f1, f3, f4 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])
@@ -359,7 +363,8 @@ gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
 Group([ f2, f3, f4 ])
-gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3 and not IsElementaryAbelian(A));
+gap> B := First(MaximalSubgroups(S), A -> 
+>               Exponent(A) = 3 and not IsElementaryAbelian(A));
 Group([ f1, f3, f4 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])

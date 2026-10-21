@@ -123,7 +123,8 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and Is
 #! [ Group([ (3,4)(5,6), (1,2)(3,4) ]), Group([ (1,3)(2,4), (1,2)(3,4) ]), 
 #! Group([ (1,3,2,4)(5,6), (1,2)(3,4) ]) ]
 #! gap> AutGM := List(M, A -> Automizer(G, A));
-#! [ <group with 2 generators>, <group with 2 generators>, <group with 2 generators> ]
+#! [ <group with 2 generators>, <group with 2 generators>, 
+#! <group with 2 generators> ]
 #! gap> List(AutGM, StructureDescription);
 #! [ "S3", "S3", "C2" ]
 #! @EndExampleSession 
