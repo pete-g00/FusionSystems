@@ -8,11 +8,12 @@ The first version of the package aims to add further functionalities, including 
 * checking a fusion system is saturated.
 
 ## Authors
-The current version of the package was created by:
+The current version of the package was mainly created by:
 
-1. Josh Bridges, University of Birmingham
 1. Pete Gautam, University of Manchester
 1. Justin Lynd, University of Louisiana
+
+We further acknowledge contributions from Josh Bridges and David Burrell.
 
 ## Contact
 
