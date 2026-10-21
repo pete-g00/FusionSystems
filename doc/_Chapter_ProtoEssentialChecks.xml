@@ -37,8 +37,13 @@
 </Item>
 </List>
 <P/>
- Each computation is considered more expensive than the previous one. See Section <Ref Label="PEChecks" />
- for the list of tests currently implemented.
+ Each computation is considered more expensive than the previous one.
+<Alt Only="LaTeX"><![CDATA[
+ See \ref{Section_PEChecks} for the list of tests currently implemented.
+]]></Alt>
+<Alt Not="LaTeX"><![CDATA[
+ See Section <Ref Label="Section_PEChecks"/> for the list of tests currently implemented.
+]]></Alt>
 <P/>
  Note that it is possible that <Math>E</Math> is found to be proto-essential even though there is no fusion system <Math>\mathcal{F}</Math> on <Math>S</Math>
  with <Math>E \in \mathcal{E}(\mathcal{F})</Math>. This can be for various reasons, for example, <Math>E</Math> could be essential in <Math>\mathcal{F}</Math>
@@ -73,7 +78,7 @@ gap> List(C, StructureDescription);
 <Math>C_S(E) \leq E</Math>;
 </Item>
 <Item>
-<Math>E</Math> passes <Code>PE_Zed0Test</Code> (see <Ref Label="PEZ0Test" />)
+<Math>E</Math> passes <Code>Zed0Test</Code>.
 </Item>
 </List>
 <P/>
@@ -97,13 +102,7 @@ gap> List(C, StructureDescription);
  </Description>
 </ManSection>
 
-<ManSection>
-  <Oper Arg="S" Name="PE_Zed0Test" Label="PEZ0Test"/>
- <Returns>a subgroup
-</Returns>
- <Description>
-<P/>
- Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>PE_Zed0Test</Code> checks that one of the following holds:
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>Zed0Test</Code> checks that one of the following holds:
 <List>
 <Item>
 <Math>Z_0 \leq E</Math>; or
@@ -115,8 +114,12 @@ gap> List(C, StructureDescription);
 <P/>
  Note that this function is not used when constructing <Math>\mathfrak{C}</Math> as the choice of <Math>x</Math> is easier to find while 
  the set <Math>\mathfrak{C}_0</Math> is being constructed.
-<P/>
  This test applies at any prime <Math>p</Math>. It is based on <Cite Key="AOV17" Where="Proposition 2.3(a)" /> (proven for <Math>p=2</Math>).
+<ManSection>
+  <Oper Arg="S" Name="Zed0Test" Label="Zed0Test"/>
+ <Returns>a subgroup
+</Returns>
+ <Description>
 <P/>
  </Description>
 </ManSection>
@@ -129,17 +132,17 @@ Group([ f6, f7 ])
 gap> C := SubgroupsSolvableGroup(S);;
 gap> Length(C);
 135
-gap> Number(C, A -> PE_Zed0Test(S,A));
+gap> Number(C, A -> Zed0Test(S,A));
 66
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S E" Name="PE_RankTest" Label="PERankTest"/>
+  <Oper Arg="S E" Name="RankTest" Label="RankTest"/>
  <Returns>a number
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>PE_RankTest</Code> checks that <Math>\textrm{Out}_S(E)</Math> 
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>RankTest</Code> checks that <Math>\textrm{Out}_S(E)</Math> 
  is isomorphic to  a Sylow <Math>p</Math>-subgroup of a group containing a strongly <Math>p</Math>-embedded subgroup. If so, we return 
  a value specifying its type, namely:
 <List>
@@ -184,25 +187,25 @@ gap> T := Intersection(A, B);
 Group([ f3^2, f4^2, f5^2, f6^2 ])
 gap> U := Intersection(A, B, C);
 Group([ f3^2, f5^2, f6^2 ])
-gap> PE_RankTest(S, A);
+gap> RankTest(S, A);
 0
-gap> PE_RankTest(S, B);
+gap> RankTest(S, B);
 0
-gap> PE_RankTest(S, C);
+gap> RankTest(S, C);
 0
-gap> PE_RankTest(S, T);
+gap> RankTest(S, T);
 1
-gap> PE_RankTest(S, U);
+gap> RankTest(S, U);
 -1
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S E" Name="PE_ModuleTest" Label="for IsPGroup, IsPGroup"/>
+  <Oper Arg="S E" Name="ModuleTest" Label="for IsPGroup, IsPGroup"/>
  <Returns>a number
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>2</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>PE_ModuleTest</Code> checks that, if <Math>\mathrm{Out}_S(E)</Math> has 
+ Let <Math>S</Math> be a <Math>2</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>ModuleTest</Code> checks that, if <Math>\mathrm{Out}_S(E)</Math> has 
  order <Math>2^k</Math> (for <Math>k \geq 2</Math>), then for all <Math>x \in \mathrm{Out}_S(E)</Math>, if <Math>x \neq 1</Math>, then <Math>[x, E/\Phi(E)]</Math> is not cyclic.
 <P/>
  This test applies at <Math>p=2</Math>. It is based on <Cite Key="OV" Where="Proposition 3.3(c)" />.
@@ -216,17 +219,17 @@ gap> S := SmallGroup(2^7, 931);
 gap> C := SubgroupsSolvableGroup(S);;
 gap> Length(C);
 135
-gap> Number(C, A -> PE_Zed0Test(S,A) and PE_ModuleTest(S,A));
+gap> Number(C, A -> Zed0Test(S,A) and ModuleTest(S,A));
 24
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S E" Name="PE_FrattiniTest" Label="for IsPGroup, IsPGroup"/>
+  <Oper Arg="S E" Name="FrattiniTest" Label="for IsPGroup, IsPGroup"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>PE_FrattiniTest</Code> checks that
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>FrattiniTest</Code> checks that
  <Display>C_{N_S(E)}(E/\Phi(E)) = E.</Display>
 <P/>
  This test applies at any prime <Math>p</Math>. It is based on <Cite Key="sporadics1" Where="Appendix A" />.
@@ -246,24 +249,24 @@ gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])
 gap> T := Intersection(A, B);
 Group([ f3^2, f4^2 ])
-gap> PE_FrattiniTest(S, A);
+gap> FrattiniTest(S, A);
 true
-gap> PE_FrattiniTest(S, B);
+gap> FrattiniTest(S, B);
 true
-gap> PE_FrattiniTest(S, C);
+gap> FrattiniTest(S, C);
 true
-gap> PE_FrattiniTest(S, T);
+gap> FrattiniTest(S, T);
 false
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S E i" Name="PE_LiftTest" Label="for IsPGroup, IsPGroup, IsInt"/>
+  <Oper Arg="S E i" Name="LiftTest" Label="for IsPGroup, IsPGroup, IsInt"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>PE_RankTest</Code> <Ref Label="PERankTest" />).  
- The function <Code>PE_LiftTest</Code> checks 
+ Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>RankTest</Code>).
+ The function <Code>LiftTest</Code> checks 
  whether the maps in <Math>N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))</Math> are present as expected. In particular,
  there is some value <Math>a</Math> known to divide <Math>N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))</Math> for each choice of <Math>i</Math>.
  We check that <Math>a</Math> divides:
@@ -296,24 +299,24 @@ gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1, f2, f3, f5, f6 ])
 gap> T := Intersection(A, B);
 Group([ f3^2, f4^2, f5^2, f6^2 ])
-gap> PE_LiftTest(S, A, 0);
+gap> LiftTest(S, A, 0);
 true
-gap> PE_LiftTest(S, B, 0);
+gap> LiftTest(S, B, 0);
 true
-gap> PE_LiftTest(S, C, 0);
+gap> LiftTest(S, C, 0);
 true
-gap> PE_LiftTest(S, T, 1);
+gap> LiftTest(S, T, 1);
 false
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S E i" Name="PE_ValidAutTest" Label="for IsPGroup, IsPGroup, IsInt"/>
+  <Oper Arg="S E i" Name="ValidAutTest" Label="for IsPGroup, IsPGroup, IsInt"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>PE_RankTest</Code> <Ref Label="PERankTest" />).
-  The function <Code>PE_ValidAutTest</Code> checks
+ Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>RankTest</Code>).
+  The function <Code>ValidAutTest</Code> checks
  whether there is a valid section of <Math>\mathrm{Aut}(E)</Math> that contains the expected <Math>\mathrm{Aut}_{\mathcal{F}}(E)</Math>.
  Note that this check is up to (order of) composition factors, and does not imply that the expected section actually
  exists inside <Math>\mathrm{Aut}(E)</Math>.
@@ -334,21 +337,21 @@ gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3
 Group([ f1, f3, f4 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])
-gap> PE_ValidAutTest(S, A, 0);
+gap> ValidAutTest(S, A, 0);
 true
-gap> PE_ValidAutTest(S, B, 0);
+gap> ValidAutTest(S, B, 0);
 true
-gap> PE_ValidAutTest(S, C, 0);
+gap> ValidAutTest(S, C, 0);
 false
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S E" Name="PE_RadicalTest" Label="for IsPGroup, IsPGroup"/>
+  <Oper Arg="S E" Name="RadicalTest" Label="for IsPGroup, IsPGroup"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a proto-essential subgroup. The function <Code>PE_RadicalTest</Code>checks
+ Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a proto-essential subgroup. The function <Code>RadicalTest</Code>checks
  whether
 <P/>
  <Display>|O_p(\textrm{Aut}(E)) \cap \textrm{Aut}_S(E)| = [E : Z(E)].</Display>
@@ -368,11 +371,11 @@ gap> B := First(MaximalSubgroups(S), A ->
 Group([ f1, f3, f4 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])
-gap> PE_RadicalTest(S, A);
+gap> RadicalTest(S, A);
 true
-gap> PE_RadicalTest(S, B);
+gap> RadicalTest(S, B);
 true
-gap> PE_RadicalTest(S, C);
+gap> RadicalTest(S, C);
 false
 ]]></Example>
 

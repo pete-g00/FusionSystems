@@ -225,7 +225,7 @@ end;
 # Computes the smallest A-invariant subgroup of the automorphism
 # domain of A containing P. 
 InvariantClosure := function(A,P)
-    local S, gensA, gensP, N, a, x, cnj;
+    local S, gensA, gensP, gensN, N, a, x, cnj;
     if IsGroupOfAutomorphisms(A) then
         S := AutomorphismDomain(A);
     else 

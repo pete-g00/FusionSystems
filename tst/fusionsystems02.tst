@@ -10,7 +10,7 @@
 #
 gap> START_TEST("fusionsystems02.tst");
 
-# doc/_Chapter_ProtoEssentialChecks.xml:51-59
+# doc/_Chapter_ProtoEssentialChecks.xml:56-64
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> C := SubgroupsSolvableGroup(S);;
@@ -19,7 +19,7 @@ gap> C := Filtered(C, A -> IsProtoEssential(S, A));
 gap> List(C, StructureDescription);
 [ "(C3 x C3) : C3", "C3 x C3", "C3 x C3 x C3" ]
 
-# doc/_Chapter_ProtoEssentialChecks.xml:124-134
+# doc/_Chapter_ProtoEssentialChecks.xml:127-137
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> Z0 := Zed0(S);
@@ -27,10 +27,10 @@ Group([ f6, f7 ])
 gap> C := SubgroupsSolvableGroup(S);;
 gap> Length(C);
 135
-gap> Number(C, A -> PE_Zed0Test(S,A));
+gap> Number(C, A -> Zed0Test(S,A));
 66
 
-# doc/_Chapter_ProtoEssentialChecks.xml:173-197
+# doc/_Chapter_ProtoEssentialChecks.xml:176-200
 gap> S := SmallGroup(3^6, 479);
 <pc group of size 729 with 6 generators>
 gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
@@ -44,27 +44,27 @@ gap> T := Intersection(A, B);
 Group([ f3^2, f4^2, f5^2, f6^2 ])
 gap> U := Intersection(A, B, C);
 Group([ f3^2, f5^2, f6^2 ])
-gap> PE_RankTest(S, A);
+gap> RankTest(S, A);
 0
-gap> PE_RankTest(S, B);
+gap> RankTest(S, B);
 0
-gap> PE_RankTest(S, C);
+gap> RankTest(S, C);
 0
-gap> PE_RankTest(S, T);
+gap> RankTest(S, T);
 1
-gap> PE_RankTest(S, U);
+gap> RankTest(S, U);
 -1
 
-# doc/_Chapter_ProtoEssentialChecks.xml:213-221
+# doc/_Chapter_ProtoEssentialChecks.xml:216-224
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> C := SubgroupsSolvableGroup(S);;
 gap> Length(C);
 135
-gap> Number(C, A -> PE_Zed0Test(S,A) and PE_ModuleTest(S,A));
+gap> Number(C, A -> Zed0Test(S,A) and ModuleTest(S,A));
 24
 
-# doc/_Chapter_ProtoEssentialChecks.xml:237-257
+# doc/_Chapter_ProtoEssentialChecks.xml:240-260
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
@@ -76,16 +76,16 @@ gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])
 gap> T := Intersection(A, B);
 Group([ f3^2, f4^2 ])
-gap> PE_FrattiniTest(S, A);
+gap> FrattiniTest(S, A);
 true
-gap> PE_FrattiniTest(S, B);
+gap> FrattiniTest(S, B);
 true
-gap> PE_FrattiniTest(S, C);
+gap> FrattiniTest(S, C);
 true
-gap> PE_FrattiniTest(S, T);
+gap> FrattiniTest(S, T);
 false
 
-# doc/_Chapter_ProtoEssentialChecks.xml:287-307
+# doc/_Chapter_ProtoEssentialChecks.xml:290-310
 gap> S := SmallGroup(3^6, 479);
 <pc group of size 729 with 6 generators>
 gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
@@ -97,16 +97,16 @@ gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1, f2, f3, f5, f6 ])
 gap> T := Intersection(A, B);
 Group([ f3^2, f4^2, f5^2, f6^2 ])
-gap> PE_LiftTest(S, A, 0);
+gap> LiftTest(S, A, 0);
 true
-gap> PE_LiftTest(S, B, 0);
+gap> LiftTest(S, B, 0);
 true
-gap> PE_LiftTest(S, C, 0);
+gap> LiftTest(S, C, 0);
 true
-gap> PE_LiftTest(S, T, 1);
+gap> LiftTest(S, T, 1);
 false
 
-# doc/_Chapter_ProtoEssentialChecks.xml:327-343
+# doc/_Chapter_ProtoEssentialChecks.xml:330-346
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
@@ -116,14 +116,14 @@ gap> B := First(MaximalSubgroups(S), A -> Exponent(A) = 3
 Group([ f1, f3, f4 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])
-gap> PE_ValidAutTest(S, A, 0);
+gap> ValidAutTest(S, A, 0);
 true
-gap> PE_ValidAutTest(S, B, 0);
+gap> ValidAutTest(S, B, 0);
 true
-gap> PE_ValidAutTest(S, C, 0);
+gap> ValidAutTest(S, C, 0);
 false
 
-# doc/_Chapter_ProtoEssentialChecks.xml:361-377
+# doc/_Chapter_ProtoEssentialChecks.xml:364-380
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
@@ -133,11 +133,11 @@ gap> B := First(MaximalSubgroups(S), A ->
 Group([ f1, f3, f4 ])
 gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 Group([ f1*f2^2, f3, f4 ])
-gap> PE_RadicalTest(S, A);
+gap> RadicalTest(S, A);
 true
-gap> PE_RadicalTest(S, B);
+gap> RadicalTest(S, B);
 true
-gap> PE_RadicalTest(S, C);
+gap> RadicalTest(S, C);
 false
 
 #

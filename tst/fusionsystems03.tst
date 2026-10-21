@@ -10,7 +10,7 @@
 #
 gap> START_TEST("fusionsystems03.tst");
 
-# doc/_Chapter_ProtoEssentialSubgroups.xml:43-50
+# doc/_Chapter_ProtoEssentialSubgroups.xml:49-56
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> L := AllProtoEssentials(S);
@@ -18,7 +18,7 @@ gap> L := AllProtoEssentials(S);
 gap> List(L, StructureDescription);
 [ "(C3 x C3) : C3", "C3 x C3 x C3", "C3 x C3" ]
 
-# doc/_Chapter_ProtoEssentialSubgroups.xml:77-85
+# doc/_Chapter_ProtoEssentialSubgroups.xml:83-91
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> C0 := MainProtoEssentials(S, 0);
@@ -27,7 +27,7 @@ Group([ f2, f3, f4, f5, f6, f7 ]) ]
 gap> C := MainProtoEssentials(S, -1);
 [ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f7, f1, f3, f4, f5, f6 ]) ]
 
-# doc/_Chapter_ProtoEssentialSubgroups.xml:96-103
+# doc/_Chapter_ProtoEssentialSubgroups.xml:102-109
 gap> S := SmallGroup(3^6, 321);
 <pc group of size 729 with 6 generators>
 gap> L := MainProtoEssentials(S);

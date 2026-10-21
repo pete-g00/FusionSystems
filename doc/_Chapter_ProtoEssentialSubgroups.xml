@@ -7,7 +7,13 @@
 <Section Label="Chapter_Proto-essential_subgroups_Section_Brief_description_of_the_algorithm">
 <Heading>Brief description of the algorithm</Heading>
 
- Let <Math>S</Math> be a finite <Math>p</Math>-group. Recall that <Math>E</Math> is proto-essential in <Math>S</Math> if there <Emph>could</Emph> exist a saturated fusion system <Math>\mathcal{F}</Math> on <Math>S</Math> such that <Math>E \in \mathcal{E}(\mathcal{F})</Math>. See Chapter <Ref Chap="Chapter_ProtoEssentialChecks" /> on the proto-essential tests.
+ Let <Math>S</Math> be a finite <Math>p</Math>-group. Recall that <Math>E</Math> is proto-essential in <Math>S</Math> if there <Emph>could</Emph> exist a saturated fusion system <Math>\mathcal{F}</Math> on <Math>S</Math> such that <Math>E \in \mathcal{E}(\mathcal{F})</Math>. 
+<Alt Only="LaTeX"><![CDATA[
+ See \ref{Chapter_ProtoEssentialChecks} for the list of specific tests currently implemented.
+]]></Alt>
+<Alt Not="LaTeX"><![CDATA[
+ See Chapter <Ref Chap="Chapter_ProtoEssentialChecks" /> for the list of specific tests currently implemented.
+]]></Alt>
  In this section, we describe the algorithm for constructing all the proto-essential subgroups of <Math>S</Math>. This is based on <Cite Key="sporadics2" Where="Section 3"/>.
  We fix a central series of <Math>S</Math>:
  <Display>1 = Z_0 \leq Z_1 \leq \dots \leq Z_n = S,</Display> 

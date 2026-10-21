@@ -20,8 +20,13 @@
 #! * $\mathrm{Aut}(N_S(E))$; and
 #! * $\mathrm{Aut}(E)$.
 #! 
-#! Each computation is considered more expensive than the previous one. See Section <Ref Label="PEChecks" />
-#! for the list of tests currently implemented.
+#! Each computation is considered more expensive than the previous one.
+#! @BeginLatexOnly
+#! See \ref{Section_PEChecks} for the list of tests currently implemented.
+#! @EndLatexOnly
+#! @BeginNotLatex
+#! See Section <Ref Label="Section_PEChecks"/> for the list of tests currently implemented.
+#! @EndNotLatex
 #! 
 #! Note that it is possible that $E$ is found to be proto-essential even though there is no fusion system $\mathcal{F}$ on $S$
 #! with $E \in \mathcal{E}(\mathcal{F})$. This can be for various reasons, for example, $E$ could be essential in $\mathcal{F}$
@@ -47,7 +52,7 @@ DeclareOperation("IsProtoEssential", [IsPGroup, IsPGroup]);
 #! The operation `IsProtoEssentialNC` behaves like `IsProtoEssential`, but further assumes that:
 #! * $E$ is a proper subgroup of $S$;
 #! * $C_S(E) \leq E$;
-#! * $E$ passes `PE_Zed0Test` (see <Ref Label="PEZ0Test" />)
+#! * $E$ passes `Zed0Test`.
 #!
 #! @Arguments S E
 #! @Returns true or false
@@ -66,21 +71,21 @@ DeclareOperation("IsProtoEssentialNC", [IsPGroup, IsPGroup]);
 DeclareAttribute("Zed0", IsPGroup);
 
 # TODO: Odd proof after the paper is out
-#! @Label PEZ0Test
-#! @Description 
-#! 
-#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `PE_Zed0Test` checks that one of the following holds:
+# @Description 
+ 
+#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `Zed0Test` checks that one of the following holds:
 #! * $Z_0 \leq E$; or
 #! * $[N_S(E) : E] = p$, and there exists some $x \in \Omega(Z(E))$ such that $E = C_S(x)$.
 #!
 #! Note that this function is not used when constructing $\mathfrak{C}$ as the choice of $x$ is easier to find while 
 #! the set $\mathfrak{C}_0$ is being constructed.
-#! 
+
 #! This test applies at any prime $p$. It is based on <Cite Key="AOV17" Where="Proposition 2.3(a)" /> (proven for $p=2$).
-#! 
+
+#! @Label Zed0Test
 #! @Arguments S
 #! @Returns a subgroup
-DeclareOperation("PE_Zed0Test", [IsPGroup, IsPGroup]);
+DeclareOperation("Zed0Test", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession
 #! gap> S := SmallGroup(2^7, 931);
@@ -90,14 +95,13 @@ DeclareOperation("PE_Zed0Test", [IsPGroup, IsPGroup]);
 #! gap> C := SubgroupsSolvableGroup(S);;
 #! gap> Length(C);
 #! 135
-#! gap> Number(C, A -> PE_Zed0Test(S,A));
+#! gap> Number(C, A -> Zed0Test(S,A));
 #! 66
 #! @EndExampleSession 
 
-#! @Label PERankTest
 #! @Description 
 #!
-#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `PE_RankTest` checks that $\textrm{Out}_S(E)$ 
+#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `RankTest` checks that $\textrm{Out}_S(E)$ 
 #! is isomorphic to  a Sylow $p$-subgroup of a group containing a strongly $p$-embedded subgroup. If so, we return 
 #! a value specifying its type, namely:
 #! * $0$ -- $\textrm{Out}_S(E)$ is cyclic or quaternion;
@@ -111,9 +115,10 @@ DeclareOperation("PE_Zed0Test", [IsPGroup, IsPGroup]);
 #!
 #! This test applies at any prime $p$. It is based on <Cite Key="SAM14" Where="Proposition 6.9" />.
 #!  
+#! @Label RankTest
 #! @Arguments S E
 #! @Returns a number
-DeclareOperation("PE_RankTest", [IsPGroup, IsPGroup]);
+DeclareOperation("RankTest", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession
 #! gap> S := SmallGroup(3^6, 479);
@@ -129,15 +134,15 @@ DeclareOperation("PE_RankTest", [IsPGroup, IsPGroup]);
 #! Group([ f3^2, f4^2, f5^2, f6^2 ])
 #! gap> U := Intersection(A, B, C);
 #! Group([ f3^2, f5^2, f6^2 ])
-#! gap> PE_RankTest(S, A);
+#! gap> RankTest(S, A);
 #! 0
-#! gap> PE_RankTest(S, B);
+#! gap> RankTest(S, B);
 #! 0
-#! gap> PE_RankTest(S, C);
+#! gap> RankTest(S, C);
 #! 0
-#! gap> PE_RankTest(S, T);
+#! gap> RankTest(S, T);
 #! 1
-#! gap> PE_RankTest(S, U);
+#! gap> RankTest(S, U);
 #! -1
 #! @EndExampleSession
 
@@ -145,14 +150,14 @@ DeclareOperation("PE_RankTest", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #!
-#! Let $S$ be a $2$-group and $E$ be a subgroup of $S$. The function `PE_ModuleTest` checks that, if $\mathrm{Out}_S(E)$ has 
+#! Let $S$ be a $2$-group and $E$ be a subgroup of $S$. The function `ModuleTest` checks that, if $\mathrm{Out}_S(E)$ has 
 #! order $2^k$ (for $k \geq 2$), then for all $x \in \mathrm{Out}_S(E)$, if $x \neq 1$, then $[x, E/\Phi(E)]$ is not cyclic.
 #!
 #! This test applies at $p=2$. It is based on <Cite Key="OV" Where="Proposition 3.3(c)" />.
 #!  
 #! @Arguments S E
 #! @Returns a number
-DeclareOperation("PE_ModuleTest", [IsPGroup, IsPGroup]);
+DeclareOperation("ModuleTest", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession
 #! gap> S := SmallGroup(2^7, 931);
@@ -160,7 +165,7 @@ DeclareOperation("PE_ModuleTest", [IsPGroup, IsPGroup]);
 #! gap> C := SubgroupsSolvableGroup(S);;
 #! gap> Length(C);
 #! 135
-#! gap> Number(C, A -> PE_Zed0Test(S,A) and PE_ModuleTest(S,A));
+#! gap> Number(C, A -> Zed0Test(S,A) and ModuleTest(S,A));
 #! 24
 #! @EndExampleSession 
 
@@ -169,14 +174,14 @@ DeclareOperation("PE_ModuleTest", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `PE_FrattiniTest` checks that
+#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `FrattiniTest` checks that
 #! $$C_{N_S(E)}(E/\Phi(E)) = E.$$
 #! 
 #! This test applies at any prime $p$. It is based on <Cite Key="sporadics1" Where="Appendix A" />.
 #! 
 #! @Arguments S E
 #! @Returns true or false
-DeclareOperation("PE_FrattiniTest", [IsPGroup, IsPGroup]);
+DeclareOperation("FrattiniTest", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession
 #! gap> S := SmallGroup(3^4, 7);
@@ -190,13 +195,13 @@ DeclareOperation("PE_FrattiniTest", [IsPGroup, IsPGroup]);
 #! Group([ f1*f2^2, f3, f4 ])
 #! gap> T := Intersection(A, B);
 #! Group([ f3^2, f4^2 ])
-#! gap> PE_FrattiniTest(S, A);
+#! gap> FrattiniTest(S, A);
 #! true
-#! gap> PE_FrattiniTest(S, B);
+#! gap> FrattiniTest(S, B);
 #! true
-#! gap> PE_FrattiniTest(S, C);
+#! gap> FrattiniTest(S, C);
 #! true
-#! gap> PE_FrattiniTest(S, T);
+#! gap> FrattiniTest(S, T);
 #! false
 #! @EndExampleSession 
 
@@ -211,8 +216,8 @@ DeclareOperation("PE_FrattiniTest", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `PE_RankTest` <Ref Label="PERankTest" />).  
-#! The function `PE_LiftTest` checks 
+#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `RankTest`).
+#! The function `LiftTest` checks 
 #! whether the maps in $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ are present as expected. In particular,
 #! there is some value $a$ known to divide $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ for each choice of $i$.
 #! We check that $a$ divides:
@@ -224,7 +229,7 @@ DeclareOperation("PE_FrattiniTest", [IsPGroup, IsPGroup]);
 #! 
 #! @Arguments S E i
 #! @Returns true or false
-DeclareOperation("PE_LiftTest", [IsPGroup, IsPGroup, IsInt]);
+DeclareOperation("LiftTest", [IsPGroup, IsPGroup, IsInt]);
 
 #! @BeginExampleSession
 #! gap> S := SmallGroup(3^6, 479);
@@ -238,20 +243,20 @@ DeclareOperation("PE_LiftTest", [IsPGroup, IsPGroup, IsInt]);
 #! Group([ f1, f2, f3, f5, f6 ])
 #! gap> T := Intersection(A, B);
 #! Group([ f3^2, f4^2, f5^2, f6^2 ])
-#! gap> PE_LiftTest(S, A, 0);
+#! gap> LiftTest(S, A, 0);
 #! true
-#! gap> PE_LiftTest(S, B, 0);
+#! gap> LiftTest(S, B, 0);
 #! true
-#! gap> PE_LiftTest(S, C, 0);
+#! gap> LiftTest(S, C, 0);
 #! true
-#! gap> PE_LiftTest(S, T, 1);
+#! gap> LiftTest(S, T, 1);
 #! false
 #! @EndExampleSession
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `PE_RankTest` <Ref Label="PERankTest" />).
-#!  The function `PE_ValidAutTest` checks
+#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `RankTest`).
+#!  The function `ValidAutTest` checks
 #! whether there is a valid section of $\mathrm{Aut}(E)$ that contains the expected $\mathrm{Aut}_{\mathcal{F}}(E)$.
 #! Note that this check is up to (order of) composition factors, and does not imply that the expected section actually
 #! exists inside $\mathrm{Aut}(E)$.
@@ -261,7 +266,7 @@ DeclareOperation("PE_LiftTest", [IsPGroup, IsPGroup, IsInt]);
 #! 
 #! @Arguments S E i
 #! @Returns true or false
-DeclareOperation("PE_ValidAutTest", [IsPGroup, IsPGroup, IsInt]);
+DeclareOperation("ValidAutTest", [IsPGroup, IsPGroup, IsInt]);
 
 #! @BeginExampleSession
 #! gap> S := SmallGroup(3^4, 7);
@@ -273,17 +278,17 @@ DeclareOperation("PE_ValidAutTest", [IsPGroup, IsPGroup, IsInt]);
 #! Group([ f1, f3, f4 ])
 #! gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 #! Group([ f1*f2^2, f3, f4 ])
-#! gap> PE_ValidAutTest(S, A, 0);
+#! gap> ValidAutTest(S, A, 0);
 #! true
-#! gap> PE_ValidAutTest(S, B, 0);
+#! gap> ValidAutTest(S, B, 0);
 #! true
-#! gap> PE_ValidAutTest(S, C, 0);
+#! gap> ValidAutTest(S, C, 0);
 #! false
 #! @EndExampleSession 
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, $E$ be a proto-essential subgroup. The function `PE_RadicalTest`checks
+#! Let $S$ be a $p$-group, $E$ be a proto-essential subgroup. The function `RadicalTest`checks
 #! whether
 #! 
 #! $$|O_p(\textrm{Aut}(E)) \cap \textrm{Aut}_S(E)| = [E : Z(E)].$$
@@ -292,7 +297,7 @@ DeclareOperation("PE_ValidAutTest", [IsPGroup, IsPGroup, IsInt]);
 #! 
 #! @Arguments S E
 #! @Returns true or false
-DeclareOperation("PE_RadicalTest", [IsPGroup, IsPGroup]);
+DeclareOperation("RadicalTest", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession
 #! gap> S := SmallGroup(3^4, 7);
@@ -304,10 +309,10 @@ DeclareOperation("PE_RadicalTest", [IsPGroup, IsPGroup]);
 #! Group([ f1, f3, f4 ])
 #! gap> C := First(MaximalSubgroups(S), A -> Exponent(A) = 9);
 #! Group([ f1*f2^2, f3, f4 ])
-#! gap> PE_RadicalTest(S, A);
+#! gap> RadicalTest(S, A);
 #! true
-#! gap> PE_RadicalTest(S, B);
+#! gap> RadicalTest(S, B);
 #! true
-#! gap> PE_RadicalTest(S, C);
+#! gap> RadicalTest(S, C);
 #! false
 #! @EndExampleSession 

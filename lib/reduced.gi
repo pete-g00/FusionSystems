@@ -1,5 +1,5 @@
 # If $P$ has class $\leq n(p-1)+1$, then $Z(P)$ has exponent $\leq p^n$
-InstallMethod(RED_ExponentTest, "RED exponent test",
+InstallMethod(ExponentTest, "RED exponent test",
     [IsPGroup], function(S)
     local c, t, p;
 
@@ -10,7 +10,7 @@ InstallMethod(RED_ExponentTest, "RED exponent test",
     return Exponent(Center(S)) <= p^t;
 end );
 
-InstallMethod(RED_SemiCharacteristicGeneratedTest, "RED semi-characteristic generated test", 
+InstallMethod(SemiCharacteristicGeneratedTest, "RED semi-characteristic generated test", 
     [IsPGroup, IsList], function(S, L)
     local AutS, p, autcomm, qps, ncqps, i;
     
@@ -40,7 +40,7 @@ InstallMethod(RED_SemiCharacteristicGeneratedTest, "RED semi-characteristic gene
     return false;
 end );
 
-InstallMethod(RED_TransferTest, "RED transfer test",
+InstallMethod(TransferTest, "RED transfer test",
     [IsPGroup, IsList], function(S, L)
     local p, AutS, K, KF;
     
@@ -54,17 +54,17 @@ InstallMethod(RED_TransferTest, "RED transfer test",
     return Intersection(K) = DerivedSubgroup(S);
 end );
 
-InstallMethod(RED_TransferMaximalTest, "RED transfer maximal test",
+InstallMethod(TransferMaximalTest, "RED transfer maximal test",
     [IsPGroup], function(S)
     local p;
     
     p := PrimePGroup(S);
     if p <> 2 then return true; fi;
     
-    return RED_TransferTest(S, MaximalSubgroups(S));
+    return TransferTest(S, MaximalSubgroups(S));
 end );
 
-InstallMethod(RED_TransferFpTest, "RED transfer fp test",
+InstallMethod(TransferFpTest, "RED transfer fp test",
     [IsPGroup, IsList], function(S, L)
     local p, AutS, K, KF;
     
@@ -78,17 +78,17 @@ InstallMethod(RED_TransferFpTest, "RED transfer fp test",
     return Intersection(K) = FrattiniSubgroup(S);
 end );
 
-InstallMethod(RED_TransferFpMaximalTest, "RED transfer fp maximal test",
+InstallMethod(TransferFpMaximalTest, "RED transfer fp maximal test",
     [IsPGroup], function(S)
     local p;
     
     p := PrimePGroup(S);
     if p <> 2 then return true; fi;
     
-    return RED_TransferFpTest(S, MaximalSubgroups(S));
+    return TransferFpTest(S, MaximalSubgroups(S));
 end );
 
-InstallMethod(RED_CoreTest, "RED core test",
+InstallMethod(CoreTest, "RED core test",
     [IsPGroup, IsList], function(S, L)
     local p, AutL, n, AutLp, AutS, AutSp, N;
 
@@ -131,7 +131,7 @@ InstallMethod(IsDSWGroup, "is DSw group",
     return ForAny(M, A -> IsAbelian(A) and Rank(A) = 2 and Length(Set(AbelianInvariants(A))) = 1);
 end );
 
-InstallMethod(RED_AbelianTest, "RED abelian test",
+InstallMethod(AbelianTest, "RED abelian test",
     [IsPGroup], function(S)
     local p, C0, AutA, N, AutSA;
 
@@ -159,12 +159,12 @@ InstallMethod(RED_AbelianTest, "RED abelian test",
     return not ForAll([1..Length(C0)], i -> IsSubset(PCore(AutA[i], p), AutSA[i]));
 end );
 
-InstallMethod(RED_DerivedCyclicTest, "RED derived cyclic test",
+InstallMethod(DerivedCyclicTest, "RED derived cyclic test",
     [IsPGroup], function(S)
     return IsDSWGroup(S) or not IsCyclic(DerivedSubgroup(S));
 end );
 
-InstallMethod(RED_ValidAutTest, "RED valid aut test",
+InstallMethod(ValidAutTest, "RED valid aut test",
     [IsPGroup], function(S)
     local p, AutS, n, H;
 
@@ -195,7 +195,7 @@ InstallMethod(RED_ValidAutTest, "RED valid aut test",
     return CommutatorSubgroup(H, S) = S;
 end );
 
-InstallMethod(RED_OmegaAbelianizationTest, "RED omega abelianization test",
+InstallMethod(OmegaAbelianizationTest, "RED omega abelianization test",
     [IsPGroup], function(S)
     local p, AutS, O, D;
 
@@ -214,14 +214,14 @@ InstallMethod(RED_OmegaAbelianizationTest, "RED omega abelianization test",
     return not IsPGroup(AutS) or IsSubset(D, O);
 end );
 
-InstallMethod(RED_C0Test, "RED C0 test",
+InstallMethod(C0Test, "RED C0 test",
     [IsPGroup, IsList], function(S, C0)
     local p;
     p := PrimePGroup(S);
     return not ForAll(C0, A -> IsSemiCharacteristic(A, Omega(Center(S), p)));
 end );
 
-InstallMethod(RED_CTest, "RED C test",
+InstallMethod(CTest, "RED C test",
     [IsPGroup, IsList], function(S, C)
     local p, AutS;
 
@@ -241,18 +241,18 @@ PossiblySupportsReducedFusionSystems_PrePE := function(S)
     # Dihedral, semidihedral and wreathed groups (p=2) support reduced fs.
     if IsDSWGroup(S) then return true; fi;
 
-    if not RED_ExponentTest(S) then 
+    if not ExponentTest(S) then 
         Info(InfoFusion, 1, "Exponent of Z(S) too big");
         return false;
     fi;
 
     # TODO: If $S'$ is cyclic, then when is $S$ fine (just maximal class?)
-    if not RED_DerivedCyclicTest(S) then 
+    if not DerivedCyclicTest(S) then 
         Info(InfoFusion, 1, "Derived subgroup is cyclic");
         return false;
     fi;
 
-    if not RED_OmegaAbelianizationTest(S) then 
+    if not OmegaAbelianizationTest(S) then 
         Info(InfoFusion, 1, "Failed omega test");
         return false;
     fi;
@@ -274,29 +274,29 @@ InstallMethod(PossiblySupportsReducedFusionSystems_PE, "Possibly supports reduce
 
     p := PrimePGroup(S);
     
-    if not RED_CTest(S, C) then 
+    if not CTest(S, C) then 
         Info(InfoFusion, 1, "Failed C test");
         return false;
     fi;
 
-    if not RED_TransferTest(S, C) or not RED_TransferFpTest(S, C) then 
+    if not TransferTest(S, C) or not TransferFpTest(S, C) then 
         Info(InfoFusion, 1, "Failed transfer test");
         return false;
     fi;
 
     L := GenerateProtoEssentials(S, C);
 
-    if not RED_ValidAutTest(S) then 
+    if not ValidAutTest(S) then 
         Info(InfoFusion, 1, "Failed valid Aut(S) test");
         return false;
     fi;
 
-    if not RED_CoreTest(S, L) then 
+    if not CoreTest(S, L) then 
         Info(InfoFusion, 1, "Failed core test");
         return false;
     fi;
 
-    if not RED_SemiCharacteristicGeneratedTest(S, L) then 
+    if not SemiCharacteristicGeneratedTest(S, L) then 
         Info(InfoFusion, 1, "Failed semi-characteristic generation test");
         return false;
     fi;
@@ -317,7 +317,7 @@ InstallMethod(PossiblySupportsReducedFusionSystems, "Possibly supports reduced f
     fi;
 
     C0 := MainProtoEssentials(S, 0);
-    if not RED_C0Test(S, C0) then 
+    if not C0Test(S, C0) then 
         Info(InfoFusion, 1, "Failed C0 test");
         return false;
     fi;
