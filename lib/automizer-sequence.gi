@@ -342,43 +342,100 @@ InstallMethod(IsomorphismSequences, "find isomorphism between automizer sequence
     return RepresentativeAction(AutS, P1, P2, OnTuples);
 end);
 
-# Only does fully automized check currently
-# TODO: Deal with lifts from $\Aut_F(W)$ to essentials
+# P is a list of generator automizer groups
+# S is the p-group
+# A is a subgroup of S
+# If $\calF := \langle L \rangle$, then we return $(\Aut_\calF(A), A^\calF)$
+# $A^\calF$ also contains the actual maps from $A$ to some $\calF$-conjugate
+# Using Breadth-First Search
+OrbitStabilizerFusion := function(S, P, A)
+    local   Q,      # the queue
+            m,      # maps for $\calF$-conjugates
+            T,      # $A^\calF$
+            Aut,    # $\Aut_\calF(A)$
+            AutFE,  # $\Aut_\calF(E)$
+            phi,    # $\phi \in \Aut_\calF(E)$
+            X,      # $X \in A^\calF$
+            alpha,  # $\alpha \colon A \to X$
+            beta,   # $\beta \colon A \to Y$
+            Y,      # $X\phi$
+            i;      # position of $X$ or $Y$ in $T$
+
+    T := [A];
+    Q := [A];
+    m := [IdentityMapping(A)];
+
+    Aut := Automizer(S, A);
+
+    while not IsEmpty(Q) do 
+        X := Remove(Q);
+        i := Position(T, X);
+        alpha := m[i];
+        for AutFE in P do 
+            for phi in GeneratorsOfGroup(AutFE) do 
+                # TODO: Up to S-conjugacy
+                if IsSubset(Source(phi), X) then 
+                    Y := phi(X);
+                    phi := RestrictedHomomorphism(phi, X);
+                    # TODO: Up to S-conjugacy
+                    i := Position(T, Y);
+                    if i <> fail then 
+                        beta := m[i];
+                        Aut := ClosureGroup(Aut, alpha*phi*InverseGeneralMapping(beta));
+                    else
+                        Add(T, Y);
+                        Add(Q, Y);
+                        Add(m, alpha*phi);
+                    fi;
+                fi;
+            od;
+        od;
+    od;
+
+    SetIsGroupOfAutomorphismsFiniteGroup(AutFA, true);
+    SetAutomorphismDomain(AutFA, A);
+
+    return rec(
+        AutFA := Aut,
+        orbit := T,
+        maps := m
+    );
+end;
+
 WeakRadicalCheck := function(S, W, P)
-    local p, L, I, J, AutW, n, AutSW, P0, T, A;
+    local p, R, i, AutFW, AutW, n, AutSW;
 
     p := PrimePGroup(S);
-    L := List(P, AutomorphismDomain);
-    # TODO: F-conj. not s-conj.
-    I := List(L, A -> ContainedConjugates(S, A, W, true));
-    J := PositionsProperty(I, i -> i <> fail);
-    Info(InfoWarning, 1, J);
+    R := OrbitStabilizerFusion(S, W, P);
+    
+    # a fully normalized conjugate of P
+    i := PositionMaximum(List(R.orbit, A -> Size(Normalizer(S,A))));
+    AutFW := R.AutFA^(R.maps[i]);
+    W := Image(R.maps[i], P);
 
     AutW := AutomorphismGroup(W);
     n := NiceMonomorphism(AutW);
     AutSW := Automizer(S, W);
     AutSW := n(AutSW);
+    AutFW := List(GeneratorsOfGroup(AutFW), a -> Image(n, a));
+    AutFW := Group(AutFW);
 
-    P0 := List(J, i -> P[i]^(I[i][2]));
-    P0 := List(P0, A -> n(Automizer(A, W)));
+    if Index(AutFW, AutSW) mod p = 0 then 
+        Info(InfoWarning, 1, "Not fully automized");
+        return false;
+    fi;
 
-    T := AutSW;
+    # TODO: Receptive check
+    # Consider weak essentials in $\Out_F(W)$ (i.e. sub $A$ s.t. $N_G(A)/A$ has a strongly $p$-embedded sub.)
+    # Check that there are essentials whose maps restrict to the expected ones here.
 
-    for A in P0 do 
-        T := ClosureGroup(T, A);
-        if Index(T, AutSW) mod p = 0 then 
-            Info(InfoWarning, 1, "Invalid: ", StructureDescription(T));
-            return false;
-        fi;
-    od;
-
-    Info(InfoWarning, 1, "Valid: ", StructureDescription(T));
-    return Size(PCore(T, p)) = Index(W, Center(W));
-end;
-
-Zip := function(L)
-    local C;
-    
-    C := Cartesian(List(L, A -> [1..Length(A)]));
-    return List(C, I -> List([1..Length(I)], i -> L[i][I[i]]));
+    # not radical in F (nothing to check)
+    if Size(PCore(AutFW, p)) <> Index(W, Center(W)) then 
+        Info(InfoWarning, 1, "Not radical in F");
+        return true;
+    else 
+        Info(InfoWarning, 1, StructureDescription(AutFW));
+        Info(InfoWarning, 1, "Radical in F"); 
+        return true;
+    fi;
 end;
