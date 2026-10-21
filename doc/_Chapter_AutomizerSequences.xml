@@ -61,7 +61,7 @@
 </ManSection>
 
 <ManSection>
-  <Oper Arg="S P" Name="IsCompatibleSequence" Label="for IsPGroup, IsGroupOfAutomorphismsFiniteGroup"/>
+  <Oper Arg="S P" Name="IsCompatibleSequence" Label="for IsPGroup, IsList"/>
  <Returns>true or false
 </Returns>
  <Description>

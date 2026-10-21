@@ -1,31 +1,9 @@
-LoadPackage("format");
-
-InstallMethod(Holomorph, "method for finding holomorph", [IsPGroup], 
-function(S)
-    local AutS, AutS_nm, n;
-
-    AutS := AutomorphismGroupPGroup(S, "Over");
-    
-    if AutS.glOrder = 1 then 
-        AutS_nm := PcGroupAutPGroup(AutS);
-        AutS := Group(AutS.agAutos);
-        n := GroupHomomorphismByImagesNC(AutS_nm, AutS);
-        SetAutomorphismGroup(S, AutS);
-        SetNiceMonomorphism(AutS, InverseGeneralMapping(n));
-
-        return SemidirectProduct(AutS_nm, n, S);
-    else 
-        AutS := ConvertHybridAutGroup(AutS);
-        AssignNiceMonomorphismAutomorphismGroup(AutS, S);
-        n := NiceMonomorphism(AutS);
-        AutS_nm := Image(n);
-
-        return SemidirectProduct(AutS_nm, RestrictedInverseGeneralMapping(n), S);
-    fi;
-end );
-
-InstallMethod(Automizer, "method for automizer", [IsGroup, IsGroup], function(G, H)
+InstallMethod(Automizer, "method for groups", [IsGroup, IsGroup], function(G, H)
     local NGH, L, AutGH;
+
+    if IsGroupOfAutomorphisms(G) then 
+        TryNextMethod();
+    fi;
 
     NGH := Normalizer(G, H);
     L := List(SmallGeneratingSet(NGH), a -> ConjugatorAutomorphismNC(H, a));
@@ -76,6 +54,17 @@ InstallGlobalFunction(OnImageTuplesNM, function (n)
     end;
 end);
 
+InstallMethod(RestrictedHomomorphism,  "method for restricting isomorphism to another homomorphism", 
+    [IsGroupHomomorphism, IsGroup], function(phi, T)
+    local g, h, T0;
+
+    g := GeneratorsOfGroup(T);
+    h := List(g, x -> Image(phi,x));
+    T0 := Image(phi, T);
+
+    return GroupHomomorphismByImagesNC(T, T0, g, h);
+end );
+
 InstallMethod(RestrictedAutomorphism,  "method for restricting isomorphism to an automorphism", 
     [IsGroupHomomorphism and IsBijective, IsGroup], function(phi, T)
     local g, h;
@@ -88,24 +77,9 @@ InstallMethod(RestrictedAutomorphism,  "method for restricting isomorphism to an
     return GroupHomomorphismByImagesNC(T, T, g, h);
 end );
 
-InstallMethod(RestrictedAutomorphismSubgroup, "method for finding restricted automorphism subgroup", 
+InstallOtherMethod(Automizer, "automizer for automorphism groups", 
     [IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite], function(AutG, H)
-    local g, h, AutH;
-
-    g := GeneratorsOfGroup(AutG);
-    h := List(g, phi -> RestrictedAutomorphism(phi, H));
-
-    AutH := Group(h);
-    
-    SetIsGroupOfAutomorphismsFiniteGroup(AutH, true);
-    SetAutomorphismDomain(AutH, H);
-
-    return AutH;
-end );
-
-InstallMethod(RestrictedAutomorphismStabilizerSubgroup, "method for finding restricted automorphism subgroup", 
-    [IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite], function(AutG, H)
-    local n, AutG0;
+    local n, AutG0, g, h, AutH;
 
     n := NiceMonomorphism(AutG);
     AutG := Image(n, AutG);
@@ -113,7 +87,15 @@ InstallMethod(RestrictedAutomorphismStabilizerSubgroup, "method for finding rest
     AutG0 := Stabilizer(AutG, H, OnImageNM(n));
     AutG0 := PreImage(n, AutG0);
 
-    return RestrictedAutomorphismSubgroup(AutG0, H);
+    g := GeneratorsOfGroup(AutG0);
+    h := List(g, phi -> RestrictedAutomorphism(phi, H));
+
+    AutH := Group(h);
+    
+    SetIsGroupOfAutomorphismsFiniteGroup(AutH, true);
+    SetAutomorphismDomain(AutH, H);
+    
+    return AutH;
 end );
 
 # Computes $O^{p'}(G)$
@@ -197,8 +179,8 @@ end;
 
 # $\Aut_\calF(E)^g$ for some $g \in S$ and $E \leq S$
 InstallOtherMethod(\^, "method to conjugate automorphism group by an element of an overgroup", 
-[IsGroupOfAutomorphisms, IsMultiplicativeElementWithInverse], function(Aut0, g)
-local E, c, t, G;
+    [IsGroupOfAutomorphisms, IsMultiplicativeElementWithInverse], function(Aut0, g)
+    local E, c, t, G;
 
     E := AutomorphismDomain(Aut0);
     c := ConjugatorIsomorphism(E, g);
@@ -208,8 +190,24 @@ local E, c, t, G;
     SetIsGroupOfAutomorphismsFiniteGroup(G, true);
     SetAutomorphismDomain(G, E^g);
 
-return G;
+    return G;
 end );
+
+InstallOtherMethod(\^, "method to conjugate automorphism group by some map from an overgroup",
+    [IsGroupOfAutomorphisms, IsGroupHomomorphism and IsBijective], function(Aut0, phi)
+    local E, c, t, G;
+
+    E := AutomorphismDomain(Aut0);
+    c := RestrictedHomomorphism(phi, E);
+    t := List(GeneratorsOfGroup(Aut0), x -> InverseGeneralMapping(c) * x * c);
+    G := Group(t);
+    Info(InfoWarning, 1, Size(Image(c, E)));
+
+    SetIsGroupOfAutomorphismsFiniteGroup(G, true);
+    SetAutomorphismDomain(G, Image(c, E));
+
+    return G;
+end);
 
 IsInvariant := function(A,P)
     # VALID ONLY FOR FINITE P (for infinite P, need to also check x^(a^-1) in P)
@@ -259,17 +257,16 @@ end;
 # subgroup of P containing all commutators x^-1*x^a of generators x of
 # P with generators a of A. 
 
-AutCommutatorSubgroup := function(A,P)
+InstallOtherMethod(CommutatorSubgroup, "method for aut-group", 
+    [IsGroupOfAutomorphisms, IsGroup], function(A, P)
     local C, a, x, c;
-    if not IsGroupOfAutomorphisms(A) then
-        Error(A, "must be a group of automorphisms.");
-    fi;
+
     if not IsSubgroup(AutomorphismDomain(A), P) then
         Error(A, "must act on a group of which", P, "is a subgroup");
-    fi;
-    if not IsInvariant(A,P) then
+    elif not IsInvariant(A,P) then
         Error(P, "should be", A, "-invariant");
     fi;
+
     C := TrivialSubgroup(P);
     for a in GeneratorsOfGroup(A) do
         for x in GeneratorsOfGroup(P) do
@@ -279,5 +276,114 @@ AutCommutatorSubgroup := function(A,P)
             fi;
         od;
     od;
+    
     return InvariantClosure(A,NormalClosure(P,C));
-end;
+end );
+
+# Compute the transfer homomorphism on H_1(-,Z), where H is a subgroup
+# of G, but return the map from G to H/[H,H], not from G/[G,G]
+
+InstallMethod(TransferHomomorphism, "transfer homomorphism", 
+    [IsGroup, IsGroup], function(G,H)
+    local  Hab, piH, trans, gensG, imagegens, g, h;
+    
+    piH := NaturalHomomorphismByNormalSubgroupNC(H,DerivedSubgroup(H));
+	Hab := Image(piH);
+    
+    if Size(Hab) = 1 then
+        return GroupHomomorphismByImagesNC(G,Hab);
+    fi;
+    
+    trans := RightTransversal(G,H);
+    gensG := GeneratorsOfGroup(G);
+    imagegens := [];
+
+    for g in gensG do
+        h := Product(List(trans, t->t*g*trans[PositionCanonical(trans,(t*g))]^-1));
+        Add(imagegens,Image(piH, h));
+    od;
+    
+    return GroupHomomorphismByImages(G,Hab, gensG, imagegens);
+end );
+
+# Compute the transfer homomorphism on H_1(-,F_p), where H is a
+# p-subgroup of G, but return the map from G to H/Phi(H), not from
+# G/Phi(G) to H/Phi(H). Only coded for H a p-group.
+
+InstallMethod(TransferHomomorphismFp, "transfer homomorphism (Frattini version)", 
+    [IsGroup, IsPGroup], function(G,H)
+    local p, Habp, piH, trans, gensG, imagegens, g, h;
+    
+    p := PrimePGroup(H);
+	piH := NaturalHomomorphismByNormalSubgroupNC(H,FrattiniSubgroup(H));
+	Habp := Image(piH);
+    
+    if Size(Habp) = 1 then
+        return GroupHomomorphismByImagesNC(G,Habp);
+    fi;
+
+    trans := RightTransversal(G,H);
+    gensG := GeneratorsOfGroup(G);
+    imagegens := [];
+    
+    for g in gensG do
+        h := Product(List(trans, t->t*g*trans[PositionCanonical(trans,(t*g))]^-1));
+        Add(imagegens,Image(piH, h));
+    od;
+    
+    return GroupHomomorphismByImages(G,Habp, gensG, imagegens);
+end );
+
+InstallMethod(SemiAutomorphismGroup, "method for a p-group", 
+    [IsPGroup], function(S)
+    local p, AutS, InnS, AutSp, n;
+
+    p := PrimePGroup(S);
+
+    AutS := AutomorphismGroup(S);
+    n := NiceMonomorphism(AutS);
+    AutS := Image(n, AutS);
+    
+    InnS := InnerAutomorphismGroup(S);
+    InnS := n(InnS);
+
+    AutSp := PResidual(AutS, p);
+    AutSp := ClosureGroup(AutSp, InnS);
+    AutSp := PreImage(n, AutSp);
+
+    return AutSp;
+end);
+
+InstallMethod(SemiCharacteristicSubgroups, "method for a p-group",
+    [IsPGroup], function(S)
+    local AutS, N;
+
+    AutS := SemiAutomorphismGroup(S);
+    N := SubgroupsSolvableGroup(S, rec(actions := GeneratorsOfGroup(AutS)));
+
+    return N;
+end);
+
+InstallMethod(IsSemiCharacteristic, "method for p-group and subgroup",
+    [IsPGroup, IsPGroup], function(S, P)
+    local AutS;
+
+    if HasSemiCharacteristicSubgroups(S) then 
+        return P in SemiCharacteristicSubgroups(S);
+    fi;
+    
+    AutS := SemiAutomorphismGroup(S);
+    return ForAll(GeneratorsOfGroup(AutS), a -> Image(a, P) = P);    
+end );
+
+InstallMethod(SemiCharacteristicClosure, "method for p-group and subgroup", 
+    [IsPGroup, IsPGroup], function(S,P)
+    local semichars;
+
+    if IsSemiCharacteristic(S, P) then return P; fi;
+
+    semichars := SemiCharacteristicSubgroups(S);
+    semichars := Filtered(semichars, A -> IsSubset(A, P));
+
+    return Intersection(semichars);
+end);

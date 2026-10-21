@@ -6,20 +6,55 @@
     FusionSystems
   </Title>
   <Subtitle>
-    Utilities for computing fusion systems
+    Fusion systems in &GAP;
   </Subtitle>
   <Version>
     0.1
   </Version>
   <Author>
-    Josh Bridges
-<Homepage>https://www.birmingham.ac.uk/staff/profiles/maths/phd-students/bridges-joshua</Homepage>
+    Pete Gautam
+<Address>
+Alan Turing Building,<Br/>
+University of Manchester,<Br/>
+Manchester,<Br/>
+ M13 9PY,<Br/>
+United Kingdom<Br/>
+</Address>
+<Email>pratyush.gautam@manchester.ac.uk</Email>
+<Homepage>https://github.com/pete-g00</Homepage>
   </Author>
   <Author>
-    Pete Gautam
-<Email>pratyush.gautam@manchester.ac.uk</Email>
+    Justin Lynd
+<Address>
+Mathematics Department<Br/>
+University of Louisiana at Lafayette<Br/>
+217 Maxim Doucet Hall, P.O. Box 43568<Br/>
+Lafayette, LA 70504-3568 USA<Br/>
+</Address>
+<Email>lynd@louisiana.edu</Email>
+<Homepage>https://userweb.ucs.louisiana.edu/~jxl7583/</Homepage>
   </Author>
   <Date>
-    15 October 2026
+    19 October 2026
   </Date>
+  <Abstract>
+          The FusionSystems package allows for computation with fusion systems. 
+      Currently, it supports finding proto-essential subgroups for a given 
+      p-group and checking whether it could support reduced fusion systems.
+      
+  </Abstract>
+  <Copyright>
+          FusionSystems is free software; you can redistribute and/or modify
+      it under the terms of the <URL Text="GNU General Public License">
+      https://www.fsf.org/licenses/gpl.html</URL> as published by
+      the Free Software Foundation; either version 2 of the License, or (at
+      your opinion) any later version.
+      
+  </Copyright>
+  <Acknowledgements>
+          We thank Martin van Beek for helping expand the list of proto-essential 
+      and reduced checks. We also thank David Burrell and Josh Bridges for their 
+      contributions to the project.
+      
+  </Acknowledgements>
   </TitlePage>

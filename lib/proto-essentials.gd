@@ -29,14 +29,38 @@ DeclareInfoClass("InfoFusion");
 #! @Returns a list
 DeclareAttribute("AllProtoEssentials", IsPGroup);
 
+#! @BeginExampleSession
+#! gap> S := SmallGroup(3^4, 7);
+#! <pc group of size 81 with 4 generators>
+#! gap> L := AllProtoEssentials(S);
+#! [ Group([ f4, f1, f3 ]), Group([ f4, f2, f3 ]), Group([ f1, f4 ]) ]
+#! gap> List(L, StructureDescription);
+#! [ "(C3 x C3) : C3", "C3 x C3 x C3", "C3 x C3" ]
+#! @EndExampleSession
+
 #! @Description
 #! Returns the list of the `main` proto-essential subgroups of $S$. A proto-essential subgroup is called **main** if it lies in $\mathfrak{C}$.
 #!  
-#! If `onlyOne` is true, then we only compute $\mathfrak{C}_0$. Otherwise, all iterations are run.
-#! Running `GenerateProtoEssentials`on the list $L$ returned generates all the proto-essentials subgroups of $S$.
-#! @Arguments S [onlyOne]
+#! If the second argument `i` is provided, the function behaves as follows:
+#! * $i = 0$ -- we only compute $\mathfrak{C}_0$;
+#! * $i = -1$ -- we only compute $\mathfrak{C} \setminus \mathfrak{C}_0$; and
+#! * $i = 1$ -- we compute all $\mathfrak{C}$.
+#!
+#! If the argument is not provided, we compute all $\mathfrak{C}$. Running `GenerateProtoEssentials`on the list $L$ returned generates 
+#! all the proto-essentials subgroups of $S$.
+#! @Arguments S [i]
 #! @Returns a list
 DeclareGlobalFunction("MainProtoEssentials");
+
+#! @BeginExample
+#! gap> S := SmallGroup(2^7, 931);
+#! <pc group of size 128 with 7 generators>
+#! gap> C0 := MainProtoEssentials(S, 0);
+#! [ Group([ f1, f2, f4, f6, f7 ]), Group([ f1, f3, f5, f6, f7 ]), 
+#! Group([ f2, f3, f4, f5, f6, f7 ]) ]
+#! gap> C := MainProtoEssentials(S, -1);
+#! [ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f7, f1, f3, f4, f5, f6 ]) ]
+#! @EndExample
 
 #! @Description
 #! Uses the list $L$ containing the main proto-essential subgroups of $S$ (i.e. the set $\mathfrak{C}$) to generate all the proto-essential subgroups of $S$. 
@@ -44,8 +68,11 @@ DeclareGlobalFunction("MainProtoEssentials");
 #! @Returns a list
 DeclareOperation("GenerateProtoEssentials", [IsPGroup, IsList]);
 
-#! @Description 
-#! The operation `IsProtoEssential` checks whether a subgroup $E$ is proto-essential in $S$. This is a list of (non-exhaustive) tests that remove a subgroup being proto-essential. See Chapter <Ref Label="Chapter_ProtoEssentialChecks" /> for the tests.
-#! @Arguments S E
-#! @Returns true or false
-DeclareOperation("IsProtoEssential", [IsPGroup, IsPGroup]);
+#! @BeginExample
+#! gap> S := SmallGroup(3^6, 321);
+#! <pc group of size 729 with 6 generators>
+#! gap> L := MainProtoEssentials(S);
+#! [ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
+#! gap> L := GenerateProtoEssentials(S, L);
+#! [ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
+#! @EndExample

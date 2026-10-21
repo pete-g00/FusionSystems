@@ -45,15 +45,13 @@ DeclareOperation("FindSmallestBorel", [IsPGroup, IsGroupOfAutomorphismsFiniteGro
 #! @Returns true or false
 DeclareOperation("IsAutomizerBorelCompatible", [IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup]);
 
-# TODO: Example -- 3 \wr 3 with \SL_2(3) compatible with \Alt(4), but not 13 : 3
-
 # This function is not yet ready
-DeclareOperation("IsFocalCompatibleSequence", [IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup]);
+DeclareOperation("IsFocalCompatibleSequence", [IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsList]);
 
 #! @Description
 #! Let $S$ be a $p$-group and let $P$ be an automizer sequence. The operation `IsCompatibleSequence` checks whether $P$ can lead to a saturated fusion system. Note that there can be false positives -- $P$ may not lead to a saturated fusion system (based on the analysis of centric, radical subgroups) but passes this test.
 #! @Arguments S P
 #! @Returns true or false
-DeclareOperation("IsCompatibleSequence", [IsPGroup, IsGroupOfAutomorphismsFiniteGroup]);
+DeclareOperation("IsCompatibleSequence", [IsPGroup, IsList]);
 
 # TODO: Reduced fusion systems for $p=2$ here

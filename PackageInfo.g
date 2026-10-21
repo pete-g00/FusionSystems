@@ -1,64 +1,34 @@
-#
-# FusionSystems: Utilities for computing fusion systems
-#
-# This file contains package meta data. For additional information on
-# the meaning and correct usage of these fields, please consult the
-# manual of the "Example" package as well as the comments in its
-# PackageInfo.g file.
-#
 SetPackageInfo( rec(
 
 PackageName := "FusionSystems",
-Subtitle := "Utilities for computing fusion systems",
+Subtitle := "Fusion systems in GAP",
 Version := "0.1",
-Date := "15/10/2026", # dd/mm/yyyy format
+Date := "21/10/2026", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 
 Persons := [
   rec(
-    FirstNames := "Josh",
-    LastName := "Bridges",
-    WWWHome := "https://www.birmingham.ac.uk/staff/profiles/maths/phd-students/bridges-joshua",
-    # Email := "...",
-    IsAuthor := true,
-    IsMaintainer := true,
-    #PostalAddress := TODO,
-    #Place := TODO,
-    Institution := "University of Birmingham",
-  ),
-  # rec(
-  #   FirstNames := "David",
-  #   LastName := "Burrell",
-  #   WWWHome := "https://people.clas.ufl.edu/davidburrell/",
-  #   Email := "davidburrell@ufl.edu",
-  #   IsAuthor := true,
-  #   IsMaintainer := true,
-  #   #PostalAddress := TODO,
-  #   #Place := TODO,
-  #   Institution := "University of Florida",
-  # ),
-  rec(
     FirstNames := "Pete",
     LastName := "Gautam",
-    # WWWHome := "",
+    WWWHome := "https://github.com/pete-g00",
     Email := "pratyush.gautam@manchester.ac.uk",
     IsAuthor := true,
     IsMaintainer := true,
-    #PostalAddress := TODO,
-    #Place := TODO,
+    PostalAddress := "Alan Turing Building,\nUniversity of Manchester,\nManchester,\n M13 9PY,\nUnited Kingdom",
+    Place := "Manchester",
     Institution := "University of Manchester",
   ),
-  # rec(
-  #   FirstNames := "Justin",
-  #   LastName := "Lynd",
-  #   WWWHome := "https://userweb.ucs.louisiana.edu/~jxl7583/",
-  #   Email := "lynd@louisiana.edu",
-  #   IsAuthor := true,
-  #   IsMaintainer := true,
-  #   #PostalAddress := TODO,
-  #   #Place := TODO,
-  #   Institution := "University of Louisiana",
-  # ),
+  rec(
+    FirstNames := "Justin",
+    LastName := "Lynd",
+    WWWHome := "https://userweb.ucs.louisiana.edu/~jxl7583/",
+    Email := "lynd@louisiana.edu",
+    IsAuthor := true,
+    IsMaintainer := false,
+    PostalAddress := "Mathematics Department\nUniversity of Louisiana at Lafayette\n217 Maxim Doucet Hall, P.O. Box 43568\nLafayette, LA 70504-3568 USA",
+    Place := "Louisiana",
+    Institution := "University of Louisiana",
+  ),
 ],
 
 #SourceRepository := rec( Type := "TODO", URL := "URL" ),
@@ -81,7 +51,7 @@ ArchiveFormats := ".tar.gz",
 ##
 Status := "dev",
 
-AbstractHTML   :=  "",
+AbstractHTML   :=  "The FusionSystems package allows for computation with fusion systems. Currently, it supports finding proto-essential subgroups for a given p-group and checking whether it could support reduced fusion systems.",
 
 PackageDoc := rec(
   BookName  := "FusionSystems",
@@ -102,8 +72,32 @@ Dependencies := rec(
 AvailabilityTest := ReturnTrue,
 
 TestFile := "tst/testall.g",
-
 #Keywords := [ "TODO" ],
+
+AutoDoc := rec(
+    entities := rec(
+      FUSIONSYSYTEMS := "<Package>FusionSystems</PACKAGE>"
+    ),
+    TitlePage := rec(
+      Copyright := """
+      FusionSystems is free software; you can redistribute and/or modify
+      it under the terms of the <URL Text="GNU General Public License">
+      https://www.fsf.org/licenses/gpl.html</URL> as published by
+      the Free Software Foundation; either version 2 of the License, or (at
+      your opinion) any later version.
+      """,
+      Abstract := """
+      The FusionSystems package allows for computation with fusion systems. 
+      Currently, it supports finding proto-essential subgroups for a given 
+      p-group and checking whether it could support reduced fusion systems.
+      """,
+      Acknowledgements := """
+      We thank Martin van Beek for helping expand the list of proto-essential 
+      and reduced checks. We also thank David Burrell and Josh Bridges for their 
+      contributions to the project.
+      """
+    )
+)
 
 ));
 

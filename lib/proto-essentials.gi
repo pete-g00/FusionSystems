@@ -1,31 +1,3 @@
-InstallMethod(IsProtoEssential, "method to check whether a subgroup is proto-essential", 
-    [IsPGroup, IsPGroup], function(S, E)
-    local i;
-
-    if S = E or not IsSubset(E, Centralizer(S,E)) then 
-        return false;
-    fi;
-
-    if not PE_FrattiniTest(S, E) then 
-        return false;
-    fi;
-
-    i := PE_RankTest(S, E);
-    if i=-1 then 
-        return false;
-    fi;
-
-    if not PE_LiftTest(S, E, i) then 
-        return false;
-    fi;
-
-    if not PE_RadicalTest(S, E, i) then 
-        return false;
-    fi;
-
-    return PE_InvolutionsConjugate(S, E, i);
-end);
-
 # TODO: Accommodate for:
 # - not checking Aut(S)-conjugates of certain subgroups
 InstallGlobalFunction(MainProtoEssentials,  function(arg...)
@@ -39,6 +11,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
             j, # final position
             q, # quotient map S/Z_i
             Q, # quotients S/Z_i
+            C0, # the proto-essential subgroups in C0
             C; # the proto-essential subgroups
 
     S := arg[1];
@@ -46,7 +19,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
     if Length(arg) > 1 then 
         onlyOne := arg[2];
     else 
-        onlyOne := false;
+        onlyOne := 1;
     fi;
 
     if IsAbelian(S) then 
@@ -55,7 +28,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
 
     p := PrimePGroup(S);
 
-    if not onlyOne then 
+    if onlyOne in [1, -1] then 
         L := LowerCentralSeries(S);
         # Deals with a bug in CompositionSeriesThrough (will be fixed in v4.18)
         L := CSThru(S, L);
@@ -73,14 +46,23 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         C := List(C, A -> Filtered(A, a -> Order(a.representative) = p));
         C := List(C, A -> List(A, a -> a.centralizer));
         C := List([1..Length(C)], i -> List(C[i], A -> PreImage(q[i], A)));
-        C := Flat(C);
-    else 
+
+        if onlyOne = -1 then 
+            Info(InfoFusion, 1, "Excluding the top iteration");
+            C0 := C[Length(C)];
+            C := Filtered(Flat(C{[2..Length(C)]}), A -> ForAll(C0, B -> not IsConjugate(S, A, B)));
+        else 
+            C := Flat(C);
+        fi;
+    elif onlyOne = 0 then
         Info(InfoFusion, 1, "Only the top iteration");
         Info(InfoFusion, 1, "Finding conjugacy classes");
 
         C := ClassesSolvableGroup(S, 0);
         C := Filtered(C, a -> Order(a.representative) = p);
         C := List(C, a -> a.centralizer);
+    else 
+        Error("Second argument must be -1, 0 or 1");
     fi;
 
     Info(InfoFusion, 1, Length(C), " subgroups, including possibly duplicates");
@@ -122,6 +104,7 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
     fi;
 
     Info(InfoFusion, 1, "Generating all proto-essential subgroups");
+        
     I := [];
     L0 := ShallowCopy(L);
     T := [];
@@ -164,14 +147,12 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
     return T;
 end);
 
-InstallMethod(AllProtoEssentials, "method to find all proto-essentials", [IsPGroup], function(S)
+InstallMethod(AllProtoEssentials, "generic method", [IsPGroup],
+function(S)
     local L;
-
-    # TODO: Use the other algorithm for those with q-pearls
-    # TODO: Deal with the case when $S$ has class <= 2 (without computing $\Aut(S)$)
 
     L := MainProtoEssentials(S);
     L := GenerateProtoEssentials(S, L);
 
     return L;
-end);
+end );
