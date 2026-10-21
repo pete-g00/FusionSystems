@@ -5,6 +5,7 @@ AutoDoc( rec(
     scaffold := true, 
     bib := "FusionSystems.bib",
     autodoc := true,
+    extract_examples := true,
     files := [
         # "misc.gd",
         "lib/proto-essentials.gd",

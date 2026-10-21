@@ -161,7 +161,7 @@ end );
 
 InstallMethod(RED_DerivedCyclicTest, "RED derived cyclic test",
     [IsPGroup], function(S)
-    return not IsCyclic(DerivedSubgroup(S));
+    return IsDSWGroup(S) or not IsCyclic(DerivedSubgroup(S));
 end );
 
 InstallMethod(RED_ValidAutTest, "RED valid aut test",
