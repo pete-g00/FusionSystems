@@ -5,7 +5,7 @@
 #! Let $S$ be a $p$-group, with proto-essential subgroups $E_1, \dots, E_n$. An **automizer sequence** is a list $P := [H_{i_1}, \dots, H_{i_k}]$, where $H_{i_j} \leq \textrm{Aut}(E_{i_j})$ is a valid automizer for $E_{i_j}$ in $S$. 
 #! In other words, $\textrm{Aut}_S(E_{i_j})$ is a Sylow $p$-subgroup of $H_{i_j})$, and $H_{i_j}/\textrm{Inn}(E_{i_j})$ contains a strongly $p$-embedded subgroup. Note that we do not include a choice of $H_S \leq \textrm{Aut}(S)$ here.
 
-#! These are prototypes for saturated fusion systems. In this chapter, we describe processes to determine many important properties about automizer sequences that will allow us to determine whether the corresponding fusion system would be reduced.
+#! These are prototypes for saturated fusion systems. In this chapter, we describe processes to determine many important properties about automizer sequences that will allow us to determine whether the corresponding fusion system would be reduced. Note that the functionalities here are not guaranteed to be correct or complete just yet.
 
 #! @Section The functions
 
@@ -53,5 +53,3 @@ DeclareOperation("IsFocalCompatibleSequence", [IsPGroup, IsGroupOfAutomorphismsF
 #! @Arguments S P
 #! @Returns true or false
 DeclareOperation("IsCompatibleSequence", [IsPGroup, IsList]);
-
-# TODO: Reduced fusion systems for $p=2$ here

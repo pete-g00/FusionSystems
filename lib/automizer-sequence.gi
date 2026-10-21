@@ -392,8 +392,8 @@ OrbitStabilizerFusion := function(S, P, A)
         od;
     od;
 
-    SetIsGroupOfAutomorphismsFiniteGroup(AutFA, true);
-    SetAutomorphismDomain(AutFA, A);
+    SetIsGroupOfAutomorphismsFiniteGroup(Aut, true);
+    SetAutomorphismDomain(Aut, A);
 
     return rec(
         AutFA := Aut,
@@ -438,4 +438,17 @@ WeakRadicalCheck := function(S, W, P)
         Info(InfoWarning, 1, "Radical in F"); 
         return true;
     fi;
+end;
+
+Zip := function(L)
+    local C;
+    
+    C := Cartesian(List(L, A -> [1..Length(A)]));
+    return List(C, I -> List([1..Length(I)], i -> L[i][I[i]]));
+end;
+
+OnPreImageTuples := function(n)
+    return function(L, x)
+        return List(L, a -> a^PreImagesRepresentative(n, x));
+    end;
 end;
