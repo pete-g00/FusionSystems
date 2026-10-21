@@ -344,11 +344,11 @@ DeclareOperation("RED_TransferFpTest", [IsPGroup, IsList]);
 DeclareOperation("RED_C0Test", [IsPGroup, IsList]);
 
 #! @BeginExampleSession
-#! gap> L := AllSmallGroups(3^6, A -> NilpotencyClassOfGroup(A) >= 3);;
+#! gap> L := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;
 #! gap> Length(L);
-#! 360
+#! 32
 #! gap> Number(L, S -> RED_C0Test(S, MainProtoEssentials(S, 0)));
-#! 154
+#! 17
 #! @EndExampleSession 
 
 #! @Description 
