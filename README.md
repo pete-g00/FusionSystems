@@ -12,7 +12,7 @@ The first version of the package aims to add further functionalities, including 
 2. Run the following command -- `git clone https://github.com/pete-g00/FusionSystems`
 3. Launch GAP, and load the package `fusionsystems`. If the package has been loaded correctly, it will print the following:
 
-``` gap
+``` 
      ● G  GAP 4.16.0 of 2026-06-02
   ● ●  A  https://www.gap-system.org
      ● P  Architecture: x86_64-pc-linux-gnu-default64-kv11
