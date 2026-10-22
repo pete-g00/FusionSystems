@@ -30,7 +30,7 @@ DeclareOperation("IsomorphismSequences", [IsPGroup, IsList, IsList]);
 #! to do so.
 #! @Arguments S E
 #! @Returns a list
-DeclareOperation("ValidAutomizers", [IsPGroup, IsPGroup]);
+DeclareOperation("PE_ValidAutomizers", [IsPGroup, IsPGroup]);
 
 #! @Description
 #! Let $S$ be a $p$-group, and let $E &lt; S$ with some fixed $H_E \leq \textrm{Aut}(E)$ part of an automizer sequence. The operation `FindSmallestBorel` computes the subgroup of $\textrm{Aut}(S)$ consisting of extensions from $N_{H_E}(\textrm{Aut}_S(E))$. If not every map in the normalizer subgroup exists, we return `fail`.
@@ -53,3 +53,30 @@ DeclareOperation("IsFocalCompatibleSequence", [IsPGroup, IsGroupOfAutomorphismsF
 #! @Arguments S P
 #! @Returns true or false
 DeclareOperation("IsCompatibleSequence", [IsPGroup, IsList]);
+
+#! @Description
+#! Let $S$ be a $p$-group and let $P$ be an automizer sequence. If we set $\mathcal{F} := \langle P \rangle$,
+#! the operation `OrbitStabilizerFusion` returns a record `R`, storing:
+#! * $\mathcal{F}$-orbit $A^{\mathcal{F}}$ (in `R.orbit`),
+#! * the isomorphisms $\phi_i \colon A \to A_i$ for some $A_i \in A^{\mathcal{F}}$ (in `R.maps`), and
+#! * the automizer $\mathrm{Aut}_{\mathcal{F}}(A)$ (in `R.AutFA`).
+#! The operation uses breadth-first search, where the vertices is the $\mathcal{F}$-orbit and the edges are the maps in $P$.
+#! @Arguments S A P
+#! @Returns a record
+DeclareOperation("OrbitStabilizerFusion", [IsPGroup, IsPGroup, IsList]);
+
+#! @Description
+#! Let $S$ be a $p$-group, $W$ be a subgroup of $S$, and let $P$ be an automizer sequence. The operation `WeakRadicalCheck` 
+#! does a weaker version of the saturation check with respect to the possible centric-radical subgroup $W$. In particular, 
+#! taking $\mathcal{F} := \langle P \rangle$, the function works as follows:
+#! * We start by computing the orbit $W^\mathcal{F}$ and the stabilizer $\mathrm{Aut}_{\mathcal{F}}(W)$.
+#! * We conjugate $W$ so that it is fully $\mathcal{F}$-normalized.
+#! * We check that $\mathrm{Aut}_S(W)$ is a Sylow $p$-subgroup of $\mathrm{Aut}_{\mathcal{F}}(W)$.
+#! * If $X$ is a subgroup of $N_S(W)$ such that $N_{\mathrm{Out}_{\mathcal{F}}(W)}(\mathrm{Out}_X(W))/\mathrm{Out}_X(W)$ has a strongly $p$-embedded subgroup, then
+#! $$N_{\mathrm{Aut}_{\mathcal{F}}(W)}(\mathrm{Aut}_X(W)) = \mathrm{Aut}_{\mathrm{Aut}_{\mathcal{F}}(W)}(\mathrm{Aut}_X(W)).$$
+#! The function always returns true if $W$ is not $\mathcal{F}$-centric or if there exists a $\mathcal{F}$-conjugate $A$ 
+#! of $W$ satisfying:
+#! $$O_p(\mathrm{Aut}_{\mathcal{F}}(A))) \cap \mathrm{Aut}_S(E) > \mathrm{Inn}(E).$$
+#! @Arguments S W P
+#! @Returns true or false
+DeclareOperation("WeakRadicalCheck", [IsPGroup, IsPGroup, IsList]);
