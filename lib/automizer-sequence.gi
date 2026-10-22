@@ -1,4 +1,4 @@
-InstallMethod(PE_ValidAutomizers, "method for finding valid automizers", 
+InstallMethod(ValidAutomizers, "method for finding valid automizers", 
     [IsPGroup, IsPGroup], function(S, E)
     local   AutE, # Aut(E)
             InnE, # Inn(E)
@@ -288,7 +288,7 @@ InstallMethod(FindReducedSequences, "find reduced sequences",
     end;
 
     Info(InfoWarning, 1, "Finding valid automizers");
-    P := List(L, E -> PE_ValidAutomizers(S, E));
+    P := List(L, E -> ValidAutomizers(S, E));
     I := PositionsProperty(L, A -> not IsEmpty(A));
     
     P := P{I};
@@ -323,8 +323,7 @@ InstallMethod(FindReducedSequences, "find reduced sequences",
     return ValidSequences;
 end );
 
-# For PE_ValidAutomizers, we should expect the number of $\Out(E)$-conjugates of $\Out_F(E)$ to equal the number of $\Out(S)|_E$-conjugates of $\Out_F(E)$.
-
+# For ValidAutomizers, we should expect the number of $\Out(E)$-conjugates of $\Out_F(E)$ to equal the number of $\Out(S)|_E$-conjugates of $\Out_F(E)$.
 InstallMethod(IsomorphismSequences, "find isomorphism between automizer sequences",
     [IsPGroup, IsList, IsList], function(S, P1, P2)
     local AutS, n;

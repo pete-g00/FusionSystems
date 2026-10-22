@@ -33,7 +33,7 @@ InstallMethod(Zed0, "Computes Zed0 for a group",
     return Zp;
 end );
 
-InstallMethod(PE_Zed0Test, "PE Z0 test",
+InstallMethod(Zed0Test, "PE Z0 test",
     [IsPGroup, IsPGroup], function(S, E)
     local Zed, p, OS, OE;
 
@@ -58,7 +58,7 @@ InstallMethod(PE_Zed0Test, "PE Z0 test",
     return ForAny(RightTransversal(OE, OS), x -> Centralizer(S, x) = E);
 end );
 
-InstallMethod(PE_RankTest, "PE rank test", 
+InstallMethod(RankTest, "PE rank test", 
     [IsPGroup, IsPGroup], function(S, E)
     local   p, # the prime
             r, # the rank of E
@@ -147,7 +147,7 @@ InstallMethod(PE_RankTest, "PE rank test",
     return -1;
 end );
 
-InstallMethod(PE_ModuleTest, "PE Module Test", 
+InstallMethod(ModuleTest, "PE Module Test", 
     [IsPGroup, IsPGroup], function(S, P)
     local p,FP,NSP,k,l,s,sP;
 
@@ -178,7 +178,7 @@ InstallMethod(PE_ModuleTest, "PE Module Test",
     return true;
 end );
 
-InstallMethod(PE_FrattiniTest, "PE Frattini Test", 
+InstallMethod(FrattiniTest, "PE Frattini Test", 
     [IsPGroup, IsPGroup], function(S, E)
     # Specific case when $C_{N_S(E)}(E/\Phi(E)) = N_S(E)$
     if CommutatorSubgroup(Normalizer(S,E), E) = FrattiniSubgroup(E) then 
@@ -188,7 +188,7 @@ InstallMethod(PE_FrattiniTest, "PE Frattini Test",
     return CentralizerMod(Normalizer(S,E),E,FrattiniSubgroup(E)) = E;
 end );
 
-InstallMethod(PE_LiftTest, "PE Lift Test", 
+InstallMethod(LiftTest, "PE Lift Test", 
     [IsPGroup, IsPGroup, IsInt], function(S, E, i)
     local p, N, n, CheckLift;
 
@@ -268,7 +268,7 @@ InstallMethod(PE_LiftTest, "PE Lift Test",
     fi;
 end );
 
-InstallMethod(PE_ValidAutTest, "PE Valid Aut Test",
+InstallMethod(ValidAutTest, "PE Valid Aut Test",
     [IsPGroup, IsPGroup, IsInt], function(S, E, i)
     local OutSE, p, n, r, q, AutE, N, AutEp, D, IsSectionOrderValid;
 
@@ -366,7 +366,7 @@ InstallMethod(PE_ValidAutTest, "PE Valid Aut Test",
     return ForAny([1..Length(D)-1], i -> IsSectionOrderValid(IndexNC(D[i], D[i+1])));
 end );
 
-InstallMethod(PE_RadicalTest, "PE Radical Test", 
+InstallMethod(RadicalTest, "PE Radical Test", 
     [IsPGroup, IsPGroup], function(S, E)
     local p, AutE, AutSE, n, AutEp;
 
@@ -387,33 +387,33 @@ end);
 InstallMethod(IsProtoEssentialNC, "PE check NC",
     [IsPGroup, IsPGroup], function(S, E)
     local i;
-    if not PE_FrattiniTest(S, E) then 
+    if not FrattiniTest(S, E) then 
         Info(InfoFusion, 2, "\tFailed frattini test");
         return false;
     fi;
 
-    if not PE_ModuleTest(S, E) then
+    if not ModuleTest(S, E) then
         Info(InfoFusion, 2, "\tFailed module test");
         return false;
     fi;
 
-    i := PE_RankTest(S, E);
+    i := RankTest(S, E);
     if i=-1 then 
         Info(InfoFusion, 2, "\tFailed rank test");
         return false;
     fi;
 
-    if not PE_LiftTest(S, E, i) then 
+    if not LiftTest(S, E, i) then 
         Info(InfoFusion, 2, "\tFailed lift test");
         return false;
     fi;
 
-    if not PE_ValidAutTest(S, E, i) then 
+    if not ValidAutTest(S, E, i) then 
         Info(InfoFusion, 2, "\tFailed valid aut test");
         return false;
     fi;
 
-    if PE_RadicalTest(S, E) then 
+    if RadicalTest(S, E) then 
         return true;
     else 
         Info(InfoFusion, 2, "\tFailed radical test");
@@ -428,7 +428,7 @@ InstallMethod(IsProtoEssential, "PE check",
         return false;
     fi;
 
-    if not PE_Zed0Test(S, E) then 
+    if not Zed0Test(S, E) then 
         Info(InfoFusion, 2, "\tFailed Z0 test");
         return false;
     fi;
@@ -436,21 +436,21 @@ InstallMethod(IsProtoEssential, "PE check",
     return IsProtoEssentialNC(S, E);
 end);
 
-FrattiniTest := function(S, P)
-    local ucs, FP, Theta, g;
+# FrattiniTest := function(S, P)
+#     local ucs, FP, Theta, g;
 
-    ucs := Reversed(UpperCentralSeries(P));
-    FP := FrattiniSubgroup(P);
-    for Theta in ucs{[1..Minimum(2,Length(ucs))]} do 
-        for g in RightTransversal(Normalizer(S,P),P) do
-            if g in P then 
-                continue; 
-            fi;
-            if IsSubgroup(ClosureGroup(Theta,FP), CommutatorSubgroup(Group(g),P))
-                    and IsSubgroup(FP, CommutatorSubgroup(Group(g), Theta)) then
-                return false;
-            fi;
-        od;   
-    od;
-    return true;
-end;
+#     ucs := Reversed(UpperCentralSeries(P));
+#     FP := FrattiniSubgroup(P);
+#     for Theta in ucs{[1..Minimum(2,Length(ucs))]} do 
+#         for g in RightTransversal(Normalizer(S,P),P) do
+#             if g in P then 
+#                 continue; 
+#             fi;
+#             if IsSubgroup(ClosureGroup(Theta,FP), CommutatorSubgroup(Group(g),P))
+#                     and IsSubgroup(FP, CommutatorSubgroup(Group(g), Theta)) then
+#                 return false;
+#             fi;
+#         od;   
+#     od;
+#     return true;
+# end;

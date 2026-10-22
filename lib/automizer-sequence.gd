@@ -30,7 +30,7 @@ DeclareOperation("IsomorphismSequences", [IsPGroup, IsList, IsList]);
 #! to do so.
 #! @Arguments S E
 #! @Returns a list
-DeclareOperation("PE_ValidAutomizers", [IsPGroup, IsPGroup]);
+DeclareOperation("ValidAutomizers", [IsPGroup, IsPGroup]);
 
 #! @Description
 #! Let $S$ be a $p$-group, and let $E &lt; S$ with some fixed $H_E \leq \textrm{Aut}(E)$ part of an automizer sequence. The operation `FindSmallestBorel` computes the subgroup of $\textrm{Aut}(S)$ consisting of extensions from $N_{H_E}(\textrm{Aut}_S(E))$. If not every map in the normalizer subgroup exists, we return `fail`.

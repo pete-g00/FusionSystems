@@ -123,7 +123,8 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and Is
 #! [ Group([ (3,4)(5,6), (1,2)(3,4) ]), Group([ (1,3)(2,4), (1,2)(3,4) ]), 
 #! Group([ (1,3,2,4)(5,6), (1,2)(3,4) ]) ]
 #! gap> AutGM := List(M, A -> Automizer(G, A));
-#! [ <group with 2 generators>, <group with 2 generators>, <group with 2 generators> ]
+#! [ <group with 2 generators>, <group with 2 generators>, 
+#! <group with 2 generators> ]
 #! gap> List(AutGM, StructureDescription);
 #! [ "S3", "S3", "C2" ]
 #! @EndExampleSession 
@@ -144,11 +145,11 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and Is
 #! gap> AutSV := Automizer(AutS, V);
 #! <group with 7 generators>
 #! gap> AutV := AutomorphismGroup(V);
-#! <group with 4 generators>
+#! <group of size 480 with 4 generators>
 #! gap> n := NiceMonomorphism(AutV);
 #! <action isomorphism>
 #! gap> AutV := n(AutV);
-#! <permutation group with 4 generators>
+#! <permutation group of size 480 with 4 generators>
 #! gap> AutSV := n(AutSV);
 #! <permutation group with 7 generators>
 #! gap> Index(AutV, AutSV);

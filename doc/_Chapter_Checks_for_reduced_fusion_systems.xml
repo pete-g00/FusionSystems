@@ -27,8 +27,14 @@
 <P/>
  This function checks whether the group <Math>S</Math> satisfies certain properties that are known to hold for a <Math>p</Math>-group that 
  supports reduced fusion systems. In the process, we compute the proto-essential subgroups of <Math>S</Math>, along with their 
- automorphism groups. See <Ref Label="Section_red_specific_fn"/> for the list of specific tests currently implemented.
-  We do not construct automizer sequences.
+ automorphism groups. 
+<Alt Only="LaTeX"><![CDATA[
+ See \ref{Section_RedSpecificFn} for the list of specific tests currently implemented.
+]]></Alt>
+<Alt Not="LaTeX"><![CDATA[
+ See <Label Ref="Section_RedSpecificFn" /> for the list of specific tests currently implemented.
+]]></Alt>
+ We do not construct automizer sequences.
 <P/>
  </Description>
 </ManSection>
@@ -78,7 +84,7 @@ false
 
 </Section>
 
-<Section Label="Section_red_specific_fn">
+<Section Label="Section_RedSpecificFn">
 <Heading>The specific functions</Heading>
 
 <ManSection>
@@ -125,12 +131,12 @@ false
 ]]></Example>
 
 <ManSection>
-  <Attr Arg="S" Name="RED_ExponentTest" Label="for IsPGroup"/>
+  <Attr Arg="S" Name="ExponentTest" Label="for IsPGroup"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group. If <Math>S</Math> has class <Math>a</Math>, the attribute <Code>RED_ExponentTest</Code> checks that <Math>\Omega(Z(S))</Math> has exponent at most <Math>p^t</Math>, where 
+ Let <Math>S</Math> be a <Math>p</Math>-group. If <Math>S</Math> has class <Math>a</Math>, the attribute <Code>ExponentTest</Code> checks that <Math>\Omega(Z(S))</Math> has exponent at most <Math>p^t</Math>, where 
  <Display>t := \left\lceil \frac{c-1}{p-1} \right\rceil.</Display>
 <P/>
  This test applies at any prime <Math>p</Math>. It is based on <Cite Key="LP" Where="Theorem A" />.
@@ -143,23 +149,23 @@ gap> S := SmallGroup(3^4, 13);
 <pc group of size 81 with 4 generators>
 gap> StructureDescription(S);
 "C3 x (C9 : C3)"
-gap> RED_ExponentTest(S);
+gap> ExponentTest(S);
 true
 gap> S := SmallGroup(3^4, 14);
 <pc group of size 81 with 4 generators>
 gap> StructureDescription(S);
 "(C9 x C3) : C3"
-gap> RED_ExponentTest(S);
+gap> ExponentTest(S);
 false
 ]]></Example>
 
 <ManSection>
-  <Attr Arg="S" Name="RED_AbelianTest" Label="for IsPGroup"/>
+  <Attr Arg="S" Name="AbelianTest" Label="for IsPGroup"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>2</Math>-group. The attribute <Code>RED_AbelianTest</Code> first asserts whether there exists an abelian subgroup <Math>A</Math> of <Math>S</Math> satisfying <Math>[N_S(A) : A] = 2</Math> and: 
+ Let <Math>S</Math> be a <Math>2</Math>-group. The attribute <Code>AbelianTest</Code> first asserts whether there exists an abelian subgroup <Math>A</Math> of <Math>S</Math> satisfying <Math>[N_S(A) : A] = 2</Math> and: 
 <List>
 <Item>
 <Math>N_S(A) = S</Math>; or
@@ -178,7 +184,7 @@ false
 <Example><![CDATA[
 gap> S := DihedralGroup(2^4);
 <pc group of size 16 with 4 generators>
-gap> RED_AbelianTest(S);
+gap> AbelianTest(S);
 true
 gap> S := SmallGroup(2^5, 9);
 <pc group of size 32 with 5 generators>
@@ -186,17 +192,17 @@ gap> StructureDescription(S);
 "(C8 x C2) : C2"
 gap> StructureDescription(Center(S));
 "C2 x C2"
-gap> RED_AbelianTest(S);
+gap> AbelianTest(S);
 false
 ]]></Example>
 
 <ManSection>
-  <Attr Arg="S" Name="RED_DerivedCyclicTest" Label="for IsPGroup"/>
+  <Attr Arg="S" Name="DerivedCyclicTest" Label="for IsPGroup"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group. If <Math>S'</Math> is cyclic, then the attribute <Code>RED_DerivedCyclicTest</Code> returns true only if:
+ Let <Math>S</Math> be a <Math>p</Math>-group. If <Math>S'</Math> is cyclic, then the attribute <Code>DerivedCyclicTest</Code> returns true only if:
 <List>
 <Item>
 <Math>S</Math> is a <Math>\mathcal{DSW}</Math>-group; or
@@ -214,7 +220,7 @@ false
 <Example><![CDATA[
 gap> S := DihedralGroup(2^4);
 <pc group of size 16 with 4 generators>
-gap> RED_DerivedCyclicTest(S);
+gap> DerivedCyclicTest(S);
 true
 gap> S := SmallGroup(2^5, 9);
 <pc group of size 32 with 5 generators>
@@ -222,17 +228,17 @@ gap> StructureDescription(S);
 "(C8 x C2) : C2"
 gap> StructureDescription(Center(S));
 "C2 x C2"
-gap> RED_DerivedCyclicTest(S);
+gap> DerivedCyclicTest(S);
 false
 ]]></Example>
 
 <ManSection>
-  <Attr Arg="S" Name="RED_ValidAutTest" Label="for IsPGroup"/>
+  <Attr Arg="S" Name="ValidAutTest" Label="for IsPGroup"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group (for <Math>p</Math> odd). The attribute <Code>RED_ValidAutTest</Code> returns true only if <Math>\mathrm{Aut}(S)</Math> is 
+ Let <Math>S</Math> be a <Math>p</Math>-group (for <Math>p</Math> odd). The attribute <Code>ValidAutTest</Code> returns true only if <Math>\mathrm{Aut}(S)</Math> is 
  not a <Math>p</Math>-group.
 <P/>
  This test does not apply at <Math>p=2</Math>. It is based on <Cite Key="CRA" Where="7.82" /> (for <Math>p \geq 5</Math>).
@@ -247,7 +253,7 @@ gap> NilpotencyClassOfGroup(S);
 4
 gap> AutomorphismGroup(S);
 <group of size 15625 with 6 generators>
-gap> RED_ValidAutTest(S);
+gap> ValidAutTest(S);
 false
 gap> S := SmallGroup(5^5, 30);
 <pc group of size 3125 with 5 generators>
@@ -255,7 +261,7 @@ gap> NilpotencyClassOfGroup(S);
 4
 gap> AutomorphismGroup(S);
 <group of size 1250000 with 11 generators>
-gap> RED_ValidAutTest(S);
+gap> ValidAutTest(S);
 true
 gap> S := SmallGroup(5^5, 32);
 <pc group of size 3125 with 5 generators>
@@ -263,17 +269,17 @@ gap> NilpotencyClassOfGroup(S);
 4
 gap> AutomorphismGroup(S);
 <group of size 62500 with 8 generators>
-gap> RED_ValidAutTest(S);
+gap> ValidAutTest(S);
 false
 ]]></Example>
 
 <ManSection>
-  <Attr Arg="S" Name="RED_OmegaAbelianizationTest" Label="for IsPGroup"/>
+  <Attr Arg="S" Name="OmegaAbelianizationTest" Label="for IsPGroup"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>2</Math>-group, <Math>D := S'</Math> and <Math>O := \Omega(Z(S))</Math>. The attribute <Code>RED_OmegaAbelianizationTest</Code> return false only if:
+ Let <Math>S</Math> be a <Math>2</Math>-group, <Math>D := S'</Math> and <Math>O := \Omega(Z(S))</Math>. The attribute <Code>OmegaAbelianizationTest</Code> return false only if:
 <List>
 <Item>
 <Math>[\Omega(Z(S)) : \Omega(Z(S)) \cap D] = 2</Math>; or
@@ -291,29 +297,29 @@ false
 <Example><![CDATA[
 gap> S := DihedralGroup(2^4);
 <pc group of size 16 with 4 generators>
-gap> RED_OmegaAbelianizationTest(S);
+gap> OmegaAbelianizationTest(S);
 true
 gap> S := SmallGroup(2^4, 3);
 <pc group of size 16 with 4 generators>
 gap> StructureDescription(S);
 "(C4 x C2) : C2"
-gap> RED_OmegaAbelianizationTest(S);
+gap> OmegaAbelianizationTest(S);
 false
 ]]></Example>
 
 <ManSection Label="AutoDoc_generated_group4">
 <Heading>Transfer test for a group</Heading>
-  <Attr Arg="S" Name="RED_TransferMaximalTest" Label="for IsPGroup"/>
-  <Attr Arg="S" Name="RED_TransferFpMaximalTest" Label="for IsPGroup"/>
+  <Attr Arg="S" Name="TransferMaximalTest" Label="for IsPGroup"/>
+  <Attr Arg="S" Name="TransferFpMaximalTest" Label="for IsPGroup"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>2</Math>-group. The attribute <Code>RED_TransferMaximalTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
+ Let <Math>S</Math> be a <Math>2</Math>-group. The attribute <Code>TransferMaximalTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
  <Display>\bigcap_{M \in \mathcal{M}(S)} \ker(\mathrm{tr}_M^S) = S',</Display>
  where <Math>\mathcal{M}(S)</Math> is the set of maximal subgroups of <Math>S</Math>, and 
  <Math>\mathrm{tr}_M^S \colon S \to M/M'</Math> is the transfer homomorphism. Alternatively, 
- <Code>RED_TransferFpMaximalTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
+ <Code>TransferFpMaximalTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
  <Display>\bigcap_{M \in \mathcal{M}(S)} \ker(\mathrm{tr'}_M^S) = \Phi(S),</Display>
  where <Math>\mathcal{M}(S)</Math> is the set of maximal subgroups of <Math>S</Math>, and
  <Math>\mathrm{tr'}_M^S \colon S \to M/\Phi(M)</Math> is the transfer homomorphism.
@@ -327,25 +333,25 @@ false
 <Example><![CDATA[
 gap> S := SmallGroup(2^7, 903);
 <pc group of size 128 with 7 generators>
-gap> RED_TransferMaximalTest(S);
+gap> TransferMaximalTest(S);
 false
-gap> RED_TransferFpMaximalTest(S);
+gap> TransferFpMaximalTest(S);
 true
 ]]></Example>
 
 <ManSection Label="AutoDoc_generated_group5">
 <Heading>Transfer test with a list</Heading>
-  <Oper Arg="S L" Name="RED_TransferTest" Label="for IsPGroup, IsList"/>
-  <Oper Arg="S L" Name="RED_TransferFpTest" Label="for IsPGroup, IsList"/>
+  <Oper Arg="S L" Name="TransferTest" Label="for IsPGroup, IsList"/>
+  <Oper Arg="S L" Name="TransferFpTest" Label="for IsPGroup, IsList"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
  Let <Math>S</Math> be a <Math>2</Math>-group and <Math>L</Math> be a list of (proto-essential) subgroups of <Math>S</Math>. 
- The attribute <Code>RED_TransferTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
+ The attribute <Code>TransferTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
  <Display>\bigcap_{M \in L} \ker(\mathrm{tr}_M^S) = S',</Display>
  where <Math>\mathrm{tr}_M^S \colon S \to M/M'</Math> is the transfer homomorphism. Alternatively, 
- <Code>RED_TransferFpTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
+ <Code>TransferFpTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
  <Display>\bigcap_{M \in L} \ker(\mathrm{tr'}_M^S) = \Phi(S),</Display>
  where <Math>\mathrm{tr'}_M^S \colon S \to M/\Phi(M)</Math> is the transfer homomorphism.
 <P/>
@@ -362,19 +368,19 @@ gap> L := AllProtoEssentials(S);
 [ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), 
 Group([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), 
 Group([ f1, f3, f5, f6, f7 ]) ]
-gap> RED_TransferTest(S, L{[1..3]});
+gap> TransferTest(S, L{[1..3]});
 true
-gap> RED_TransferTest(S, L{[3..5]});
+gap> TransferTest(S, L{[3..5]});
 false
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S L" Name="RED_C0Test" Label="for IsPGroup, IsList"/>
+  <Oper Arg="S L" Name="C0Test" Label="for IsPGroup, IsList"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, and <Math>L := \mathfrak{C}_0</Math>. The function <Code>RED_C0Test</Code> checks that there exists some subgroup 
+ Let <Math>S</Math> be a <Math>p</Math>-group, and <Math>L := \mathfrak{C}_0</Math>. The function <Code>C0Test</Code> checks that there exists some subgroup 
  <Math>E</Math> in <Math>L</Math> such that <Math>\Omega(Z(S))</Math> is not semi-characteristic in <Math>E</Math>, i.e. invariant 
  under <Math>O^p(O^{p'}(\mathrm{Aut}(E)))</Math>.
 <P/>
@@ -384,20 +390,20 @@ false
 </ManSection>
 
 <Example><![CDATA[
-gap> L := AllSmallGroups(3^6, A -> NilpotencyClassOfGroup(A) >= 3);;
+gap> L := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;
 gap> Length(L);
-360
-gap> Number(L, S -> RED_C0Test(S, MainProtoEssentials(S, 0)));
-154
+32
+gap> Number(L, S -> C0Test(S, MainProtoEssentials(S, 0)));
+17
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S L" Name="RED_CTest" Label="for IsPGroup, IsList"/>
+  <Oper Arg="S L" Name="CTest" Label="for IsPGroup, IsList"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The function <Code>RED_CTest</Code> checks that:
+ Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The function <Code>CTest</Code> checks that:
 <List>
 <Item>
 <Math>L</Math> has at least <Math>2</Math> elements, or
@@ -416,18 +422,18 @@ if <Math>\mathrm{Aut}(S)</Math> is a not <Math>2</Math>-group, then the single s
 gap> L := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;
 gap> Length(L);
 32
-gap> Number(L, S -> RED_CTest(S, AllProtoEssentials(S)));
+gap> Number(L, S -> CTest(S, AllProtoEssentials(S)));
 16
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S L" Name="RED_SemiCharacteristicGeneratedTest" Label="for IsPGroup, IsList"/>
+  <Oper Arg="S L" Name="SemiCharacteristicGeneratedTest" Label="for IsPGroup, IsList"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
  Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The function 
- <Code>RED_SemiCharacteristicGeneratedTest</Code> checks that the subgroup
+ <Code>SemiCharacteristicGeneratedTest</Code> checks that the subgroup
  <Display>\langle [O^p(\mathrm{Aut}(S)), S], Q_E \mid E \in L \rangle = S,</Display>
  where <Math>Q_E</Math> is the semi-characteristic closure of <Math>[N_S(E), E]</Math> in <Math>E</Math>.
 <P/>
@@ -443,20 +449,20 @@ gap> L := AllProtoEssentials(S);
 [ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), 
 Group([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), 
 Group([ f1, f3, f5, f6, f7 ]) ]
-gap> RED_SemiCharacteristicGeneratedTest(S, L{[1..3]});
+gap> SemiCharacteristicGeneratedTest(S, L{[1..3]});
 true
-gap> RED_SemiCharacteristicGeneratedTest(S, L{[3..5]});
+gap> SemiCharacteristicGeneratedTest(S, L{[3..5]});
 false
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S" Name="RED_CoreTest" Label="for IsPGroup, IsList"/>
+  <Oper Arg="S" Name="CoreTest" Label="for IsPGroup, IsList"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
  Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The function 
- <Code>RED_CoreTest</Code> checks that if <Math>N</Math> is a normal subgroup of <Math>S</Math> 
+ <Code>CoreTest</Code> checks that if <Math>N</Math> is a normal subgroup of <Math>S</Math> 
  such that <Math>N</Math> is semi-characteristic (i.e. fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(E)))</Math>) 
  in each <Math>E \in L</Math>, then <Math>N = 1</Math>.
 <P/>
@@ -473,7 +479,7 @@ gap> L := AllProtoEssentials(S);
 gap> C := List(L, CharacteristicSubgroups);;
 gap> Intersection(C);
 [ Group([  ]) ]
-gap> RED_CoreTest(S, L);
+gap> CoreTest(S, L);
 false
 ]]></Example>
 

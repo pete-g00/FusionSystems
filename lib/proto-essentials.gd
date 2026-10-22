@@ -5,7 +5,14 @@ DeclareInfoClass("InfoFusion");
 
 #! @Section Brief description of the algorithm
 
-#! Let $S$ be a finite $p$-group. Recall that $E$ is proto-essential in $S$ if there **could** exist a saturated fusion system $\mathcal{F}$ on $S$ such that $E \in \mathcal{E}(\mathcal{F})$. See Chapter <Ref Chap="Chapter_ProtoEssentialChecks" /> on the proto-essential tests.
+#! Let $S$ be a finite $p$-group. Recall that $E$ is proto-essential in $S$ if there **could** exist a saturated fusion system $\mathcal{F}$ on $S$ such that $E \in \mathcal{E}(\mathcal{F})$. 
+
+#! @BeginLatexOnly
+#! See \ref{Chapter_ProtoEssentialChecks} for the list of specific tests currently implemented.
+#! @EndLatexOnly
+#! @BeginNotLatex
+#! See Chapter <Ref Chap="Chapter_ProtoEssentialChecks" /> for the list of specific tests currently implemented.
+#! @EndNotLatex
 
 #! In this section, we describe the algorithm for constructing all the proto-essential subgroups of $S$. This is based on <Cite Key="sporadics2" Where="Section 3"/>.
 

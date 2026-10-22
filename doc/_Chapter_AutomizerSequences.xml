@@ -30,7 +30,7 @@
 </ManSection>
 
 <ManSection>
-  <Oper Arg="S E" Name="PE_ValidAutomizers" Label="for IsPGroup, IsPGroup"/>
+  <Oper Arg="S E" Name="ValidAutomizers" Label="for IsPGroup, IsPGroup"/>
  <Returns>a list
 </Returns>
  <Description>
