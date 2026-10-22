@@ -31,13 +31,13 @@ needed-pkgs:
       version: ">=1.4.5"
       url: "https://github.com/bh11/crisp/"
 
-www: https://TODO/
+www: pete-g00.github.io/FusionSystems
 readme: README.md
-packageinfo: https://TODO/PackageInfo.g
+packageinfo: pete-g00.github.io/FusionSystemsPackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://TODO//FusionSystems-0.1.tar.gz
+      url: pete-g00.github.io/FusionSystems/FusionSystems-0.1.tar.gz
 
 abstract: |
     The FusionSystems package allows for computation with fusion systems. Currently, it supports finding proto-essential subgroups for a given p-group and checking whether it could support reduced fusion systems.
@@ -52,7 +52,7 @@ citeas: |
              Version 0.1</i>
      (<span class='BibYear'>2026</span>)<br />
     (<span class='BibNote'>GAP package</span>),
-    <span class='BibHowpublished'><a href="https://TODO/">https://TODO/</a></span>.
+    <span class='BibHowpublished'><a href="pete-g00.github.io/FusionSystems">pete-g00.github.io/FusionSystems</a></span>.
     </p>
     
 
@@ -63,7 +63,8 @@ bibtex: |
       month =            {Oct},
       year =             {2026},
       note =             {GAP package},
-      howpublished =     {\href {https://TODO/} {\texttt{https://TODO/}}},
+      howpublished =     {\href   {pete-g00.github.io/FusionSystems}   {\texttt{pete\texttt{\symbol{45}}g00.github.io/}\discretionary
+                          {}{}{}\texttt{FusionSystems}}},
       printedkey =       {GL26}
     }
 
