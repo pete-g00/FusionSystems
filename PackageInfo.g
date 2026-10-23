@@ -31,12 +31,16 @@ Persons := [
   ),
 ],
 
-#SourceRepository := rec( Type := "TODO", URL := "URL" ),
-IssueTrackerURL := "https://github.com/pete-g00/FusionSystems/issues",
-PackageWWWHome := "https://pete-g00.github.io/FusionSystems",
+SourceRepository := rec(
+    Type := "git",
+    URL := "https://github.com/pete-g00/FusionSystems",
+),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+PackageWWWHome := "https://pete-g00.github.io/FusionSystems/",
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
-ArchiveURL     := Concatenation( ~.PackageWWWHome,
+ArchiveURL     := Concatenation( ~.SourceRepository.URL,
+                                 "/releases/download/v", ~.Version,
                                  "/", ~.PackageName, "-", ~.Version ),
 
 ArchiveFormats := ".tar.gz",
