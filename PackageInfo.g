@@ -80,7 +80,7 @@ TestFile := "tst/testall.g",
 
 AutoDoc := rec(
     entities := rec(
-      FUSIONSYSYTEMS := "<Package>FusionSystems</PACKAGE>"
+      FUSIONSYSTEMS := "<Package>FusionSystems</Package>"
     ),
     TitlePage := rec(
       Copyright := """
@@ -88,7 +88,7 @@ AutoDoc := rec(
       it under the terms of the <URL Text="GNU General Public License">
       https://www.fsf.org/licenses/gpl.html</URL> as published by
       the Free Software Foundation; either version 2 of the License, or (at
-      your opinion) any later version.
+      your option) any later version.
       """,
       Abstract := """
       The FusionSystems package allows for computation with fusion systems. 
