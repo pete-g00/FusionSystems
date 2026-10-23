@@ -9,4 +9,5 @@
 /doc/manual*
 /doc/_entities.xml
 /doc/chooser.html
-/doc/_main*
+/doc/_main*/doc/_*.xml
+/doc/title.xml
