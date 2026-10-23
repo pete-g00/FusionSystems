@@ -6,16 +6,16 @@ SupportsPearls := function(S)
     r := NilpotencyClassOfGroup(S);
 
     if Size(S) <> p^(r+1) then 
-        Info(InfoWarning, 1, "S is not maximal class");
+        Info(InfoFusion, 1, "S is not maximal class");
         return false;
     fi;
     
     AutS := AutomorphismGroup(S);
     
-    Info(InfoWarning, 1, "Aut(S) has order ", Size(AutS));
+    Info(InfoFusion, 1, "Aut(S) has order ", Size(AutS));
 
     if Size(AutS) mod (p-1) <> 0 then 
-        Info(InfoWarning, 1, "  which is too small");
+        Info(InfoFusion, 1, "  which is too small");
         return false;
     fi;
 
@@ -28,10 +28,10 @@ SupportsPearls := function(S)
     C := Filtered(C, A -> IsElementaryAbelian(A) and Size(A) = p^2);
 
     if Length(C) = 0 then 
-        Info(InfoWarning, 1, "No choice for pearls");
+        Info(InfoFusion, 1, "No choice for pearls");
         return false;
     fi;
-    Info(InfoWarning, 1, Length(C), " choice(s) for pearls");
+    Info(InfoFusion, 1, Length(C), " choice(s) for pearls");
 
     return ForAny(C, V -> FindSmallestBorel(S, PrimeResidual(AutomorphismGroup(V), p)) <> fail);
 end;
