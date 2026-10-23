@@ -21,12 +21,7 @@
 #! * $\mathrm{Aut}(E)$.
 #! 
 #! Each computation is considered more expensive than the previous one.
-#! @BeginLatexOnly
-#! See \ref{Section_PEChecks} for the list of tests currently implemented.
-#! @EndLatexOnly
-#! @BeginNotLatex
-#! See Section <Ref Label="Section_PEChecks"/> for the list of tests currently implemented.
-#! @EndNotLatex
+#! See Section <Ref Sect="Section_PEChecks"/> for the list of tests currently implemented.
 #! 
 #! Note that it is possible that $E$ is found to be proto-essential even though there is no fusion system $\mathcal{F}$ on $S$
 #! with $E \in \mathcal{E}(\mathcal{F})$. This can be for various reasons, for example, $E$ could be essential in $\mathcal{F}$
@@ -71,20 +66,20 @@ DeclareOperation("IsProtoEssentialNC", [IsPGroup, IsPGroup]);
 DeclareAttribute("Zed0", IsPGroup);
 
 # TODO: Odd proof after the paper is out
-# @Description 
- 
+#! @Description 
+#! 
 #! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `Zed0Test` checks that one of the following holds:
 #! * $Z_0 \leq E$; or
 #! * $[N_S(E) : E] = p$, and there exists some $x \in \Omega(Z(E))$ such that $E = C_S(x)$.
 #!
 #! Note that this function is not used when constructing $\mathfrak{C}$ as the choice of $x$ is easier to find while 
 #! the set $\mathfrak{C}_0$ is being constructed.
-
+#!
 #! This test applies at any prime $p$. It is based on <Cite Key="AOV17" Where="Proposition 2.3(a)" /> (proven for $p=2$).
-
+#!
 #! @Label Zed0Test
-#! @Arguments S
-#! @Returns a subgroup
+#! @Arguments S E
+#! @Returns true or false
 DeclareOperation("Zed0Test", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession
@@ -110,7 +105,7 @@ DeclareOperation("Zed0Test", [IsPGroup, IsPGroup]);
 #! * $3$ -- Sylow $2$-subgroup of $\mathrm{Sz}(2^{2n+1})$;
 #! * $4$ -- Sylow $3$-subgroup of ${^2\mathrm{G}}_2(3^{2n+1})$; and
 #! * $5$ -- $3^{1+2}_-$ and $5^{1+2}_-$.
-#! We return $-1$ none of the cases above apply. During the process, we also check that the subgroup $E$ has
+#! We return $-1$ if none of the cases above apply. During the process, we also check that the subgroup $E$ has
 #! sufficiently high rank to ensure that $\mathrm{Aut}(E)$ has a possible valid section.
 #!
 #! This test applies at any prime $p$. It is based on <Cite Key="SAM14" Where="Proposition 6.9" />.
@@ -156,7 +151,7 @@ DeclareOperation("RankTest", [IsPGroup, IsPGroup]);
 #! This test applies at $p=2$. It is based on <Cite Key="OV" Where="Proposition 3.3(c)" />.
 #!  
 #! @Arguments S E
-#! @Returns a number
+#! @Returns true or false
 DeclareOperation("ModuleTest", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession

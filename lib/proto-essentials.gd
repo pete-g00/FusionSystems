@@ -7,12 +7,7 @@ DeclareInfoClass("InfoFusion");
 
 #! Let $S$ be a finite $p$-group. Recall that $E$ is proto-essential in $S$ if there **could** exist a saturated fusion system $\mathcal{F}$ on $S$ such that $E \in \mathcal{E}(\mathcal{F})$. 
 
-#! @BeginLatexOnly
-#! See \ref{Chapter_ProtoEssentialChecks} for the list of specific tests currently implemented.
-#! @EndLatexOnly
-#! @BeginNotLatex
 #! See Chapter <Ref Chap="Chapter_ProtoEssentialChecks" /> for the list of specific tests currently implemented.
-#! @EndNotLatex
 
 #! In this section, we describe the algorithm for constructing all the proto-essential subgroups of $S$. This is based on <Cite Key="sporadics2" Where="Section 3"/>.
 
@@ -27,7 +22,7 @@ DeclareInfoClass("InfoFusion");
 
 #! @Description 
 #! The attribute `AllProtoEssentials` constructs all proto-essential subgroups of a $p$-group $S$. It works as follows:
-#! * it calls the function `AllProtoEssentials` which constructs the set $\mathfrak{C}$;
+#! * it calls the function `MainProtoEssentials`, which constructs the set $\mathfrak{C}$;
 #! * it then calls `GenerateProtoEssentials`, which uses $\mathfrak{C}$ to construct all proto-essential subgroups, switching from $\mathcal{F}$-conjugacy to $S$-conjugacy (independent of $\mathcal{F}$).
 #! 
 #! It should be pointed out that there is no known cases where `GenerateProtoEssentials` generates a further ($S$-conjugacy) class of proto-essential subgroups.
