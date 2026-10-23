@@ -28,15 +28,15 @@ InstallMethod(ValidAutomizers, "method for finding valid automizers",
     AutE := NiceObject(AutE);
 
     if IsBound(AutE!.autrec) then 
-        InnE := PcSubAutPGroup(AutE, InnE);
-        AutSE := PcSubAutPGroup(AutE, AutSE);
+        InnE := FS_PcSubAutPGroup(AutE, InnE);
+        AutSE := FS_PcSubAutPGroup(AutE, AutSE);
     else 
         InnE := Image(n, InnE);
         AutSE := Image(n, AutSE);
     fi;
 
     # Find subgroups containing AutSE within overgroups above p-core. Iterated maximal approach
-    L := [PrimeResidual(AutE,p)];
+    L := [FS_PrimeResidual(AutE,p)];
     i := 0;
 
     while i < Length(L) do 
@@ -52,7 +52,7 @@ InstallMethod(ValidAutomizers, "method for finding valid automizers",
         
         M := MaximalSubgroupClassReps(OutFE);
         Info(InfoFusion, 4, "\t\twhich has ", Length(M), " maximal subgroups");
-        M := List(M, A -> PrimeResidual(A,p));
+        M := List(M, A -> FS_PrimeResidual(A,p));
         C := List(M, A -> ContainedConjugates(OutFE, A, OutSE, true));
         I := PositionsProperty(C, A -> A <> fail);
         Info(InfoFusion, 4, "\t\tof which ", Length(I), " contain Aut_S(E)");
@@ -136,7 +136,7 @@ InstallMethod(FindSmallestBorel, "find smallest Borel",
     return Group(e);
 end );
 
-IsFullyNormalizedInSequence := function(S, AutFE0, E)
+BindGlobal("FS_IsFullyNormalizedInSequence", function(S, AutFE0, E)
     local n, O;
 
     n := NiceMonomorphism(AutFE0);
@@ -146,7 +146,7 @@ IsFullyNormalizedInSequence := function(S, AutFE0, E)
     O := Orbit(AutFE0, E, OnImageNM(n));
 
     return ForAll(O, E0 -> IndexNC(Normalizer(S,E), E) >= IndexNC(Normalizer(S, E0), E0));
-end;
+end);
 
 InstallMethod(IsAutomizerBorelCompatible, "check automizer is Borel-compatible", 
     [IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup], function(S, AutFS, AutFE)
@@ -163,7 +163,7 @@ InstallMethod(IsAutomizerBorelCompatible, "check automizer is Borel-compatible",
     A0 := n(A0);
     AutFE := n(AutFE);
     
-    return PrimeResidual(A0, p) = AutFE;
+    return FS_PrimeResidual(A0, p) = AutFE;
 end);
 
 # Checks whether the smallest choice for the focal subgroup in the fusion system
@@ -230,7 +230,7 @@ InstallMethod(IsCompatibleSequence, "check sequence compatible",
             Info(InfoFusion, 1, "E is not maximal essential");
             J0 := PositionsProperty(J, i -> i <> fail);
             # TODO: Conjugate the proto-essential automizer choices by the conjugating element
-            if ForAny(J0, j -> not IsFullyNormalizedInSequence(S, P[j]^J[j][2], L[i])) then 
+            if ForAny(J0, j -> not FS_IsFullyNormalizedInSequence(S, P[j]^J[j][2], L[i])) then 
                 Info(InfoFusion, 1, "E not fully normalized with respect to some larger essential");
                 return false;
             fi;
@@ -255,7 +255,7 @@ InstallMethod(IsCompatibleSequence, "check sequence compatible",
     return true;
 end );
 
-GetSequence := function(A, P)
+BindGlobal("FS_GetSequence", function(A, P)
     local U, i;
 
     U := [];
@@ -266,17 +266,17 @@ GetSequence := function(A, P)
     od;
 
     return U;
-end;
+end);
 
-FilterCorefreeSequences := function(S, L, P, D)
+BindGlobal("FS_FilterCorefreeSequences", function(S, L, P, D)
     local N, NP;
     
     N := NormalSubgroups(S);
     NP := List([1..Length(P)], i -> List(P[i], AutFE -> PositionsProperty(N, A -> IsSubset(L[i], A) and 
         ForAll(GeneratorsOfGroup(AutFE), phi -> Image(phi, A) = A))));
 
-    return Filtered(D, A -> Length(Intersection(GetSequence(A, NP))) = 1);
-end;
+    return Filtered(D, A -> Length(Intersection(FS_GetSequence(A, NP))) = 1);
+end);
 
 InstallMethod(FindReducedSequences, "find reduced sequences",
     [IsPGroup, IsList], function(S, L)
@@ -297,7 +297,7 @@ InstallMethod(FindReducedSequences, "find reduced sequences",
     Info(InfoFusion, 1, "Checking whether combinations are valid");
 
     D := Cartesian(List(P, A -> [0..Length(A)])); # 0 represents the subgroup is not essential
-    D := FilterCorefreeSequences(S, L, P, D);
+    D := FS_FilterCorefreeSequences(S, L, P, D);
     Info(InfoFusion, 1, Length(D), " Corefree possibilities");
 
     ValidSequences := [];
@@ -310,7 +310,7 @@ InstallMethod(FindReducedSequences, "find reduced sequences",
             continue;
         fi;
 
-        U := GetSequence(A, P);
+        U := FS_GetSequence(A, P);
 
         if IsCompatibleSequence(S, U) then 
             Info(InfoFusion, 1, "Valid");
@@ -343,7 +343,7 @@ end);
 
 # Only does fully automized check currently
 # TODO: Deal with lifts from $\Aut_F(W)$ to essentials
-WeakRadicalCheck := function(S, W, P)
+BindGlobal("FS_WeakRadicalCheck", function(S, W, P)
     local p, L, I, J, AutW, n, AutSW, P0, T, A;
 
     p := PrimePGroup(S);
@@ -373,11 +373,11 @@ WeakRadicalCheck := function(S, W, P)
 
     Info(InfoFusion, 1, "Valid: ", StructureDescription(T));
     return Size(PCore(T, p)) = Index(W, Center(W));
-end;
+end);
 
-Zip := function(L)
+BindGlobal("FS_Zip", function(L)
     local C;
     
     C := Cartesian(List(L, A -> [1..Length(A)]));
     return List(C, I -> List([1..Length(I)], i -> L[i][I[i]]));
-end;
+end);

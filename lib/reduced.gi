@@ -237,7 +237,7 @@ InstallMethod(CTest, "RED C test",
     return not IsPGroup(AutS);
 end );
 
-PossiblySupportsReducedFusionSystems_PrePE := function(S)
+BindGlobal("FS_PossiblySupportsReducedFusionSystems_PrePE", function(S)
     # Dihedral, semidihedral and wreathed groups (p=2) support reduced fs.
     if IsDSWGroup(S) then return true; fi;
 
@@ -258,7 +258,7 @@ PossiblySupportsReducedFusionSystems_PrePE := function(S)
     fi;
 
     return true;
-end;
+end);
 
 InstallMethod(PossiblySupportsReducedFusionSystems_PE, "Possibly supports reduced fusion systems (PE version)",
     [IsPGroup, IsList], function(S, C)
@@ -268,7 +268,7 @@ InstallMethod(PossiblySupportsReducedFusionSystems_PE, "Possibly supports reduce
     # TODO: Class 2
     # TODO: Abelian sub. of index p (non-maximal class)
     
-    if not PossiblySupportsReducedFusionSystems_PrePE(S) then 
+    if not FS_PossiblySupportsReducedFusionSystems_PrePE(S) then 
         return false;
     fi;
 
@@ -312,7 +312,7 @@ InstallMethod(PossiblySupportsReducedFusionSystems, "Possibly supports reduced f
     # TODO: Class 2
     # TODO: Abelian sub. of index p (non-maximal class)
 
-    if not PossiblySupportsReducedFusionSystems_PrePE(S) then 
+    if not FS_PossiblySupportsReducedFusionSystems_PrePE(S) then 
         return false;
     fi;
 
