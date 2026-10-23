@@ -177,8 +177,22 @@ CSThru :=  function(G,normals)
     return cs;
 end;
 
+# Family predicates matching a group of automorphisms of some group S with a
+# subgroup, respectively an element, of S. These never hold for the arguments
+# of the library methods, which come from a single family.
+BindGlobal("FS_IsAutGroupAndSubgroupFamilies", function(FamA, FamP)
+    return HasElementsFamily(FamA) and HasElementsFamily(FamP)
+        and FamSourceEqFamElm(ElementsFamily(FamA), ElementsFamily(FamP));
+end);
+
+BindGlobal("FS_IsAutGroupAndElementFamilies", function(FamA, FamElm)
+    return HasElementsFamily(FamA)
+        and FamSourceEqFamElm(ElementsFamily(FamA), FamElm);
+end);
+
 # $\Aut_\calF(E)^g$ for some $g \in S$ and $E \leq S$
-InstallOtherMethod(\^, "method to conjugate automorphism group by an element of an overgroup", 
+InstallOtherMethod(\^, "method to conjugate automorphism group by an element of an overgroup",
+    FS_IsAutGroupAndElementFamilies,
     [IsGroupOfAutomorphisms, IsMultiplicativeElementWithInverse], function(Aut0, g)
     local E, c, t, G;
 
@@ -197,11 +211,15 @@ InstallOtherMethod(\^, "method to conjugate automorphism group by some map from 
     [IsGroupOfAutomorphisms, IsGroupHomomorphism and IsBijective], function(Aut0, phi)
     local E, c, t, G;
 
+    # for phi in Aut(E) this is ordinary conjugation, done by the library
+    if Source(phi) = AutomorphismDomain(Aut0) then
+        TryNextMethod();
+    fi;
+
     E := AutomorphismDomain(Aut0);
     c := RestrictedHomomorphism(phi, E);
     t := List(GeneratorsOfGroup(Aut0), x -> InverseGeneralMapping(c) * x * c);
     G := Group(t);
-    Info(InfoWarning, 1, Size(Image(c, E)));
 
     SetIsGroupOfAutomorphismsFiniteGroup(G, true);
     SetAutomorphismDomain(G, Image(c, E));
@@ -257,7 +275,8 @@ end;
 # subgroup of P containing all commutators x^-1*x^a of generators x of
 # P with generators a of A. 
 
-InstallOtherMethod(CommutatorSubgroup, "method for aut-group", 
+InstallOtherMethod(CommutatorSubgroup, "method for aut-group",
+    FS_IsAutGroupAndSubgroupFamilies,
     [IsGroupOfAutomorphisms, IsGroup], function(A, P)
     local C, a, x, c;
 
