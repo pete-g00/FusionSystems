@@ -26,17 +26,6 @@ The first version of the package aims to add further functionalities, including 
  Try '??help' for help. See also '?copyright', '?cite' and '?authors'
 gap> LoadPackage("fusionsystems");
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Loading ANUPQ 3.3.3 (ANU p-Quotient)
-by Greg Gamble (GAP code, Greg.Gamble@uwa.edu.au),
-   Werner Nickel (GAP code), and
-   Eamonn O'Brien (C code, https://www.math.auckland.ac.nz/~obrien).
-maintained by:
-   Max Horn (https://www.quendi.de/math).
-uses ANU pq binary (C code program) version: 1.9
-Homepage: https://gap-packages.github.io/anupq/
-Report issues at https://github.com/gap-packages/anupq/issues
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Loading FORMAT 1.4.5 (Formations of Finite Soluble Groups)
 by Bettina Eick (http://www.iaa.tu-bs.de/beick) and
    Charles R.B. Wright (https://pages.uoregon.edu/wright/).
@@ -64,7 +53,7 @@ The current version of the package was mainly created by:
 1. Pete Gautam, University of Manchester
 1. Justin Lynd, University of Louisiana
 
-We further acknowledge contributions from Josh Bridges and David Burrell.
+Further contributions were made by Josh Bridges and David Burrell.
 
 ## Contact
 
