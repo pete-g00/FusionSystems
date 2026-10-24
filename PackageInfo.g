@@ -31,12 +31,16 @@ Persons := [
   ),
 ],
 
-#SourceRepository := rec( Type := "TODO", URL := "URL" ),
-IssueTrackerURL := "https://github.com/pete-g00/FusionSystems/issues",
-PackageWWWHome := "https://pete-g00.github.io/FusionSystems",
+SourceRepository := rec(
+    Type := "git",
+    URL := "https://github.com/pete-g00/FusionSystems",
+),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+PackageWWWHome := "https://pete-g00.github.io/FusionSystems/",
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
-ArchiveURL     := Concatenation( ~.PackageWWWHome,
+ArchiveURL     := Concatenation( ~.SourceRepository.URL,
+                                 "/releases/download/v", ~.Version,
                                  "/", ~.PackageName, "-", ~.Version ),
 
 ArchiveFormats := ".tar.gz",
@@ -63,8 +67,8 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">= 4.7",
-  NeededOtherPackages := [["anupq",">=3.2.1"],["autpgrp",">=1.10.2"],["format",">=1.4.3"],["crisp",">=1.4.5"]],
+  GAP := ">= 4.12",
+  NeededOtherPackages := [["autpgrp",">=1.10.2"],["format",">=1.4.3"],["crisp",">=1.4.5"]],
   SuggestedOtherPackages := [],
   ExternalConditions := [ ],
 ),
@@ -76,7 +80,7 @@ TestFile := "tst/testall.g",
 
 AutoDoc := rec(
     entities := rec(
-      FUSIONSYSYTEMS := "<Package>FusionSystems</PACKAGE>"
+      FUSIONSYSTEMS := "<Package>FusionSystems</Package>"
     ),
     TitlePage := rec(
       Copyright := """
@@ -84,7 +88,7 @@ AutoDoc := rec(
       it under the terms of the <URL Text="GNU General Public License">
       https://www.fsf.org/licenses/gpl.html</URL> as published by
       the Free Software Foundation; either version 2 of the License, or (at
-      your opinion) any later version.
+      your option) any later version.
       """,
       Abstract := """
       The FusionSystems package allows for computation with fusion systems. 

@@ -212,29 +212,29 @@ InstallMethod(IsCompatibleSequence, "check sequence compatible",
         # TODO: Up to F-conjugacy here
         J := List([1..i-1], j -> ContainedConjugates(S, L[j], L[i], true));
         if ForAll(J, i -> i = fail) then 
-            Info(InfoWarning, 1, "E is maximal essential");
+            Info(InfoFusion, 1, "E is maximal essential");
             Ext := FindSmallestBorel(S, P[i]);
             # should be maximal essential here
             if Ext = fail then 
-                Info(InfoWarning, 1, "Maps don't extend to S");
+                Info(InfoFusion, 1, "Maps don't extend to S");
                 return false;
             fi;
-            Info(InfoWarning, 1, "Maps extend to S");
+            Info(InfoFusion, 1, "Maps extend to S");
             B := ClosureGroup(B, Ext);
             Info(InfoFusion, 1, "The Borel now has order ", Size(B));
             if IndexNC(B, InnS) mod p = 0 then 
-                Info(InfoWarning, 1, "S no longer fully automized");
+                Info(InfoFusion, 1, "S no longer fully automized");
                 return false;
             fi;
         else 
-            Info(InfoWarning, 1, "E is not maximal essential");
+            Info(InfoFusion, 1, "E is not maximal essential");
             J0 := PositionsProperty(J, i -> i <> fail);
             # TODO: Conjugate the proto-essential automizer choices by the conjugating element
             if ForAny(J0, j -> not IsFullyNormalizedInSequence(S, P[j]^J[j][2], L[i])) then 
-                Info(InfoWarning, 1, "E not fully normalized with respect to some larger essential");
+                Info(InfoFusion, 1, "E not fully normalized with respect to some larger essential");
                 return false;
             fi;
-            Info(InfoWarning, 1, "E fully normalized with respect to some larger essential");
+            Info(InfoFusion, 1, "E fully normalized with respect to some larger essential");
         fi;
     od;
 
@@ -245,11 +245,11 @@ InstallMethod(IsCompatibleSequence, "check sequence compatible",
     # TODO: We actually need the stronger condition to hold here! (make it a fn) -- if this gets bigger e.g. $\Alt(4)$ to $\Alt(5)$,
     # the $\Alt(4)$ version is invalid here -- we need the $\Alt(5)$ version to pass instead
     if ForAny(P, AutFE -> not IsAutomizerBorelCompatible(S, B, AutFE)) then 
-        Info(InfoWarning, 1, "The automizer sequence doesn't have a valid Borel subgroup");
+        Info(InfoFusion, 1, "The automizer sequence doesn't have a valid Borel subgroup");
         return false;
     fi;
 
-    Info(InfoWarning, 1, "Compatible focal = ", IsFocalCompatibleSequence(S, B, P));
+    Info(InfoFusion, 1, "Compatible focal = ", IsFocalCompatibleSequence(S, B, P));
     # This compatible sequence will likely further check for saturation on $\calF^{cr}$, the ultimate test for saturation
 
     return true;
@@ -287,33 +287,33 @@ InstallMethod(FindReducedSequences, "find reduced sequences",
         return ForAll([1..Length(A)], i -> A[i] = 0 or A[i] = B[i]);
     end;
 
-    Info(InfoWarning, 1, "Finding valid automizers");
-    P := List(L, E -> PE_ValidAutomizers(S, E));
+    Info(InfoFusion, 1, "Finding valid automizers");
+    P := List(L, E -> ValidAutomizers(S, E));
     I := PositionsProperty(L, A -> not IsEmpty(A));
     
     P := P{I};
     L := L{I};
     
-    Info(InfoWarning, 1, "Checking whether combinations are valid");
+    Info(InfoFusion, 1, "Checking whether combinations are valid");
 
     D := Cartesian(List(P, A -> [0..Length(A)])); # 0 represents the subgroup is not essential
     D := FilterCorefreeSequences(S, L, P, D);
-    Info(InfoWarning, 1, Length(D), " Corefree possibilities");
+    Info(InfoFusion, 1, Length(D), " Corefree possibilities");
 
     ValidSequences := [];
     InvalidSequences := [];
     for A in D do 
-        Info(InfoWarning, 1, "Checking combination ", A);
+        Info(InfoFusion, 1, "Checking combination ", A);
 
         if ForAny(InvalidSequences, B -> IsSubSequence(B, A)) then 
-            Info(InfoWarning, 1, "Contains an incompatible sequence");
+            Info(InfoFusion, 1, "Contains an incompatible sequence");
             continue;
         fi;
 
         U := GetSequence(A, P);
 
         if IsCompatibleSequence(S, U) then 
-            Info(InfoWarning, 1, "Valid");
+            Info(InfoFusion, 1, "Valid");
             Add(ValidSequences, A);
         else 
             Add(InvalidSequences, A);

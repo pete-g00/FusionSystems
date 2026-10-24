@@ -144,12 +144,12 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and Is
 #! <group of size 1562500 with 10 generators>
 #! gap> AutSV := Automizer(AutS, V);
 #! <group with 7 generators>
-#! gap> AutV := AutomorphismGroup(V);
-#! <group of size 480 with 4 generators>
+#! gap> AutV := AutomorphismGroup(V);;
 #! gap> n := NiceMonomorphism(AutV);
 #! <action isomorphism>
-#! gap> AutV := n(AutV);
-#! <permutation group of size 480 with 4 generators>
+#! gap> AutV := n(AutV);;
+#! gap> Size(AutV);
+#! 480
 #! gap> AutSV := n(AutSV);
 #! <permutation group with 7 generators>
 #! gap> Index(AutV, AutSV);
@@ -164,13 +164,13 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and Is
 #! @Description 
 #!
 #! Let $\phi \colon A \to B$ be a group homomorphism, and let $X \leq A$. The function 
-#! `RestrictedHomomorphism(phi, X)` returns the surjective group homomorphism 
+#! `RestrictedHomomorphismOnto(phi, X)` returns the surjective group homomorphism 
 #! $\phi|_X \colon X \to \phi(X)$ given by restriction. If $\phi$ is also an isomorphism that fixes $X$, 
 #! then the function `RestrictedAutomorphism(phi, X)` returns the group automorphism 
 #! $\phi|_X \colon X \to \phi(X)$ given by restriction.
 #! 
 #! @Arguments phi X
-DeclareOperation("RestrictedHomomorphism", [IsGroupHomomorphism, IsGroup]);
+DeclareOperation("RestrictedHomomorphismOnto", [IsGroupHomomorphism, IsGroup]);
 #! @Arguments phi X
 #! @Returns a group automorphism
 DeclareOperation("RestrictedAutomorphism", [IsGroupHomomorphism and IsBijective, IsGroup]);
