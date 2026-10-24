@@ -62,12 +62,12 @@ gap> AutS := AutomorphismGroup(S);
 <group of size 1562500 with 10 generators>
 gap> AutSV := Automizer(AutS, V);
 <group with 7 generators>
-gap> AutV := AutomorphismGroup(V);
-<group of size 480 with 4 generators>
+gap> AutV := AutomorphismGroup(V);;
 gap> n := NiceMonomorphism(AutV);
 <action isomorphism>
-gap> AutV := n(AutV);
-<permutation group of size 480 with 4 generators>
+gap> AutV := n(AutV);;
+gap> Size(AutV);
+480
 gap> AutSV := n(AutSV);
 <permutation group with 7 generators>
 gap> Index(AutV, AutSV);
