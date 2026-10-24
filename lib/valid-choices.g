@@ -1,4 +1,4 @@
-ValidChoices := rec(
+BindGlobal("FS_ValidChoices", rec(
     2 := rec(
         1 := [ [ 8, 4 ], [ 16, 12 ], [ 16, 13 ], [ 32, 2 ], [ 32, 26 ], [ 32, 27 ], [ 32, 34 ], [ 32, 38 ], [ 32, 46 ], [ 32, 47 ], [ 32, 48 ],
   [ 32, 49 ], [ 32, 50 ], [ 64, 19 ], [ 64, 56 ], [ 64, 57 ], [ 64, 60 ], [ 64, 65 ], [ 64, 73 ], [ 64, 74 ], [ 64, 76 ],
@@ -233,11 +233,11 @@ ValidChoices := rec(
         4 := [ [ 64, 267 ], [ 128, 2327 ] ],
         5 := [ [ 64, 267 ] ],
     ),
-);
+));
 
-SetIsSortedList(ValidChoices!.2!.1, true);
-SetIsSortedList(ValidChoices!.4!.1, true);
-SetIsSortedList(ValidChoices!.4!.2, true);
-SetIsSortedList(ValidChoices!.8!.1, true);
-SetIsSortedList(ValidChoices!.8!.4, true);
-SetIsSortedList(ValidChoices!.8!.5, true);
+SetIsSortedList(FS_ValidChoices!.2!.1, true);
+SetIsSortedList(FS_ValidChoices!.4!.1, true);
+SetIsSortedList(FS_ValidChoices!.4!.2, true);
+SetIsSortedList(FS_ValidChoices!.8!.1, true);
+SetIsSortedList(FS_ValidChoices!.8!.4, true);
+SetIsSortedList(FS_ValidChoices!.8!.5, true);

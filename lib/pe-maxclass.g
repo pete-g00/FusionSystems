@@ -1,5 +1,5 @@
 # TODO: We could also have index p abelian/extraspecial in some cases
-SupportsPearls := function(S)
+BindGlobal("FS_SupportsPearls", function(S)
     local p, r, AutS, C;
 
     p := PrimePGroup(S);
@@ -33,8 +33,8 @@ SupportsPearls := function(S)
     fi;
     Info(InfoFusion, 1, Length(C), " choice(s) for pearls");
 
-    return ForAny(C, V -> FindSmallestBorel(S, PrimeResidual(AutomorphismGroup(V), p)) <> fail);
-end;
+    return ForAny(C, V -> FindSmallestBorel(S, FS_PrimeResidual(AutomorphismGroup(V), p)) <> fail);
+end);
 
 # Choices would be:
 # - extraspecial index p -> only for the $p^{p+1}$ case
