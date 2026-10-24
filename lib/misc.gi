@@ -54,7 +54,7 @@ InstallGlobalFunction(OnImageTuplesNM, function (n)
     end;
 end);
 
-InstallMethod(RestrictedHomomorphism,  "method for restricting isomorphism to another homomorphism", 
+InstallMethod(RestrictedHomomorphismOnto,  "method for restricting isomorphism to another homomorphism", 
     [IsGroupHomomorphism, IsGroup], function(phi, T)
     local g, h, T0;
 
@@ -198,7 +198,7 @@ InstallOtherMethod(\^, "method to conjugate automorphism group by some map from 
     local E, c, t, G;
 
     E := AutomorphismDomain(Aut0);
-    c := RestrictedHomomorphism(phi, E);
+    c := RestrictedHomomorphismOnto(phi, E);
     t := List(GeneratorsOfGroup(Aut0), x -> InverseGeneralMapping(c) * x * c);
     G := Group(t);
     Info(InfoWarning, 1, Size(Image(c, E)));
