@@ -30,8 +30,7 @@
   [30X    [33X[0;6Y[23X\mathrm{Aut}(E)[123X.[133X
   
   [33X[0;0YEach  computation  is  considered  more expensive than the previous one. See
-  Section  <Ref  Label="Section_PEChecks"/>  for  the  list of tests currently
-  implemented.[133X
+  Section [14X3.2[114X for the list of tests currently implemented.[133X
   
   [33X[0;0YNote  that  it is possible that [23XE[123X is found to be proto-essential even though
   there    is    no    fusion   system   [23X\mathcal{F}[123X   on   [23XS[123X   with   [23XE   \in
@@ -73,7 +72,7 @@
   [33X[1;0Y[29X[2XZed0[102X( [3XS[103X ) [32X attribute[133X
   [6XReturns:[106X  [33X[0;10Ya subgroup[133X
   
-  [33X[0;0YLet  [23XS[123X be a [23Xp[123X-group. The function [10XZed0[110X computes the subgroup [23XZ_0[123X of [23XS[123X, which
+  [33X[0;0YLet [23XS[123X be a [23Xp[123X-group. The attribute [10XZed0[110X computes the subgroup [23XZ_0[123X of [23XS[123X, which
   is given by:[133X
   
   
@@ -81,7 +80,12 @@
   
   [124X
   
-  [33X[0;0YLet  [23XS[123X  be  a [23Xp[123X-group and [23XE[123X be a subgroup of [23XS[123X. The function [10XZed0Test[110X checks
+  [1X3.2-2 Zed0Test[101X
+  
+  [33X[1;0Y[29X[2XZed0Test[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group and [23XE[123X be a subgroup of [23XS[123X. The operation [10XZed0Test[110X checks
   that one of the following holds:[133X
   
   [30X    [33X[0;6Y[23XZ_0 \leq E[123X; or[133X
@@ -91,13 +95,10 @@
   
   [33X[0;0YNote  that  this  function is not used when constructing [23X\mathfrak{C}[123X as the
   choice  of  [23Xx[123X  is  easier  to  find  while  the  set [23X\mathfrak{C}_0[123X is being
-  constructed.  This  test  applies  at  any  prime  [23Xp[123X. It is based on [AOV17,
-  Proposition 2.3(a)] (proven for [23Xp=2[123X).[133X
+  constructed.[133X
   
-  [1X3.2-2 Zed0Test[101X
-  
-  [33X[1;0Y[29X[2XZed0Test[102X( [3XS[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya subgroup[133X
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [AOV17, Proposition 2.3(a)]
+  (proven for [23Xp=2[123X).[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 931);[127X[104X
@@ -116,7 +117,7 @@
   [33X[1;0Y[29X[2XRankTest[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ya number[133X
   
-  [33X[0;0YLet  [23XS[123X  be  a [23Xp[123X-group and [23XE[123X be a subgroup of [23XS[123X. The function [10XRankTest[110X checks
+  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group and [23XE[123X be a subgroup of [23XS[123X. The operation [10XRankTest[110X checks
   that  [23X\textrm{Out}_S(E)[123X  is  isomorphic  to  a  Sylow  [23Xp[123X-subgroup of a group
   containing  a  strongly  [23Xp[123X-embedded  subgroup.  If  so,  we  return  a value
   specifying its type, namely:[133X
@@ -133,7 +134,7 @@
   
   [30X    [33X[0;6Y[23X5[123X -- [23X3^{1+2}_-[123X and [23X5^{1+2}_-[123X.[133X
   
-  [33X[0;0YWe  return  [23X-1[123X  none  of  the cases above apply. During the process, we also
+  [33X[0;0YWe  return  [23X-1[123X if none of the cases above apply. During the process, we also
   check  that  the  subgroup  [23XE[123X  has  sufficiently  high  rank  to ensure that
   [23X\mathrm{Aut}(E)[123X has a possible valid section.[133X
   
@@ -168,9 +169,9 @@
   [1X3.2-4 ModuleTest[101X
   
   [33X[1;0Y[29X[2XModuleTest[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya number[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
   
-  [33X[0;0YLet  [23XS[123X be a [23X2[123X-group and [23XE[123X be a subgroup of [23XS[123X. The function [10XModuleTest[110X checks
+  [33X[0;0YLet [23XS[123X be a [23X2[123X-group and [23XE[123X be a subgroup of [23XS[123X. The operation [10XModuleTest[110X checks
   that,  if [23X\mathrm{Out}_S(E)[123X has order [23X2^k[123X (for [23Xk \geq 2[123X), then for all [23Xx \in
   \mathrm{Out}_S(E)[123X, if [23Xx \neq 1[123X, then [23X[x, E/\Phi(E)][123X is not cyclic.[133X
   
@@ -191,7 +192,7 @@
   [33X[1;0Y[29X[2XFrattiniTest[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ytrue or false[133X
   
-  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group  and  [23XE[123X be a subgroup of [23XS[123X. The function [10XFrattiniTest[110X
+  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group  and [23XE[123X be a subgroup of [23XS[123X. The operation [10XFrattiniTest[110X
   checks that[133X
   
   
@@ -228,8 +229,8 @@
   [33X[1;0Y[29X[2XLiftTest[102X( [3XS[103X, [3XE[103X, [3Xi[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ytrue or false[133X
   
-  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group,  [23XE[123X  be a subgroup of [23XS[123X of type [23Xi[123X (see [10XRankTest[110X). The
-  function       [10XLiftTest[110X       checks      whether      the      maps      in
+  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group, [23XE[123X be a subgroup of [23XS[123X of type [23Xi[123X (see [2XRankTest[102X ([14X3.2-3[114X)).
+  The     operation     [10XLiftTest[110X     checks     whether     the     maps    in
   [23XN_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))[123X    are    present    as
   expected.   In   particular,   there   is  some  value  [23Xa[123X  known  to  divide
   [23XN_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))[123X  for  each choice of [23Xi[123X.
@@ -272,14 +273,14 @@
   [33X[1;0Y[29X[2XValidAutTest[102X( [3XS[103X, [3XE[103X, [3Xi[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ytrue or false[133X
   
-  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group,  [23XE[123X  be a subgroup of [23XS[123X of type [23Xi[123X (see [10XRankTest[110X). The
-  function   [10XValidAutTest[110X   checks   whether  there  is  a  valid  section  of
+  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group, [23XE[123X be a subgroup of [23XS[123X of type [23Xi[123X (see [2XRankTest[102X ([14X3.2-3[114X)).
+  The  operation  [10XValidAutTest[110X  checks  whether  there  is  a valid section of
   [23X\mathrm{Aut}(E)[123X  that  contains  the expected [23X\mathrm{Aut}_{\mathcal{F}}(E)[123X.
   Note  that  this check is up to (order of) composition factors, and does not
   imply that the expected section actually exists inside [23X\mathrm{Aut}(E)[123X.[133X
   
-  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [Sam14, Proposition 6.9] or
-  [PS21, Proposition 4.5].[133X
+  [33X[0;0YThis  test  applies  at any prime [23Xp[123X. It is based on [Sam14, Proposition 6.9]
+  and [PS21, Proposition 4.5].[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XS := SmallGroup(3^4, 7);[127X[104X
@@ -304,7 +305,7 @@
   [33X[1;0Y[29X[2XRadicalTest[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ytrue or false[133X
   
-  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group,  [23XE[123X  be  a  proto-essential  subgroup.  The  function
+  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group,  [23XE[123X  be  a  proto-essential  subgroup.  The operation
   [10XRadicalTest[110Xchecks whether[133X
   
   

@@ -1,113 +1,464 @@
   
-  [1X4 [33X[0;0YProto-essential subgroups[133X[101X
+  [1X4 [33X[0;0YChecks for reduced fusion systems[133X[101X
+  
+  [33X[0;0YIn this chapter, we describe all the tests currently implemented in GAP that
+  test  whether  a  group [23XS[123X [13Xcould[113X support reduced fusion systems. This is done
+  without  constructing  the  fusion systems, and even possible automizers for
+  any  fusion  system.  As  such,  we  can  determine whether there exists any
+  reduced   fusion   system   [23X\mathcal{F}[123X   on   [23XS[123X   for  a  fixed  choice  of
+  [23X\mathcal{E}(\mathcal{F})[123X.  We  can  also  determine  this  for any choice of
+  [23X\mathcal{E}(\mathcal{F})[123X.[133X
   
   
-  [1X4.1 [33X[0;0YBrief description of the algorithm[133X[101X
+  [1X4.1 [33X[0;0YThe main functions[133X[101X
   
-  [33X[0;0YLet  [23XS[123X  be  a finite [23Xp[123X-group. Recall that [23XE[123X is proto-essential in [23XS[123X if there
-  [13Xcould[113X  exist  a  saturated  fusion  system  [23X\mathcal{F}[123X on [23XS[123X such that [23XE \in
-  \mathcal{E}(\mathcal{F})[123X.             See            Chapter            <Ref
-  Chap="Chapter_ProtoEssentialChecks"  />  for  the  list  of  specific  tests
-  currently  implemented.  In  this  section,  we  describe  the algorithm for
-  constructing  all  the  proto-essential  subgroups  of  [23XS[123X.  This is based on
-  [Gau26, Section 3]. We fix a central series of [23XS[123X:[133X
+  [1X4.1-1 PossiblySupportsReducedFusionSystems[101X
   
+  [33X[1;0Y[29X[2XPossiblySupportsReducedFusionSystems[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
   
-  [24X[33X[0;6Y1 = Z_0 \leq Z_1 \leq \dots \leq Z_n = S,[133X
+  [33X[0;0YGiven a [23Xp[123X-group [23XS[123X, the attribute [10XPossiblySupportsReducedFusionSystems[110X checks
+  whether [23XS[123X [13Xcould[113X support reduced fusion systems.[133X
   
-  [124X
+  [33X[0;0YNote  that  it  is not possible to check whether a group can support reduced
+  fusion  systems  without  actually  constructing  them.  This is because the
+  expected  automizer sequences that lead to reduced fusion systems may not be
+  saturated,  and  the  only  way  we  can  discover  this is by checking some
+  radical,  non-essential,  subgroup  in the expected saturated fusion system.
+  Nonetheless,  [23Xp[123X-groups  that pass the tests in this chapter are quite likely
+  to support reduced fusion systems.[133X
   
-  [33X[0;0Ywhere [23X|Z_i| = p^i[123X for [23X1 \leq i \leq n[123X, and there exists some [23X1 \leq j \leq n[123X
-  such  that  [23XZ_j  = S'[123X. For [23X0 \leq i < j[123X, let [23X\pi_i \colon S \to S/Z_i[123X be the
-  projection map, and[133X
-  
-  
-  [24X[33X[0;6Y\mathfrak{C}_i  :=  \{E  \mid  E = \pi^{-1}(C_S(x)), x \in S/Z_i \textrm{ of
-  order } p \textrm{ with } E \textrm{ proto-essential in } S\}.[133X
-  
-  [124X
-  
-  [33X[0;0YWe  let  [23X\mathfrak{C}  := \bigcup_{i=0}^j \mathfrak{C}_i[123X. In [Gau26, Theorem
-  3.6],  Gautam  shows  that  if [23X\mathcal{F}[123X is a saturated fusion system on [23XS[123X
-  with [23XE \in \mathcal{E}(\mathcal{F})[123X, then [23XE[123X is [23X\mathcal{F}[123X-conjugate to some
-  [23XX \in \mathfrak{C}[123X.[133X
-  
-  
-  [1X4.2 [33X[0;0YThe operations[133X[101X
-  
-  [1X4.2-1 AllProtoEssentials[101X
-  
-  [33X[1;0Y[29X[2XAllProtoEssentials[102X( [3XS[103X ) [32X attribute[133X
-  [6XReturns:[106X  [33X[0;10Ya list[133X
-  
-  [33X[0;0YThe attribute [10XAllProtoEssentials[110X constructs all proto-essential subgroups of
-  a [23Xp[123X-group [23XS[123X. It works as follows:[133X
-  
-  [30X    [33X[0;6Yit  calls  the  function  [10XAllProtoEssentials[110X  which constructs the set
-        [23X\mathfrak{C}[123X;[133X
-  
-  [30X    [33X[0;6Yit  then  calls  [10XGenerateProtoEssentials[110X,  which  uses [23X\mathfrak{C}[123X to
-        construct    all    proto-essential    subgroups,    switching    from
-        [23X\mathcal{F}[123X-conjugacy to [23XS[123X-conjugacy (independent of [23X\mathcal{F}[123X).[133X
-  
-  [33X[0;0YIt   should   be   pointed   out   that   there  is  no  known  cases  where
-  [10XGenerateProtoEssentials[110X   generates   a   further   ([23XS[123X-conjugacy)  class  of
-  proto-essential  subgroups. Finds all the proto-essential subgroups of [23XS[123X, up
-  to [23XS[123X-conjugacy.[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XS := SmallGroup(3^4, 7);[127X[104X
-    [4X[28X<pc group of size 81 with 4 generators>[128X[104X
-    [4X[25Xgap>[125X [27XL := AllProtoEssentials(S);[127X[104X
-    [4X[28X[ Group([ f4, f1, f3 ]), Group([ f4, f2, f3 ]), Group([ f1, f4 ]) ][128X[104X
-    [4X[25Xgap>[125X [27XList(L, StructureDescription);[127X[104X
-    [4X[28X[ "(C3 x C3) : C3", "C3 x C3 x C3", "C3 x C3" ][128X[104X
-  [4X[32X[104X
-  
-  [1X4.2-2 MainProtoEssentials[101X
-  
-  [33X[1;0Y[29X[2XMainProtoEssentials[102X( [3XS[103X[, [3Xi[103X] ) [32X function[133X
-  [6XReturns:[106X  [33X[0;10Ya list[133X
-  
-  [33X[0;0YReturns   the   list   of   the  [10Xmain[110X  proto-essential  subgroups  of  [23XS[123X.  A
-  proto-essential subgroup is called [13Xmain[113X if it lies in [23X\mathfrak{C}[123X.[133X
-  
-  [33X[0;0YIf the second argument [10Xi[110X is provided, the function behaves as follows:[133X
-  
-  [30X    [33X[0;6Y[23Xi = 0[123X -- we only compute [23X\mathfrak{C}_0[123X;[133X
-  
-  [30X    [33X[0;6Y[23Xi = -1[123X -- we only compute [23X\mathfrak{C} \setminus \mathfrak{C}_0[123X; and[133X
-  
-  [30X    [33X[0;6Y[23Xi = 1[123X -- we compute all [23X\mathfrak{C}[123X.[133X
-  
-  [33X[0;0YIf  the  argument  is  not  provided,  we  compute all [23X\mathfrak{C}[123X. Running
-  [10XGenerateProtoEssentials[110Xon   the   list   [23XL[123X   returned   generates   all  the
-  proto-essentials subgroups of [23XS[123X.[133X
+  [33X[0;0YThis  function  checks whether the group [23XS[123X satisfies certain properties that
+  are known to hold for a [23Xp[123X-group that supports reduced fusion systems. In the
+  process,  we  compute  the  proto-essential subgroups of [23XS[123X, along with their
+  automorphism  groups.  See  Section  [14X4.2[114X  for  the  list  of  specific tests
+  currently implemented. We do not construct automizer sequences.[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 931);[127X[104X
     [4X[28X<pc group of size 128 with 7 generators>[128X[104X
-    [4X[25Xgap>[125X [27XC0 := MainProtoEssentials(S, 0);[127X[104X
-    [4X[28X[ Group([ f1, f2, f4, f6, f7 ]), Group([ f1, f3, f5, f6, f7 ]), [128X[104X
-    [4X[28XGroup([ f2, f3, f4, f5, f6, f7 ]) ][128X[104X
-    [4X[25Xgap>[125X [27XC := MainProtoEssentials(S, -1);[127X[104X
-    [4X[28X[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f7, f1, f3, f4, f5, f6 ]) ][128X[104X
+    [4X[25Xgap>[125X [27XPossiblySupportsReducedFusionSystems(S);[127X[104X
+    [4X[28Xtrue[128X[104X
   [4X[32X[104X
   
-  [1X4.2-3 GenerateProtoEssentials[101X
+  [1X4.1-2 PossiblySupportsReducedFusionSystems_PE[101X
   
-  [33X[1;0Y[29X[2XGenerateProtoEssentials[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya list[133X
+  [33X[1;0Y[29X[2XPossiblySupportsReducedFusionSystems_PE[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
   
-  [33X[0;0YUses the list [23XL[123X containing the main proto-essential subgroups of [23XS[123X (i.e. the
-  set [23X\mathfrak{C}[123X) to generate all the proto-essential subgroups of [23XS[123X.[133X
+  [33X[0;0YGiven  a  [23Xp[123X-group [23XS[123X and a list of proto-essential subgroups [23XL[123X, the operation
+  [10XPossiblySupportsReducedFusionSystems_PE[110X  checks  whether there [13Xcould[113X exist a
+  reduced  fusion system [23X\mathcal{F}[123X on [23XS[123X where the set of essential subgroups
+  [23X\mathcal{E}(\mathcal{F})[123X   is   a   subset   of   [23XL[123X.   Note   that   we  run
+  [10XGenerateProtoEssentials[110X  on  [23XL[123X (which can, in theory, increase the number of
+  subgroups in [23XL[123X).[133X
+  
+  [33X[0;0YNote  that  it  is not possible to check whether a group can support reduced
+  fusion  systems  without  actually  constructing  them.  This is because the
+  expected  automizer sequences that lead to reduced fusion systems may not be
+  saturated,  and  the  only  way  we  can  discover  this is by checking some
+  radical,  non-essential,  subgroup  in the expected saturated fusion system.
+  Nonetheless,  [23Xp[123X-groups  that pass the tests in this chapter are quite likely
+  to support reduced fusion systems.[133X
+  
+  [33X[0;0YThis  function  checks whether the group [23XS[123X satisfies certain properties that
+  are  known  to  hold  for a [23Xp[123X-group that supports reduced fusion systems. We
+  also  construct  the  automorphism group for subgroups in [23XL[123X. See Section [14X4.2[114X
+  for  the  list  of specific tests currently implemented. We do not construct
+  automizer sequences.[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XS := SmallGroup(3^6, 321);[127X[104X
-    [4X[28X<pc group of size 729 with 6 generators>[128X[104X
-    [4X[25Xgap>[125X [27XL := MainProtoEssentials(S);[127X[104X
-    [4X[28X[ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ][128X[104X
-    [4X[25Xgap>[125X [27XL := GenerateProtoEssentials(S, L);[127X[104X
-    [4X[28X[ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ][128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 931);[127X[104X
+    [4X[28X<pc group of size 128 with 7 generators>[128X[104X
+    [4X[25Xgap>[125X [27XL := AllProtoEssentials(S);[127X[104X
+    [4X[28X[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), [128X[104X
+    [4X[28XGroup([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), [128X[104X
+    [4X[28XGroup([ f1, f3, f5, f6, f7 ]) ][128X[104X
+    [4X[25Xgap>[125X [27XPossiblySupportsReducedFusionSystems_PE(S, L{[1..3]});[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XPossiblySupportsReducedFusionSystems_PE(S, L{[3..5]});[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X4.2 [33X[0;0YThe specific functions[133X[101X
+  
+  [1X4.2-1 IsDSWGroup[101X
+  
+  [33X[1;0Y[29X[2XIsDSWGroup[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YGiven  a  [23Xp[123X-group [23XS[123X, the attribute [10XIsDSWGroup[110X checks whether [23Xp=2[123X, and that [23XS[123X
+  is  isomorphic  to  dihedral,  semi-dihedral  group,  or  the wreath product
+  [23XC_{2^a} \wr C_2[123X.[133X
+  
+  [33X[0;0YUsing the work of Oliver and his collaborators, there are many properties on
+  a [23X2[123X-group [23XS[123X that imply that, if [23XS[123X supports reduced fusion systems, then [23XS[123X is
+  isomorphic  to one of the three groups (and is called a [23X\mathcal{DSW}[123X-group)
+  (see, for example, [AOV13, Proposition 5.2]).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := DihedralGroup(2^3);[127X[104X
+    [4X[28X<pc group of size 8 with 3 generators>[128X[104X
+    [4X[25Xgap>[125X [27XIsDSWGroup(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^4, 8);[127X[104X
+    [4X[28X<pc group of size 16 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XIsDSWGroup(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XS := QuaternionGroup(2^5);[127X[104X
+    [4X[28X<pc group of size 32 with 5 generators>[128X[104X
+    [4X[25Xgap>[125X [27XIsDSWGroup(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XS := WreathProduct(CyclicGroup(IsPermGroup, 2^3), Group((1,2)));[127X[104X
+    [4X[28XGroup([ (1,2,3,4,5,6,7,8), (9,10,11,12,13,14,15,16), [128X[104X
+    [4X[28X(1,9)(2,10)(3,11)(4,12)(5,13)(6,14)(7,15)(8,16) ])[128X[104X
+    [4X[25Xgap>[125X [27XIdGroup(S);[127X[104X
+    [4X[28X[128, 67][128X[104X
+    [4X[25Xgap>[125X [27XIsDSWGroup(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 437);[127X[104X
+    [4X[28X<pc group of size 128 with 7 generators>[128X[104X
+    [4X[25Xgap>[125X [27XStructureDescription(S);[127X[104X
+    [4X[28X"(C8 x C8) : C2"[128X[104X
+    [4X[25Xgap>[125X [27XIsDSWGroup(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-2 ExponentTest[101X
+  
+  [33X[1;0Y[29X[2XExponentTest[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet [23XS[123X be a [23Xp[123X-group. If [23XS[123X has class [23Xc[123X, the attribute [10XExponentTest[110X checks that
+  [23XZ(S)[123X has exponent at most [23Xp^t[123X, where[133X
+  
+  
+  [24X[33X[0;6Yt := \left\lceil \frac{c-1}{p-1} \right\rceil.[133X
+  
+  [124X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [LP10, Theorem A].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(3^4, 13);[127X[104X
+    [4X[28X<pc group of size 81 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XStructureDescription(S);[127X[104X
+    [4X[28X"C3 x (C9 : C3)"[128X[104X
+    [4X[25Xgap>[125X [27XExponentTest(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(3^4, 14);[127X[104X
+    [4X[28X<pc group of size 81 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XStructureDescription(S);[127X[104X
+    [4X[28X"(C9 x C3) : C3"[128X[104X
+    [4X[25Xgap>[125X [27XExponentTest(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-3 AbelianTest[101X
+  
+  [33X[1;0Y[29X[2XAbelianTest[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a [23X2[123X-group. The attribute [10XAbelianTest[110X first asserts whether there
+  exists an abelian subgroup [23XA[123X of [23XS[123X satisfying [23X[N_S(A) : A] = 2[123X and:[133X
+  
+  [30X    [33X[0;6Y[23XN_S(A) = S[123X; or[133X
+  
+  [30X    [33X[0;6Y[23XN_S(A) < S[123X, with [23X\mathrm{Aut}_S(A) \nleq O_2(\mathrm{Aut})(A)[123X.[133X
+  
+  [33X[0;0YIf so, the function returns true only if [23XS[123X is a [23X\mathcal{DSW}[123X-group.[133X
+  
+  [33X[0;0YThis  test  only  applies at [23Xp=2[123X. It is based on [AOV13, Proposition 5.2(a),
+  (c)].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := DihedralGroup(2^4);[127X[104X
+    [4X[28X<pc group of size 16 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XAbelianTest(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^5, 9);[127X[104X
+    [4X[28X<pc group of size 32 with 5 generators>[128X[104X
+    [4X[25Xgap>[125X [27XStructureDescription(S);[127X[104X
+    [4X[28X"(C8 x C2) : C2"[128X[104X
+    [4X[25Xgap>[125X [27XStructureDescription(Center(S));[127X[104X
+    [4X[28X"C2 x C2"[128X[104X
+    [4X[25Xgap>[125X [27XAbelianTest(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-4 DerivedCyclicTest[101X
+  
+  [33X[1;0Y[29X[2XDerivedCyclicTest[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a [23Xp[123X-group. If [23XS'[123X is cyclic, then the attribute [10XDerivedCyclicTest[110X
+  returns true only if:[133X
+  
+  [30X    [33X[0;6Y[23XS[123X is a [23X\mathcal{DSW}[123X-group; or[133X
+  
+  [30X    [33X[0;6Y[23XS[123X has an abelian subgroup of index [23Xp[123X (at [23Xp[123X odd).[133X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [AOV13, Proposition 5.2(b)]
+  (if [23Xp=2[123X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := DihedralGroup(2^4);[127X[104X
+    [4X[28X<pc group of size 16 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XDerivedCyclicTest(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^5, 9);[127X[104X
+    [4X[28X<pc group of size 32 with 5 generators>[128X[104X
+    [4X[25Xgap>[125X [27XStructureDescription(S);[127X[104X
+    [4X[28X"(C8 x C2) : C2"[128X[104X
+    [4X[25Xgap>[125X [27XStructureDescription(Center(S));[127X[104X
+    [4X[28X"C2 x C2"[128X[104X
+    [4X[25Xgap>[125X [27XDerivedCyclicTest(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-5 ValidAutTest[101X
+  
+  [33X[1;0Y[29X[2XValidAutTest[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet [23XS[123X be a [23Xp[123X-group (for [23Xp[123X odd). The attribute [10XValidAutTest[110X returns true only
+  if  [23X\mathrm{Aut}(S)[123X  is  not  a [23Xp[123X-group. If we further know that [23XS[123X has class
+  [23X\leq  p-1[123X,  and [23X\mathrm{Aut}(S)[123X has a Hall [23Xp[123X-complement [23XH[123X, we check that [23X[S,
+  H] = S[123X.[133X
+  
+  [33X[0;0YThis  test  does  not  apply  if  [23Xp \leq 3[123X. It is based on [Cra11, 7.82] and
+  [DGPS11].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(5^5, 38);[127X[104X
+    [4X[28X<pc group of size 3125 with 5 generators>[128X[104X
+    [4X[25Xgap>[125X [27XNilpotencyClassOfGroup(S);[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XAutomorphismGroup(S);[127X[104X
+    [4X[28X<group of size 15625 with 6 generators>[128X[104X
+    [4X[25Xgap>[125X [27XValidAutTest(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(5^5, 30);[127X[104X
+    [4X[28X<pc group of size 3125 with 5 generators>[128X[104X
+    [4X[25Xgap>[125X [27XNilpotencyClassOfGroup(S);[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XAutomorphismGroup(S);[127X[104X
+    [4X[28X<group of size 1250000 with 11 generators>[128X[104X
+    [4X[25Xgap>[125X [27XValidAutTest(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(5^5, 32);[127X[104X
+    [4X[28X<pc group of size 3125 with 5 generators>[128X[104X
+    [4X[25Xgap>[125X [27XNilpotencyClassOfGroup(S);[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XAutomorphismGroup(S);[127X[104X
+    [4X[28X<group of size 62500 with 8 generators>[128X[104X
+    [4X[25Xgap>[125X [27XValidAutTest(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-6 OmegaAbelianizationTest[101X
+  
+  [33X[1;0Y[29X[2XOmegaAbelianizationTest[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a  [23X2[123X-group,  [23XD  :=  S'[123X  and  [23XO  :=  \Omega(Z(S))[123X.  The attribute
+  [10XOmegaAbelianizationTest[110X returns false only if:[133X
+  
+  [30X    [33X[0;6Y[23X[\Omega(Z(S)) : \Omega(Z(S)) \cap D] = 2[123X; or[133X
+  
+  [30X    [33X[0;6Y[23X\Omega(Z(S)) \nleq D[123X if [23X\mathrm{Aut}(S)[123X is a [23X2[123X-group.[133X
+  
+  [33X[0;0YThis test only applies at [23Xp=2[123X. It is based on [AKO11, Corollary I.8.5].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := DihedralGroup(2^4);[127X[104X
+    [4X[28X<pc group of size 16 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XOmegaAbelianizationTest(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^4, 3);[127X[104X
+    [4X[28X<pc group of size 16 with 4 generators>[128X[104X
+    [4X[25Xgap>[125X [27XStructureDescription(S);[127X[104X
+    [4X[28X"(C4 x C2) : C2"[128X[104X
+    [4X[25Xgap>[125X [27XOmegaAbelianizationTest(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X4.2-7 [33X[0;0YTransfer test for a group[133X[101X
+  
+  [33X[1;0Y[29X[2XTransferMaximalTest[102X( [3XS[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XTransferFpMaximalTest[102X( [3XS[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a  [23X2[123X-group.  The  attribute  [10XTransferMaximalTest[110X checks that, if
+  [23X\mathrm{Aut}(S)[123X is a [23X2[123X-group, then[133X
+  
+  
+  [24X[33X[0;6Y\bigcap_{M \in \mathcal{M}(S)} \ker(\mathrm{tr}_M^S) = S',[133X
+  
+  [124X
+  
+  [33X[0;0Ywhere   [23X\mathcal{M}(S)[123X   is   the   set  of  maximal  subgroups  of  [23XS[123X,  and
+  [23X\mathrm{tr}_M^S   \colon   S   \to   M/M'[123X   is  the  transfer  homomorphism.
+  Alternatively,  [10XTransferFpMaximalTest[110X  checks  that, if [23X\mathrm{Aut}(S)[123X is a
+  [23X2[123X-group, then[133X
+  
+  
+  [24X[33X[0;6Y\bigcap_{M \in \mathcal{M}(S)} \ker(\mathrm{tr'}_M^S) = \Phi(S),[133X
+  
+  [124X
+  
+  [33X[0;0Ywhere   [23X\mathcal{M}(S)[123X   is   the   set  of  maximal  subgroups  of  [23XS[123X,  and
+  [23X\mathrm{tr'}_M^S \colon S \to M/\Phi(M)[123X is the transfer homomorphism.[133X
+  
+  [33X[0;0YThese tests only apply at [23Xp=2[123X when [23X\mathrm{Aut}(S)[123X is a [23X2[123X-group. It is based
+  on [AOV17, Lemma 2.1].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 903);[127X[104X
+    [4X[28X<pc group of size 128 with 7 generators>[128X[104X
+    [4X[25Xgap>[125X [27XTransferMaximalTest(S);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XTransferFpMaximalTest(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X4.2-8 [33X[0;0YTransfer test with a list[133X[101X
+  
+  [33X[1;0Y[29X[2XTransferTest[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTransferFpTest[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X be a [23X2[123X-group and [23XL[123X be a list of (proto-essential) subgroups of [23XS[123X. The
+  operation [10XTransferTest[110X checks that, if [23X\mathrm{Aut}(S)[123X is a [23X2[123X-group, then[133X
+  
+  
+  [24X[33X[0;6Y\bigcap_{M \in L} \ker(\mathrm{tr}_M^S) = S',[133X
+  
+  [124X
+  
+  [33X[0;0Ywhere  [23X\mathrm{tr}_M^S  \colon  S  \to  M/M'[123X  is  the transfer homomorphism.
+  Alternatively,  [10XTransferFpTest[110X checks that, if [23X\mathrm{Aut}(S)[123X is a [23X2[123X-group,
+  then[133X
+  
+  
+  [24X[33X[0;6Y\bigcap_{M \in L} \ker(\mathrm{tr'}_M^S) = \Phi(S),[133X
+  
+  [124X
+  
+  [33X[0;0Ywhere [23X\mathrm{tr'}_M^S \colon S \to M/\Phi(M)[123X is the transfer homomorphism.[133X
+  
+  [33X[0;0YThese tests only apply at [23Xp=2[123X when [23X\mathrm{Aut}(S)[123X is a [23X2[123X-group. It is based
+  on [AOV17, Lemma 2.1].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 931);[127X[104X
+    [4X[28X<pc group of size 128 with 7 generators>[128X[104X
+    [4X[25Xgap>[125X [27XL := AllProtoEssentials(S);[127X[104X
+    [4X[28X[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), [128X[104X
+    [4X[28XGroup([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), [128X[104X
+    [4X[28XGroup([ f1, f3, f5, f6, f7 ]) ][128X[104X
+    [4X[25Xgap>[125X [27XTransferTest(S, L{[1..3]});[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XTransferTest(S, L{[3..5]});[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-9 C0Test[101X
+  
+  [33X[1;0Y[29X[2XC0Test[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group, and [23XL := \mathfrak{C}_0[123X. The operation [10XC0Test[110X checks
+  that  there  exists  some  subgroup  [23XE[123X  in  [23XL[123X  such that [23X\Omega(Z(S))[123X is not
+  semi-characteristic in [23XE[123X, i.e. invariant under [23XO^p(O^{p'}(\mathrm{Aut}(E)))[123X.[133X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [Gau26, Corollary 3.12].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XL := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;[127X[104X
+    [4X[25Xgap>[125X [27XLength(L);[127X[104X
+    [4X[28X32[128X[104X
+    [4X[25Xgap>[125X [27XNumber(L, S -> C0Test(S, MainProtoEssentials(S, 0)));[127X[104X
+    [4X[28X17[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-10 CTest[101X
+  
+  [33X[1;0Y[29X[2XCTest[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group, and let [23XL[123X be a list of proto-essential subgroups of [23XS[123X.
+  The operation [10XCTest[110X checks that:[133X
+  
+  [30X    [33X[0;6Y[23XL[123X has at least [23X2[123X elements, or[133X
+  
+  [30X    [33X[0;6Y[23XL[123X  consists  of  a  single  subgroup,  which  is  not normal in [23XS[123X, and
+        [23X\mathrm{Aut}(S)[123X is not a [23Xp[123X-group.[133X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [AOV17, Lemma 2.2(e)].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XL := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;[127X[104X
+    [4X[25Xgap>[125X [27XLength(L);[127X[104X
+    [4X[28X32[128X[104X
+    [4X[25Xgap>[125X [27XNumber(L, S -> CTest(S, AllProtoEssentials(S)));[127X[104X
+    [4X[28X16[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-11 SemiCharacteristicGeneratedTest[101X
+  
+  [33X[1;0Y[29X[2XSemiCharacteristicGeneratedTest[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group, and let [23XL[123X be a list of proto-essential subgroups of [23XS[123X.
+  The operation [10XSemiCharacteristicGeneratedTest[110X checks that the subgroup[133X
+  
+  
+  [24X[33X[0;6Y\langle [O^p(\mathrm{Aut}(S)), S], Q_E \mid E \in L \rangle = S,[133X
+  
+  [124X
+  
+  [33X[0;0Ywhere [23XQ_E[123X is the semi-characteristic closure of [23X[N_S(E), E][123X in [23XE[123X.[133X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X. It is based on [AOV17, Lemma 2.2(f)].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 931);[127X[104X
+    [4X[28X<pc group of size 128 with 7 generators>[128X[104X
+    [4X[25Xgap>[125X [27XL := AllProtoEssentials(S);[127X[104X
+    [4X[28X[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), [128X[104X
+    [4X[28XGroup([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), [128X[104X
+    [4X[28XGroup([ f1, f3, f5, f6, f7 ]) ][128X[104X
+    [4X[25Xgap>[125X [27XSemiCharacteristicGeneratedTest(S, L{[1..3]});[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XSemiCharacteristicGeneratedTest(S, L{[3..5]});[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-12 CoreTest[101X
+  
+  [33X[1;0Y[29X[2XCoreTest[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group, and let [23XL[123X be a list of proto-essential subgroups of [23XS[123X.
+  The  operation [10XCoreTest[110X checks that if [23XN[123X is a normal subgroup of [23XS[123X such that
+  [23XN[123X  is  semi-characteristic  (i.e.  fixed by [23XO^p(O^{p'}(\mathrm{Aut}(E)))[123X) in
+  each [23XE \in L[123X, then [23XN = 1[123X.[133X
+  
+  [33X[0;0YThis test applies at any prime [23Xp[123X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(256, 6366);[127X[104X
+    [4X[28X<pc group of size 256 with 8 generators>[128X[104X
+    [4X[25Xgap>[125X [27XL := AllProtoEssentials(S);[127X[104X
+    [4X[28X[ Group([ f1, f2, f4, f5, f6, f7, f8 ]), Group([ f7, f8, f3, f4, f5, f6 ]) ][128X[104X
+    [4X[25Xgap>[125X [27XC := List(L, CharacteristicSubgroups);;[127X[104X
+    [4X[25Xgap>[125X [27XIntersection(C);[127X[104X
+    [4X[28X[ Group([  ]) ][128X[104X
+    [4X[25Xgap>[125X [27XCoreTest(S, L);[127X[104X
+    [4X[28Xfalse[128X[104X
   [4X[32X[104X
   

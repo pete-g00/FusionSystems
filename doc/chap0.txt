@@ -50,7 +50,7 @@
   [33X[0;0YFusionSystems  is free software; you can redistribute and/or modify it under
   the      terms      of      the      GNU      General     Public     License
   ([7Xhttps://www.fsf.org/licenses/gpl.html[107X)  as  published  by the Free Software
-  Foundation;  either version 2 of the License, or (at your opinion) any later
+  Foundation;  either  version 2 of the License, or (at your option) any later
   version.[133X
   
   
@@ -66,31 +66,13 @@
   
   [1XContents (FusionSystems)[101X
   
-  1 [33X[0;0YAutomizer Sequences[133X
-    1.1 [33X[0;0YThe functions[133X
-      1.1-1 FindReducedSequences
-      1.1-2 IsomorphismSequences
-      1.1-3 ValidAutomizers
-      1.1-4 FindSmallestBorel
-      1.1-5 IsAutomizerBorelCompatible
-      1.1-6 IsCompatibleSequence
-  2 [33X[0;0YOther functions[133X
-    2.1 [33X[0;0YGroup actions[133X
-      2.1-1 OnQuotient
-      2.1-2 CentralizerMod
-      2.1-3 OnImage
-      2.1-4 OnImageNM
-      2.1-5 OnImageTuples
-      2.1-6 OnImageTuplesNM
-    2.2 [33X[0;0YGroup automorphisms[133X
-      2.2-1 Automizer
-      2.2-2 [33X[0;0YRestriction of homomorphisms[133X
-      2.2-3 [33X[0;0YTransfer homomorphism[133X
-    2.3 [33X[0;0YSemi-characteristic subgroups[133X
-      2.3-1 SemiAutomorphismGroup
-      2.3-2 SemiCharacteristicSubgroups
-      2.3-3 IsSemiCharacteristic
-      2.3-4 SemiCharacteristicClosure
+  1 [33X[0;0YIntroduction[133X
+  2 [33X[0;0YProto-essential subgroups[133X
+    2.1 [33X[0;0YBrief description of the algorithm[133X
+    2.2 [33X[0;0YThe operations[133X
+      2.2-1 AllProtoEssentials
+      2.2-2 MainProtoEssentials
+      2.2-3 GenerateProtoEssentials
   3 [33X[0;0YChecks for proto-essentials[133X
     3.1 [33X[0;0YThe main functions[133X
       3.1-1 IsProtoEssential
@@ -104,29 +86,50 @@
       3.2-6 LiftTest
       3.2-7 ValidAutTest
       3.2-8 RadicalTest
-  4 [33X[0;0YProto-essential subgroups[133X
-    4.1 [33X[0;0YBrief description of the algorithm[133X
-    4.2 [33X[0;0YThe operations[133X
-      4.2-1 AllProtoEssentials
-      4.2-2 MainProtoEssentials
-      4.2-3 GenerateProtoEssentials
-  5 [33X[0;0YChecks for reduced fusion systems[133X
-    5.1 [33X[0;0YThe main functions[133X
-      5.1-1 PossiblySupportsReducedFusionSystems
-      5.1-2 PossiblySupportsReducedFusionSystems_PE
-    5.2 [33X[0;0YThe specific functions[133X
-      5.2-1 IsDSWGroup
-      5.2-2 ExponentTest
-      5.2-3 AbelianTest
-      5.2-4 DerivedCyclicTest
-      5.2-5 ValidAutTest
-      5.2-6 OmegaAbelianizationTest
-      5.2-7 [33X[0;0YTransfer test for a group[133X
-      5.2-8 [33X[0;0YTransfer test with a list[133X
-      5.2-9 C0Test
-      5.2-10 CTest
-      5.2-11 SemiCharacteristicGeneratedTest
-      5.2-12 CoreTest
+  4 [33X[0;0YChecks for reduced fusion systems[133X
+    4.1 [33X[0;0YThe main functions[133X
+      4.1-1 PossiblySupportsReducedFusionSystems
+      4.1-2 PossiblySupportsReducedFusionSystems_PE
+    4.2 [33X[0;0YThe specific functions[133X
+      4.2-1 IsDSWGroup
+      4.2-2 ExponentTest
+      4.2-3 AbelianTest
+      4.2-4 DerivedCyclicTest
+      4.2-5 ValidAutTest
+      4.2-6 OmegaAbelianizationTest
+      4.2-7 [33X[0;0YTransfer test for a group[133X
+      4.2-8 [33X[0;0YTransfer test with a list[133X
+      4.2-9 C0Test
+      4.2-10 CTest
+      4.2-11 SemiCharacteristicGeneratedTest
+      4.2-12 CoreTest
+  5 [33X[0;0YAutomizer Sequences[133X
+    5.1 [33X[0;0YThe functions[133X
+      5.1-1 FindReducedSequences
+      5.1-2 IsomorphismSequences
+      5.1-3 ValidAutomizers
+      5.1-4 FindSmallestBorel
+      5.1-5 IsAutomizerBorelCompatible
+      5.1-6 IsCompatibleSequence
+  6 [33X[0;0YOther functions[133X
+    6.1 [33X[0;0YGroup actions[133X
+      6.1-1 OnQuotient
+      6.1-2 CentralizerMod
+      6.1-3 OnImage
+      6.1-4 OnImageNM
+      6.1-5 OnImageTuples
+      6.1-6 OnImageTuplesNM
+      6.1-7 OnPreImage
+      6.1-8 OnPreImageTuples
+    6.2 [33X[0;0YGroup automorphisms[133X
+      6.2-1 Automizer
+      6.2-2 [33X[0;0YRestriction of homomorphisms[133X
+      6.2-3 [33X[0;0YTransfer homomorphism[133X
+    6.3 [33X[0;0YSemi-characteristic subgroups[133X
+      6.3-1 SemiAutomorphismGroup
+      6.3-2 SemiCharacteristicSubgroups
+      6.3-3 IsSemiCharacteristic
+      6.3-4 SemiCharacteristicClosure
   
   
   [32X

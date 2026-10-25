@@ -13,9 +13,9 @@
 </Returns>
  <Description>
 <P/>
- Let <Math>G</Math> be a finite group, and <Math>A</Math> be a normal subgroup in <Math>U</Math>. Let <Math>q \colon G \to G/A</Math>. The function 
+ Let <Math>G</Math> be a finite group, and <Math>A</Math> be a normal subgroup of <Math>G</Math>. Let <Math>q \colon G \to G/A</Math>. The function 
  <Code>OnQuotient(q)</Code> returns a function, such that for <Math>t \in G/A</Math> and <Math>x \in G</Math>, <Code>OnQuotient(q)(t, x)</Code> 
- returns <Math>q(xhx^{-1})</Math>, where <Math>h \in G</Math> satisfies <Math>q(h) = t</Math>.
+ returns <Math>q(x^{-1}hx)</Math>, where <Math>h \in G</Math> satisfies <Math>q(h) = t</Math>.
 <P/>
  </Description>
 </ManSection>
@@ -26,8 +26,8 @@
 </Returns>
  <Description>
 <P/>
- Let <Math>G</Math> be a finite group, with subgroups <Math>B \leq A \leq G</Math>, with <Math>B</Math> normal in <Math>G</Math>. The function 
- <Code>CentralizerMod(S, A, B)</Code> returns the subgroup <Math>C_G(A/B)</Math>, given by:
+ Let <Math>G</Math> be a finite group, with subgroups <Math>B \leq A \leq G</Math>, where <Math>B</Math> is normal in <Math>G</Math>. The operation
+ <Code>CentralizerMod(G, A, B)</Code> returns the subgroup <Math>C_G(A/B)</Math>, given by:
 <P/>
  <Display>C_G(A/B) := \langle x \in G \mid [A, x] \leq B \rangle.</Display>
 <P/>
@@ -92,20 +92,20 @@ gap> A := Stabilizer(AutS, V, OnImageNM(n));
 ]]></Example>
 
 <ManSection>
-  <Func Arg="L x" Name="OnImageTuples" />
+  <Func Arg="L phi" Name="OnImageTuples" />
  <Returns>a list
 </Returns>
  <Description>
 <P/>
  Let <Math>\phi</Math> be a map and let <Math>L</Math> be a list of elements in the domain of <Math>\phi</Math>. 
- The function <Code>OnImageTuples(L, x)</Code> returns a list containing <Math>\phi(x)</Math> for each <Math>x \in L</Math>, 
+ The function <Code>OnImageTuples(L, phi)</Code> returns a list containing <Math>\phi(x)</Math> for each <Math>x \in L</Math>, 
  while maintaining the order.
 <P/>
  </Description>
 </ManSection>
 
 <ManSection>
-  <Func Arg="S A" Name="OnImageTuplesNM" />
+  <Func Arg="n" Name="OnImageTuplesNM" />
  <Returns>a function
 </Returns>
  <Description>
@@ -119,12 +119,39 @@ gap> A := Stabilizer(AutS, V, OnImageNM(n));
  </Description>
 </ManSection>
 
+<ManSection>
+  <Func Arg="q" Name="OnPreImage" />
+ <Returns>a function
+</Returns>
+ <Description>
+<P/>
+ Let <Math>A</Math> be a group that acts on the set <Math>\Omega</Math> with kernel <Math>K</Math>, and let <Math>q \colon A \to G</Math> be a group homomorphism 
+ with <Math>\ker(q) \leq K</Math>. The function <Code>OnPreImage(q)</Code> returns a function, such that, for some element <Math>g \in G</Math> and 
+ <Math>x \in \Omega</Math>, <Code>OnPreImage(q)(x, g)</Code> returns <Math>x^a</Math>, where <Math>a \in A</Math> is the preimage of <Math>g</Math> with respect to <Math>q</Math>.
+<P/>
+ </Description>
+</ManSection>
+
+<ManSection>
+  <Func Arg="q" Name="OnPreImageTuples" />
+ <Returns>a function
+</Returns>
+ <Description>
+<P/>
+ Let <Math>A</Math> be a group that acts on the set <Math>\Omega</Math> with kernel <Math>K</Math>, and let <Math>q \colon A \to G</Math> be a group homomorphism 
+ with <Math>\ker(q) \leq K</Math>. The function <Code>OnPreImageTuples(q)</Code> returns a function, such that, for some element <Math>g \in G</Math> 
+ and a subset <Math>L \subseteq \Omega</Math>, <Code>OnPreImageTuples(q)(L, g)</Code> returns a list consisting of <Math>x^a</Math> for <Math>x \in L</Math>, 
+ where <Math>a \in A</Math> is the preimage of <Math>g</Math> with respect to <Math>q</Math>.
+<P/>
+ </Description>
+</ManSection>
+
 </Section>
 
 <Section Label="Chapter_Other_functions_Section_Group_automorphisms">
 <Heading>Group automorphisms</Heading>
 
-<ManSection Label="AutoDoc_generated_group1">
+<ManSection Label="AutoDoc_generated_group3">
   <Oper Arg="G H" Name="Automizer" Label="for IsGroup, IsGroup"/>
   <Oper Arg="A H" Name="Automizer" Label="for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite"/>
  <Returns>a subgroup of Aut(H)
@@ -136,7 +163,7 @@ gap> A := Stabilizer(AutS, V, OnImageNM(n));
 <P/>
  <Display>\mathrm{Aut}_G(H) := \langle c_g \mid g \in N_G(H) \rangle,</Display>
 <P/>
- where <Math>c_g \colon H \to H</Math> is the conjugation automorphism. It is a subgroup of <Math>\mathrm{Aut}(A)</Math>.
+ where <Math>c_g \colon H \to H</Math> is the conjugation automorphism. It is a subgroup of <Math>\mathrm{Aut}(H)</Math>.
 <P/>
  </Description>
 </ManSection>
@@ -170,12 +197,12 @@ gap> AutS := AutomorphismGroup(S);
 <group of size 1562500 with 10 generators>
 gap> AutSV := Automizer(AutS, V);
 <group with 7 generators>
-gap> AutV := AutomorphismGroup(V);
-<group of size 480 with 4 generators>
+gap> AutV := AutomorphismGroup(V);;
 gap> n := NiceMonomorphism(AutV);
 <action isomorphism>
-gap> AutV := n(AutV);
-<permutation group of size 480 with 4 generators>
+gap> AutV := n(AutV);;
+gap> Size(AutV);
+480
 gap> AutSV := n(AutSV);
 <permutation group with 7 generators>
 gap> Index(AutV, AutSV);
@@ -184,24 +211,24 @@ gap> Size(AutSV);
 20
 ]]></Example>
 
-<ManSection Label="AutoDoc_generated_group2">
+<ManSection Label="AutoDoc_generated_group4">
 <Heading>Restriction of homomorphisms</Heading>
-  <Oper Arg="phi X" Name="RestrictedHomomorphism" Label="for IsGroupHomomorphism, IsGroup"/>
+  <Oper Arg="phi X" Name="RestrictedHomomorphismOnto" Label="for IsGroupHomomorphism, IsGroup"/>
   <Oper Arg="phi X" Name="RestrictedAutomorphism" Label="for IsGroupHomomorphism and IsBijective, IsGroup"/>
  <Returns>a group automorphism
 </Returns>
  <Description>
 <P/>
- Let <Math>\phi \colon A \to B</Math> be a group homomorphism, and let <Math>X \leq A</Math>. The function 
- <Code>RestrictedHomomorphism(phi, X)</Code> returns the surjective group homomorphism 
+ Let <Math>\phi \colon A \to B</Math> be a group homomorphism, and let <Math>X \leq A</Math>. The operation 
+ <Code>RestrictedHomomorphismOnto(phi, X)</Code> returns the surjective group homomorphism 
  <Math>\phi|_X \colon X \to \phi(X)</Math> given by restriction. If <Math>\phi</Math> is also an isomorphism that fixes <Math>X</Math>, 
- then the function <Code>RestrictedAutomorphism(phi, X)</Code> returns the group automorphism 
+ then the operation <Code>RestrictedAutomorphism(phi, X)</Code> returns the group automorphism 
  <Math>\phi|_X \colon X \to \phi(X)</Math> given by restriction.
 <P/>
  </Description>
 </ManSection>
 
-<ManSection Label="AutoDoc_generated_group3">
+<ManSection Label="AutoDoc_generated_group5">
 <Heading>Transfer homomorphism</Heading>
   <Oper Arg="G S" Name="TransferHomomorphism" Label="for IsGroup, IsGroup"/>
   <Oper Arg="G S" Name="TransferHomomorphismFp" Label="for IsGroup, IsPGroup"/>
@@ -221,7 +248,7 @@ gap> Size(AutSV);
 <Section Label="Chapter_Other_functions_Section_Semi-characteristic_subgroups">
 <Heading>Semi-characteristic subgroups</Heading>
 
- Let <Math>S</Math> be a <Math>p</Math>-group and <Math>A \leq S</Math>. We say that <Math>S</Math> is <Emph>semi-characteristic</Emph> in <Math>S</Math> if 
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>A \leq S</Math>. We say that <Math>A</Math> is <Emph>semi-characteristic</Emph> in <Math>S</Math> if 
 <List>
 <Item>
 <Math>A</Math> is normal in <Math>S</Math>, and
@@ -248,7 +275,7 @@ gap> Size(AutSV);
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group. The operation <Code>SemiCharacteristicSubgroups</Code> returns all the semi-characteristic subgroups
+ Let <Math>S</Math> be a <Math>p</Math>-group. The attribute <Code>SemiCharacteristicSubgroups</Code> returns all the semi-characteristic subgroups
  of <Math>S</Math>. These are the normal subgroups of <Math>S</Math> fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(S)))</Math>.
 <P/>
  </Description>
@@ -261,14 +288,14 @@ gap> Size(AutSV);
  <Description>
 <P/>
  Let <Math>S</Math> be a <Math>p</Math>-group and <Math>A</Math> be a subgroup of <Math>S</Math>. The operation <Code>IsSemiCharacteristic</Code> checks whether
- <Math>E</Math> is a semi-characteristic in <Math>S</Math>. That is, we check whether:
+ <Math>A</Math> is semi-characteristic in <Math>S</Math>. That is, we check whether:
 <P/>
 <List>
 <Item>
-<Math>E</Math> is normal in <Math>S</Math>, and
+<Math>A</Math> is normal in <Math>S</Math>, and
 </Item>
 <Item>
-<Math>E</Math> is fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(S)))</Math>.
+<Math>A</Math> is fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(S)))</Math>.
 </Item>
 </List>
 <P/>
@@ -277,7 +304,7 @@ gap> Size(AutSV);
 
 <ManSection>
   <Oper Arg="S A" Name="SemiCharacteristicClosure" Label="for IsPGroup, IsPGroup"/>
- <Returns>a subgroup of Aut(E)
+ <Returns>a subgroup of S
 </Returns>
  <Description>
 <P/>

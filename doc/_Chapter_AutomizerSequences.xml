@@ -6,26 +6,27 @@
 
 <P/>
  Let <Math>S</Math> be a <Math>p</Math>-group, with proto-essential subgroups <Math>E_1, \dots, E_n</Math>. An <Emph>automizer sequence</Emph> is a list <Math>P := [H_{i_1}, \dots, H_{i_k}]</Math>, where <Math>H_{i_j} \leq \textrm{Aut}(E_{i_j})</Math> is a valid automizer for <Math>E_{i_j}</Math> in <Math>S</Math>. 
- In other words, <Math>\textrm{Aut}_S(E_{i_j})</Math> is a Sylow <Math>p</Math>-subgroup of <Math>H_{i_j})</Math>, and <Math>H_{i_j}/\textrm{Inn}(E_{i_j})</Math> contains a strongly <Math>p</Math>-embedded subgroup. Note that we do not include a choice of <Math>H_S \leq \textrm{Aut}(S)</Math> here.
+ In other words, <Math>\textrm{Aut}_S(E_{i_j})</Math> is a Sylow <Math>p</Math>-subgroup of <Math>H_{i_j}</Math>, and <Math>H_{i_j}/\textrm{Inn}(E_{i_j})</Math> contains a strongly <Math>p</Math>-embedded subgroup. Note that we do not include a choice of <Math>H_S \leq \textrm{Aut}(S)</Math> here.
  These are prototypes for saturated fusion systems. In this chapter, we describe processes to determine many important properties about automizer sequences that will allow us to determine whether the corresponding fusion system would be reduced.
 <Section Label="Chapter_Automizer_Sequences_Section_The_functions">
 <Heading>The functions</Heading>
 
 <ManSection>
   <Oper Arg="S L" Name="FindReducedSequences" Label="for IsPGroup, IsList"/>
- <Returns>a list of valid Aut_F(E)
+ <Returns>a list of lists of integers
 </Returns>
  <Description>
  Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of subgroups of <Math>S</Math>, all of which are proto-essential in <Math>S</Math>. We compute all possible automizer sequences involving the subgroups in <Math>L</Math> that could lead to reduced fusion systems.
+ Each sequence is returned as a list <Math>A</Math> of integers, with one entry for each subgroup <Math>E_i</Math> in <Math>L</Math>: <Math>A[i] = 0</Math> if <Math>E_i</Math> is not essential, and otherwise <Math>A[i]</Math> is the position of <Math>\textrm{Aut}_\mathcal{F}(E_i)</Math> in <Code>ValidAutomizers(S, E_i)</Code>.
  </Description>
 </ManSection>
 
 <ManSection>
   <Oper Arg="S P1 P2" Name="IsomorphismSequences" Label="for IsPGroup, IsList, IsList"/>
- <Returns>an isomorphism mapping
+ <Returns>an automorphism of <Math>S</Math>, or <Code>fail</Code>
 </Returns>
  <Description>
- Given two automizer sequences <Math>P_1</Math> and <Math>P_2</Math>, check whether there exists some <Math>\phi \in \textrm{Aut}(S)</Math> such that <Math>P_1^\phi = P_2</Math>. This computation mimics isomorphism of fusion systems. The action of <Math>\phi</Math> is dependent of the ordering of the <Math>P_i</Math>'s.
+ Given two automizer sequences <Math>P_1</Math> and <Math>P_2</Math>, check whether there exists some <Math>\phi \in \textrm{Aut}(S)</Math> such that <Math>P_1^\phi = P_2</Math>. This computation mimics isomorphism of fusion systems. The action of <Math>\phi</Math> depends on the ordering of the <Math>P_i</Math>'s.
  </Description>
 </ManSection>
 

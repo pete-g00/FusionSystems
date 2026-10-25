@@ -1,86 +1,32 @@
   
-  [1X1 [33X[0;0YAutomizer Sequences[133X[101X
+  [1X1 [33X[0;0YIntroduction[133X[101X
   
-  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group,  with  proto-essential subgroups [23XE_1, \dots, E_n[123X. An
-  [13Xautomizer  sequence[113X  is a list [23XP := [H_{i_1}, \dots, H_{i_k}][123X, where [23XH_{i_j}
-  \leq  \textrm{Aut}(E_{i_j})[123X  is a valid automizer for [23XE_{i_j}[123X in [23XS[123X. In other
-  words,  [23X\textrm{Aut}_S(E_{i_j})[123X  is  a  Sylow  [23Xp[123X-subgroup  of  [23XH_{i_j})[123X, and
-  [23XH_{i_j}/\textrm{Inn}(E_{i_j})[123X  contains a strongly [23Xp[123X-embedded subgroup. Note
-  that  we do not include a choice of [23XH_S \leq \textrm{Aut}(S)[123X here. These are
-  prototypes  for  saturated  fusion  systems.  In  this  chapter, we describe
-  processes  to  determine many important properties about automizer sequences
-  that  will  allow  us  to  determine whether the corresponding fusion system
-  would be reduced.[133X
+  [33X[0;0YThe  [5XFusionSystems[105X package tests whether saturated fusion systems with given
+  properties could exist on a finite [22Xp[122X-group [22XS[122X, without constructing them. Its
+  main functions are:[133X
   
+  [30X    [33X[0;6Y[2XAllProtoEssentials[102X  ([14X2.2-1[114X)  finds  the  subgroups  of [22XS[122X that could be
+        essential  in  a  saturated fusion system on [22XS[122X, up to [22XS[122X-conjugacy, and
+        [2XIsProtoEssential[102X ([14X3.1-1[114X) tests a single subgroup (Chapters [14X2[114X and [14X3[114X);[133X
   
-  [1X1.1 [33X[0;0YThe functions[133X[101X
+  [30X    [33X[0;6Y[2XPossiblySupportsReducedFusionSystems[102X  ([14X4.1-1[114X)  tests  whether  [22XS[122X could
+        support a reduced fusion system (Chapter [14X4[114X);[133X
   
-  [1X1.1-1 FindReducedSequences[101X
+  [30X    [33X[0;6Y[2XFindReducedSequences[102X  ([14X5.1-1[114X) finds the automizer sequences that could
+        lead to reduced fusion systems (Chapter [14X5[114X).[133X
   
-  [33X[1;0Y[29X[2XFindReducedSequences[102X( [3XS[103X, [3XL[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya list of valid Aut_F(E)[133X
+  [33X[0;0YThe   tests  check  necessary  conditions  only:  a  subgroup  found  to  be
+  proto-essential,  or  a  group  that  passes  the  tests  for reduced fusion
+  systems, need not lead to an actual saturated fusion system.[133X
   
-  [33X[0;0YLet  [23XS[123X be a [23Xp[123X-group, and let [23XL[123X be a list of subgroups of [23XS[123X, all of which are
-  proto-essential  in [23XS[123X. We compute all possible automizer sequences involving
-  the subgroups in [23XL[123X that could lead to reduced fusion systems.[133X
+  [33X[0;0YTo  follow  the  progress  of  a  longer  computation, set the info level of
+  [10XInfoFusion[110X to 1 or higher.[133X
   
-  [1X1.1-2 IsomorphismSequences[101X
-  
-  [33X[1;0Y[29X[2XIsomorphismSequences[102X( [3XS[103X, [3XP1[103X, [3XP2[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Yan isomorphism mapping[133X
-  
-  [33X[0;0YGiven  two  automizer sequences [23XP_1[123X and [23XP_2[123X, check whether there exists some
-  [23X\phi  \in  \textrm{Aut}(S)[123X such that [23XP_1^\phi = P_2[123X. This computation mimics
-  isomorphism  of  fusion  systems.  The  action  of  [23X\phi[123X is dependent of the
-  ordering of the [23XP_i[123X's.[133X
-  
-  [1X1.1-3 ValidAutomizers[101X
-  
-  [33X[1;0Y[29X[2XValidAutomizers[102X( [3XS[103X, [3XE[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya list[133X
-  
-  [33X[0;0YFinds  valid automizers for [23XE[123X in [23XS[123X. This is not part of the proto-essentials
-  test  and forms the first step in the actual construction of fusion systems.
-  Nonetheless,  if  a  subgroup  is proto-essential, then it must have a valid
-  automizer.   This   function   does   not   construct   all   subgroups   of
-  [23X\textrm{Aut}(E)/O_p(\textrm{Aut}(E))[123X,  and  instead  uses  iterative maximal
-  subgroup condition to do so.[133X
-  
-  [1X1.1-4 FindSmallestBorel[101X
-  
-  [33X[1;0Y[29X[2XFindSmallestBorel[102X( [3XS[103X, [3XAutFE[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya group[133X
-  
-  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group, and let [23XE < S[123X with some fixed [23XH_E \leq \textrm{Aut}(E)[123X
-  part  of an automizer sequence. The operation [10XFindSmallestBorel[110X computes the
-  subgroup     of    [23X\textrm{Aut}(S)[123X    consisting    of    extensions    from
-  [23XN_{H_E}(\textrm{Aut}_S(E))[123X.  If  not  every  map  in the normalizer subgroup
-  exists, we return [10Xfail[110X.[133X
-  
-  [1X1.1-5 IsAutomizerBorelCompatible[101X
-  
-  [33X[1;0Y[29X[2XIsAutomizerBorelCompatible[102X( [3XS[103X, [3XAutFS[103X, [3XAutFE[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
-  
-  [33X[0;0YLet  [23XS[123X  be a [23Xp[123X-group, and let [23XE < S[123X with some fixed [23XH_E \leq \textrm{Aut}(E)[123X
-  part  of  an automizer sequence. Let [23XH_S \leq \textrm{Aut}(S)[123X be a subgroup.
-  The  operation [10XIsAutomizerBorelCompatible[110X checks whether the restrictions of
-  [23XH_S[123X  are  [13Xcompatible[113X  with  [23XH_E[123X.  In particular, if [23XA_0 \leq \textrm{Aut}(E)[123X
-  consists of restrictions from [23XH_S[123X, we have that[133X
-  
-  
-  [24X[33X[0;6YO^{p'}(\langle A_0, H_E \rangle) = H_E.[133X
-  
-  [124X
-  
-  [1X1.1-6 IsCompatibleSequence[101X
-  
-  [33X[1;0Y[29X[2XIsCompatibleSequence[102X( [3XS[103X, [3XP[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
-  
-  [33X[0;0YLet  [23XS[123X  be  a  [23Xp[123X-group  and  let  [23XP[123X  be an automizer sequence. The operation
-  [10XIsCompatibleSequence[110X checks whether [23XP[123X can lead to a saturated fusion system.
-  Note  that  there  can  be  false positives -- [23XP[123X may not lead to a saturated
-  fusion  system  (based  on  the  analysis of centric, radical subgroups) but
-  passes this test.[133X
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS := SmallGroup(2^7, 931);;[127X[104X
+    [4X[25Xgap>[125X [27XLength(AllProtoEssentials(S));[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XPossiblySupportsReducedFusionSystems(S);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
   

@@ -38,12 +38,7 @@
 </List>
 <P/>
  Each computation is considered more expensive than the previous one.
-<Alt Only="LaTeX"><![CDATA[
- See \ref{Section_PEChecks} for the list of tests currently implemented.
-]]></Alt>
-<Alt Not="LaTeX"><![CDATA[
- See Section <Ref Label="Section_PEChecks"/> for the list of tests currently implemented.
-]]></Alt>
+ See Section <Ref Sect="Section_PEChecks"/> for the list of tests currently implemented.
 <P/>
  Note that it is possible that <Math>E</Math> is found to be proto-essential even though there is no fusion system <Math>\mathcal{F}</Math> on <Math>S</Math>
  with <Math>E \in \mathcal{E}(\mathcal{F})</Math>. This can be for various reasons, for example, <Math>E</Math> could be essential in <Math>\mathcal{F}</Math>
@@ -96,13 +91,19 @@ gap> List(C, StructureDescription);
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group. The function <Code>Zed0</Code> computes the subgroup <Math>Z_0</Math> of <Math>S</Math>, which is given by:
+ Let <Math>S</Math> be a <Math>p</Math>-group. The attribute <Code>Zed0</Code> computes the subgroup <Math>Z_0</Math> of <Math>S</Math>, which is given by:
  <Display>Z_0 := \langle x \in Z_2(S) \mid |[S, x]| \leq p \rangle.</Display>
 <P/>
  </Description>
 </ManSection>
 
- Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>Zed0Test</Code> checks that one of the following holds:
+<ManSection>
+  <Oper Arg="S E" Name="Zed0Test" Label="for IsPGroup, IsPGroup"/>
+ <Returns>true or false
+</Returns>
+ <Description>
+<P/>
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The operation <Code>Zed0Test</Code> checks that one of the following holds:
 <List>
 <Item>
 <Math>Z_0 \leq E</Math>; or
@@ -114,12 +115,8 @@ gap> List(C, StructureDescription);
 <P/>
  Note that this function is not used when constructing <Math>\mathfrak{C}</Math> as the choice of <Math>x</Math> is easier to find while 
  the set <Math>\mathfrak{C}_0</Math> is being constructed.
+<P/>
  This test applies at any prime <Math>p</Math>. It is based on <Cite Key="AOV17" Where="Proposition 2.3(a)" /> (proven for <Math>p=2</Math>).
-<ManSection>
-  <Oper Arg="S" Name="Zed0Test" Label="Zed0Test"/>
- <Returns>a subgroup
-</Returns>
- <Description>
 <P/>
  </Description>
 </ManSection>
@@ -137,12 +134,12 @@ gap> Number(C, A -> Zed0Test(S,A));
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S E" Name="RankTest" Label="RankTest"/>
+  <Oper Arg="S E" Name="RankTest" Label="for IsPGroup, IsPGroup"/>
  <Returns>a number
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>RankTest</Code> checks that <Math>\textrm{Out}_S(E)</Math> 
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The operation <Code>RankTest</Code> checks that <Math>\textrm{Out}_S(E)</Math> 
  is isomorphic to  a Sylow <Math>p</Math>-subgroup of a group containing a strongly <Math>p</Math>-embedded subgroup. If so, we return 
  a value specifying its type, namely:
 <List>
@@ -165,7 +162,7 @@ gap> Number(C, A -> Zed0Test(S,A));
 <Math>5</Math> -- <Math>3^{1+2}_-</Math> and <Math>5^{1+2}_-</Math>.
 </Item>
 </List>
- We return <Math>-1</Math> none of the cases above apply. During the process, we also check that the subgroup <Math>E</Math> has
+ We return <Math>-1</Math> if none of the cases above apply. During the process, we also check that the subgroup <Math>E</Math> has
  sufficiently high rank to ensure that <Math>\mathrm{Aut}(E)</Math> has a possible valid section.
 <P/>
  This test applies at any prime <Math>p</Math>. It is based on <Cite Key="SAM14" Where="Proposition 6.9" />.
@@ -201,11 +198,11 @@ gap> RankTest(S, U);
 
 <ManSection>
   <Oper Arg="S E" Name="ModuleTest" Label="for IsPGroup, IsPGroup"/>
- <Returns>a number
+ <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>2</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>ModuleTest</Code> checks that, if <Math>\mathrm{Out}_S(E)</Math> has 
+ Let <Math>S</Math> be a <Math>2</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The operation <Code>ModuleTest</Code> checks that, if <Math>\mathrm{Out}_S(E)</Math> has 
  order <Math>2^k</Math> (for <Math>k \geq 2</Math>), then for all <Math>x \in \mathrm{Out}_S(E)</Math>, if <Math>x \neq 1</Math>, then <Math>[x, E/\Phi(E)]</Math> is not cyclic.
 <P/>
  This test applies at <Math>p=2</Math>. It is based on <Cite Key="OV" Where="Proposition 3.3(c)" />.
@@ -229,7 +226,7 @@ gap> Number(C, A -> Zed0Test(S,A) and ModuleTest(S,A));
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The function <Code>FrattiniTest</Code> checks that
+ Let <Math>S</Math> be a <Math>p</Math>-group and <Math>E</Math> be a subgroup of <Math>S</Math>. The operation <Code>FrattiniTest</Code> checks that
  <Display>C_{N_S(E)}(E/\Phi(E)) = E.</Display>
 <P/>
  This test applies at any prime <Math>p</Math>. It is based on <Cite Key="sporadics1" Where="Appendix A" />.
@@ -265,8 +262,8 @@ false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>RankTest</Code>).
- The function <Code>LiftTest</Code> checks 
+ Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Ref Oper="RankTest" Label="for IsPGroup, IsPGroup"/>).
+ The operation <Code>LiftTest</Code> checks 
  whether the maps in <Math>N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))</Math> are present as expected. In particular,
  there is some value <Math>a</Math> known to divide <Math>N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))</Math> for each choice of <Math>i</Math>.
  We check that <Math>a</Math> divides:
@@ -315,13 +312,13 @@ false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Code>RankTest</Code>).
-  The function <Code>ValidAutTest</Code> checks
+ Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a subgroup of <Math>S</Math> of type <Math>i</Math> (see <Ref Oper="RankTest" Label="for IsPGroup, IsPGroup"/>).
+  The operation <Code>ValidAutTest</Code> checks
  whether there is a valid section of <Math>\mathrm{Aut}(E)</Math> that contains the expected <Math>\mathrm{Aut}_{\mathcal{F}}(E)</Math>.
  Note that this check is up to (order of) composition factors, and does not imply that the expected section actually
  exists inside <Math>\mathrm{Aut}(E)</Math>.
 <P/>
- This test applies at any prime <Math>p</Math>. It is based on <Cite Key="SAM14" Where="Proposition 6.9" /> or
+ This test applies at any prime <Math>p</Math>. It is based on <Cite Key="SAM14" Where="Proposition 6.9" /> and
  <Cite Key="PS_MAGMA" Where="Proposition 4.5" />.
 <P/>
  </Description>
@@ -351,7 +348,7 @@ false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a proto-essential subgroup. The function <Code>RadicalTest</Code>checks
+ Let <Math>S</Math> be a <Math>p</Math>-group, <Math>E</Math> be a proto-essential subgroup. The operation <Code>RadicalTest</Code>checks
  whether
 <P/>
  <Display>|O_p(\textrm{Aut}(E)) \cap \textrm{Aut}_S(E)| = [E : Z(E)].</Display>

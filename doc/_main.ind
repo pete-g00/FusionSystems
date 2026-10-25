@@ -1,0 +1,149 @@
+\begin{theindex}
+
+  \item \texttt  {AbelianTest}
+    \subitem for IsPGroup, \hyperpage{15}
+  \item \texttt  {AllProtoEssentials}
+    \subitem for IsPGroup, \hyperpage{5}
+  \item \texttt  {Automizer}
+    \subitem for IsGroup, IsGroup, \hyperpage{25}
+    \subitem for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite, 
+		\hyperpage{25}
+
+  \indexspace
+
+  \item \texttt  {C0Test}
+    \subitem for IsPGroup, IsList, \hyperpage{19}
+  \item \texttt  {CentralizerMod}
+    \subitem for IsGroup, IsGroup, IsGroup, \hyperpage{23}
+  \item \texttt  {CoreTest}
+    \subitem for IsPGroup, IsList, \hyperpage{20}
+  \item \texttt  {CTest}
+    \subitem for IsPGroup, IsList, \hyperpage{19}
+
+  \indexspace
+
+  \item \texttt  {DerivedCyclicTest}
+    \subitem for IsPGroup, \hyperpage{16}
+
+  \indexspace
+
+  \item \texttt  {ExponentTest}
+    \subitem for IsPGroup, \hyperpage{15}
+
+  \indexspace
+
+  \item \texttt  {FindReducedSequences}
+    \subitem for IsPGroup, IsList, \hyperpage{21}
+  \item \texttt  {FindSmallestBorel}
+    \subitem for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, 
+		\hyperpage{22}
+  \item \texttt  {FrattiniTest}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{10}
+
+  \indexspace
+
+  \item \texttt  {GenerateProtoEssentials}
+    \subitem for IsPGroup, IsList, \hyperpage{6}
+
+  \indexspace
+
+  \item \texttt  {IsAutomizerBorelCompatible}
+    \subitem for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup, 
+		\hyperpage{22}
+  \item \texttt  {IsCompatibleSequence}
+    \subitem for IsPGroup, IsList, \hyperpage{22}
+  \item \texttt  {IsDSWGroup}
+    \subitem for IsPGroup, \hyperpage{14}
+  \item \texttt  {IsomorphismSequences}
+    \subitem for IsPGroup, IsList, IsList, \hyperpage{21}
+  \item \texttt  {IsProtoEssential}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{7}
+  \item \texttt  {IsProtoEssentialNC}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{8}
+  \item \texttt  {IsSemiCharacteristic}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{27}
+
+  \indexspace
+
+  \item \texttt  {LiftTest}
+    \subitem for IsPGroup, IsPGroup, IsInt, \hyperpage{10}
+
+  \indexspace
+
+  \item \texttt  {MainProtoEssentials}, \hyperpage{6}
+  \item \texttt  {ModuleTest}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{9}
+
+  \indexspace
+
+  \item \texttt  {OmegaAbelianizationTest}
+    \subitem for IsPGroup, \hyperpage{17}
+  \item \texttt  {OnImage}, \hyperpage{24}
+  \item \texttt  {OnImageNM}, \hyperpage{24}
+  \item \texttt  {OnImageTuples}, \hyperpage{24}
+  \item \texttt  {OnImageTuplesNM}, \hyperpage{24}
+  \item \texttt  {OnPreImage}, \hyperpage{24}
+  \item \texttt  {OnPreImageTuples}, \hyperpage{25}
+  \item \texttt  {OnQuotient}, \hyperpage{23}
+
+  \indexspace
+
+  \item \texttt  {Possibly}\-\texttt  {Supports}\-\texttt  {Reduced}\-\texttt  {Fusion}\-\texttt  {Systems}
+    \subitem for IsPGroup, \hyperpage{13}
+  \item \texttt  {Possibly}\-\texttt  {Supports}\-\texttt  {Reduced}\-\texttt  {Fusion}\-\texttt  {Systems{\textunderscore }PE}
+    \subitem for IsPGroup, IsList, \hyperpage{13}
+
+  \indexspace
+
+  \item \texttt  {RadicalTest}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{12}
+  \item \texttt  {RankTest}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{9}
+  \item \texttt  {RestrictedAutomorphism}
+    \subitem for IsGroupHomomorphism and IsBijective, IsGroup, 
+		\hyperpage{26}
+  \item \texttt  {RestrictedHomomorphismOnto}
+    \subitem for IsGroupHomomorphism, IsGroup, \hyperpage{26}
+
+  \indexspace
+
+  \item \texttt  {SemiAutomorphismGroup}
+    \subitem for IsPGroup, \hyperpage{26}
+  \item \texttt  {SemiCharacteristicClosure}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{27}
+  \item \texttt  {SemiCharacteristicGeneratedTest}
+    \subitem for IsPGroup, IsList, \hyperpage{19}
+  \item \texttt  {SemiCharacteristicSubgroups}
+    \subitem for IsPGroup, \hyperpage{27}
+
+  \indexspace
+
+  \item \texttt  {TransferFpMaximalTest}
+    \subitem for IsPGroup, \hyperpage{17}
+  \item \texttt  {TransferFpTest}
+    \subitem for IsPGroup, IsList, \hyperpage{18}
+  \item \texttt  {TransferHomomorphism}
+    \subitem for IsGroup, IsGroup, \hyperpage{26}
+  \item \texttt  {TransferHomomorphismFp}
+    \subitem for IsGroup, IsPGroup, \hyperpage{26}
+  \item \texttt  {TransferMaximalTest}
+    \subitem for IsPGroup, \hyperpage{17}
+  \item \texttt  {TransferTest}
+    \subitem for IsPGroup, IsList, \hyperpage{18}
+
+  \indexspace
+
+  \item \texttt  {ValidAutomizers}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{21}
+  \item \texttt  {ValidAutTest}
+    \subitem for IsPGroup, \hyperpage{16}
+    \subitem for IsPGroup, IsPGroup, IsInt, \hyperpage{11}
+
+  \indexspace
+
+  \item \texttt  {Zed0}
+    \subitem for IsPGroup, \hyperpage{8}
+  \item \texttt  {Zed0Test}
+    \subitem for IsPGroup, IsPGroup, \hyperpage{8}
+
+\end{theindex}

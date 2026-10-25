@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- This is an automatically generated file. -->
+<#Include SYSTEM "_Chapter_Introduction.xml">
+<#Include SYSTEM "_Chapter_ProtoEssentialSubgroups.xml">
+<#Include SYSTEM "_Chapter_ProtoEssentialChecks.xml">
+<#Include SYSTEM "_Chapter_Checks_for_reduced_fusion_systems.xml">
 <#Include SYSTEM "_Chapter_AutomizerSequences.xml">
 <#Include SYSTEM "_Chapter_Other_functions.xml">
-<#Include SYSTEM "_Chapter_ProtoEssentialChecks.xml">
-<#Include SYSTEM "_Chapter_ProtoEssentialSubgroups.xml">
-<#Include SYSTEM "_Chapter_Checks_for_reduced_fusion_systems.xml">

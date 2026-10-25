@@ -15,12 +15,9 @@ maintainers:
     - name: Pete Gautam
       url: https://github.com/pete-g00
 
-GAP: ">= 4.7"
+GAP: ">= 4.12"
 
 needed-pkgs:
-    - name: "anupq"
-      version: ">=3.2.1"
-      url: "https://gap-packages.github.io/anupq/"
     - name: "autpgrp"
       version: ">=1.10.2"
       url: "https://gap-packages.github.io/autpgrp/"
@@ -31,13 +28,13 @@ needed-pkgs:
       version: ">=1.4.5"
       url: "https://github.com/bh11/crisp/"
 
-www: pete-g00.github.io/FusionSystems
+www: https://pete-g00.github.io/FusionSystems/
 readme: README.md
-packageinfo: pete-g00.github.io/FusionSystemsPackageInfo.g
+packageinfo: https://pete-g00.github.io/FusionSystems/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: pete-g00.github.io/FusionSystems/FusionSystems-0.1.tar.gz
+      url: https://github.com/pete-g00/FusionSystems/releases/download/v0.1/FusionSystems-0.1.tar.gz
 
 abstract: |
     The FusionSystems package allows for computation with fusion systems. Currently, it supports finding proto-essential subgroups for a given p-group and checking whether it could support reduced fusion systems.
@@ -52,7 +49,7 @@ citeas: |
              Version 0.1</i>
      (<span class='BibYear'>2026</span>)<br />
     (<span class='BibNote'>GAP package</span>),
-    <span class='BibHowpublished'><a href="pete-g00.github.io/FusionSystems">pete-g00.github.io/FusionSystems</a></span>.
+    <span class='BibHowpublished'><a href="https://pete-g00.github.io/FusionSystems/">https://pete-g00.github.io/FusionSystems/</a></span>.
     </p>
     
 
@@ -63,8 +60,8 @@ bibtex: |
       month =            {Oct},
       year =             {2026},
       note =             {GAP package},
-      howpublished =     {\href   {pete-g00.github.io/FusionSystems}   {\texttt{pete\texttt{\symbol{45}}g00.github.io/}\discretionary
-                          {}{}{}\texttt{FusionSystems}}},
+      howpublished =     {\href                                                           {https://pete-g00.github.io/FusionSystems/}
+                          {\texttt{https://pete\texttt{\symbol{45}}g00.github.io/}\discretionary {}{}{}\texttt{FusionSystems/}}},
       printedkey =       {GL26}
     }
 

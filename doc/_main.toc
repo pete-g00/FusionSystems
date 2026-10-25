@@ -1,0 +1,66 @@
+\contentsline {chapter}{\numberline {1}\textcolor {Chapter }{Introduction}}{4}{chapter.1}%
+\contentsline {chapter}{\numberline {2}\textcolor {Chapter }{Proto\texttt {\symbol {45}}essential subgroups}}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}\textcolor {Chapter }{Brief description of the algorithm}}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}\textcolor {Chapter }{The operations}}{5}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}\textcolor {Chapter }{AllProtoEssentials (for IsPGroup)}}{5}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}\textcolor {Chapter }{MainProtoEssentials}}{6}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}\textcolor {Chapter }{GenerateProtoEssentials (for IsPGroup, IsList)}}{6}{subsection.2.2.3}%
+\contentsline {chapter}{\numberline {3}\textcolor {Chapter }{Checks for proto\texttt {\symbol {45}}essentials}}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}\textcolor {Chapter }{The main functions}}{7}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}\textcolor {Chapter }{IsProtoEssential (for IsPGroup, IsPGroup)}}{7}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}\textcolor {Chapter }{IsProtoEssentialNC (for IsPGroup, IsPGroup)}}{8}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}\textcolor {Chapter }{The specific functions}}{8}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}\textcolor {Chapter }{Zed0 (for IsPGroup)}}{8}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}\textcolor {Chapter }{Zed0Test (for IsPGroup, IsPGroup)}}{8}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}\textcolor {Chapter }{RankTest (for IsPGroup, IsPGroup)}}{9}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}\textcolor {Chapter }{ModuleTest (for IsPGroup, IsPGroup)}}{9}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}\textcolor {Chapter }{FrattiniTest (for IsPGroup, IsPGroup)}}{10}{subsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.2.6}\textcolor {Chapter }{LiftTest (for IsPGroup, IsPGroup, IsInt)}}{10}{subsection.3.2.6}%
+\contentsline {subsection}{\numberline {3.2.7}\textcolor {Chapter }{ValidAutTest (for IsPGroup, IsPGroup, IsInt)}}{11}{subsection.3.2.7}%
+\contentsline {subsection}{\numberline {3.2.8}\textcolor {Chapter }{RadicalTest (for IsPGroup, IsPGroup)}}{12}{subsection.3.2.8}%
+\contentsline {chapter}{\numberline {4}\textcolor {Chapter }{Checks for reduced fusion systems}}{13}{chapter.4}%
+\contentsline {section}{\numberline {4.1}\textcolor {Chapter }{The main functions}}{13}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}\textcolor {Chapter }{PossiblySupportsReducedFusionSystems (for IsPGroup)}}{13}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}\textcolor {Chapter }{PossiblySupportsReducedFusionSystems{\textunderscore }PE (for IsPGroup, IsList)}}{13}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}\textcolor {Chapter }{The specific functions}}{14}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}\textcolor {Chapter }{IsDSWGroup (for IsPGroup)}}{14}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}\textcolor {Chapter }{ExponentTest (for IsPGroup)}}{15}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}\textcolor {Chapter }{AbelianTest (for IsPGroup)}}{15}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}\textcolor {Chapter }{DerivedCyclicTest (for IsPGroup)}}{16}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}\textcolor {Chapter }{ValidAutTest (for IsPGroup)}}{16}{subsection.4.2.5}%
+\contentsline {subsection}{\numberline {4.2.6}\textcolor {Chapter }{OmegaAbelianizationTest (for IsPGroup)}}{17}{subsection.4.2.6}%
+\contentsline {subsection}{\numberline {4.2.7}\textcolor {Chapter }{Transfer test for a group}}{17}{subsection.4.2.7}%
+\contentsline {subsection}{\numberline {4.2.8}\textcolor {Chapter }{Transfer test with a list}}{18}{subsection.4.2.8}%
+\contentsline {subsection}{\numberline {4.2.9}\textcolor {Chapter }{C0Test (for IsPGroup, IsList)}}{19}{subsection.4.2.9}%
+\contentsline {subsection}{\numberline {4.2.10}\textcolor {Chapter }{CTest (for IsPGroup, IsList)}}{19}{subsection.4.2.10}%
+\contentsline {subsection}{\numberline {4.2.11}\textcolor {Chapter }{SemiCharacteristicGeneratedTest (for IsPGroup, IsList)}}{19}{subsection.4.2.11}%
+\contentsline {subsection}{\numberline {4.2.12}\textcolor {Chapter }{CoreTest (for IsPGroup, IsList)}}{20}{subsection.4.2.12}%
+\contentsline {chapter}{\numberline {5}\textcolor {Chapter }{Automizer Sequences}}{21}{chapter.5}%
+\contentsline {section}{\numberline {5.1}\textcolor {Chapter }{The functions}}{21}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}\textcolor {Chapter }{FindReducedSequences (for IsPGroup, IsList)}}{21}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}\textcolor {Chapter }{IsomorphismSequences (for IsPGroup, IsList, IsList)}}{21}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}\textcolor {Chapter }{ValidAutomizers (for IsPGroup, IsPGroup)}}{21}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}\textcolor {Chapter }{FindSmallestBorel (for IsPGroup, IsGroupOfAutomorphismsFiniteGroup)}}{22}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}\textcolor {Chapter }{IsAutomizerBorelCompatible (for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup)}}{22}{subsection.5.1.5}%
+\contentsline {subsection}{\numberline {5.1.6}\textcolor {Chapter }{IsCompatibleSequence (for IsPGroup, IsList)}}{22}{subsection.5.1.6}%
+\contentsline {chapter}{\numberline {6}\textcolor {Chapter }{Other functions}}{23}{chapter.6}%
+\contentsline {section}{\numberline {6.1}\textcolor {Chapter }{Group actions}}{23}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}\textcolor {Chapter }{OnQuotient}}{23}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}\textcolor {Chapter }{CentralizerMod (for IsGroup, IsGroup, IsGroup)}}{23}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}\textcolor {Chapter }{OnImage}}{24}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}\textcolor {Chapter }{OnImageNM}}{24}{subsection.6.1.4}%
+\contentsline {subsection}{\numberline {6.1.5}\textcolor {Chapter }{OnImageTuples}}{24}{subsection.6.1.5}%
+\contentsline {subsection}{\numberline {6.1.6}\textcolor {Chapter }{OnImageTuplesNM}}{24}{subsection.6.1.6}%
+\contentsline {subsection}{\numberline {6.1.7}\textcolor {Chapter }{OnPreImage}}{24}{subsection.6.1.7}%
+\contentsline {subsection}{\numberline {6.1.8}\textcolor {Chapter }{OnPreImageTuples}}{25}{subsection.6.1.8}%
+\contentsline {section}{\numberline {6.2}\textcolor {Chapter }{Group automorphisms}}{25}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}\textcolor {Chapter }{Automizer (for IsGroup, IsGroup)}}{25}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}\textcolor {Chapter }{Restriction of homomorphisms}}{26}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}\textcolor {Chapter }{Transfer homomorphism}}{26}{subsection.6.2.3}%
+\contentsline {section}{\numberline {6.3}\textcolor {Chapter }{Semi\texttt {\symbol {45}}characteristic subgroups}}{26}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}\textcolor {Chapter }{SemiAutomorphismGroup (for IsPGroup)}}{26}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}\textcolor {Chapter }{SemiCharacteristicSubgroups (for IsPGroup)}}{27}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}\textcolor {Chapter }{IsSemiCharacteristic (for IsPGroup, IsPGroup)}}{27}{subsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.3.4}\textcolor {Chapter }{SemiCharacteristicClosure (for IsPGroup, IsPGroup)}}{27}{subsection.6.3.4}%
+\contentsline {chapter}{References}{29}{chapter*.5}%
+\contentsline {chapter}{Index}{30}{section*.6}%

@@ -13,6 +13,9 @@
   
   [[20XCra11[120X] [16XCraven, D.[116X, [17XThe theory of fusion systems: An algebraic approach[117X, Cambridge University Press, [19X131[119X (2011).
   
+  [[20XDGPS11[120X]  [16XD\'\iaz,  A.,  Glesser,  A.,  Park,  S. and Stancu, R.[116X, [17XTate's and Yoshida's theorems on control of transfer for fusion
+  systems[117X, [18XJournal of the London Mathematical Society[118X, Wiley Online Library, [19X84[119X, 2 (2011), 475--494.
+  
   [[20XGau26[120X]  [16XGautam,  P.[116X,  [17XFusion  Systems  on  Sylow  3-subgroups of Fischer and Monster sporadic groups -- II[117X, [18XarXiv preprint arXiv[118X
   (2026).
   

@@ -1,0 +1,65 @@
+\begin{thebibliography}{DGPS11}
+
+\bibitem[AKO11]{AKO}
+M.~Aschbacher, R.~Kessar, and B.~Oliver.
+\newblock {\em Fusion systems in algebra and topology}, volume 391.
+\newblock Cambridge University Press, 2011.
+
+\bibitem[AOV13]{AOV13}
+K.~Andersen, B.~Oliver, and J.~Ventura.
+\newblock Fusion systems and amalgams.
+\newblock {\em Mathematische Zeitschrift}, 274(3):1119--1154, 2013.
+
+\bibitem[AOV17]{AOV17}
+K.~Andersen, B.~Oliver, and J.~Ventura.
+\newblock Reduced fusion systems over 2-groups of small order.
+\newblock {\em Journal of Algebra}, 489:310--372, 2017.
+
+\bibitem[Cra11]{CRA}
+D.~Craven.
+\newblock {\em The theory of fusion systems: An algebraic approach}, volume
+  131.
+\newblock Cambridge University Press, 2011.
+
+\bibitem[DGPS11]{DGPS}
+Antonio D{\'\i}az, Adam Glesser, Sejong Park, and Radu Stancu.
+\newblock Tate's and yoshida's theorems on control of transfer for fusion
+  systems.
+\newblock {\em Journal of the London Mathematical Society}, 84(2):475--494,
+  2011.
+
+\bibitem[Gau26]{sporadics2}
+Pete Gautam.
+\newblock Fusion systems on {S}ylow $3$-subgroups of {F}ischer and {M}onster
+  sporadic groups -- {II}.
+\newblock {\em arXiv preprint arXiv}, 2026.
+
+\bibitem[Gau27]{sporadics1}
+Pete Gautam.
+\newblock Fusion systems on {S}ylow $3$-subgroups of {F}ischer and {M}onster
+  sporadic groups -- {I}.
+\newblock {\em Journal of Algebra}, 710:810--859, 2027.
+
+\bibitem[LP10]{LP}
+J.~Lynd and S.~Park.
+\newblock Analogues of {G}oldschmidt's thesis for fusion systems.
+\newblock {\em Journal of Algebra}, 324(12):3487--3493, 2010.
+
+\bibitem[OV09]{OV}
+B.~Oliver and J.~Ventura.
+\newblock Saturated fusion systems over $2$-groups.
+\newblock {\em Transactions of the American Mathematical Society},
+  361(12):6661--6728, 2009.
+
+\bibitem[PS21]{PS_MAGMA}
+C.~Parker and J.~Semeraro.
+\newblock Algorithms for fusion systems with applications to $p$-groups of
+  small order.
+\newblock {\em Mathematics of Computation}, 90(331):2415--2461, 2021.
+
+\bibitem[Sam14]{SAM14}
+B.~Sambale.
+\newblock {\em Blocks of finite groups and their invariants}, volume 2127.
+\newblock Springer, 2014.
+
+\end{thebibliography}

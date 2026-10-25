@@ -5,7 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<title>GAP (FusionSystems) - Chapter 4: Proto-essential subgroups</title>
+<title>GAP (FusionSystems) - Chapter 4: Checks for reduced fusion systems</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="generator" content="GAPDoc2HTML" />
 <link rel="stylesheet" type="text/css" href="manual.css" />
@@ -15,135 +15,486 @@
 <body class="chap4"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap3.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap5.html">[Next Chapter]</a>&nbsp;  </div>
 
 <p id="mathjaxlink" class="pcenter"><a href="chap4_mj.html">[MathJax on]</a></p>
-<p><a id="X87BC4E4D835004DD" name="X87BC4E4D835004DD"></a></p>
-<div class="ChapSects"><a href="chap4.html#X87BC4E4D835004DD">4 <span class="Heading">Proto-essential subgroups</span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X86D9F65382E5F487">4.1 <span class="Heading">Brief description of the algorithm</span></a>
-</span>
-</div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7CB2CAF3805CB749">4.2 <span class="Heading">The operations</span></a>
+<p><a id="X87497673854B812F" name="X87497673854B812F"></a></p>
+<div class="ChapSects"><a href="chap4.html#X87497673854B812F">4 <span class="Heading">Checks for reduced fusion systems</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7D3DC4ED855DC13C">4.1 <span class="Heading">The main functions</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7CD47D387D876A60">4.2-1 AllProtoEssentials</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X86B32ED6791EF004">4.2-2 MainProtoEssentials</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X86B251297A8CF204">4.2-3 GenerateProtoEssentials</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X829638DD78A8FD08">4.1-1 PossiblySupportsReducedFusionSystems</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X87A01C45801E726C">4.1-2 PossiblySupportsReducedFusionSystems_PE</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X85683E4783BE234C">4.2 <span class="Heading">The specific functions</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X83567EE27C9A327E">4.2-1 IsDSWGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7E63D2A97A637BAD">4.2-2 ExponentTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7F0F966F7C7E4B8D">4.2-3 AbelianTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X782BA19382650E0B">4.2-4 DerivedCyclicTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7E28CE0083D26C55">4.2-5 ValidAutTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X852FEF1D87916D36">4.2-6 OmegaAbelianizationTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X82E6548F81B8F05C">4.2-7 <span class="Heading">Transfer test for a group</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7ECB69FB82C13217">4.2-8 <span class="Heading">Transfer test with a list</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X8660B3728652622E">4.2-9 C0Test</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X823B722F86499207">4.2-10 CTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X830693B38724090D">4.2-11 SemiCharacteristicGeneratedTest</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X8335DE5780AAD01F">4.2-12 CoreTest</a></span>
 </div></div>
 </div>
 
-<h3>4 <span class="Heading">Proto-essential subgroups</span></h3>
+<h3>4 <span class="Heading">Checks for reduced fusion systems</span></h3>
 
-<p><a id="X86D9F65382E5F487" name="X86D9F65382E5F487"></a></p>
+<p>In this chapter, we describe all the tests currently implemented in GAP that test whether a group <span class="Math">S</span> <em>could</em> support reduced fusion systems. This is done without constructing the fusion systems, and even possible automizers for any fusion system. As such, we can determine whether there exists any reduced fusion system <span class="Math">\mathcal{F}</span> on <span class="Math">S</span> for a fixed choice of <span class="Math">\mathcal{E}(\mathcal{F})</span>. We can also determine this for any choice of <span class="Math">\mathcal{E}(\mathcal{F})</span>.</p>
 
-<h4>4.1 <span class="Heading">Brief description of the algorithm</span></h4>
+<p><a id="X7D3DC4ED855DC13C" name="X7D3DC4ED855DC13C"></a></p>
 
-<p>Let <span class="Math">S</span> be a finite <span class="Math">p</span>-group. Recall that <span class="Math">E</span> is proto-essential in <span class="Math">S</span> if there <em>could</em> exist a saturated fusion system <span class="Math">\mathcal{F}</span> on <span class="Math">S</span> such that <span class="Math">E \in \mathcal{E}(\mathcal{F})</span>. See Chapter &lt;Ref Chap="Chapter_ProtoEssentialChecks" /&gt; for the list of specific tests currently implemented. In this section, we describe the algorithm for constructing all the proto-essential subgroups of <span class="Math">S</span>. This is based on <a href="chapBib.html#biBsporadics2">[Gau26, Section 3]</a>. We fix a central series of <span class="Math">S</span>:</p>
+<h4>4.1 <span class="Heading">The main functions</span></h4>
 
-<p class="pcenter">1 = Z_0 \leq Z_1 \leq \dots \leq Z_n = S,</p>
+<p><a id="X829638DD78A8FD08" name="X829638DD78A8FD08"></a></p>
 
-<p>where <span class="Math">|Z_i| = p^i</span> for <span class="Math">1 \leq i \leq n</span>, and there exists some <span class="Math">1 \leq j \leq n</span> such that <span class="Math">Z_j = S'</span>. For <span class="Math">0 \leq i &lt; j</span>, let <span class="Math">\pi_i \colon S \to S/Z_i</span> be the projection map, and</p>
+<h5>4.1-1 PossiblySupportsReducedFusionSystems</h5>
 
-<p class="pcenter">\mathfrak{C}_i := \{E \mid E = \pi^{-1}(C_S(x)), x \in S/Z_i \textrm{ of order } p \textrm{ with } E \textrm{ proto-essential in } S\}.</p>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PossiblySupportsReducedFusionSystems</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
 
-<p>We let <span class="Math">\mathfrak{C} := \bigcup_{i=0}^j \mathfrak{C}_i</span>. In <a href="chapBib.html#biBsporadics2">[Gau26, Theorem 3.6]</a>, Gautam shows that if <span class="Math">\mathcal{F}</span> is a saturated fusion system on <span class="Math">S</span> with <span class="Math">E \in \mathcal{E}(\mathcal{F})</span>, then <span class="Math">E</span> is <span class="Math">\mathcal{F}</span>-conjugate to some <span class="Math">X \in \mathfrak{C}</span>.</p>
+<p>Given a <span class="Math">p</span>-group <span class="Math">S</span>, the attribute <code class="code">PossiblySupportsReducedFusionSystems</code> checks whether <span class="Math">S</span> <em>could</em> support reduced fusion systems.</p>
 
-<p><a id="X7CB2CAF3805CB749" name="X7CB2CAF3805CB749"></a></p>
+<p>Note that it is not possible to check whether a group can support reduced fusion systems without actually constructing them. This is because the expected automizer sequences that lead to reduced fusion systems may not be saturated, and the only way we can discover this is by checking some radical, non-essential, subgroup in the expected saturated fusion system. Nonetheless, <span class="Math">p</span>-groups that pass the tests in this chapter are quite likely to support reduced fusion systems.</p>
 
-<h4>4.2 <span class="Heading">The operations</span></h4>
-
-<p><a id="X7CD47D387D876A60" name="X7CD47D387D876A60"></a></p>
-
-<h5>4.2-1 AllProtoEssentials</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllProtoEssentials</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
-<p>Returns: a list</p>
-
-<p>The attribute <code class="code">AllProtoEssentials</code> constructs all proto-essential subgroups of a <span class="Math">p</span>-group <span class="Math">S</span>. It works as follows:</p>
-
-
-<ul>
-<li><p>it calls the function <code class="code">AllProtoEssentials</code> which constructs the set <span class="Math">\mathfrak{C}</span>;</p>
-
-</li>
-<li><p>it then calls <code class="code">GenerateProtoEssentials</code>, which uses <span class="Math">\mathfrak{C}</span> to construct all proto-essential subgroups, switching from <span class="Math">\mathcal{F}</span>-conjugacy to <span class="Math">S</span>-conjugacy (independent of <span class="Math">\mathcal{F}</span>).</p>
-
-</li>
-</ul>
-<p>It should be pointed out that there is no known cases where <code class="code">GenerateProtoEssentials</code> generates a further (<span class="Math">S</span>-conjugacy) class of proto-essential subgroups. Finds all the proto-essential subgroups of <span class="Math">S</span>, up to <span class="Math">S</span>-conjugacy.</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^4, 7);</span>
-&lt;pc group of size 81 with 4 generators&gt;
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := AllProtoEssentials(S);</span>
-[ Group([ f4, f1, f3 ]), Group([ f4, f2, f3 ]), Group([ f1, f4 ]) ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(L, StructureDescription);</span>
-[ "(C3 x C3) : C3", "C3 x C3 x C3", "C3 x C3" ]
-</pre></div>
-
-<p><a id="X86B32ED6791EF004" name="X86B32ED6791EF004"></a></p>
-
-<h5>4.2-2 MainProtoEssentials</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MainProtoEssentials</code>( <var class="Arg">S</var>[, <var class="Arg">i</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
-<p>Returns: a list</p>
-
-<p>Returns the list of the <code class="code">main</code> proto-essential subgroups of <span class="Math">S</span>. A proto-essential subgroup is called <em>main</em> if it lies in <span class="Math">\mathfrak{C}</span>.</p>
-
-<p>If the second argument <code class="code">i</code> is provided, the function behaves as follows:</p>
-
-
-<ul>
-<li><p><span class="Math">i = 0</span> -- we only compute <span class="Math">\mathfrak{C}_0</span>;</p>
-
-</li>
-<li><p><span class="Math">i = -1</span> -- we only compute <span class="Math">\mathfrak{C} \setminus \mathfrak{C}_0</span>; and</p>
-
-</li>
-<li><p><span class="Math">i = 1</span> -- we compute all <span class="Math">\mathfrak{C}</span>.</p>
-
-</li>
-</ul>
-<p>If the argument is not provided, we compute all <span class="Math">\mathfrak{C}</span>. Running <code class="code">GenerateProtoEssentials</code>on the list <span class="Math">L</span> returned generates all the proto-essentials subgroups of <span class="Math">S</span>.</p>
+<p>This function checks whether the group <span class="Math">S</span> satisfies certain properties that are known to hold for a <span class="Math">p</span>-group that supports reduced fusion systems. In the process, we compute the proto-essential subgroups of <span class="Math">S</span>, along with their automorphism groups. See Section <a href="chap4.html#X85683E4783BE234C"><span class="RefLink">4.2</span></a> for the list of specific tests currently implemented. We do not construct automizer sequences.</p>
 
 
 <div class="example"><pre>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^7, 931);</span>
 &lt;pc group of size 128 with 7 generators&gt;
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C0 := MainProtoEssentials(S, 0);</span>
-[ Group([ f1, f2, f4, f6, f7 ]), Group([ f1, f3, f5, f6, f7 ]), 
-Group([ f2, f3, f4, f5, f6, f7 ]) ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := MainProtoEssentials(S, -1);</span>
-[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f7, f1, f3, f4, f5, f6 ]) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PossiblySupportsReducedFusionSystems(S);</span>
+true
 </pre></div>
 
-<p><a id="X86B251297A8CF204" name="X86B251297A8CF204"></a></p>
+<p><a id="X87A01C45801E726C" name="X87A01C45801E726C"></a></p>
 
-<h5>4.2-3 GenerateProtoEssentials</h5>
+<h5>4.1-2 PossiblySupportsReducedFusionSystems_PE</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GenerateProtoEssentials</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<p>Returns: a list</p>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PossiblySupportsReducedFusionSystems_PE</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
 
-<p>Uses the list <span class="Math">L</span> containing the main proto-essential subgroups of <span class="Math">S</span> (i.e. the set <span class="Math">\mathfrak{C}</span>) to generate all the proto-essential subgroups of <span class="Math">S</span>.</p>
+<p>Given a <span class="Math">p</span>-group <span class="Math">S</span> and a list of proto-essential subgroups <span class="Math">L</span>, the operation <code class="code">PossiblySupportsReducedFusionSystems_PE</code> checks whether there <em>could</em> exist a reduced fusion system <span class="Math">\mathcal{F}</span> on <span class="Math">S</span> where the set of essential subgroups <span class="Math">\mathcal{E}(\mathcal{F})</span> is a subset of <span class="Math">L</span>. Note that we run <code class="code">GenerateProtoEssentials</code> on <span class="Math">L</span> (which can, in theory, increase the number of subgroups in <span class="Math">L</span>).</p>
+
+<p>Note that it is not possible to check whether a group can support reduced fusion systems without actually constructing them. This is because the expected automizer sequences that lead to reduced fusion systems may not be saturated, and the only way we can discover this is by checking some radical, non-essential, subgroup in the expected saturated fusion system. Nonetheless, <span class="Math">p</span>-groups that pass the tests in this chapter are quite likely to support reduced fusion systems.</p>
+
+<p>This function checks whether the group <span class="Math">S</span> satisfies certain properties that are known to hold for a <span class="Math">p</span>-group that supports reduced fusion systems. We also construct the automorphism group for subgroups in <span class="Math">L</span>. See Section <a href="chap4.html#X85683E4783BE234C"><span class="RefLink">4.2</span></a> for the list of specific tests currently implemented. We do not construct automizer sequences.</p>
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^6, 321);</span>
-&lt;pc group of size 729 with 6 generators&gt;
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := MainProtoEssentials(S);</span>
-[ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := GenerateProtoEssentials(S, L);</span>
-[ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^7, 931);</span>
+&lt;pc group of size 128 with 7 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := AllProtoEssentials(S);</span>
+[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), 
+Group([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), 
+Group([ f1, f3, f5, f6, f7 ]) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PossiblySupportsReducedFusionSystems_PE(S, L{[1..3]});</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PossiblySupportsReducedFusionSystems_PE(S, L{[3..5]});</span>
+false
+</pre></div>
+
+<p><a id="X85683E4783BE234C" name="X85683E4783BE234C"></a></p>
+
+<h4>4.2 <span class="Heading">The specific functions</span></h4>
+
+<p><a id="X83567EE27C9A327E" name="X83567EE27C9A327E"></a></p>
+
+<h5>4.2-1 IsDSWGroup</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDSWGroup</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Given a <span class="Math">p</span>-group <span class="Math">S</span>, the attribute <code class="code">IsDSWGroup</code> checks whether <span class="Math">p=2</span>, and that <span class="Math">S</span> is isomorphic to dihedral, semi-dihedral group, or the wreath product <span class="Math">C_{2^a} \wr C_2</span>.</p>
+
+<p>Using the work of Oliver and his collaborators, there are many properties on a <span class="Math">2</span>-group <span class="Math">S</span> that imply that, if <span class="Math">S</span> supports reduced fusion systems, then <span class="Math">S</span> is isomorphic to one of the three groups (and is called a <span class="Math">\mathcal{DSW}</span>-group) (see, for example, <a href="chapBib.html#biBAOV13">[AOV13, Proposition 5.2]</a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := DihedralGroup(2^3);</span>
+&lt;pc group of size 8 with 3 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDSWGroup(S);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^4, 8);</span>
+&lt;pc group of size 16 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDSWGroup(S);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := QuaternionGroup(2^5);</span>
+&lt;pc group of size 32 with 5 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDSWGroup(S);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := WreathProduct(CyclicGroup(IsPermGroup, 2^3), Group((1,2)));</span>
+Group([ (1,2,3,4,5,6,7,8), (9,10,11,12,13,14,15,16), 
+(1,9)(2,10)(3,11)(4,12)(5,13)(6,14)(7,15)(8,16) ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IdGroup(S);</span>
+[128, 67]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDSWGroup(S);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^7, 437);</span>
+&lt;pc group of size 128 with 7 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(S);</span>
+"(C8 x C8) : C2"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDSWGroup(S);</span>
+false
+</pre></div>
+
+<p><a id="X7E63D2A97A637BAD" name="X7E63D2A97A637BAD"></a></p>
+
+<h5>4.2-2 ExponentTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ExponentTest</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group. If <span class="Math">S</span> has class <span class="Math">c</span>, the attribute <code class="code">ExponentTest</code> checks that <span class="Math">Z(S)</span> has exponent at most <span class="Math">p^t</span>, where</p>
+
+<p class="pcenter">t := \left\lceil \frac{c-1}{p-1} \right\rceil.</p>
+
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBLP">[LP10, Theorem A]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^4, 13);</span>
+&lt;pc group of size 81 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(S);</span>
+"C3 x (C9 : C3)"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ExponentTest(S);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(3^4, 14);</span>
+&lt;pc group of size 81 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(S);</span>
+"(C9 x C3) : C3"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ExponentTest(S);</span>
+false
+</pre></div>
+
+<p><a id="X7F0F966F7C7E4B8D" name="X7F0F966F7C7E4B8D"></a></p>
+
+<h5>4.2-3 AbelianTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AbelianTest</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">2</span>-group. The attribute <code class="code">AbelianTest</code> first asserts whether there exists an abelian subgroup <span class="Math">A</span> of <span class="Math">S</span> satisfying <span class="Math">[N_S(A) : A] = 2</span> and:</p>
+
+
+<ul>
+<li><p><span class="Math">N_S(A) = S</span>; or</p>
+
+</li>
+<li><p><span class="Math">N_S(A) &lt; S</span>, with <span class="Math">\mathrm{Aut}_S(A) \nleq O_2(\mathrm{Aut})(A)</span>.</p>
+
+</li>
+</ul>
+<p>If so, the function returns true only if <span class="Math">S</span> is a <span class="Math">\mathcal{DSW}</span>-group.</p>
+
+<p>This test only applies at <span class="Math">p=2</span>. It is based on <a href="chapBib.html#biBAOV13">[AOV13, Proposition 5.2(a), (c)]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := DihedralGroup(2^4);</span>
+&lt;pc group of size 16 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AbelianTest(S);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^5, 9);</span>
+&lt;pc group of size 32 with 5 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(S);</span>
+"(C8 x C2) : C2"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(Center(S));</span>
+"C2 x C2"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AbelianTest(S);</span>
+false
+</pre></div>
+
+<p><a id="X782BA19382650E0B" name="X782BA19382650E0B"></a></p>
+
+<h5>4.2-4 DerivedCyclicTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DerivedCyclicTest</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group. If <span class="Math">S'</span> is cyclic, then the attribute <code class="code">DerivedCyclicTest</code> returns true only if:</p>
+
+
+<ul>
+<li><p><span class="Math">S</span> is a <span class="Math">\mathcal{DSW}</span>-group; or</p>
+
+</li>
+<li><p><span class="Math">S</span> has an abelian subgroup of index <span class="Math">p</span> (at <span class="Math">p</span> odd).</p>
+
+</li>
+</ul>
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBAOV13">[AOV13, Proposition 5.2(b)]</a> (if <span class="Math">p=2</span>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := DihedralGroup(2^4);</span>
+&lt;pc group of size 16 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DerivedCyclicTest(S);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^5, 9);</span>
+&lt;pc group of size 32 with 5 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(S);</span>
+"(C8 x C2) : C2"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(Center(S));</span>
+"C2 x C2"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DerivedCyclicTest(S);</span>
+false
+</pre></div>
+
+<p><a id="X7E28CE0083D26C55" name="X7E28CE0083D26C55"></a></p>
+
+<h5>4.2-5 ValidAutTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ValidAutTest</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group (for <span class="Math">p</span> odd). The attribute <code class="code">ValidAutTest</code> returns true only if <span class="Math">\mathrm{Aut}(S)</span> is not a <span class="Math">p</span>-group. If we further know that <span class="Math">S</span> has class <span class="Math">\leq p-1</span>, and <span class="Math">\mathrm{Aut}(S)</span> has a Hall <span class="Math">p</span>-complement <span class="Math">H</span>, we check that <span class="Math">[S, H] = S</span>.</p>
+
+<p>This test does not apply if <span class="Math">p \leq 3</span>. It is based on <a href="chapBib.html#biBCRA">[Cra11, 7.82]</a> and <a href="chapBib.html#biBDGPS">[DGPS11]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(5^5, 38);</span>
+&lt;pc group of size 3125 with 5 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotencyClassOfGroup(S);</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroup(S);</span>
+&lt;group of size 15625 with 6 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ValidAutTest(S);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(5^5, 30);</span>
+&lt;pc group of size 3125 with 5 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotencyClassOfGroup(S);</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroup(S);</span>
+&lt;group of size 1250000 with 11 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ValidAutTest(S);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(5^5, 32);</span>
+&lt;pc group of size 3125 with 5 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NilpotencyClassOfGroup(S);</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroup(S);</span>
+&lt;group of size 62500 with 8 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ValidAutTest(S);</span>
+false
+</pre></div>
+
+<p><a id="X852FEF1D87916D36" name="X852FEF1D87916D36"></a></p>
+
+<h5>4.2-6 OmegaAbelianizationTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OmegaAbelianizationTest</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">2</span>-group, <span class="Math">D := S'</span> and <span class="Math">O := \Omega(Z(S))</span>. The attribute <code class="code">OmegaAbelianizationTest</code> returns false only if:</p>
+
+
+<ul>
+<li><p><span class="Math">[\Omega(Z(S)) : \Omega(Z(S)) \cap D] = 2</span>; or</p>
+
+</li>
+<li><p><span class="Math">\Omega(Z(S)) \nleq D</span> if <span class="Math">\mathrm{Aut}(S)</span> is a <span class="Math">2</span>-group.</p>
+
+</li>
+</ul>
+<p>This test only applies at <span class="Math">p=2</span>. It is based on <a href="chapBib.html#biBAKO">[AKO11, Corollary I.8.5]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := DihedralGroup(2^4);</span>
+&lt;pc group of size 16 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OmegaAbelianizationTest(S);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^4, 3);</span>
+&lt;pc group of size 16 with 4 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(S);</span>
+"(C4 x C2) : C2"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OmegaAbelianizationTest(S);</span>
+false
+</pre></div>
+
+<p><a id="X82E6548F81B8F05C" name="X82E6548F81B8F05C"></a></p>
+
+<h5>4.2-7 <span class="Heading">Transfer test for a group</span></h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TransferMaximalTest</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TransferFpMaximalTest</code>( <var class="Arg">S</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">2</span>-group. The attribute <code class="code">TransferMaximalTest</code> checks that, if <span class="Math">\mathrm{Aut}(S)</span> is a <span class="Math">2</span>-group, then</p>
+
+<p class="pcenter">\bigcap_{M \in \mathcal{M}(S)} \ker(\mathrm{tr}_M^S) = S',</p>
+
+<p>where <span class="Math">\mathcal{M}(S)</span> is the set of maximal subgroups of <span class="Math">S</span>, and <span class="Math">\mathrm{tr}_M^S \colon S \to M/M'</span> is the transfer homomorphism. Alternatively, <code class="code">TransferFpMaximalTest</code> checks that, if <span class="Math">\mathrm{Aut}(S)</span> is a <span class="Math">2</span>-group, then</p>
+
+<p class="pcenter">\bigcap_{M \in \mathcal{M}(S)} \ker(\mathrm{tr'}_M^S) = \Phi(S),</p>
+
+<p>where <span class="Math">\mathcal{M}(S)</span> is the set of maximal subgroups of <span class="Math">S</span>, and <span class="Math">\mathrm{tr'}_M^S \colon S \to M/\Phi(M)</span> is the transfer homomorphism.</p>
+
+<p>These tests only apply at <span class="Math">p=2</span> when <span class="Math">\mathrm{Aut}(S)</span> is a <span class="Math">2</span>-group. It is based on <a href="chapBib.html#biBAOV17">[AOV17, Lemma 2.1]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^7, 903);</span>
+&lt;pc group of size 128 with 7 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TransferMaximalTest(S);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TransferFpMaximalTest(S);</span>
+true
+</pre></div>
+
+<p><a id="X7ECB69FB82C13217" name="X7ECB69FB82C13217"></a></p>
+
+<h5>4.2-8 <span class="Heading">Transfer test with a list</span></h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TransferTest</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TransferFpTest</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">2</span>-group and <span class="Math">L</span> be a list of (proto-essential) subgroups of <span class="Math">S</span>. The operation <code class="code">TransferTest</code> checks that, if <span class="Math">\mathrm{Aut}(S)</span> is a <span class="Math">2</span>-group, then</p>
+
+<p class="pcenter">\bigcap_{M \in L} \ker(\mathrm{tr}_M^S) = S',</p>
+
+<p>where <span class="Math">\mathrm{tr}_M^S \colon S \to M/M'</span> is the transfer homomorphism. Alternatively, <code class="code">TransferFpTest</code> checks that, if <span class="Math">\mathrm{Aut}(S)</span> is a <span class="Math">2</span>-group, then</p>
+
+<p class="pcenter">\bigcap_{M \in L} \ker(\mathrm{tr'}_M^S) = \Phi(S),</p>
+
+<p>where <span class="Math">\mathrm{tr'}_M^S \colon S \to M/\Phi(M)</span> is the transfer homomorphism.</p>
+
+<p>These tests only apply at <span class="Math">p=2</span> when <span class="Math">\mathrm{Aut}(S)</span> is a <span class="Math">2</span>-group. It is based on <a href="chapBib.html#biBAOV17">[AOV17, Lemma 2.1]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^7, 931);</span>
+&lt;pc group of size 128 with 7 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := AllProtoEssentials(S);</span>
+[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), 
+Group([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), 
+Group([ f1, f3, f5, f6, f7 ]) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TransferTest(S, L{[1..3]});</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TransferTest(S, L{[3..5]});</span>
+false
+</pre></div>
+
+<p><a id="X8660B3728652622E" name="X8660B3728652622E"></a></p>
+
+<h5>4.2-9 C0Test</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; C0Test</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, and <span class="Math">L := \mathfrak{C}_0</span>. The operation <code class="code">C0Test</code> checks that there exists some subgroup <span class="Math">E</span> in <span class="Math">L</span> such that <span class="Math">\Omega(Z(S))</span> is not semi-characteristic in <span class="Math">E</span>, i.e. invariant under <span class="Math">O^p(O^{p'}(\mathrm{Aut}(E)))</span>.</p>
+
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBsporadics2">[Gau26, Corollary 3.12]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := AllSmallGroups(3^5, A -&gt; NilpotencyClassOfGroup(A) &gt;= 3);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(L);</span>
+32
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Number(L, S -&gt; C0Test(S, MainProtoEssentials(S, 0)));</span>
+17
+</pre></div>
+
+<p><a id="X823B722F86499207" name="X823B722F86499207"></a></p>
+
+<h5>4.2-10 CTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CTest</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, and let <span class="Math">L</span> be a list of proto-essential subgroups of <span class="Math">S</span>. The operation <code class="code">CTest</code> checks that:</p>
+
+
+<ul>
+<li><p><span class="Math">L</span> has at least <span class="Math">2</span> elements, or</p>
+
+</li>
+<li><p><span class="Math">L</span> consists of a single subgroup, which is not normal in <span class="Math">S</span>, and <span class="Math">\mathrm{Aut}(S)</span> is not a <span class="Math">p</span>-group.</p>
+
+</li>
+</ul>
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBAOV17">[AOV17, Lemma 2.2(e)]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := AllSmallGroups(3^5, A -&gt; NilpotencyClassOfGroup(A) &gt;= 3);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(L);</span>
+32
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Number(L, S -&gt; CTest(S, AllProtoEssentials(S)));</span>
+16
+</pre></div>
+
+<p><a id="X830693B38724090D" name="X830693B38724090D"></a></p>
+
+<h5>4.2-11 SemiCharacteristicGeneratedTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SemiCharacteristicGeneratedTest</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, and let <span class="Math">L</span> be a list of proto-essential subgroups of <span class="Math">S</span>. The operation <code class="code">SemiCharacteristicGeneratedTest</code> checks that the subgroup</p>
+
+<p class="pcenter">\langle [O^p(\mathrm{Aut}(S)), S], Q_E \mid E \in L \rangle = S,</p>
+
+<p>where <span class="Math">Q_E</span> is the semi-characteristic closure of <span class="Math">[N_S(E), E]</span> in <span class="Math">E</span>.</p>
+
+<p>This test applies at any prime <span class="Math">p</span>. It is based on <a href="chapBib.html#biBAOV17">[AOV17, Lemma 2.2(f)]</a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(2^7, 931);</span>
+&lt;pc group of size 128 with 7 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := AllProtoEssentials(S);</span>
+[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), 
+Group([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), 
+Group([ f1, f3, f5, f6, f7 ]) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SemiCharacteristicGeneratedTest(S, L{[1..3]});</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SemiCharacteristicGeneratedTest(S, L{[3..5]});</span>
+false
+</pre></div>
+
+<p><a id="X8335DE5780AAD01F" name="X8335DE5780AAD01F"></a></p>
+
+<h5>4.2-12 CoreTest</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CoreTest</code>( <var class="Arg">S</var>, <var class="Arg">L</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Let <span class="Math">S</span> be a <span class="Math">p</span>-group, and let <span class="Math">L</span> be a list of proto-essential subgroups of <span class="Math">S</span>. The operation <code class="code">CoreTest</code> checks that if <span class="Math">N</span> is a normal subgroup of <span class="Math">S</span> such that <span class="Math">N</span> is semi-characteristic (i.e. fixed by <span class="Math">O^p(O^{p'}(\mathrm{Aut}(E)))</span>) in each <span class="Math">E \in L</span>, then <span class="Math">N = 1</span>.</p>
+
+<p>This test applies at any prime <span class="Math">p</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S := SmallGroup(256, 6366);</span>
+&lt;pc group of size 256 with 8 generators&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">L := AllProtoEssentials(S);</span>
+[ Group([ f1, f2, f4, f5, f6, f7, f8 ]), Group([ f7, f8, f3, f4, f5, f6 ]) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">C := List(L, CharacteristicSubgroups);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Intersection(C);</span>
+[ Group([  ]) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CoreTest(S, L);</span>
+false
 </pre></div>
 
 
 <div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap3.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap5.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

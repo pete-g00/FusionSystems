@@ -145,7 +145,7 @@ reduced fusion systems. \mbox{}}\\[1cm]
 \logpage{[ 0, 0, 2 ]}
  FusionSystems is free software; you can redistribute and/or modify it under
 the terms of the \href{ https://www.fsf.org/licenses/gpl.html} {GNU General Public License} as published by the Free Software Foundation; either version 2 of the License,
-or (at your opinion) any later version. \mbox{}}\\[1cm]
+or (at your option) any later version. \mbox{}}\\[1cm]
 {\small 
 \section*{Acknowledgements}
 \logpage{[ 0, 0, 3 ]}
@@ -160,535 +160,154 @@ Burrell and Josh Bridges for their contributions to the project. \mbox{}}\\[1cm]
 \newpage
 
      
-\chapter{\textcolor{Chapter }{Automizer Sequences}}\label{Chapter_AutomizerSequences}
+\chapter{\textcolor{Chapter }{Introduction}}\label{Chapter_Introduction}
 \logpage{[ 1, 0, 0 ]}
-\hyperdef{L}{X7E5B05DD7D971312}{}
+\hyperdef{L}{X7DFB63A97E67C0A1}{}
 {
   
 
- Let $S$ be a $p$\texttt{\symbol{45}}group, with proto\texttt{\symbol{45}}essential subgroups $E_1, \dots, E_n$. An \emph{automizer sequence} is a list $P := [H_{i_1}, \dots, H_{i_k}]$, where $H_{i_j} \leq \textrm{Aut}(E_{i_j})$ is a valid automizer for $E_{i_j}$ in $S$. In other words, $\textrm{Aut}_S(E_{i_j})$ is a Sylow $p$\texttt{\symbol{45}}subgroup of $H_{i_j})$, and $H_{i_j}/\textrm{Inn}(E_{i_j})$ contains a strongly $p$\texttt{\symbol{45}}embedded subgroup. Note that we do not include a choice of $H_S \leq \textrm{Aut}(S)$ here. These are prototypes for saturated fusion systems. In this chapter, we
-describe processes to determine many important properties about automizer
-sequences that will allow us to determine whether the corresponding fusion
-system would be reduced. 
-\section{\textcolor{Chapter }{The functions}}\label{Chapter_Automizer_Sequences_Section_The_functions}
-\logpage{[ 1, 1, 0 ]}
-\hyperdef{L}{X8173135A7D187358}{}
-{
-  
-
-\subsection{\textcolor{Chapter }{FindReducedSequences (for IsPGroup, IsList)}}
-\logpage{[ 1, 1, 1 ]}\nobreak
-\hyperdef{L}{X8470CDE284146146}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{FindReducedSequences({\mdseries\slshape S, L})\index{FindReducedSequences@\texttt{FindReducedSequences}!for IsPGroup, IsList}
-\label{FindReducedSequences:for IsPGroup, IsList}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a list of valid Aut{\textunderscore}F(E) 
-
-
-
- Let $S$ be a $p$\texttt{\symbol{45}}group, and let $L$ be a list of subgroups of $S$, all of which are proto\texttt{\symbol{45}}essential in $S$. We compute all possible automizer sequences involving the subgroups in $L$ that could lead to reduced fusion systems. }
+ The \textsf{FusionSystems} package tests whether saturated fusion systems with given properties could
+exist on a finite $p$\texttt{\symbol{45}}group $S$, without constructing them. Its main functions are: 
 
  
-
-\subsection{\textcolor{Chapter }{IsomorphismSequences (for IsPGroup, IsList, IsList)}}
-\logpage{[ 1, 1, 2 ]}\nobreak
-\hyperdef{L}{X833D9B1081E67538}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsomorphismSequences({\mdseries\slshape S, P1, P2})\index{IsomorphismSequences@\texttt{IsomorphismSequences}!for IsPGroup, IsList, IsList}
-\label{IsomorphismSequences:for IsPGroup, IsList, IsList}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-an isomorphism mapping 
-
-
-
- Given two automizer sequences $P_1$ and $P_2$, check whether there exists some $\phi \in \textrm{Aut}(S)$ such that $P_1^\phi = P_2$. This computation mimics isomorphism of fusion systems. The action of $\phi$ is dependent of the ordering of the $P_i$'s. }
-
+\begin{itemize}
+\item  \texttt{AllProtoEssentials} (\ref{AllProtoEssentials:for IsPGroup}) finds the subgroups of $S$ that could be essential in a saturated fusion system on $S$, up to $S$\texttt{\symbol{45}}conjugacy, and \texttt{IsProtoEssential} (\ref{IsProtoEssential:for IsPGroup, IsPGroup}) tests a single subgroup (Chapters \ref{Chapter_ProtoEssentialSubgroups} and \ref{Chapter_ProtoEssentialChecks}); 
+\item  \texttt{PossiblySupportsReducedFusionSystems} (\ref{PossiblySupportsReducedFusionSystems:for IsPGroup}) tests whether $S$ could support a reduced fusion system (Chapter \ref{Chapter_Checks_for_reduced_fusion_systems}); 
+\item  \texttt{FindReducedSequences} (\ref{FindReducedSequences:for IsPGroup, IsList}) finds the automizer sequences that could lead to reduced fusion systems
+(Chapter \ref{Chapter_AutomizerSequences}). 
+\end{itemize}
  
 
-\subsection{\textcolor{Chapter }{ValidAutomizers (for IsPGroup, IsPGroup)}}
-\logpage{[ 1, 1, 3 ]}\nobreak
-\hyperdef{L}{X7883D0967BF7D1EE}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{ValidAutomizers({\mdseries\slshape S, E})\index{ValidAutomizers@\texttt{ValidAutomizers}!for IsPGroup, IsPGroup}
-\label{ValidAutomizers:for IsPGroup, IsPGroup}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a list 
+ The tests check necessary conditions only: a subgroup found to be
+proto\texttt{\symbol{45}}essential, or a group that passes the tests for
+reduced fusion systems, need not lead to an actual saturated fusion system. 
 
-
-
- Finds valid automizers for $E$ in $S$. This is not part of the proto\texttt{\symbol{45}}essentials test and forms
-the first step in the actual construction of fusion systems. Nonetheless, if a
-subgroup is proto\texttt{\symbol{45}}essential, then it must have a valid
-automizer. This function does not construct all subgroups of $\textrm{Aut}(E)/O_p(\textrm{Aut}(E))$, and instead uses iterative maximal subgroup condition to do so. }
+ To follow the progress of a longer computation, set the info level of \texttt{InfoFusion} to 1 or higher. 
 
  
-
-\subsection{\textcolor{Chapter }{FindSmallestBorel (for IsPGroup, IsGroupOfAutomorphismsFiniteGroup)}}
-\logpage{[ 1, 1, 4 ]}\nobreak
-\hyperdef{L}{X7BE2D5B082F2BCA7}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{FindSmallestBorel({\mdseries\slshape S, AutFE})\index{FindSmallestBorel@\texttt{FindSmallestBorel}!for IsPGroup, IsGroupOfAutomorphismsFiniteGroup}
-\label{FindSmallestBorel:for IsPGroup, IsGroupOfAutomorphismsFiniteGroup}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a group 
-
-
-
- Let $S$ be a $p$\texttt{\symbol{45}}group, and let $E < S$ with some fixed $H_E \leq \textrm{Aut}(E)$ part of an automizer sequence. The operation \texttt{FindSmallestBorel} computes the subgroup of $\textrm{Aut}(S)$ consisting of extensions from $N_{H_E}(\textrm{Aut}_S(E))$. If not every map in the normalizer subgroup exists, we return \texttt{fail}. }
-
- 
-
-\subsection{\textcolor{Chapter }{IsAutomizerBorelCompatible (for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup)}}
-\logpage{[ 1, 1, 5 ]}\nobreak
-\hyperdef{L}{X81A3ED2D7EBFAE5D}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsAutomizerBorelCompatible({\mdseries\slshape S, AutFS, AutFE})\index{IsAutomizerBorelCompatible@\texttt{IsAutomizerBorelCompatible}!for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup}
-\label{IsAutomizerBorelCompatible:for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-true or false 
-
-
-
- Let $S$ be a $p$\texttt{\symbol{45}}group, and let $E < S$ with some fixed $H_E \leq \textrm{Aut}(E)$ part of an automizer sequence. Let $H_S \leq \textrm{Aut}(S)$ be a subgroup. The operation \texttt{IsAutomizerBorelCompatible} checks whether the restrictions of $H_S$ are \emph{compatible} with $H_E$. In particular, if $A_0 \leq \textrm{Aut}(E)$ consists of restrictions from $H_S$, we have that 
-\[O^{p'}(\langle A_0, H_E \rangle) = H_E.\]
- }
-
- 
-
-\subsection{\textcolor{Chapter }{IsCompatibleSequence (for IsPGroup, IsList)}}
-\logpage{[ 1, 1, 6 ]}\nobreak
-\hyperdef{L}{X78334C0C8079F141}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsCompatibleSequence({\mdseries\slshape S, P})\index{IsCompatibleSequence@\texttt{IsCompatibleSequence}!for IsPGroup, IsList}
-\label{IsCompatibleSequence:for IsPGroup, IsList}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-true or false 
-
-
-
- Let $S$ be a $p$\texttt{\symbol{45}}group and let $P$ be an automizer sequence. The operation \texttt{IsCompatibleSequence} checks whether $P$ can lead to a saturated fusion system. Note that there can be false positives
-\texttt{\symbol{45}}\texttt{\symbol{45}} $P$ may not lead to a saturated fusion system (based on the analysis of centric,
-radical subgroups) but passes this test. }
-
- }
-
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@S := SmallGroup(2^7, 931);;|
+  !gapprompt@gap>| !gapinput@Length(AllProtoEssentials(S));|
+  5
+  !gapprompt@gap>| !gapinput@PossiblySupportsReducedFusionSystems(S);|
+  true
+\end{Verbatim}
  }
 
    
-\chapter{\textcolor{Chapter }{Other functions}}\label{Chapter_Other_functions}
+\chapter{\textcolor{Chapter }{Proto\texttt{\symbol{45}}essential subgroups}}\label{Chapter_ProtoEssentialSubgroups}
 \logpage{[ 2, 0, 0 ]}
-\hyperdef{L}{X87C3D1B984960984}{}
+\hyperdef{L}{X87BC4E4D835004DD}{}
 {
   
-\section{\textcolor{Chapter }{Group actions}}\label{Chapter_Other_functions_Section_Group_actions}
+\section{\textcolor{Chapter }{Brief description of the algorithm}}\label{Chapter_Proto-essential_subgroups_Section_Brief_description_of_the_algorithm}
 \logpage{[ 2, 1, 0 ]}
-\hyperdef{L}{X87115591851FB7F4}{}
+\hyperdef{L}{X86D9F65382E5F487}{}
 {
-  
-
-\subsection{\textcolor{Chapter }{OnQuotient}}
-\logpage{[ 2, 1, 1 ]}\nobreak
-\hyperdef{L}{X82E23FF785C4632A}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnQuotient({\mdseries\slshape q})\index{OnQuotient@\texttt{OnQuotient}}
-\label{OnQuotient}
-}\hfill{\scriptsize (function)}}\\
-\textbf{\indent Returns:\ }
-a function 
-
-
+  Let $S$ be a finite $p$\texttt{\symbol{45}}group. Recall that $E$ is proto\texttt{\symbol{45}}essential in $S$ if there \emph{could} exist a saturated fusion system $\mathcal{F}$ on $S$ such that $E \in \mathcal{E}(\mathcal{F})$. See Chapter \ref{Chapter_ProtoEssentialChecks} for the list of specific tests currently implemented. In this section, we
+describe the algorithm for constructing all the
+proto\texttt{\symbol{45}}essential subgroups of $S$. This is based on \cite[Section 3]{sporadics2}. We fix a central series of $S$: 
+\[1 = Z_0 \leq Z_1 \leq \dots \leq Z_n = S,\]
+ where $|Z_i| = p^i$ for $1 \leq i \leq n$, and there exists some $1 \leq j \leq n$ such that $Z_j = S'$. For $0 \leq i < j$, let $\pi_i \colon S \to S/Z_i$ be the projection map, and 
+\[\mathfrak{C}_i := \{E \mid E = \pi^{-1}(C_S(x)), x \in S/Z_i \textrm{ of order
+} p \textrm{ with } E \textrm{ proto-essential in } S\}.\]
+ We let $\mathfrak{C} := \bigcup_{i=0}^j \mathfrak{C}_i$. In \cite[Theorem 3.6]{sporadics2}, Gautam shows that if $\mathcal{F}$ is a saturated fusion system on $S$ with $E \in \mathcal{E}(\mathcal{F})$, then $E$ is $\mathcal{F}$\texttt{\symbol{45}}conjugate to some $X \in \mathfrak{C}$. }
 
  
-
- Let $G$ be a finite group, and $A$ be a normal subgroup in $U$. Let $q \colon G \to G/A$. The function \texttt{OnQuotient(q)} returns a function, such that for $t \in G/A$ and $x \in G$, \texttt{OnQuotient(q)(t, x)} returns $q(xhx^{-1})$, where $h \in G$ satisfies $q(h) = t$. 
-
- }
-
- 
-
-\subsection{\textcolor{Chapter }{CentralizerMod (for IsGroup, IsGroup, IsGroup)}}
-\logpage{[ 2, 1, 2 ]}\nobreak
-\hyperdef{L}{X7FABB45881ECF282}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{CentralizerMod({\mdseries\slshape G, A, B})\index{CentralizerMod@\texttt{CentralizerMod}!for IsGroup, IsGroup, IsGroup}
-\label{CentralizerMod:for IsGroup, IsGroup, IsGroup}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a subgroup of G 
-
-
-
- 
-
- Let $G$ be a finite group, with subgroups $B \leq A \leq G$, with $B$ normal in $G$. The function \texttt{CentralizerMod(S, A, B)} returns the subgroup $C_G(A/B)$, given by: 
-
- 
-\[C_G(A/B) := \langle x \in G \mid [A, x] \leq B \rangle.\]
- 
-
- }
-
- 
-\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@S := SmallGroup(5^6, 643);|
-  <pc group of size 15625 with 6 generators>
-  !gapprompt@gap>| !gapinput@U := UpperCentralSeries(S);|
-  [ Group([ a6, a5, a4, a3, a1, a2 ]), Group([ a6, a5, a4, a3 ]), 
-  Group([ a6, a5, a4 ]), Group([ a6, a5 ]), Group([ a6 ]), Group([  ]) ]
-  !gapprompt@gap>| !gapinput@R := CentralizerMod(S, U[4], U[6]);|
-  Group([ <identity> of ..., a2, a3, a4, a5, a6 ])
-  !gapprompt@gap>| !gapinput@R = Centralizer(S, U[4]);|
-  true
-  !gapprompt@gap>| !gapinput@A := CentralizerMod(S, U[3], U[5]);|
-  Group([ a1, <identity> of ..., a3, a4, a5, a6 ])
-  !gapprompt@gap>| !gapinput@A = R;|
-  false
-\end{Verbatim}
- 
-
-\subsection{\textcolor{Chapter }{OnImage}}
-\logpage{[ 2, 1, 3 ]}\nobreak
-\hyperdef{L}{X7E7FE55986BF5133}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnImage({\mdseries\slshape x, phi})\index{OnImage@\texttt{OnImage}}
-\label{OnImage}
-}\hfill{\scriptsize (function)}}\\
-\textbf{\indent Returns:\ }
-an element or a subset 
-
-
-
- 
-
- Let $\phi$ be a map and let $x$ be either an element or a subset of the domain of $\phi$. The function \texttt{OnImage(x, phi)} returns $\phi(x)$. 
-
- }
-
- 
-
-\subsection{\textcolor{Chapter }{OnImageNM}}
-\logpage{[ 2, 1, 4 ]}\nobreak
-\hyperdef{L}{X7A23D935862598AE}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnImageNM({\mdseries\slshape n})\index{OnImageNM@\texttt{OnImageNM}}
-\label{OnImageNM}
-}\hfill{\scriptsize (function)}}\\
-\textbf{\indent Returns:\ }
-a function 
-
-
-
- 
-
- Let $G$ be a group and $n$ a nice monomorphism for (a subgroup of) $\mathrm{Aut}(G)$, with image $A$. The function \texttt{OnImageNM(n)} returns a function such that, for some element $\phi \in A$ and an element (or a subgroup) $x$ of $G$, \texttt{OnImageNM(n)(x, phi)} return $\hat{\phi}(x)$, where $\hat{\phi} \in \mathrm{Aut}(G)$ is the preimage of $\phi$ with respect to the injective map $n$. 
-
- }
-
- 
-\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@S := SmallGroup(5^6, 642);|
-  <pc group of size 15625 with 6 generators>
-  !gapprompt@gap>| !gapinput@AutS := AutomorphismGroup(S);|
-  <group of size 1562500 with 10 generators>
-  !gapprompt@gap>| !gapinput@n := NiceMonomorphism(AutS);|
-  <action isomorphism>
-  !gapprompt@gap>| !gapinput@AutS := n(AutS);|
-  <permutation group of size 1562500 with 10 generators>
-  !gapprompt@gap>| !gapinput@V := Group(S.2, S.6);|
-  <pc group with 2 generators>
-  !gapprompt@gap>| !gapinput@A := Stabilizer(AutS, V, OnImageNM(n));|
-  <permutation group of size 12500 with 7 generators>
-\end{Verbatim}
- 
-
-\subsection{\textcolor{Chapter }{OnImageTuples}}
-\logpage{[ 2, 1, 5 ]}\nobreak
-\hyperdef{L}{X87D74FC97C12B4D4}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnImageTuples({\mdseries\slshape L, x})\index{OnImageTuples@\texttt{OnImageTuples}}
-\label{OnImageTuples}
-}\hfill{\scriptsize (function)}}\\
-\textbf{\indent Returns:\ }
-a list 
-
-
-
- 
-
- Let $\phi$ be a map and let $L$ be a list of elements in the domain of $\phi$. The function \texttt{OnImageTuples(L, x)} returns a list containing $\phi(x)$ for each $x \in L$, while maintaining the order. 
-
- }
-
- 
-
-\subsection{\textcolor{Chapter }{OnImageTuplesNM}}
-\logpage{[ 2, 1, 6 ]}\nobreak
-\hyperdef{L}{X7B8996CD781FBFB9}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnImageTuplesNM({\mdseries\slshape S, A})\index{OnImageTuplesNM@\texttt{OnImageTuplesNM}}
-\label{OnImageTuplesNM}
-}\hfill{\scriptsize (function)}}\\
-\textbf{\indent Returns:\ }
-a function 
-
-
-
- 
-
- Let $G$ be a group and $n$ a nice monomorphism for (a subgroup of) $\mathrm{Aut}(G)$, with image $A$. The function \texttt{OnImageTuplesNM(n)} returns a function such that, for some element $\phi \in A$ and a list $L$ of elements in $G$, \texttt{OnImageTuplesNM(n)(L, phi)} return a list of elements $\hat{\phi}(x)$, where $x \in L$ and $\hat{\phi} \in \mathrm{Aut}(G)$ is the preimage of $\phi$ with respect to the injective map $n$. 
-
- }
-
- }
-
- 
-\section{\textcolor{Chapter }{Group automorphisms}}\label{Chapter_Other_functions_Section_Group_automorphisms}
+\section{\textcolor{Chapter }{The operations}}\label{Chapter_Proto-essential_subgroups_Section_The_operations}
 \logpage{[ 2, 2, 0 ]}
-\hyperdef{L}{X783030917CB43959}{}
+\hyperdef{L}{X7CB2CAF3805CB749}{}
 {
   
 
-\subsection{\textcolor{Chapter }{Automizer (for IsGroup, IsGroup)}}
+\subsection{\textcolor{Chapter }{AllProtoEssentials (for IsPGroup)}}
 \logpage{[ 2, 2, 1 ]}\nobreak
-\label{AutoDoc_generated_group1}
-\hyperdef{L}{X7D9EC37E869F3256}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{Automizer({\mdseries\slshape G, H})\index{Automizer@\texttt{Automizer}!for IsGroup, IsGroup}
-\label{Automizer:for IsGroup, IsGroup}
-}\hfill{\scriptsize (operation)}}\\
-\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{Automizer({\mdseries\slshape A, H})\index{Automizer@\texttt{Automizer}!for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite}
-\label{Automizer:for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a subgroup of Aut(H) 
-
-
-
- 
-
- Let $G$ and $H$ be subgroups of some finite group. The group \texttt{Automizer(G, H)} is the automizer subgroup $\mathrm{Aut}_G(H)$, given by: 
-
- 
-\[\mathrm{Aut}_G(H) := \langle c_g \mid g \in N_G(H) \rangle,\]
- 
-
- where $c_g \colon H \to H$ is the conjugation automorphism. It is a subgroup of $\mathrm{Aut}(A)$. 
-
- }
-
- 
-\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@G := AlternatingGroup(6);|
-  Alt( [ 1 .. 6 ] )
-  !gapprompt@gap>| !gapinput@S := SylowSubgroup(G, 2);|
-  Group([ (1,2)(3,4), (1,3)(2,4), (1,2)(5,6) ])
-  !gapprompt@gap>| !gapinput@M := MaximalSubgroups(S);|
-  [ Group([ (3,4)(5,6), (1,2)(3,4) ]), Group([ (1,3)(2,4), (1,2)(3,4) ]), 
-  Group([ (1,3,2,4)(5,6), (1,2)(3,4) ]) ]
-  !gapprompt@gap>| !gapinput@AutGM := List(M, A -> Automizer(G, A));|
-  [ <group with 2 generators>, <group with 2 generators>, 
-  <group with 2 generators> ]
-  !gapprompt@gap>| !gapinput@List(AutGM, StructureDescription);|
-  [ "S3", "S3", "C2" ]
-\end{Verbatim}
- Alternatively, if $A$ is a subgroup of $\mathrm{Aut}(G)$, then \texttt{Automizer(A, H)} returns the subgroup $\mathrm{Aut}_A(H)$ of $\mathrm{Aut}(H)$ given by: 
-
- 
-\[\mathrm{Aut}_A(H) := \langle \alpha|_H \mid \alpha \in A, \alpha(H) = H
-\rangle.\]
- 
-
- 
-\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@S := SmallGroup(5^6, 642);|
-  <pc group of size 15625 with 6 generators>
-  !gapprompt@gap>| !gapinput@V := Group(S.2, S.6);|
-  <pc group with 2 generators>
-  !gapprompt@gap>| !gapinput@AutS := AutomorphismGroup(S);|
-  <group of size 1562500 with 10 generators>
-  !gapprompt@gap>| !gapinput@AutSV := Automizer(AutS, V);|
-  <group with 7 generators>
-  !gapprompt@gap>| !gapinput@AutV := AutomorphismGroup(V);|
-  <group of size 480 with 4 generators>
-  !gapprompt@gap>| !gapinput@n := NiceMonomorphism(AutV);|
-  <action isomorphism>
-  !gapprompt@gap>| !gapinput@AutV := n(AutV);|
-  <permutation group of size 480 with 4 generators>
-  !gapprompt@gap>| !gapinput@AutSV := n(AutSV);|
-  <permutation group with 7 generators>
-  !gapprompt@gap>| !gapinput@Index(AutV, AutSV);|
-  24
-  !gapprompt@gap>| !gapinput@Size(AutSV);|
-  20
-\end{Verbatim}
- 
-\subsection{\textcolor{Chapter }{Restriction of homomorphisms}}\label{AutoDoc_generated_group2}
-\logpage{[ 2, 2, 2 ]}
-\hyperdef{L}{X874E7F578433266D}{}
-{
-\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{RestrictedHomomorphism({\mdseries\slshape phi, X})\index{RestrictedHomomorphism@\texttt{RestrictedHomomorphism}!for IsGroupHomomorphism, IsGroup}
-\label{RestrictedHomomorphism:for IsGroupHomomorphism, IsGroup}
-}\hfill{\scriptsize (operation)}}\\
-\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{RestrictedAutomorphism({\mdseries\slshape phi, X})\index{RestrictedAutomorphism@\texttt{RestrictedAutomorphism}!for IsGroupHomomorphism and IsBijective, IsGroup}
-\label{RestrictedAutomorphism:for IsGroupHomomorphism and IsBijective, IsGroup}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a group automorphism 
-
-
-
- 
-
- Let $\phi \colon A \to B$ be a group homomorphism, and let $X \leq A$. The function \texttt{RestrictedHomomorphism(phi, X)} returns the surjective group homomorphism $\phi|_X \colon X \to \phi(X)$ given by restriction. If $\phi$ is also an isomorphism that fixes $X$, then the function \texttt{RestrictedAutomorphism(phi, X)} returns the group automorphism $\phi|_X \colon X \to \phi(X)$ given by restriction. 
-
- }
-
- 
-\subsection{\textcolor{Chapter }{Transfer homomorphism}}\label{AutoDoc_generated_group3}
-\logpage{[ 2, 2, 3 ]}
-\hyperdef{L}{X80F6FD3E7C7E4E8D}{}
-{
-\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{TransferHomomorphism({\mdseries\slshape G, S})\index{TransferHomomorphism@\texttt{TransferHomomorphism}!for IsGroup, IsGroup}
-\label{TransferHomomorphism:for IsGroup, IsGroup}
-}\hfill{\scriptsize (operation)}}\\
-\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{TransferHomomorphismFp({\mdseries\slshape G, S})\index{TransferHomomorphismFp@\texttt{TransferHomomorphismFp}!for IsGroup, IsPGroup}
-\label{TransferHomomorphismFp:for IsGroup, IsPGroup}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a homomorphism 
-
-
-
- 
-
- Let $G$ be a finite group and $S \leq G$. The operation \texttt{TransferHomomorphism(G, S)} returns the transfer homomorphism $\mathrm{tr}_S^G \colon G \to S/S'$. Moreover, if $S$ is a $p$\texttt{\symbol{45}}group, then the operation \texttt{TransferHomomorphismFp(G, S)} returns the transfer homomorphism $\mathrm{tr'}_S^G \colon G \to S/\Phi(S)$. 
-
- }
-
- }
-
- 
-\section{\textcolor{Chapter }{Semi\texttt{\symbol{45}}characteristic subgroups}}\label{Chapter_Other_functions_Section_Semi-characteristic_subgroups}
-\logpage{[ 2, 3, 0 ]}
-\hyperdef{L}{X7EA0263C874496CA}{}
-{
-  Let $S$ be a $p$\texttt{\symbol{45}}group and $A \leq S$. We say that $S$ is \emph{semi\texttt{\symbol{45}}characteristic} in $S$ if 
-\begin{itemize}
-\item  $A$ is normal in $S$, and 
-\item  $A$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$. 
-\end{itemize}
- 
-
-\subsection{\textcolor{Chapter }{SemiAutomorphismGroup (for IsPGroup)}}
-\logpage{[ 2, 3, 1 ]}\nobreak
-\hyperdef{L}{X7E8444CF8156B41C}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{SemiAutomorphismGroup({\mdseries\slshape S})\index{SemiAutomorphismGroup@\texttt{SemiAutomorphismGroup}!for IsPGroup}
-\label{SemiAutomorphismGroup:for IsPGroup}
-}\hfill{\scriptsize (attribute)}}\\
-\textbf{\indent Returns:\ }
-a subgroup of Aut(S) 
-
-
-
- 
-
- Let $S$ be a $p$\texttt{\symbol{45}}group. The operation \texttt{SemiAutomorphismGroup} returns the semi\texttt{\symbol{45}}automorphism group of $S$, which is given by $\langle \mathrm{Inn}(S), O^p(O^{p'}(\mathrm{Aut}(S)))\rangle$. 
-
- }
-
- 
-
-\subsection{\textcolor{Chapter }{SemiCharacteristicSubgroups (for IsPGroup)}}
-\logpage{[ 2, 3, 2 ]}\nobreak
-\hyperdef{L}{X7E88D38982158EB1}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{SemiCharacteristicSubgroups({\mdseries\slshape S})\index{SemiCharacteristicSubgroups@\texttt{SemiCharacteristicSubgroups}!for IsPGroup}
-\label{SemiCharacteristicSubgroups:for IsPGroup}
+\hyperdef{L}{X7CD47D387D876A60}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{AllProtoEssentials({\mdseries\slshape S})\index{AllProtoEssentials@\texttt{AllProtoEssentials}!for IsPGroup}
+\label{AllProtoEssentials:for IsPGroup}
 }\hfill{\scriptsize (attribute)}}\\
 \textbf{\indent Returns:\ }
 a list 
 
 
 
- 
-
- Let $S$ be a $p$\texttt{\symbol{45}}group. The operation \texttt{SemiCharacteristicSubgroups} returns all the semi\texttt{\symbol{45}}characteristic subgroups of $S$. These are the normal subgroups of $S$ fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$. 
-
- }
-
- 
-
-\subsection{\textcolor{Chapter }{IsSemiCharacteristic (for IsPGroup, IsPGroup)}}
-\logpage{[ 2, 3, 3 ]}\nobreak
-\hyperdef{L}{X840438E7843A6128}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsSemiCharacteristic({\mdseries\slshape S, A})\index{IsSemiCharacteristic@\texttt{IsSemiCharacteristic}!for IsPGroup, IsPGroup}
-\label{IsSemiCharacteristic:for IsPGroup, IsPGroup}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-true or false 
-
-
-
- 
-
- Let $S$ be a $p$\texttt{\symbol{45}}group and $A$ be a subgroup of $S$. The operation \texttt{IsSemiCharacteristic} checks whether $E$ is a semi\texttt{\symbol{45}}characteristic in $S$. That is, we check whether: 
-
- 
+ The attribute \texttt{AllProtoEssentials} constructs all proto\texttt{\symbol{45}}essential subgroups of a $p$\texttt{\symbol{45}}group $S$. It works as follows: 
 \begin{itemize}
-\item  $E$ is normal in $S$, and 
-\item  $E$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$. 
+\item  it calls \texttt{MainProtoEssentials} (\ref{MainProtoEssentials}) which constructs the set $\mathfrak{C}$; 
+\item  it then calls \texttt{GenerateProtoEssentials} (\ref{GenerateProtoEssentials:for IsPGroup, IsList}), which uses $\mathfrak{C}$ to construct all proto\texttt{\symbol{45}}essential subgroups, switching from $\mathcal{F}$\texttt{\symbol{45}}conjugacy to $S$\texttt{\symbol{45}}conjugacy (independent of $\mathcal{F}$). 
 \end{itemize}
  
 
- }
-
- 
-
-\subsection{\textcolor{Chapter }{SemiCharacteristicClosure (for IsPGroup, IsPGroup)}}
-\logpage{[ 2, 3, 4 ]}\nobreak
-\hyperdef{L}{X8759D1937F245ED7}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{SemiCharacteristicClosure({\mdseries\slshape S, A})\index{SemiCharacteristicClosure@\texttt{SemiCharacteristicClosure}!for IsPGroup, IsPGroup}
-\label{SemiCharacteristicClosure:for IsPGroup, IsPGroup}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a subgroup of Aut(E) 
-
-
-
- 
-
- Let $S$ be a $p$\texttt{\symbol{45}}group and $A$ be a subgroup of $S$. The operation \texttt{SemiCharacteristicClosure} returns the smallest semi\texttt{\symbol{45}}characteristic subgroup of $S$ containing $A$. This is the intersection of all semi\texttt{\symbol{45}}characteristic
-subgroups of $S$ containing $A$. 
-
- }
+ It should be pointed out that there is no known cases where \texttt{GenerateProtoEssentials} generates a further ($S$\texttt{\symbol{45}}conjugacy) class of proto\texttt{\symbol{45}}essential
+subgroups. Finds all the proto\texttt{\symbol{45}}essential subgroups of $S$, up to $S$\texttt{\symbol{45}}conjugacy. }
 
  
 \begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@S := SmallGroup(2^8, 6331);|
-  <pc group of size 256 with 8 generators>
-  !gapprompt@gap>| !gapinput@E1 := Group(S.1, S.2, S.4, S.5, S.6, S.7, S.8);|
-  <pc group with 7 generators>
-  !gapprompt@gap>| !gapinput@E2 := Group(S.1, S.2, S.4, S.5, S.7, S.8);|
-  <pc group with 6 generators>
-  !gapprompt@gap>| !gapinput@A := Group(S.5*S.8);|
-  <pc group with 1 generator>
-  !gapprompt@gap>| !gapinput@AutomorphismGroup(E1);|
-  <group of size 6144 with 12 generators>
-  !gapprompt@gap>| !gapinput@AutomorphismGroup(E2);|
-  <group of size 12288 with 13 generators>
-  !gapprompt@gap>| !gapinput@IsCharacteristicSubgroup(E1, A);|
-  false
-  !gapprompt@gap>| !gapinput@IsCharacteristicSubgroup(E2, A);|
-  false
-  !gapprompt@gap>| !gapinput@IsPGroup(E1);|
-  true
-  !gapprompt@gap>| !gapinput@IsPGroup(E2);|
-  true
-  !gapprompt@gap>| !gapinput@SemiAutomorphismGroup(E1);|
-  <group of size 384 with 8 generators>
-  !gapprompt@gap>| !gapinput@SemiAutomorphismGroup(E2);|
-  <group of size 3072 with 11 generators>
-  !gapprompt@gap>| !gapinput@IsPGroup(A);|
-  true
-  !gapprompt@gap>| !gapinput@IsSemiCharacteristic(E1, A);|
-  true
-  !gapprompt@gap>| !gapinput@IsSemiCharacteristic(E2, A);|
-  false
-  !gapprompt@gap>| !gapinput@SemiCharacteristicClosure(E2, A);|
-  Group([ f4, f5, f8, f4*f5, f4*f8, f5*f8, f4*f5*f8 ])
+  !gapprompt@gap>| !gapinput@S := SmallGroup(3^4, 7);|
+  <pc group of size 81 with 4 generators>
+  !gapprompt@gap>| !gapinput@L := AllProtoEssentials(S);|
+  [ Group([ f4, f1, f3 ]), Group([ f4, f2, f3 ]), Group([ f1, f4 ]) ]
+  !gapprompt@gap>| !gapinput@List(L, StructureDescription);|
+  [ "(C3 x C3) : C3", "C3 x C3 x C3", "C3 x C3" ]
+\end{Verbatim}
+ 
+
+\subsection{\textcolor{Chapter }{MainProtoEssentials}}
+\logpage{[ 2, 2, 2 ]}\nobreak
+\hyperdef{L}{X86B32ED6791EF004}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{MainProtoEssentials({\mdseries\slshape S[, i]})\index{MainProtoEssentials@\texttt{MainProtoEssentials}}
+\label{MainProtoEssentials}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+a list 
+
+
+
+ Returns the list of the \texttt{main} proto\texttt{\symbol{45}}essential subgroups of $S$. A proto\texttt{\symbol{45}}essential subgroup is called \emph{main} if it lies in $\mathfrak{C}$. 
+
+ If the second argument \texttt{i} is provided, the function behaves as follows: 
+\begin{itemize}
+\item  $i = 0$ \texttt{\symbol{45}}\texttt{\symbol{45}} we only compute $\mathfrak{C}_0$; 
+\item  $i = -1$ \texttt{\symbol{45}}\texttt{\symbol{45}} we only compute $\mathfrak{C} \setminus \mathfrak{C}_0$; and 
+\item  $i = 1$ \texttt{\symbol{45}}\texttt{\symbol{45}} we compute all $\mathfrak{C}$. 
+\end{itemize}
+ 
+
+ If the argument is not provided, we compute all $\mathfrak{C}$. Running \texttt{GenerateProtoEssentials}on the list $L$ returned generates all the proto\texttt{\symbol{45}}essentials subgroups of $S$. }
+
+ 
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@S := SmallGroup(2^7, 931);|
+  <pc group of size 128 with 7 generators>
+  !gapprompt@gap>| !gapinput@C0 := MainProtoEssentials(S, 0);|
+  [ Group([ f1, f2, f4, f6, f7 ]), Group([ f1, f3, f5, f6, f7 ]), 
+  Group([ f2, f3, f4, f5, f6, f7 ]) ]
+  !gapprompt@gap>| !gapinput@C := MainProtoEssentials(S, -1);|
+  [ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f7, f1, f3, f4, f5, f6 ]) ]
+\end{Verbatim}
+ 
+
+\subsection{\textcolor{Chapter }{GenerateProtoEssentials (for IsPGroup, IsList)}}
+\logpage{[ 2, 2, 3 ]}\nobreak
+\hyperdef{L}{X86B251297A8CF204}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{GenerateProtoEssentials({\mdseries\slshape S, L})\index{GenerateProtoEssentials@\texttt{GenerateProtoEssentials}!for IsPGroup, IsList}
+\label{GenerateProtoEssentials:for IsPGroup, IsList}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a list 
+
+
+
+ Uses the list $L$ containing the main proto\texttt{\symbol{45}}essential subgroups of $S$ (i.e. the set $\mathfrak{C}$) to generate all the proto\texttt{\symbol{45}}essential subgroups of $S$. }
+
+ 
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@S := SmallGroup(3^6, 321);|
+  <pc group of size 729 with 6 generators>
+  !gapprompt@gap>| !gapinput@L := MainProtoEssentials(S);|
+  [ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
+  !gapprompt@gap>| !gapinput@L := GenerateProtoEssentials(S, L);|
+  [ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
 \end{Verbatim}
  }
 
@@ -731,9 +350,8 @@ true or false
 \end{itemize}
  
 
- Each computation is considered more expensive than the previous one. 
- See \ref{Section_PEChecks} for the list of tests currently implemented.
-  
+ Each computation is considered more expensive than the previous one. See
+Section \ref{Section_PEChecks} for the list of tests currently implemented. 
 
  Note that it is possible that $E$ is found to be proto\texttt{\symbol{45}}essential even though there is no
 fusion system $\mathcal{F}$ on $S$ with $E \in \mathcal{E}(\mathcal{F})$. This can be for various reasons, for example, $E$ could be essential in $\mathcal{F}$ only if there is an overgroup of $E$ that is also essential, but there is no such group. Some of these cases may be
@@ -799,33 +417,37 @@ a subgroup
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group. The function \texttt{Zed0} computes the subgroup $Z_0$ of $S$, which is given by: 
+ Let $S$ be a $p$\texttt{\symbol{45}}group. The attribute \texttt{Zed0} computes the subgroup $Z_0$ of $S$, which is given by: 
 \[Z_0 := \langle x \in Z_2(S) \mid |[S, x]| \leq p \rangle.\]
  
 
  }
 
- Let $S$ be a $p$\texttt{\symbol{45}}group and $E$ be a subgroup of $S$. The function \texttt{Zed0Test} checks that one of the following holds: 
+ 
+
+\subsection{\textcolor{Chapter }{Zed0Test (for IsPGroup, IsPGroup)}}
+\logpage{[ 3, 2, 2 ]}\nobreak
+\hyperdef{L}{X820687857C6BCC41}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{Zed0Test({\mdseries\slshape S, E})\index{Zed0Test@\texttt{Zed0Test}!for IsPGroup, IsPGroup}
+\label{Zed0Test:for IsPGroup, IsPGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+true or false 
+
+
+
+ 
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group and $E$ be a subgroup of $S$. The operation \texttt{Zed0Test} checks that one of the following holds: 
 \begin{itemize}
 \item  $Z_0 \leq E$; or 
 \item  $[N_S(E) : E] = p$, and there exists some $x \in \Omega(Z(E))$ such that $E = C_S(x)$. 
 \end{itemize}
  
 
- Note that this function is not used when constructing $\mathfrak{C}$ as the choice of $x$ is easier to find while the set $\mathfrak{C}_0$ is being constructed. This test applies at any prime $p$. It is based on \cite[Proposition 2.3(a)]{AOV17} (proven for $p=2$). 
+ Note that this function is not used when constructing $\mathfrak{C}$ as the choice of $x$ is easier to find while the set $\mathfrak{C}_0$ is being constructed. 
 
-\subsection{\textcolor{Chapter }{Zed0Test (Zed0Test)}}
-\logpage{[ 3, 2, 2 ]}\nobreak
-\hyperdef{L}{X851311DE86369330}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{Zed0Test({\mdseries\slshape S})\index{Zed0Test@\texttt{Zed0Test}!Zed0Test}
-\label{Zed0Test:Zed0Test}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a subgroup 
-
-
-
- 
+ This test applies at any prime $p$. It is based on \cite[Proposition 2.3(a)]{AOV17} (proven for $p=2$). 
 
  }
 
@@ -843,11 +465,11 @@ a subgroup
 \end{Verbatim}
  
 
-\subsection{\textcolor{Chapter }{RankTest (RankTest)}}
+\subsection{\textcolor{Chapter }{RankTest (for IsPGroup, IsPGroup)}}
 \logpage{[ 3, 2, 3 ]}\nobreak
-\hyperdef{L}{X7A5DE7187BF3F208}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{RankTest({\mdseries\slshape S, E})\index{RankTest@\texttt{RankTest}!RankTest}
-\label{RankTest:RankTest}
+\hyperdef{L}{X7CC75ED57BD90845}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{RankTest({\mdseries\slshape S, E})\index{RankTest@\texttt{RankTest}!for IsPGroup, IsPGroup}
+\label{RankTest:for IsPGroup, IsPGroup}
 }\hfill{\scriptsize (operation)}}\\
 \textbf{\indent Returns:\ }
 a number 
@@ -856,7 +478,7 @@ a number
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group and $E$ be a subgroup of $S$. The function \texttt{RankTest} checks that $\textrm{Out}_S(E)$ is isomorphic to a Sylow $p$\texttt{\symbol{45}}subgroup of a group containing a strongly $p$\texttt{\symbol{45}}embedded subgroup. If so, we return a value specifying its
+ Let $S$ be a $p$\texttt{\symbol{45}}group and $E$ be a subgroup of $S$. The operation \texttt{RankTest} checks that $\textrm{Out}_S(E)$ is isomorphic to a Sylow $p$\texttt{\symbol{45}}subgroup of a group containing a strongly $p$\texttt{\symbol{45}}embedded subgroup. If so, we return a value specifying its
 type, namely: 
 \begin{itemize}
 \item  $0$ \texttt{\symbol{45}}\texttt{\symbol{45}} $\textrm{Out}_S(E)$ is cyclic or quaternion; 
@@ -866,7 +488,7 @@ type, namely:
 \item  $4$ \texttt{\symbol{45}}\texttt{\symbol{45}} Sylow $3$\texttt{\symbol{45}}subgroup of ${^2\mathrm{G}}_2(3^{2n+1})$; and 
 \item  $5$ \texttt{\symbol{45}}\texttt{\symbol{45}} $3^{1+2}_-$ and $5^{1+2}_-$. 
 \end{itemize}
- We return $-1$ none of the cases above apply. During the process, we also check that the
+ We return $-1$ if none of the cases above apply. During the process, we also check that the
 subgroup $E$ has sufficiently high rank to ensure that $\mathrm{Aut}(E)$ has a possible valid section. 
 
  This test applies at any prime $p$. It is based on \cite[Proposition 6.9]{SAM14}. 
@@ -908,13 +530,13 @@ subgroup $E$ has sufficiently high rank to ensure that $\mathrm{Aut}(E)$ has a p
 \label{ModuleTest:for IsPGroup, IsPGroup}
 }\hfill{\scriptsize (operation)}}\\
 \textbf{\indent Returns:\ }
-a number 
+true or false 
 
 
 
  
 
- Let $S$ be a $2$\texttt{\symbol{45}}group and $E$ be a subgroup of $S$. The function \texttt{ModuleTest} checks that, if $\mathrm{Out}_S(E)$ has order $2^k$ (for $k \geq 2$), then for all $x \in \mathrm{Out}_S(E)$, if $x \neq 1$, then $[x, E/\Phi(E)]$ is not cyclic. 
+ Let $S$ be a $2$\texttt{\symbol{45}}group and $E$ be a subgroup of $S$. The operation \texttt{ModuleTest} checks that, if $\mathrm{Out}_S(E)$ has order $2^k$ (for $k \geq 2$), then for all $x \in \mathrm{Out}_S(E)$, if $x \neq 1$, then $[x, E/\Phi(E)]$ is not cyclic. 
 
  This test applies at $p=2$. It is based on \cite[Proposition 3.3(c)]{OV}. 
 
@@ -945,7 +567,7 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group and $E$ be a subgroup of $S$. The function \texttt{FrattiniTest} checks that 
+ Let $S$ be a $p$\texttt{\symbol{45}}group and $E$ be a subgroup of $S$. The operation \texttt{FrattiniTest} checks that 
 \[C_{N_S(E)}(E/\Phi(E)) = E.\]
  
 
@@ -990,7 +612,7 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group, $E$ be a subgroup of $S$ of type $i$ (see \texttt{RankTest}). The function \texttt{LiftTest} checks whether the maps in $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ are present as expected. In particular, there is some value $a$ known to divide $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ for each choice of $i$. We check that $a$ divides: 
+ Let $S$ be a $p$\texttt{\symbol{45}}group, $E$ be a subgroup of $S$ of type $i$ (see \texttt{RankTest} (\ref{RankTest:for IsPGroup, IsPGroup})). The operation \texttt{LiftTest} checks whether the maps in $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ are present as expected. In particular, there is some value $a$ known to divide $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ for each choice of $i$. We check that $a$ divides: 
 \begin{itemize}
 \item  $|\mathrm{Aut}(N_S(E))|$; 
 \item  $|N_{\mathrm{Aut}(E)}(\mathrm{Aut}_S(E))|$; and 
@@ -1040,10 +662,10 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group, $E$ be a subgroup of $S$ of type $i$ (see \texttt{RankTest}). The function \texttt{ValidAutTest} checks whether there is a valid section of $\mathrm{Aut}(E)$ that contains the expected $\mathrm{Aut}_{\mathcal{F}}(E)$. Note that this check is up to (order of) composition factors, and does not
+ Let $S$ be a $p$\texttt{\symbol{45}}group, $E$ be a subgroup of $S$ of type $i$ (see \texttt{RankTest} (\ref{RankTest:for IsPGroup, IsPGroup})). The operation \texttt{ValidAutTest} checks whether there is a valid section of $\mathrm{Aut}(E)$ that contains the expected $\mathrm{Aut}_{\mathcal{F}}(E)$. Note that this check is up to (order of) composition factors, and does not
 imply that the expected section actually exists inside $\mathrm{Aut}(E)$. 
 
- This test applies at any prime $p$. It is based on \cite[Proposition 6.9]{SAM14} or \cite[Proposition 4.5]{PS_MAGMA}. 
+ This test applies at any prime $p$. It is based on \cite[Proposition 6.9]{SAM14} and \cite[Proposition 4.5]{PS_MAGMA}. 
 
  }
 
@@ -1080,7 +702,7 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group, $E$ be a proto\texttt{\symbol{45}}essential subgroup. The function \texttt{RadicalTest}checks whether 
+ Let $S$ be a $p$\texttt{\symbol{45}}group, $E$ be a proto\texttt{\symbol{45}}essential subgroup. The operation \texttt{RadicalTest}checks whether 
 
  
 \[|O_p(\textrm{Aut}(E)) \cap \textrm{Aut}_S(E)| = [E : Z(E)].\]
@@ -1113,128 +735,8 @@ true or false
  }
 
    
-\chapter{\textcolor{Chapter }{Proto\texttt{\symbol{45}}essential subgroups}}\label{Chapter_ProtoEssentialSubgroups}
-\logpage{[ 4, 0, 0 ]}
-\hyperdef{L}{X87BC4E4D835004DD}{}
-{
-  
-\section{\textcolor{Chapter }{Brief description of the algorithm}}\label{Chapter_Proto-essential_subgroups_Section_Brief_description_of_the_algorithm}
-\logpage{[ 4, 1, 0 ]}
-\hyperdef{L}{X86D9F65382E5F487}{}
-{
-  Let $S$ be a finite $p$\texttt{\symbol{45}}group. Recall that $E$ is proto\texttt{\symbol{45}}essential in $S$ if there \emph{could} exist a saturated fusion system $\mathcal{F}$ on $S$ such that $E \in \mathcal{E}(\mathcal{F})$. 
- See \ref{Chapter_ProtoEssentialChecks} for the list of specific tests currently implemented.
-  In this section, we describe the algorithm for constructing all the
-proto\texttt{\symbol{45}}essential subgroups of $S$. This is based on \cite[Section 3]{sporadics2}. We fix a central series of $S$: 
-\[1 = Z_0 \leq Z_1 \leq \dots \leq Z_n = S,\]
- where $|Z_i| = p^i$ for $1 \leq i \leq n$, and there exists some $1 \leq j \leq n$ such that $Z_j = S'$. For $0 \leq i < j$, let $\pi_i \colon S \to S/Z_i$ be the projection map, and 
-\[\mathfrak{C}_i := \{E \mid E = \pi^{-1}(C_S(x)), x \in S/Z_i \textrm{ of order
-} p \textrm{ with } E \textrm{ proto-essential in } S\}.\]
- We let $\mathfrak{C} := \bigcup_{i=0}^j \mathfrak{C}_i$. In \cite[Theorem 3.6]{sporadics2}, Gautam shows that if $\mathcal{F}$ is a saturated fusion system on $S$ with $E \in \mathcal{E}(\mathcal{F})$, then $E$ is $\mathcal{F}$\texttt{\symbol{45}}conjugate to some $X \in \mathfrak{C}$. }
-
- 
-\section{\textcolor{Chapter }{The operations}}\label{Chapter_Proto-essential_subgroups_Section_The_operations}
-\logpage{[ 4, 2, 0 ]}
-\hyperdef{L}{X7CB2CAF3805CB749}{}
-{
-  
-
-\subsection{\textcolor{Chapter }{AllProtoEssentials (for IsPGroup)}}
-\logpage{[ 4, 2, 1 ]}\nobreak
-\hyperdef{L}{X7CD47D387D876A60}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{AllProtoEssentials({\mdseries\slshape S})\index{AllProtoEssentials@\texttt{AllProtoEssentials}!for IsPGroup}
-\label{AllProtoEssentials:for IsPGroup}
-}\hfill{\scriptsize (attribute)}}\\
-\textbf{\indent Returns:\ }
-a list 
-
-
-
- The attribute \texttt{AllProtoEssentials} constructs all proto\texttt{\symbol{45}}essential subgroups of a $p$\texttt{\symbol{45}}group $S$. It works as follows: 
-\begin{itemize}
-\item  it calls the function \texttt{AllProtoEssentials} which constructs the set $\mathfrak{C}$; 
-\item  it then calls \texttt{GenerateProtoEssentials}, which uses $\mathfrak{C}$ to construct all proto\texttt{\symbol{45}}essential subgroups, switching from $\mathcal{F}$\texttt{\symbol{45}}conjugacy to $S$\texttt{\symbol{45}}conjugacy (independent of $\mathcal{F}$). 
-\end{itemize}
- 
-
- It should be pointed out that there is no known cases where \texttt{GenerateProtoEssentials} generates a further ($S$\texttt{\symbol{45}}conjugacy) class of proto\texttt{\symbol{45}}essential
-subgroups. Finds all the proto\texttt{\symbol{45}}essential subgroups of $S$, up to $S$\texttt{\symbol{45}}conjugacy. }
-
- 
-\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@S := SmallGroup(3^4, 7);|
-  <pc group of size 81 with 4 generators>
-  !gapprompt@gap>| !gapinput@L := AllProtoEssentials(S);|
-  [ Group([ f4, f1, f3 ]), Group([ f4, f2, f3 ]), Group([ f1, f4 ]) ]
-  !gapprompt@gap>| !gapinput@List(L, StructureDescription);|
-  [ "(C3 x C3) : C3", "C3 x C3 x C3", "C3 x C3" ]
-\end{Verbatim}
- 
-
-\subsection{\textcolor{Chapter }{MainProtoEssentials}}
-\logpage{[ 4, 2, 2 ]}\nobreak
-\hyperdef{L}{X86B32ED6791EF004}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{MainProtoEssentials({\mdseries\slshape S[, i]})\index{MainProtoEssentials@\texttt{MainProtoEssentials}}
-\label{MainProtoEssentials}
-}\hfill{\scriptsize (function)}}\\
-\textbf{\indent Returns:\ }
-a list 
-
-
-
- Returns the list of the \texttt{main} proto\texttt{\symbol{45}}essential subgroups of $S$. A proto\texttt{\symbol{45}}essential subgroup is called \emph{main} if it lies in $\mathfrak{C}$. 
-
- If the second argument \texttt{i} is provided, the function behaves as follows: 
-\begin{itemize}
-\item  $i = 0$ \texttt{\symbol{45}}\texttt{\symbol{45}} we only compute $\mathfrak{C}_0$; 
-\item  $i = -1$ \texttt{\symbol{45}}\texttt{\symbol{45}} we only compute $\mathfrak{C} \setminus \mathfrak{C}_0$; and 
-\item  $i = 1$ \texttt{\symbol{45}}\texttt{\symbol{45}} we compute all $\mathfrak{C}$. 
-\end{itemize}
- 
-
- If the argument is not provided, we compute all $\mathfrak{C}$. Running \texttt{GenerateProtoEssentials}on the list $L$ returned generates all the proto\texttt{\symbol{45}}essentials subgroups of $S$. }
-
- 
-\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@S := SmallGroup(2^7, 931);|
-  <pc group of size 128 with 7 generators>
-  !gapprompt@gap>| !gapinput@C0 := MainProtoEssentials(S, 0);|
-  [ Group([ f1, f2, f4, f6, f7 ]), Group([ f1, f3, f5, f6, f7 ]), 
-  Group([ f2, f3, f4, f5, f6, f7 ]) ]
-  !gapprompt@gap>| !gapinput@C := MainProtoEssentials(S, -1);|
-  [ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f7, f1, f3, f4, f5, f6 ]) ]
-\end{Verbatim}
- 
-
-\subsection{\textcolor{Chapter }{GenerateProtoEssentials (for IsPGroup, IsList)}}
-\logpage{[ 4, 2, 3 ]}\nobreak
-\hyperdef{L}{X86B251297A8CF204}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{GenerateProtoEssentials({\mdseries\slshape S, L})\index{GenerateProtoEssentials@\texttt{GenerateProtoEssentials}!for IsPGroup, IsList}
-\label{GenerateProtoEssentials:for IsPGroup, IsList}
-}\hfill{\scriptsize (operation)}}\\
-\textbf{\indent Returns:\ }
-a list 
-
-
-
- Uses the list $L$ containing the main proto\texttt{\symbol{45}}essential subgroups of $S$ (i.e. the set $\mathfrak{C}$) to generate all the proto\texttt{\symbol{45}}essential subgroups of $S$. }
-
- 
-\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
-  !gapprompt@gap>| !gapinput@S := SmallGroup(3^6, 321);|
-  <pc group of size 729 with 6 generators>
-  !gapprompt@gap>| !gapinput@L := MainProtoEssentials(S);|
-  [ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
-  !gapprompt@gap>| !gapinput@L := GenerateProtoEssentials(S, L);|
-  [ Group([ f6, f2, f3, f4, f5 ]), Group([ f6, f1*f2^2, f4, f5 ]) ]
-\end{Verbatim}
- }
-
- }
-
-   
 \chapter{\textcolor{Chapter }{Checks for reduced fusion systems}}\label{Chapter_Checks_for_reduced_fusion_systems}
-\logpage{[ 5, 0, 0 ]}
+\logpage{[ 4, 0, 0 ]}
 \hyperdef{L}{X87497673854B812F}{}
 {
   In this chapter, we describe all the tests currently implemented in GAP that
@@ -1242,13 +744,13 @@ test whether a group $S$ \emph{could} support reduced fusion systems. This is do
 systems, and even possible automizers for any fusion system. As such, we can
 determine whether there exists any reduced fusion system $\mathcal{F}$ on $S$ for a fixed choice of $\mathcal{E}(\mathcal{F})$. We can also determine this for any choice of $\mathcal{E}(\mathcal{F})$. 
 \section{\textcolor{Chapter }{The main functions}}\label{Chapter_Checks_for_reduced_fusion_systems_Section_The_main_functions}
-\logpage{[ 5, 1, 0 ]}
+\logpage{[ 4, 1, 0 ]}
 \hyperdef{L}{X7D3DC4ED855DC13C}{}
 {
   
 
 \subsection{\textcolor{Chapter }{PossiblySupportsReducedFusionSystems (for IsPGroup)}}
-\logpage{[ 5, 1, 1 ]}\nobreak
+\logpage{[ 4, 1, 1 ]}\nobreak
 \hyperdef{L}{X829638DD78A8FD08}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{PossiblySupportsReducedFusionSystems({\mdseries\slshape S})\index{PossiblySupportsReducedFusionSystems@\texttt{Possibly}\-\texttt{Supports}\-\texttt{Reduced}\-\texttt{Fusion}\-\texttt{Systems}!for IsPGroup}
 \label{PossiblySupportsReducedFusionSystems:for IsPGroup}
@@ -1271,9 +773,8 @@ system. Nonetheless, $p$\texttt{\symbol{45}}groups that pass the tests in this c
 likely to support reduced fusion systems. 
 
  This function checks whether the group $S$ satisfies certain properties that are known to hold for a $p$\texttt{\symbol{45}}group that supports reduced fusion systems. In the
-process, we compute the proto\texttt{\symbol{45}}essential subgroups of $S$, along with their automorphism groups. 
- See \ref{Section_RedSpecificFn} for the list of specific tests currently implemented.
-  We do not construct automizer sequences. 
+process, we compute the proto\texttt{\symbol{45}}essential subgroups of $S$, along with their automorphism groups. See Section \ref{Section_RedSpecificFn} for the list of specific tests currently implemented. We do not construct
+automizer sequences. 
 
  }
 
@@ -1287,7 +788,7 @@ process, we compute the proto\texttt{\symbol{45}}essential subgroups of $S$, alo
  
 
 \subsection{\textcolor{Chapter }{PossiblySupportsReducedFusionSystems{\textunderscore}PE (for IsPGroup, IsList)}}
-\logpage{[ 5, 1, 2 ]}\nobreak
+\logpage{[ 4, 1, 2 ]}\nobreak
 \hyperdef{L}{X87A01C45801E726C}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{PossiblySupportsReducedFusionSystems{\textunderscore}PE({\mdseries\slshape S, L})\index{PossiblySupportsReducedFusionSystems{\textunderscore}PE@\texttt{Possibly}\-\texttt{Supports}\-\texttt{Reduced}\-\texttt{Fusion}\-\texttt{Systems{\textunderscore}PE}!for IsPGroup, IsList}
 \label{PossiblySupportsReducedFusionSystemsuScorePE:for IsPGroup, IsList}
@@ -1299,7 +800,7 @@ true or false
 
  
 
- Given a $p$\texttt{\symbol{45}}group $S$ and a list of proto\texttt{\symbol{45}}essential subgroups $L$, the attribute \texttt{PossiblySupportsReducedFusionSystems{\textunderscore}PE} checks whether there \emph{could} exist a reduced fusion system $\mathcal{F}$ on $S$ where the set of essential subgroups $\mathcal{E}(\mathcal{F})$ is a subset of $L$. Note that we run \texttt{GenerateProtoEssentials} on $L$ (which can, in theory, increase the number of subgroups in $L$). 
+ Given a $p$\texttt{\symbol{45}}group $S$ and a list of proto\texttt{\symbol{45}}essential subgroups $L$, the operation \texttt{PossiblySupportsReducedFusionSystems{\textunderscore}PE} checks whether there \emph{could} exist a reduced fusion system $\mathcal{F}$ on $S$ where the set of essential subgroups $\mathcal{E}(\mathcal{F})$ is a subset of $L$. Note that we run \texttt{GenerateProtoEssentials} on $L$ (which can, in theory, increase the number of subgroups in $L$). 
 
  Note that it is not possible to check whether a group can support reduced
 fusion systems without actually constructing them. This is because the
@@ -1310,8 +811,8 @@ system. Nonetheless, $p$\texttt{\symbol{45}}groups that pass the tests in this c
 likely to support reduced fusion systems. 
 
  This function checks whether the group $S$ satisfies certain properties that are known to hold for a $p$\texttt{\symbol{45}}group that supports reduced fusion systems. We also
-construct the automorphism group for subgroups in $L$s. See ... for the list of specific tests currently implemented. We do not
-construct automizer sequences. 
+construct the automorphism group for subgroups in $L$. See Section \ref{Section_RedSpecificFn} for the list of specific tests currently implemented. We do not construct
+automizer sequences. 
 
  }
 
@@ -1332,13 +833,13 @@ construct automizer sequences.
 
  
 \section{\textcolor{Chapter }{The specific functions}}\label{Section_RedSpecificFn}
-\logpage{[ 5, 2, 0 ]}
+\logpage{[ 4, 2, 0 ]}
 \hyperdef{L}{X85683E4783BE234C}{}
 {
   
 
 \subsection{\textcolor{Chapter }{IsDSWGroup (for IsPGroup)}}
-\logpage{[ 5, 2, 1 ]}\nobreak
+\logpage{[ 4, 2, 1 ]}\nobreak
 \hyperdef{L}{X83567EE27C9A327E}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsDSWGroup({\mdseries\slshape S})\index{IsDSWGroup@\texttt{IsDSWGroup}!for IsPGroup}
 \label{IsDSWGroup:for IsPGroup}
@@ -1388,7 +889,7 @@ wreath product $C_{2^a} \wr C_2$.
  
 
 \subsection{\textcolor{Chapter }{ExponentTest (for IsPGroup)}}
-\logpage{[ 5, 2, 2 ]}\nobreak
+\logpage{[ 4, 2, 2 ]}\nobreak
 \hyperdef{L}{X7E63D2A97A637BAD}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{ExponentTest({\mdseries\slshape S})\index{ExponentTest@\texttt{ExponentTest}!for IsPGroup}
 \label{ExponentTest:for IsPGroup}
@@ -1400,7 +901,7 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group. If $S$ has class $a$, the attribute \texttt{ExponentTest} checks that $\Omega(Z(S))$ has exponent at most $p^t$, where 
+ Let $S$ be a $p$\texttt{\symbol{45}}group. If $S$ has class $c$, the attribute \texttt{ExponentTest} checks that $Z(S)$ has exponent at most $p^t$, where 
 \[t := \left\lceil \frac{c-1}{p-1} \right\rceil.\]
  
 
@@ -1426,7 +927,7 @@ true or false
  
 
 \subsection{\textcolor{Chapter }{AbelianTest (for IsPGroup)}}
-\logpage{[ 5, 2, 3 ]}\nobreak
+\logpage{[ 4, 2, 3 ]}\nobreak
 \hyperdef{L}{X7F0F966F7C7E4B8D}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{AbelianTest({\mdseries\slshape S})\index{AbelianTest@\texttt{AbelianTest}!for IsPGroup}
 \label{AbelianTest:for IsPGroup}
@@ -1443,7 +944,7 @@ true or false
 \item  $N_S(A) = S$; or 
 \item  $N_S(A) < S$, with $\mathrm{Aut}_S(A) \nleq O_2(\mathrm{Aut})(A)$. 
 \end{itemize}
- If so, the function return true only if $S$ is a $\mathcal{DSW}$\texttt{\symbol{45}}group. 
+ If so, the function returns true only if $S$ is a $\mathcal{DSW}$\texttt{\symbol{45}}group. 
 
  This test only applies at $p=2$. It is based on \cite[Proposition 5.2(a), (c)]{AOV13}. 
 
@@ -1467,7 +968,7 @@ true or false
  
 
 \subsection{\textcolor{Chapter }{DerivedCyclicTest (for IsPGroup)}}
-\logpage{[ 5, 2, 4 ]}\nobreak
+\logpage{[ 4, 2, 4 ]}\nobreak
 \hyperdef{L}{X782BA19382650E0B}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{DerivedCyclicTest({\mdseries\slshape S})\index{DerivedCyclicTest@\texttt{DerivedCyclicTest}!for IsPGroup}
 \label{DerivedCyclicTest:for IsPGroup}
@@ -1508,7 +1009,7 @@ true or false
  
 
 \subsection{\textcolor{Chapter }{ValidAutTest (for IsPGroup)}}
-\logpage{[ 5, 2, 5 ]}\nobreak
+\logpage{[ 4, 2, 5 ]}\nobreak
 \hyperdef{L}{X7E28CE0083D26C55}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{ValidAutTest({\mdseries\slshape S})\index{ValidAutTest@\texttt{ValidAutTest}!for IsPGroup}
 \label{ValidAutTest:for IsPGroup}
@@ -1520,9 +1021,9 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group (for $p$ odd). The attribute \texttt{ValidAutTest} returns true only if $\mathrm{Aut}(S)$ is not a $p$\texttt{\symbol{45}}group. 
+ Let $S$ be a $p$\texttt{\symbol{45}}group (for $p$ odd). The attribute \texttt{ValidAutTest} returns true only if $\mathrm{Aut}(S)$ is not a $p$\texttt{\symbol{45}}group. If we further know that $S$ has class $\leq p-1$, and $\mathrm{Aut}(S)$ has a Hall $p$\texttt{\symbol{45}}complement $H$, we check that $[S, H] = S$. 
 
- This test does not apply at $p=2$. It is based on \cite[7.82]{CRA} (for $p \geq 5$). 
+ This test does not apply if $p \leq 3$. It is based on \cite[7.82]{CRA} and \cite{DGPS}. 
 
  }
 
@@ -1556,7 +1057,7 @@ true or false
  
 
 \subsection{\textcolor{Chapter }{OmegaAbelianizationTest (for IsPGroup)}}
-\logpage{[ 5, 2, 6 ]}\nobreak
+\logpage{[ 4, 2, 6 ]}\nobreak
 \hyperdef{L}{X852FEF1D87916D36}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OmegaAbelianizationTest({\mdseries\slshape S})\index{OmegaAbelianizationTest@\texttt{OmegaAbelianizationTest}!for IsPGroup}
 \label{OmegaAbelianizationTest:for IsPGroup}
@@ -1568,7 +1069,7 @@ true or false
 
  
 
- Let $S$ be a $2$\texttt{\symbol{45}}group, $D := S'$ and $O := \Omega(Z(S))$. The attribute \texttt{OmegaAbelianizationTest} return false only if: 
+ Let $S$ be a $2$\texttt{\symbol{45}}group, $D := S'$ and $O := \Omega(Z(S))$. The attribute \texttt{OmegaAbelianizationTest} returns false only if: 
 \begin{itemize}
 \item  $[\Omega(Z(S)) : \Omega(Z(S)) \cap D] = 2$; or 
 \item  $\Omega(Z(S)) \nleq D$ if $\mathrm{Aut}(S)$ is a $2$\texttt{\symbol{45}}group. 
@@ -1593,8 +1094,8 @@ true or false
   false
 \end{Verbatim}
  
-\subsection{\textcolor{Chapter }{Transfer test for a group}}\label{AutoDoc_generated_group4}
-\logpage{[ 5, 2, 7 ]}
+\subsection{\textcolor{Chapter }{Transfer test for a group}}\label{AutoDoc_generated_group1}
+\logpage{[ 4, 2, 7 ]}
 \hyperdef{L}{X82E6548F81B8F05C}{}
 {
 \noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{TransferMaximalTest({\mdseries\slshape S})\index{TransferMaximalTest@\texttt{TransferMaximalTest}!for IsPGroup}
@@ -1630,8 +1131,8 @@ true or false
   true
 \end{Verbatim}
  
-\subsection{\textcolor{Chapter }{Transfer test with a list}}\label{AutoDoc_generated_group5}
-\logpage{[ 5, 2, 8 ]}
+\subsection{\textcolor{Chapter }{Transfer test with a list}}\label{AutoDoc_generated_group2}
+\logpage{[ 4, 2, 8 ]}
 \hyperdef{L}{X7ECB69FB82C13217}{}
 {
 \noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{TransferTest({\mdseries\slshape S, L})\index{TransferTest@\texttt{TransferTest}!for IsPGroup, IsList}
@@ -1647,7 +1148,7 @@ true or false
 
  
 
- Let $S$ be a $2$\texttt{\symbol{45}}group and $L$ be a list of (proto\texttt{\symbol{45}}essential) subgroups of $S$. The attribute \texttt{TransferTest} checks that, if $\mathrm{Aut}(S)$ is a $2$\texttt{\symbol{45}}group, then 
+ Let $S$ be a $2$\texttt{\symbol{45}}group and $L$ be a list of (proto\texttt{\symbol{45}}essential) subgroups of $S$. The operation \texttt{TransferTest} checks that, if $\mathrm{Aut}(S)$ is a $2$\texttt{\symbol{45}}group, then 
 \[\bigcap_{M \in L} \ker(\mathrm{tr}_M^S) = S',\]
  where $\mathrm{tr}_M^S \colon S \to M/M'$ is the transfer homomorphism. Alternatively, \texttt{TransferFpTest} checks that, if $\mathrm{Aut}(S)$ is a $2$\texttt{\symbol{45}}group, then 
 \[\bigcap_{M \in L} \ker(\mathrm{tr'}_M^S) = \Phi(S),\]
@@ -1673,7 +1174,7 @@ true or false
  
 
 \subsection{\textcolor{Chapter }{C0Test (for IsPGroup, IsList)}}
-\logpage{[ 5, 2, 9 ]}\nobreak
+\logpage{[ 4, 2, 9 ]}\nobreak
 \hyperdef{L}{X8660B3728652622E}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{C0Test({\mdseries\slshape S, L})\index{C0Test@\texttt{C0Test}!for IsPGroup, IsList}
 \label{C0Test:for IsPGroup, IsList}
@@ -1685,7 +1186,7 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group, and $L := \mathfrak{C}_0$. The function \texttt{C0Test} checks that there exists some subgroup $E$ in $L$ such that $\Omega(Z(S))$ is not semi\texttt{\symbol{45}}characteristic in $E$, i.e. invariant under $O^p(O^{p'}(\mathrm{Aut}(E)))$. 
+ Let $S$ be a $p$\texttt{\symbol{45}}group, and $L := \mathfrak{C}_0$. The operation \texttt{C0Test} checks that there exists some subgroup $E$ in $L$ such that $\Omega(Z(S))$ is not semi\texttt{\symbol{45}}characteristic in $E$, i.e. invariant under $O^p(O^{p'}(\mathrm{Aut}(E)))$. 
 
  This test applies at any prime $p$. It is based on \cite[Corollary 3.12]{sporadics2}. 
 
@@ -1702,7 +1203,7 @@ true or false
  
 
 \subsection{\textcolor{Chapter }{CTest (for IsPGroup, IsList)}}
-\logpage{[ 5, 2, 10 ]}\nobreak
+\logpage{[ 4, 2, 10 ]}\nobreak
 \hyperdef{L}{X823B722F86499207}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{CTest({\mdseries\slshape S, L})\index{CTest@\texttt{CTest}!for IsPGroup, IsList}
 \label{CTest:for IsPGroup, IsList}
@@ -1714,10 +1215,10 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group, and let $L$ be a list of proto\texttt{\symbol{45}}essential subgroups of $S$. The function \texttt{CTest} checks that: 
+ Let $S$ be a $p$\texttt{\symbol{45}}group, and let $L$ be a list of proto\texttt{\symbol{45}}essential subgroups of $S$. The operation \texttt{CTest} checks that: 
 \begin{itemize}
 \item  $L$ has at least $2$ elements, or 
-\item  if $\mathrm{Aut}(S)$ is a not $2$\texttt{\symbol{45}}group, then the single subgroup in $L$ is not normal in $S$. 
+\item  $L$ consists of a single subgroup, which is not normal in $S$, and $\mathrm{Aut}(S)$ is not a $p$\texttt{\symbol{45}}group. 
 \end{itemize}
  
 
@@ -1736,7 +1237,7 @@ true or false
  
 
 \subsection{\textcolor{Chapter }{SemiCharacteristicGeneratedTest (for IsPGroup, IsList)}}
-\logpage{[ 5, 2, 11 ]}\nobreak
+\logpage{[ 4, 2, 11 ]}\nobreak
 \hyperdef{L}{X830693B38724090D}{}
 {\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{SemiCharacteristicGeneratedTest({\mdseries\slshape S, L})\index{SemiCharacteristicGeneratedTest@\texttt{SemiCharacteristicGeneratedTest}!for IsPGroup, IsList}
 \label{SemiCharacteristicGeneratedTest:for IsPGroup, IsList}
@@ -1748,7 +1249,7 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group, and let $L$ be a list of proto\texttt{\symbol{45}}essential subgroups of $S$. The function \texttt{SemiCharacteristicGeneratedTest} checks that the subgroup 
+ Let $S$ be a $p$\texttt{\symbol{45}}group, and let $L$ be a list of proto\texttt{\symbol{45}}essential subgroups of $S$. The operation \texttt{SemiCharacteristicGeneratedTest} checks that the subgroup 
 \[\langle [O^p(\mathrm{Aut}(S)), S], Q_E \mid E \in L \rangle = S,\]
  where $Q_E$ is the semi\texttt{\symbol{45}}characteristic closure of $[N_S(E), E]$ in $E$. 
 
@@ -1772,9 +1273,9 @@ true or false
  
 
 \subsection{\textcolor{Chapter }{CoreTest (for IsPGroup, IsList)}}
-\logpage{[ 5, 2, 12 ]}\nobreak
+\logpage{[ 4, 2, 12 ]}\nobreak
 \hyperdef{L}{X8335DE5780AAD01F}{}
-{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{CoreTest({\mdseries\slshape S})\index{CoreTest@\texttt{CoreTest}!for IsPGroup, IsList}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{CoreTest({\mdseries\slshape S, L})\index{CoreTest@\texttt{CoreTest}!for IsPGroup, IsList}
 \label{CoreTest:for IsPGroup, IsList}
 }\hfill{\scriptsize (operation)}}\\
 \textbf{\indent Returns:\ }
@@ -1784,7 +1285,7 @@ true or false
 
  
 
- Let $S$ be a $p$\texttt{\symbol{45}}group, and let $L$ be a list of proto\texttt{\symbol{45}}essential subgroups of $S$. The function \texttt{CoreTest} checks that if $N$ is a normal subgroup of $S$ such that $N$ is semi\texttt{\symbol{45}}characteristic (i.e. fixed by $O^p(O^{p'}(\mathrm{Aut}(E)))$) in each $E \in L$, then $N = 1$. 
+ Let $S$ be a $p$\texttt{\symbol{45}}group, and let $L$ be a list of proto\texttt{\symbol{45}}essential subgroups of $S$. The operation \texttt{CoreTest} checks that if $N$ is a normal subgroup of $S$ such that $N$ is semi\texttt{\symbol{45}}characteristic (i.e. fixed by $O^p(O^{p'}(\mathrm{Aut}(E)))$) in each $E \in L$, then $N = 1$. 
 
  This test applies at any prime $p$. 
 
@@ -1801,6 +1302,579 @@ true or false
   [ Group([  ]) ]
   !gapprompt@gap>| !gapinput@CoreTest(S, L);|
   false
+\end{Verbatim}
+ }
+
+ }
+
+   
+\chapter{\textcolor{Chapter }{Automizer Sequences}}\label{Chapter_AutomizerSequences}
+\logpage{[ 5, 0, 0 ]}
+\hyperdef{L}{X7E5B05DD7D971312}{}
+{
+  
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group, with proto\texttt{\symbol{45}}essential subgroups $E_1, \dots, E_n$. An \emph{automizer sequence} is a list $P := [H_{i_1}, \dots, H_{i_k}]$, where $H_{i_j} \leq \textrm{Aut}(E_{i_j})$ is a valid automizer for $E_{i_j}$ in $S$. In other words, $\textrm{Aut}_S(E_{i_j})$ is a Sylow $p$\texttt{\symbol{45}}subgroup of $H_{i_j}$, and $H_{i_j}/\textrm{Inn}(E_{i_j})$ contains a strongly $p$\texttt{\symbol{45}}embedded subgroup. Note that we do not include a choice of $H_S \leq \textrm{Aut}(S)$ here. These are prototypes for saturated fusion systems. In this chapter, we
+describe processes to determine many important properties about automizer
+sequences that will allow us to determine whether the corresponding fusion
+system would be reduced. 
+\section{\textcolor{Chapter }{The functions}}\label{Chapter_Automizer_Sequences_Section_The_functions}
+\logpage{[ 5, 1, 0 ]}
+\hyperdef{L}{X8173135A7D187358}{}
+{
+  
+
+\subsection{\textcolor{Chapter }{FindReducedSequences (for IsPGroup, IsList)}}
+\logpage{[ 5, 1, 1 ]}\nobreak
+\hyperdef{L}{X8470CDE284146146}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{FindReducedSequences({\mdseries\slshape S, L})\index{FindReducedSequences@\texttt{FindReducedSequences}!for IsPGroup, IsList}
+\label{FindReducedSequences:for IsPGroup, IsList}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a list of lists of integers 
+
+
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group, and let $L$ be a list of subgroups of $S$, all of which are proto\texttt{\symbol{45}}essential in $S$. We compute all possible automizer sequences involving the subgroups in $L$ that could lead to reduced fusion systems. Each sequence is returned as a list $A$ of integers, with one entry for each subgroup $E_i$ in $L$: $A[i] = 0$ if $E_i$ is not essential, and otherwise $A[i]$ is the position of $\textrm{Aut}_\mathcal{F}(E_i)$ in \texttt{ValidAutomizers(S, E{\textunderscore}i)}. }
+
+ 
+
+\subsection{\textcolor{Chapter }{IsomorphismSequences (for IsPGroup, IsList, IsList)}}
+\logpage{[ 5, 1, 2 ]}\nobreak
+\hyperdef{L}{X833D9B1081E67538}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsomorphismSequences({\mdseries\slshape S, P1, P2})\index{IsomorphismSequences@\texttt{IsomorphismSequences}!for IsPGroup, IsList, IsList}
+\label{IsomorphismSequences:for IsPGroup, IsList, IsList}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+an automorphism of $S$, or \texttt{fail} 
+
+
+
+ Given two automizer sequences $P_1$ and $P_2$, check whether there exists some $\phi \in \textrm{Aut}(S)$ such that $P_1^\phi = P_2$. This computation mimics isomorphism of fusion systems. The action of $\phi$ depends on the ordering of the $P_i$'s. }
+
+ 
+
+\subsection{\textcolor{Chapter }{ValidAutomizers (for IsPGroup, IsPGroup)}}
+\logpage{[ 5, 1, 3 ]}\nobreak
+\hyperdef{L}{X7883D0967BF7D1EE}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{ValidAutomizers({\mdseries\slshape S, E})\index{ValidAutomizers@\texttt{ValidAutomizers}!for IsPGroup, IsPGroup}
+\label{ValidAutomizers:for IsPGroup, IsPGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a list 
+
+
+
+ Finds valid automizers for $E$ in $S$. This is not part of the proto\texttt{\symbol{45}}essentials test and forms
+the first step in the actual construction of fusion systems. Nonetheless, if a
+subgroup is proto\texttt{\symbol{45}}essential, then it must have a valid
+automizer. This function does not construct all subgroups of $\textrm{Aut}(E)/O_p(\textrm{Aut}(E))$, and instead uses iterative maximal subgroup condition to do so. }
+
+ 
+
+\subsection{\textcolor{Chapter }{FindSmallestBorel (for IsPGroup, IsGroupOfAutomorphismsFiniteGroup)}}
+\logpage{[ 5, 1, 4 ]}\nobreak
+\hyperdef{L}{X7BE2D5B082F2BCA7}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{FindSmallestBorel({\mdseries\slshape S, AutFE})\index{FindSmallestBorel@\texttt{FindSmallestBorel}!for IsPGroup, IsGroupOfAutomorphismsFiniteGroup}
+\label{FindSmallestBorel:for IsPGroup, IsGroupOfAutomorphismsFiniteGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a group 
+
+
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group, and let $E < S$ with some fixed $H_E \leq \textrm{Aut}(E)$ part of an automizer sequence. The operation \texttt{FindSmallestBorel} computes the subgroup of $\textrm{Aut}(S)$ consisting of extensions from $N_{H_E}(\textrm{Aut}_S(E))$. If not every map in the normalizer subgroup exists, we return \texttt{fail}. }
+
+ 
+
+\subsection{\textcolor{Chapter }{IsAutomizerBorelCompatible (for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup)}}
+\logpage{[ 5, 1, 5 ]}\nobreak
+\hyperdef{L}{X81A3ED2D7EBFAE5D}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsAutomizerBorelCompatible({\mdseries\slshape S, AutFS, AutFE})\index{IsAutomizerBorelCompatible@\texttt{IsAutomizerBorelCompatible}!for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup}
+\label{IsAutomizerBorelCompatible:for IsPGroup, IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+true or false 
+
+
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group, and let $E < S$ with some fixed $H_E \leq \textrm{Aut}(E)$ part of an automizer sequence. Let $H_S \leq \textrm{Aut}(S)$ be a subgroup. The operation \texttt{IsAutomizerBorelCompatible} checks whether the restrictions of $H_S$ are \emph{compatible} with $H_E$. In particular, if $A_0 \leq \textrm{Aut}(E)$ consists of restrictions from $H_S$, we have that 
+\[O^{p'}(\langle A_0, H_E \rangle) = H_E.\]
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{IsCompatibleSequence (for IsPGroup, IsList)}}
+\logpage{[ 5, 1, 6 ]}\nobreak
+\hyperdef{L}{X78334C0C8079F141}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsCompatibleSequence({\mdseries\slshape S, P})\index{IsCompatibleSequence@\texttt{IsCompatibleSequence}!for IsPGroup, IsList}
+\label{IsCompatibleSequence:for IsPGroup, IsList}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+true or false 
+
+
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group and let $P$ be an automizer sequence. The operation \texttt{IsCompatibleSequence} checks whether $P$ can lead to a saturated fusion system. Note that there can be false positives
+\texttt{\symbol{45}}\texttt{\symbol{45}} $P$ may not lead to a saturated fusion system (based on the analysis of centric,
+radical subgroups) but passes this test. }
+
+ }
+
+ }
+
+   
+\chapter{\textcolor{Chapter }{Other functions}}\label{Chapter_Other_functions}
+\logpage{[ 6, 0, 0 ]}
+\hyperdef{L}{X87C3D1B984960984}{}
+{
+  
+\section{\textcolor{Chapter }{Group actions}}\label{Chapter_Other_functions_Section_Group_actions}
+\logpage{[ 6, 1, 0 ]}
+\hyperdef{L}{X87115591851FB7F4}{}
+{
+  
+
+\subsection{\textcolor{Chapter }{OnQuotient}}
+\logpage{[ 6, 1, 1 ]}\nobreak
+\hyperdef{L}{X82E23FF785C4632A}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnQuotient({\mdseries\slshape q})\index{OnQuotient@\texttt{OnQuotient}}
+\label{OnQuotient}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+a function 
+
+
+
+ 
+
+ Let $G$ be a finite group, and $A$ be a normal subgroup of $G$. Let $q \colon G \to G/A$. The function \texttt{OnQuotient(q)} returns a function, such that for $t \in G/A$ and $x \in G$, \texttt{OnQuotient(q)(t, x)} returns $q(x^{-1}hx)$, where $h \in G$ satisfies $q(h) = t$. 
+
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{CentralizerMod (for IsGroup, IsGroup, IsGroup)}}
+\logpage{[ 6, 1, 2 ]}\nobreak
+\hyperdef{L}{X7FABB45881ECF282}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{CentralizerMod({\mdseries\slshape G, A, B})\index{CentralizerMod@\texttt{CentralizerMod}!for IsGroup, IsGroup, IsGroup}
+\label{CentralizerMod:for IsGroup, IsGroup, IsGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a subgroup of G 
+
+
+
+ 
+
+ Let $G$ be a finite group, with subgroups $B \leq A \leq G$, where $B$ is normal in $G$. The operation \texttt{CentralizerMod(G, A, B)} returns the subgroup $C_G(A/B)$, given by: 
+
+ 
+\[C_G(A/B) := \langle x \in G \mid [A, x] \leq B \rangle.\]
+ 
+
+ }
+
+ 
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@S := SmallGroup(5^6, 643);|
+  <pc group of size 15625 with 6 generators>
+  !gapprompt@gap>| !gapinput@U := UpperCentralSeries(S);|
+  [ Group([ a6, a5, a4, a3, a1, a2 ]), Group([ a6, a5, a4, a3 ]), 
+  Group([ a6, a5, a4 ]), Group([ a6, a5 ]), Group([ a6 ]), Group([  ]) ]
+  !gapprompt@gap>| !gapinput@R := CentralizerMod(S, U[4], U[6]);|
+  Group([ <identity> of ..., a2, a3, a4, a5, a6 ])
+  !gapprompt@gap>| !gapinput@R = Centralizer(S, U[4]);|
+  true
+  !gapprompt@gap>| !gapinput@A := CentralizerMod(S, U[3], U[5]);|
+  Group([ a1, <identity> of ..., a3, a4, a5, a6 ])
+  !gapprompt@gap>| !gapinput@A = R;|
+  false
+\end{Verbatim}
+ 
+
+\subsection{\textcolor{Chapter }{OnImage}}
+\logpage{[ 6, 1, 3 ]}\nobreak
+\hyperdef{L}{X7E7FE55986BF5133}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnImage({\mdseries\slshape x, phi})\index{OnImage@\texttt{OnImage}}
+\label{OnImage}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+an element or a subset 
+
+
+
+ 
+
+ Let $\phi$ be a map and let $x$ be either an element or a subset of the domain of $\phi$. The function \texttt{OnImage(x, phi)} returns $\phi(x)$. 
+
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{OnImageNM}}
+\logpage{[ 6, 1, 4 ]}\nobreak
+\hyperdef{L}{X7A23D935862598AE}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnImageNM({\mdseries\slshape n})\index{OnImageNM@\texttt{OnImageNM}}
+\label{OnImageNM}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+a function 
+
+
+
+ 
+
+ Let $G$ be a group and $n$ a nice monomorphism for (a subgroup of) $\mathrm{Aut}(G)$, with image $A$. The function \texttt{OnImageNM(n)} returns a function such that, for some element $\phi \in A$ and an element (or a subgroup) $x$ of $G$, \texttt{OnImageNM(n)(x, phi)} return $\hat{\phi}(x)$, where $\hat{\phi} \in \mathrm{Aut}(G)$ is the preimage of $\phi$ with respect to the injective map $n$. 
+
+ }
+
+ 
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@S := SmallGroup(5^6, 642);|
+  <pc group of size 15625 with 6 generators>
+  !gapprompt@gap>| !gapinput@AutS := AutomorphismGroup(S);|
+  <group of size 1562500 with 10 generators>
+  !gapprompt@gap>| !gapinput@n := NiceMonomorphism(AutS);|
+  <action isomorphism>
+  !gapprompt@gap>| !gapinput@AutS := n(AutS);|
+  <permutation group of size 1562500 with 10 generators>
+  !gapprompt@gap>| !gapinput@V := Group(S.2, S.6);|
+  <pc group with 2 generators>
+  !gapprompt@gap>| !gapinput@A := Stabilizer(AutS, V, OnImageNM(n));|
+  <permutation group of size 12500 with 7 generators>
+\end{Verbatim}
+ 
+
+\subsection{\textcolor{Chapter }{OnImageTuples}}
+\logpage{[ 6, 1, 5 ]}\nobreak
+\hyperdef{L}{X87D74FC97C12B4D4}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnImageTuples({\mdseries\slshape L, phi})\index{OnImageTuples@\texttt{OnImageTuples}}
+\label{OnImageTuples}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+a list 
+
+
+
+ 
+
+ Let $\phi$ be a map and let $L$ be a list of elements in the domain of $\phi$. The function \texttt{OnImageTuples(L, phi)} returns a list containing $\phi(x)$ for each $x \in L$, while maintaining the order. 
+
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{OnImageTuplesNM}}
+\logpage{[ 6, 1, 6 ]}\nobreak
+\hyperdef{L}{X7B8996CD781FBFB9}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnImageTuplesNM({\mdseries\slshape n})\index{OnImageTuplesNM@\texttt{OnImageTuplesNM}}
+\label{OnImageTuplesNM}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+a function 
+
+
+
+ 
+
+ Let $G$ be a group and $n$ a nice monomorphism for (a subgroup of) $\mathrm{Aut}(G)$, with image $A$. The function \texttt{OnImageTuplesNM(n)} returns a function such that, for some element $\phi \in A$ and a list $L$ of elements in $G$, \texttt{OnImageTuplesNM(n)(L, phi)} return a list of elements $\hat{\phi}(x)$, where $x \in L$ and $\hat{\phi} \in \mathrm{Aut}(G)$ is the preimage of $\phi$ with respect to the injective map $n$. 
+
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{OnPreImage}}
+\logpage{[ 6, 1, 7 ]}\nobreak
+\hyperdef{L}{X82DDC150821611FA}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnPreImage({\mdseries\slshape q})\index{OnPreImage@\texttt{OnPreImage}}
+\label{OnPreImage}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+a function 
+
+
+
+ 
+
+ Let $A$ be a group that acts on the set $\Omega$ with kernel $K$, and let $q \colon A \to G$ be a group homomorphism with $\ker(q) \leq K$. The function \texttt{OnPreImage(q)} returns a function, such that, for some element $g \in G$ and $x \in \Omega$, \texttt{OnPreImage(q)(x, g)} returns $x^a$, where $a \in A$ is the preimage of $g$ with respect to $q$. 
+
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{OnPreImageTuples}}
+\logpage{[ 6, 1, 8 ]}\nobreak
+\hyperdef{L}{X7E32A67B83B9FBF6}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{OnPreImageTuples({\mdseries\slshape q})\index{OnPreImageTuples@\texttt{OnPreImageTuples}}
+\label{OnPreImageTuples}
+}\hfill{\scriptsize (function)}}\\
+\textbf{\indent Returns:\ }
+a function 
+
+
+
+ 
+
+ Let $A$ be a group that acts on the set $\Omega$ with kernel $K$, and let $q \colon A \to G$ be a group homomorphism with $\ker(q) \leq K$. The function \texttt{OnPreImageTuples(q)} returns a function, such that, for some element $g \in G$ and a subset $L \subseteq \Omega$, \texttt{OnPreImageTuples(q)(L, g)} returns a list consisting of $x^a$ for $x \in L$, where $a \in A$ is the preimage of $g$ with respect to $q$. 
+
+ }
+
+ }
+
+ 
+\section{\textcolor{Chapter }{Group automorphisms}}\label{Chapter_Other_functions_Section_Group_automorphisms}
+\logpage{[ 6, 2, 0 ]}
+\hyperdef{L}{X783030917CB43959}{}
+{
+  
+
+\subsection{\textcolor{Chapter }{Automizer (for IsGroup, IsGroup)}}
+\logpage{[ 6, 2, 1 ]}\nobreak
+\label{AutoDoc_generated_group3}
+\hyperdef{L}{X7D9EC37E869F3256}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{Automizer({\mdseries\slshape G, H})\index{Automizer@\texttt{Automizer}!for IsGroup, IsGroup}
+\label{Automizer:for IsGroup, IsGroup}
+}\hfill{\scriptsize (operation)}}\\
+\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{Automizer({\mdseries\slshape A, H})\index{Automizer@\texttt{Automizer}!for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite}
+\label{Automizer:for IsGroupOfAutomorphismsFiniteGroup, IsGroup and IsFinite}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a subgroup of Aut(H) 
+
+
+
+ 
+
+ Let $G$ and $H$ be subgroups of some finite group. The group \texttt{Automizer(G, H)} is the automizer subgroup $\mathrm{Aut}_G(H)$, given by: 
+
+ 
+\[\mathrm{Aut}_G(H) := \langle c_g \mid g \in N_G(H) \rangle,\]
+ 
+
+ where $c_g \colon H \to H$ is the conjugation automorphism. It is a subgroup of $\mathrm{Aut}(H)$. 
+
+ }
+
+ 
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@G := AlternatingGroup(6);|
+  Alt( [ 1 .. 6 ] )
+  !gapprompt@gap>| !gapinput@S := SylowSubgroup(G, 2);|
+  Group([ (1,2)(3,4), (1,3)(2,4), (1,2)(5,6) ])
+  !gapprompt@gap>| !gapinput@M := MaximalSubgroups(S);|
+  [ Group([ (3,4)(5,6), (1,2)(3,4) ]), Group([ (1,3)(2,4), (1,2)(3,4) ]), 
+  Group([ (1,3,2,4)(5,6), (1,2)(3,4) ]) ]
+  !gapprompt@gap>| !gapinput@AutGM := List(M, A -> Automizer(G, A));|
+  [ <group with 2 generators>, <group with 2 generators>, 
+  <group with 2 generators> ]
+  !gapprompt@gap>| !gapinput@List(AutGM, StructureDescription);|
+  [ "S3", "S3", "C2" ]
+\end{Verbatim}
+ Alternatively, if $A$ is a subgroup of $\mathrm{Aut}(G)$, then \texttt{Automizer(A, H)} returns the subgroup $\mathrm{Aut}_A(H)$ of $\mathrm{Aut}(H)$ given by: 
+
+ 
+\[\mathrm{Aut}_A(H) := \langle \alpha|_H \mid \alpha \in A, \alpha(H) = H
+\rangle.\]
+ 
+
+ 
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@S := SmallGroup(5^6, 642);|
+  <pc group of size 15625 with 6 generators>
+  !gapprompt@gap>| !gapinput@V := Group(S.2, S.6);|
+  <pc group with 2 generators>
+  !gapprompt@gap>| !gapinput@AutS := AutomorphismGroup(S);|
+  <group of size 1562500 with 10 generators>
+  !gapprompt@gap>| !gapinput@AutSV := Automizer(AutS, V);|
+  <group with 7 generators>
+  !gapprompt@gap>| !gapinput@AutV := AutomorphismGroup(V);;|
+  !gapprompt@gap>| !gapinput@n := NiceMonomorphism(AutV);|
+  <action isomorphism>
+  !gapprompt@gap>| !gapinput@AutV := n(AutV);;|
+  !gapprompt@gap>| !gapinput@Size(AutV);|
+  480
+  !gapprompt@gap>| !gapinput@AutSV := n(AutSV);|
+  <permutation group with 7 generators>
+  !gapprompt@gap>| !gapinput@Index(AutV, AutSV);|
+  24
+  !gapprompt@gap>| !gapinput@Size(AutSV);|
+  20
+\end{Verbatim}
+ 
+\subsection{\textcolor{Chapter }{Restriction of homomorphisms}}\label{AutoDoc_generated_group4}
+\logpage{[ 6, 2, 2 ]}
+\hyperdef{L}{X874E7F578433266D}{}
+{
+\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{RestrictedHomomorphismOnto({\mdseries\slshape phi, X})\index{RestrictedHomomorphismOnto@\texttt{RestrictedHomomorphismOnto}!for IsGroupHomomorphism, IsGroup}
+\label{RestrictedHomomorphismOnto:for IsGroupHomomorphism, IsGroup}
+}\hfill{\scriptsize (operation)}}\\
+\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{RestrictedAutomorphism({\mdseries\slshape phi, X})\index{RestrictedAutomorphism@\texttt{RestrictedAutomorphism}!for IsGroupHomomorphism and IsBijective, IsGroup}
+\label{RestrictedAutomorphism:for IsGroupHomomorphism and IsBijective, IsGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a group automorphism 
+
+
+
+ 
+
+ Let $\phi \colon A \to B$ be a group homomorphism, and let $X \leq A$. The operation \texttt{RestrictedHomomorphismOnto(phi, X)} returns the surjective group homomorphism $\phi|_X \colon X \to \phi(X)$ given by restriction. If $\phi$ is also an isomorphism that fixes $X$, then the operation \texttt{RestrictedAutomorphism(phi, X)} returns the group automorphism $\phi|_X \colon X \to \phi(X)$ given by restriction. 
+
+ }
+
+ 
+\subsection{\textcolor{Chapter }{Transfer homomorphism}}\label{AutoDoc_generated_group5}
+\logpage{[ 6, 2, 3 ]}
+\hyperdef{L}{X80F6FD3E7C7E4E8D}{}
+{
+\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{TransferHomomorphism({\mdseries\slshape G, S})\index{TransferHomomorphism@\texttt{TransferHomomorphism}!for IsGroup, IsGroup}
+\label{TransferHomomorphism:for IsGroup, IsGroup}
+}\hfill{\scriptsize (operation)}}\\
+\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{TransferHomomorphismFp({\mdseries\slshape G, S})\index{TransferHomomorphismFp@\texttt{TransferHomomorphismFp}!for IsGroup, IsPGroup}
+\label{TransferHomomorphismFp:for IsGroup, IsPGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a homomorphism 
+
+
+
+ 
+
+ Let $G$ be a finite group and $S \leq G$. The operation \texttt{TransferHomomorphism(G, S)} returns the transfer homomorphism $\mathrm{tr}_S^G \colon G \to S/S'$. Moreover, if $S$ is a $p$\texttt{\symbol{45}}group, then the operation \texttt{TransferHomomorphismFp(G, S)} returns the transfer homomorphism $\mathrm{tr'}_S^G \colon G \to S/\Phi(S)$. 
+
+ }
+
+ }
+
+ 
+\section{\textcolor{Chapter }{Semi\texttt{\symbol{45}}characteristic subgroups}}\label{Chapter_Other_functions_Section_Semi-characteristic_subgroups}
+\logpage{[ 6, 3, 0 ]}
+\hyperdef{L}{X7EA0263C874496CA}{}
+{
+  Let $S$ be a $p$\texttt{\symbol{45}}group and $A \leq S$. We say that $A$ is \emph{semi\texttt{\symbol{45}}characteristic} in $S$ if 
+\begin{itemize}
+\item  $A$ is normal in $S$, and 
+\item  $A$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$. 
+\end{itemize}
+ 
+
+\subsection{\textcolor{Chapter }{SemiAutomorphismGroup (for IsPGroup)}}
+\logpage{[ 6, 3, 1 ]}\nobreak
+\hyperdef{L}{X7E8444CF8156B41C}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{SemiAutomorphismGroup({\mdseries\slshape S})\index{SemiAutomorphismGroup@\texttt{SemiAutomorphismGroup}!for IsPGroup}
+\label{SemiAutomorphismGroup:for IsPGroup}
+}\hfill{\scriptsize (attribute)}}\\
+\textbf{\indent Returns:\ }
+a subgroup of Aut(S) 
+
+
+
+ 
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group. The operation \texttt{SemiAutomorphismGroup} returns the semi\texttt{\symbol{45}}automorphism group of $S$, which is given by $\langle \mathrm{Inn}(S), O^p(O^{p'}(\mathrm{Aut}(S)))\rangle$. 
+
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{SemiCharacteristicSubgroups (for IsPGroup)}}
+\logpage{[ 6, 3, 2 ]}\nobreak
+\hyperdef{L}{X7E88D38982158EB1}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{SemiCharacteristicSubgroups({\mdseries\slshape S})\index{SemiCharacteristicSubgroups@\texttt{SemiCharacteristicSubgroups}!for IsPGroup}
+\label{SemiCharacteristicSubgroups:for IsPGroup}
+}\hfill{\scriptsize (attribute)}}\\
+\textbf{\indent Returns:\ }
+a list 
+
+
+
+ 
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group. The attribute \texttt{SemiCharacteristicSubgroups} returns all the semi\texttt{\symbol{45}}characteristic subgroups of $S$. These are the normal subgroups of $S$ fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$. 
+
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{IsSemiCharacteristic (for IsPGroup, IsPGroup)}}
+\logpage{[ 6, 3, 3 ]}\nobreak
+\hyperdef{L}{X840438E7843A6128}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{IsSemiCharacteristic({\mdseries\slshape S, A})\index{IsSemiCharacteristic@\texttt{IsSemiCharacteristic}!for IsPGroup, IsPGroup}
+\label{IsSemiCharacteristic:for IsPGroup, IsPGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+true or false 
+
+
+
+ 
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group and $A$ be a subgroup of $S$. The operation \texttt{IsSemiCharacteristic} checks whether $A$ is semi\texttt{\symbol{45}}characteristic in $S$. That is, we check whether: 
+
+ 
+\begin{itemize}
+\item  $A$ is normal in $S$, and 
+\item  $A$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$. 
+\end{itemize}
+ 
+
+ }
+
+ 
+
+\subsection{\textcolor{Chapter }{SemiCharacteristicClosure (for IsPGroup, IsPGroup)}}
+\logpage{[ 6, 3, 4 ]}\nobreak
+\hyperdef{L}{X8759D1937F245ED7}{}
+{\noindent\textcolor{FuncColor}{$\triangleright$\enspace\texttt{SemiCharacteristicClosure({\mdseries\slshape S, A})\index{SemiCharacteristicClosure@\texttt{SemiCharacteristicClosure}!for IsPGroup, IsPGroup}
+\label{SemiCharacteristicClosure:for IsPGroup, IsPGroup}
+}\hfill{\scriptsize (operation)}}\\
+\textbf{\indent Returns:\ }
+a subgroup of S 
+
+
+
+ 
+
+ Let $S$ be a $p$\texttt{\symbol{45}}group and $A$ be a subgroup of $S$. The operation \texttt{SemiCharacteristicClosure} returns the smallest semi\texttt{\symbol{45}}characteristic subgroup of $S$ containing $A$. This is the intersection of all semi\texttt{\symbol{45}}characteristic
+subgroups of $S$ containing $A$. 
+
+ }
+
+ 
+\begin{Verbatim}[commandchars=!@|,fontsize=\small,frame=single,label=Example]
+  !gapprompt@gap>| !gapinput@S := SmallGroup(2^8, 6331);|
+  <pc group of size 256 with 8 generators>
+  !gapprompt@gap>| !gapinput@E1 := Group(S.1, S.2, S.4, S.5, S.6, S.7, S.8);|
+  <pc group with 7 generators>
+  !gapprompt@gap>| !gapinput@E2 := Group(S.1, S.2, S.4, S.5, S.7, S.8);|
+  <pc group with 6 generators>
+  !gapprompt@gap>| !gapinput@A := Group(S.5*S.8);|
+  <pc group with 1 generator>
+  !gapprompt@gap>| !gapinput@AutomorphismGroup(E1);|
+  <group of size 6144 with 12 generators>
+  !gapprompt@gap>| !gapinput@AutomorphismGroup(E2);|
+  <group of size 12288 with 13 generators>
+  !gapprompt@gap>| !gapinput@IsCharacteristicSubgroup(E1, A);|
+  false
+  !gapprompt@gap>| !gapinput@IsCharacteristicSubgroup(E2, A);|
+  false
+  !gapprompt@gap>| !gapinput@IsPGroup(E1);|
+  true
+  !gapprompt@gap>| !gapinput@IsPGroup(E2);|
+  true
+  !gapprompt@gap>| !gapinput@SemiAutomorphismGroup(E1);|
+  <group of size 384 with 8 generators>
+  !gapprompt@gap>| !gapinput@SemiAutomorphismGroup(E2);|
+  <group of size 3072 with 11 generators>
+  !gapprompt@gap>| !gapinput@IsPGroup(A);|
+  true
+  !gapprompt@gap>| !gapinput@IsSemiCharacteristic(E1, A);|
+  true
+  !gapprompt@gap>| !gapinput@IsSemiCharacteristic(E2, A);|
+  false
+  !gapprompt@gap>| !gapinput@SemiCharacteristicClosure(E2, A);|
+  Group([ f4, f5, f8, f4*f5, f4*f8, f5*f8, f4*f5*f8 ])
 \end{Verbatim}
  }
 
@@ -1826,6 +1900,14 @@ true or false
 
 \printindex
 
+\immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
+\immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
+\immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
+\immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
+\immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
+\immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
+\immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
+\immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
 \immediate\write\pagenrlog{["Ind", 0, 0], \arabic{page},}
 \newpage
 \immediate\write\pagenrlog{["End"], \arabic{page}];}

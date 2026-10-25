@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is an automatically generated file. -->
+<Chapter Label="Chapter_Introduction">
+<Heading>Introduction</Heading>
+
+<P/>
+The <Package>FusionSystems</Package> package tests whether saturated fusion
+systems with given properties could exist on a finite <M>p</M>-group
+<M>S</M>, without constructing them. Its main functions are:
+<P/>
+<List>
+<Item>
+<Ref Attr="AllProtoEssentials" Label="for IsPGroup"/> finds the subgroups
+  of <M>S</M> that could be essential in a saturated fusion system on
+  <M>S</M>, up to <M>S</M>-conjugacy, and
+  <Ref Oper="IsProtoEssential" Label="for IsPGroup, IsPGroup"/> tests a
+  single subgroup (Chapters <Ref Chap="Chapter_ProtoEssentialSubgroups"/>
+  and <Ref Chap="Chapter_ProtoEssentialChecks"/>);
+</Item>
+<Item>
+<Ref Attr="PossiblySupportsReducedFusionSystems" Label="for IsPGroup"/>
+  tests whether <M>S</M> could support a reduced fusion system (Chapter
+  <Ref Chap="Chapter_Checks_for_reduced_fusion_systems"/>);
+</Item>
+<Item>
+<Ref Oper="FindReducedSequences" Label="for IsPGroup, IsList"/> finds the
+  automizer sequences that could lead to reduced fusion systems (Chapter
+  <Ref Chap="Chapter_AutomizerSequences"/>).
+</Item>
+</List>
+<P/>
+The tests check necessary conditions only: a subgroup found to be
+proto-essential, or a group that passes the tests for reduced fusion systems,
+need not lead to an actual saturated fusion system.
+<P/>
+To follow the progress of a longer computation, set the info level of
+<C>InfoFusion</C> to 1 or higher.
+<P/>
+<Example><![CDATA[
+gap> S := SmallGroup(2^7, 931);;
+gap> Length(AllProtoEssentials(S));
+5
+gap> PossiblySupportsReducedFusionSystems(S);
+true
+]]></Example>
+
+</Chapter>
+

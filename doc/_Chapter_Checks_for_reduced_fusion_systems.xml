@@ -28,12 +28,7 @@
  This function checks whether the group <Math>S</Math> satisfies certain properties that are known to hold for a <Math>p</Math>-group that 
  supports reduced fusion systems. In the process, we compute the proto-essential subgroups of <Math>S</Math>, along with their 
  automorphism groups. 
-<Alt Only="LaTeX"><![CDATA[
- See \ref{Section_RedSpecificFn} for the list of specific tests currently implemented.
-]]></Alt>
-<Alt Not="LaTeX"><![CDATA[
- See <Label Ref="Section_RedSpecificFn" /> for the list of specific tests currently implemented.
-]]></Alt>
+ See Section <Ref Sect="Section_RedSpecificFn"/> for the list of specific tests currently implemented.
  We do not construct automizer sequences.
 <P/>
  </Description>
@@ -52,7 +47,7 @@ true
 </Returns>
  <Description>
 <P/>
- Given a <Math>p</Math>-group <Math>S</Math> and a list of proto-essential subgroups <Math>L</Math>, the attribute 
+ Given a <Math>p</Math>-group <Math>S</Math> and a list of proto-essential subgroups <Math>L</Math>, the operation 
  <Code>PossiblySupportsReducedFusionSystems_PE</Code> checks whether there <Emph>could</Emph> exist a reduced fusion system <Math>\mathcal{F}</Math> 
  on <Math>S</Math> where the set of essential subgroups <Math>\mathcal{E}(\mathcal{F})</Math> is a subset of <Math>L</Math>. Note that we run 
  <Code>GenerateProtoEssentials</Code> on <Math>L</Math> (which can, in theory, increase the number of subgroups in <Math>L</Math>).
@@ -63,8 +58,9 @@ true
  Nonetheless, <Math>p</Math>-groups that pass the tests in this chapter are quite likely to support reduced fusion systems. 
 <P/>
  This function checks whether the group <Math>S</Math> satisfies certain properties that are known to hold for a <Math>p</Math>-group that 
- supports reduced fusion systems. We also construct the automorphism group for subgroups in <Math>L</Math>s. See ... for the list 
- of specific tests currently implemented. We do not construct automizer sequences.
+ supports reduced fusion systems. We also construct the automorphism group for subgroups in <Math>L</Math>.
+ See Section <Ref Sect="Section_RedSpecificFn"/> for the list of specific tests currently implemented.
+ We do not construct automizer sequences.
 <P/>
  </Description>
 </ManSection>
@@ -136,7 +132,7 @@ false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group. If <Math>S</Math> has class <Math>a</Math>, the attribute <Code>ExponentTest</Code> checks that <Math>\Omega(Z(S))</Math> has exponent at most <Math>p^t</Math>, where 
+ Let <Math>S</Math> be a <Math>p</Math>-group. If <Math>S</Math> has class <Math>c</Math>, the attribute <Code>ExponentTest</Code> checks that <Math>Z(S)</Math> has exponent at most <Math>p^t</Math>, where 
  <Display>t := \left\lceil \frac{c-1}{p-1} \right\rceil.</Display>
 <P/>
  This test applies at any prime <Math>p</Math>. It is based on <Cite Key="LP" Where="Theorem A" />.
@@ -174,7 +170,7 @@ false
 <Math>N_S(A) &lt; S</Math>, with <Math>\mathrm{Aut}_S(A) \nleq O_2(\mathrm{Aut})(A)</Math>.
 </Item>
 </List>
- If so, the function return true only if <Math>S</Math> is a <Math>\mathcal{DSW}</Math>-group.
+ If so, the function returns true only if <Math>S</Math> is a <Math>\mathcal{DSW}</Math>-group.
 <P/>
  This test only applies at <Math>p=2</Math>. It is based on <Cite Key="AOV13" Where="Proposition 5.2(a), (c)" />.
 <P/>
@@ -239,9 +235,10 @@ false
  <Description>
 <P/>
  Let <Math>S</Math> be a <Math>p</Math>-group (for <Math>p</Math> odd). The attribute <Code>ValidAutTest</Code> returns true only if <Math>\mathrm{Aut}(S)</Math> is 
- not a <Math>p</Math>-group.
+ not a <Math>p</Math>-group. If we further know that <Math>S</Math> has class <Math>\leq p-1</Math>, and <Math>\mathrm{Aut}(S)</Math> has a Hall <Math>p</Math>-complement
+ <Math>H</Math>, we check that <Math>[S, H] = S</Math>.
 <P/>
- This test does not apply at <Math>p=2</Math>. It is based on <Cite Key="CRA" Where="7.82" /> (for <Math>p \geq 5</Math>).
+ This test does not apply if <Math>p \leq 3</Math>. It is based on <Cite Key="CRA" Where="7.82" /> and <Cite Key="DGPS" />.
 <P/>
  </Description>
 </ManSection>
@@ -279,7 +276,7 @@ false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>2</Math>-group, <Math>D := S'</Math> and <Math>O := \Omega(Z(S))</Math>. The attribute <Code>OmegaAbelianizationTest</Code> return false only if:
+ Let <Math>S</Math> be a <Math>2</Math>-group, <Math>D := S'</Math> and <Math>O := \Omega(Z(S))</Math>. The attribute <Code>OmegaAbelianizationTest</Code> returns false only if:
 <List>
 <Item>
 <Math>[\Omega(Z(S)) : \Omega(Z(S)) \cap D] = 2</Math>; or
@@ -307,7 +304,7 @@ gap> OmegaAbelianizationTest(S);
 false
 ]]></Example>
 
-<ManSection Label="AutoDoc_generated_group4">
+<ManSection Label="AutoDoc_generated_group1">
 <Heading>Transfer test for a group</Heading>
   <Attr Arg="S" Name="TransferMaximalTest" Label="for IsPGroup"/>
   <Attr Arg="S" Name="TransferFpMaximalTest" Label="for IsPGroup"/>
@@ -339,7 +336,7 @@ gap> TransferFpMaximalTest(S);
 true
 ]]></Example>
 
-<ManSection Label="AutoDoc_generated_group5">
+<ManSection Label="AutoDoc_generated_group2">
 <Heading>Transfer test with a list</Heading>
   <Oper Arg="S L" Name="TransferTest" Label="for IsPGroup, IsList"/>
   <Oper Arg="S L" Name="TransferFpTest" Label="for IsPGroup, IsList"/>
@@ -348,7 +345,7 @@ true
  <Description>
 <P/>
  Let <Math>S</Math> be a <Math>2</Math>-group and <Math>L</Math> be a list of (proto-essential) subgroups of <Math>S</Math>. 
- The attribute <Code>TransferTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
+ The operation <Code>TransferTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
  <Display>\bigcap_{M \in L} \ker(\mathrm{tr}_M^S) = S',</Display>
  where <Math>\mathrm{tr}_M^S \colon S \to M/M'</Math> is the transfer homomorphism. Alternatively, 
  <Code>TransferFpTest</Code> checks that, if <Math>\mathrm{Aut}(S)</Math> is a <Math>2</Math>-group, then
@@ -380,7 +377,7 @@ false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, and <Math>L := \mathfrak{C}_0</Math>. The function <Code>C0Test</Code> checks that there exists some subgroup 
+ Let <Math>S</Math> be a <Math>p</Math>-group, and <Math>L := \mathfrak{C}_0</Math>. The operation <Code>C0Test</Code> checks that there exists some subgroup 
  <Math>E</Math> in <Math>L</Math> such that <Math>\Omega(Z(S))</Math> is not semi-characteristic in <Math>E</Math>, i.e. invariant 
  under <Math>O^p(O^{p'}(\mathrm{Aut}(E)))</Math>.
 <P/>
@@ -403,13 +400,13 @@ gap> Number(L, S -> C0Test(S, MainProtoEssentials(S, 0)));
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The function <Code>CTest</Code> checks that:
+ Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The operation <Code>CTest</Code> checks that:
 <List>
 <Item>
 <Math>L</Math> has at least <Math>2</Math> elements, or
 </Item>
 <Item>
-if <Math>\mathrm{Aut}(S)</Math> is a not <Math>2</Math>-group, then the single subgroup in <Math>L</Math> is not normal in <Math>S</Math>.
+<Math>L</Math> consists of a single subgroup, which is not normal in <Math>S</Math>, and <Math>\mathrm{Aut}(S)</Math> is not a <Math>p</Math>-group.
 </Item>
 </List>
 <P/>
@@ -432,7 +429,7 @@ gap> Number(L, S -> CTest(S, AllProtoEssentials(S)));
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The function 
+ Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The operation 
  <Code>SemiCharacteristicGeneratedTest</Code> checks that the subgroup
  <Display>\langle [O^p(\mathrm{Aut}(S)), S], Q_E \mid E \in L \rangle = S,</Display>
  where <Math>Q_E</Math> is the semi-characteristic closure of <Math>[N_S(E), E]</Math> in <Math>E</Math>.
@@ -456,12 +453,12 @@ false
 ]]></Example>
 
 <ManSection>
-  <Oper Arg="S" Name="CoreTest" Label="for IsPGroup, IsList"/>
+  <Oper Arg="S L" Name="CoreTest" Label="for IsPGroup, IsList"/>
  <Returns>true or false
 </Returns>
  <Description>
 <P/>
- Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The function 
+ Let <Math>S</Math> be a <Math>p</Math>-group, and let <Math>L</Math> be a list of proto-essential subgroups of <Math>S</Math>. The operation 
  <Code>CoreTest</Code> checks that if <Math>N</Math> is a normal subgroup of <Math>S</Math> 
  such that <Math>N</Math> is semi-characteristic (i.e. fixed by <Math>O^p(O^{p'}(\mathrm{Aut}(E)))</Math>) 
  in each <Math>E \in L</Math>, then <Math>N = 1</Math>.
