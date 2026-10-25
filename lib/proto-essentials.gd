@@ -22,8 +22,9 @@ DeclareInfoClass("InfoFusion");
 
 #! @Description 
 #! The attribute `AllProtoEssentials` constructs all proto-essential subgroups of a $p$-group $S$. It works as follows:
-#! * it calls the function `MainProtoEssentials`, which constructs the set $\mathfrak{C}$;
-#! * it then calls `GenerateProtoEssentials`, which uses $\mathfrak{C}$ to construct all proto-essential subgroups, switching from $\mathcal{F}$-conjugacy to $S$-conjugacy (independent of $\mathcal{F}$).
+#! * it calls <Ref Func="MainProtoEssentials" /> which constructs the set $\mathfrak{C}$;
+#! * it then calls <Ref Oper="GenerateProtoEssentials" Label="for IsPGroup, IsList"/>, which uses $\mathfrak{C}$ to 
+#!   construct all proto-essential subgroups, switching from $\mathcal{F}$-conjugacy to $S$-conjugacy (independent of $\mathcal{F}$).
 #! 
 #! It should be pointed out that there is no known cases where `GenerateProtoEssentials` generates a further ($S$-conjugacy) class of proto-essential subgroups.
 #! Finds all the proto-essential subgroups of $S$, up to $S$-conjugacy.

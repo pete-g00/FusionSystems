@@ -335,10 +335,8 @@ InstallMethod(IsomorphismSequences, "find isomorphism between automizer sequence
     AutS := AutomorphismGroup(S);
     n := NiceMonomorphism(AutS);
 
-    # Need to allow OnPoints (i.e. \^) to get conjugated by any automorphism of an overgroup
     # TODO: Currently the fn. only works when every domain in $P_1$ is $\Aut(S)$-invariant
-    # TODO: Make it use the nice monomorphism (OnPreImage (?))
-    return RepresentativeAction(AutS, P1, P2, OnTuples);
+    return RepresentativeAction(AutS, P1, P2, OnPreImageTuples(n));
 end);
 
 # Only does fully automized check currently

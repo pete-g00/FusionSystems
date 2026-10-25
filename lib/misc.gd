@@ -14,7 +14,7 @@ DeclareGlobalFunction("OnQuotient");
 
 #! @Description 
 #!
-#! Let $G$ be a finite group, with normal subgroups $B \leq A$ of $G$. The function 
+#! Let $G$ be a finite group, with subgroups $B \leq A \leq G$, where $B$ is normal in $G$. The operation
 #! `CentralizerMod(G, A, B)` returns the subgroup $C_G(A/B)$, given by:
 #!
 #! $$C_G(A/B) := \langle x \in G \mid [A, x] \leq B \rangle.$$
@@ -96,6 +96,27 @@ DeclareGlobalFunction("OnImageTuples");
 #! @Returns a function
 DeclareGlobalFunction("OnImageTuplesNM");
 
+#! @Description
+#! 
+#! Let $A$ be a group that acts on the set $\Omega$ with kernel $K$, and let $q \colon A \to G$ be a group homomorphism 
+#! with $\ker(q) \leq K$. The function `OnPreImage(q)` returns a function, such that, for some element $g \in G$ and 
+#! $x \in \Omega$, `OnPreImage(q)(x, g)` returns $x^a$, where $a \in A$ is the preimage of $g$ with respect to $q$.
+#! 
+#! @Arguments q
+#! @Returns a function
+DeclareGlobalFunction("OnPreImage");
+
+#! @Description
+#! 
+#! Let $A$ be a group that acts on the set $\Omega$ with kernel $K$, and let $q \colon A \to G$ be a group homomorphism 
+#! with $\ker(q) \leq K$. The function `OnPreImageTuples(q)` returns a function, such that, for some element $g \in G$ 
+#! and a subset $L \subseteq \Omega$, `OnPreImageTuples(q)(L, g)` returns a list consisting of $x^a$ for $x \in L$, 
+#! where $a \in A$ is the preimage of $g$ with respect to $q$.
+#! 
+#! @Arguments q
+#! @Returns a function
+DeclareGlobalFunction("OnPreImageTuples");
+
 #! @Section Group automorphisms
 
 #! @BeginGroup 
@@ -163,10 +184,10 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and Is
 #! @GroupTitle Restriction of homomorphisms
 #! @Description 
 #!
-#! Let $\phi \colon A \to B$ be a group homomorphism, and let $X \leq A$. The function 
+#! Let $\phi \colon A \to B$ be a group homomorphism, and let $X \leq A$. The operation 
 #! `RestrictedHomomorphismOnto(phi, X)` returns the surjective group homomorphism 
 #! $\phi|_X \colon X \to \phi(X)$ given by restriction. If $\phi$ is also an isomorphism that fixes $X$, 
-#! then the function `RestrictedAutomorphism(phi, X)` returns the group automorphism 
+#! then the operation `RestrictedAutomorphism(phi, X)` returns the group automorphism 
 #! $\phi|_X \colon X \to \phi(X)$ given by restriction.
 #! 
 #! @Arguments phi X
@@ -210,7 +231,7 @@ DeclareAttribute("SemiAutomorphismGroup", IsPGroup);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group. The operation `SemiCharacteristicSubgroups` returns all the semi-characteristic subgroups
+#! Let $S$ be a $p$-group. The attribute `SemiCharacteristicSubgroups` returns all the semi-characteristic subgroups
 #! of $S$. These are the normal subgroups of $S$ fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$.
 #! 
 #! @Arguments S

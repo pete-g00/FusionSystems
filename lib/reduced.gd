@@ -196,11 +196,10 @@ DeclareAttribute("DerivedCyclicTest", IsPGroup);
 #! @Description 
 #! 
 #! Let $S$ be a $p$-group (for $p$ odd). The attribute `ValidAutTest` returns true only if $\mathrm{Aut}(S)$ is 
-#! not a $p$-group.
+#! not a $p$-group. If we further know that $S$ has class $\leq p-1$, and $\mathrm{Aut}(S)$ has a Hall $p$-complement
+#! $H$, we check that $[S, H] = S$.
 #! 
-# TODO: Proof for valid aut test at $p=3$.
-# TODO: We need to deal with - class $< p$ [\Aut(S), H] < S$ for $p$'-sub of $\Aut(S)$ => invalid
-#! This test does not apply at $p=2$. It is based on <Cite Key="CRA" Where="7.82" /> (for $p \geq 5$).
+#! This test does not apply if $p \leq 3$. It is based on <Cite Key="CRA" Where="7.82" /> and <Cite Key="DGPS" />.
 #! 
 #! @Arguments S
 #! @Returns true or false
@@ -329,7 +328,7 @@ DeclareOperation("TransferFpTest", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and $L := \mathfrak{C}_0$. The function `C0Test` checks that there exists some subgroup 
+#! Let $S$ be a $p$-group, and $L := \mathfrak{C}_0$. The operation `C0Test` checks that there exists some subgroup 
 #! $E$ in $L$ such that $\Omega(Z(S))$ is not semi-characteristic in $E$, i.e. invariant 
 #! under $O^p(O^{p'}(\mathrm{Aut}(E)))$.
 #! 
@@ -349,7 +348,7 @@ DeclareOperation("C0Test", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The function `CTest` checks that:
+#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The operation `CTest` checks that:
 #! * $L$ has at least $2$ elements, or
 #! * $L$ consists of a single subgroup, which is not normal in $S$, and $\mathrm{Aut}(S)$ is not a $p$-group.
 #! 
@@ -369,7 +368,7 @@ DeclareOperation("CTest", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The function 
+#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The operation 
 #! `SemiCharacteristicGeneratedTest` checks that the subgroup
 #! $$\langle [O^p(\mathrm{Aut}(S)), S], Q_E \mid E \in L \rangle = S,$$
 #! where $Q_E$ is the semi-characteristic closure of $[N_S(E), E]$ in $E$.
@@ -395,7 +394,7 @@ DeclareOperation("SemiCharacteristicGeneratedTest", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The function 
+#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The operation 
 #! `CoreTest` checks that if $N$ is a normal subgroup of $S$ 
 #! such that $N$ is semi-characteristic (i.e. fixed by $O^p(O^{p'}(\mathrm{Aut}(E)))$) 
 #! in each $E \in L$, then $N = 1$.
