@@ -1,15 +1,15 @@
-SecondCentre := function(S)
+BindGlobal("FS_SecondCentre", function(S)
     local q;
     q := NaturalHomomorphismByNormalSubgroupNC(S, Centre(S));
     return PreImage(q, Centre(Image(q)));
-end;
+end);
 
 InstallMethod(Zed0, "Computes Zed0 for a group", 
     [IsPGroup], function(S)
     local p, Z2S, ZS, T, Zp, t, A;
 
     p := PrimePGroup(S);
-    Z2S := SecondCentre(S);
+    Z2S := FS_SecondCentre(S);
     ZS := Centre(S);
 
     # Not sure whether computing a transversal is more efficient
@@ -132,7 +132,7 @@ InstallMethod(RankTest, "PE rank test",
 
     # ^2 G_2(q)
     if p = 3 and 2*PValuation(Size(OutSE),p) <= r
-        and Length(Set([Omega(OutSE, p), SecondCentre(OutSE), FrattiniSubgroup(OutSE), DerivedSubgroup(OutSE)])) = 1 then 
+        and Length(Set([Omega(OutSE, p), FS_SecondCentre(OutSE), FrattiniSubgroup(OutSE), DerivedSubgroup(OutSE)])) = 1 then 
         return 4;
     fi;
     

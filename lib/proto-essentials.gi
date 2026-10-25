@@ -31,7 +31,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
     if onlyOne in [1, -1] then 
         L := LowerCentralSeries(S);
         # Deals with a bug in CompositionSeriesThrough (will be fixed in v4.18)
-        L := CSThru(S, L);
+        L := FS_CSThru(S, L);
         
         j := Position(L, DerivedSubgroup(S));
         L := L{[j+1..Length(L)]};

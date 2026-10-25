@@ -110,20 +110,15 @@ InstallOtherMethod(Automizer, "automizer for automorphism groups",
     return AutH;
 end );
 
-# Computes $O^{p'}(G)$
-PrimeResidual := function(G,p)
-    return NormalClosure(G, SylowSubgroup(G,p));
-end;
-
 # TODO: This should go to autpgrp package
-PcSubAutPGroup := function(AutPC, A)
+BindGlobal("FS_PcSubAutPGroup", function(AutPC, A)
     local L;
 
     L := List(GeneratorsOfGroup(A), x -> ImageAutPGroup(AutPC!.autrec, AutPC, x));
     return Subgroup(AutPC, L);
-end;
+end);
 
-CSThru :=  function(G,normals)
+BindGlobal("FS_CSThru", function(G,normals)
     local cs,i,j,pre,post,c,new,rev;
   
     cs:=CompositionSeries(G);
@@ -187,7 +182,7 @@ CSThru :=  function(G,normals)
     od;
 
     return cs;
-end;
+end);
 
 # Family predicates matching a group of automorphisms of some group S with a
 # subgroup, respectively an element, of S. These never hold for the arguments
@@ -239,7 +234,7 @@ InstallOtherMethod(\^, "method to conjugate automorphism group by some map from 
     return G;
 end);
 
-IsInvariant := function(A,P)
+BindGlobal("FS_IsInvariant", function(A,P)
     # VALID ONLY FOR FINITE P (for infinite P, need to also check x^(a^-1) in P)
     # Elements of A should be allowed to act on elements of P via
     # exponentiation, e.g. A is a subgroup of the automorphism group
@@ -250,11 +245,11 @@ IsInvariant := function(A,P)
         return true;
     fi;
     return false;
-end;
+end);
 
 # Computes the smallest A-invariant subgroup of the automorphism
 # domain of A containing P. 
-InvariantClosure := function(A,P)
+BindGlobal("FS_InvariantClosure", function(A,P)
     local S, gensA, gensP, gensN, N, a, x, cnj;
     if IsGroupOfAutomorphisms(A) then
         S := AutomorphismDomain(A);
@@ -266,7 +261,7 @@ InvariantClosure := function(A,P)
     fi;
     gensA := GeneratorsOfGroup(A);
     N := P;
-    while not IsInvariant(A,N) do
+    while not FS_IsInvariant(A,N) do
         gensN := GeneratorsOfGroup(N);
 	    for a in gensA do
 	        for x in gensN do
@@ -278,7 +273,7 @@ InvariantClosure := function(A,P)
 	    od;
     od;
     return N;
-end;
+end);
 
 # Computes the commutator subgroup of a subgroup A of automorphism
 # group of S with a subgroup of S. Currently only implemented when the
@@ -294,7 +289,7 @@ InstallOtherMethod(CommutatorSubgroup, "method for aut-group",
 
     if not IsSubgroup(AutomorphismDomain(A), P) then
         Error(A, "must act on a group of which", P, "is a subgroup");
-    elif not IsInvariant(A,P) then
+    elif not FS_IsInvariant(A,P) then
         Error(P, "should be", A, "-invariant");
     fi;
 
@@ -308,7 +303,7 @@ InstallOtherMethod(CommutatorSubgroup, "method for aut-group",
         od;
     od;
     
-    return InvariantClosure(A,NormalClosure(P,C));
+    return FS_InvariantClosure(A,NormalClosure(P,C));
 end );
 
 # Compute the transfer homomorphism on H_1(-,Z), where H is a subgroup
