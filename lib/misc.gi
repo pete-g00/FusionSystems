@@ -54,6 +54,18 @@ InstallGlobalFunction(OnImageTuplesNM, function (n)
     end;
 end);
 
+InstallGlobalFunction(OnPreImage, function(q)
+    return function(x, g)
+        return x^PreImagesRepresentative(q, g);
+    end;
+end );
+
+InstallGlobalFunction(OnPreImageTuples, function(q)
+    return function(L, g)
+        return List(L, x -> x^PreImagesRepresentative(q, g));
+    end;
+end );
+
 InstallMethod(RestrictedHomomorphismOnto,  "method for restricting isomorphism to another homomorphism", 
     [IsGroupHomomorphism, IsGroup], function(phi, T)
     local g, h, T0;

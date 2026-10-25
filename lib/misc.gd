@@ -4,9 +4,9 @@
 
 #! @Description 
 #!
-#! Let $G$ be a finite group, and $A$ be a normal subgroup in $U$. Let $q \colon G \to G/A$. The function 
+#! Let $G$ be a finite group, and $A$ be a normal subgroup of $G$. Let $q \colon G \to G/A$. The function 
 #! `OnQuotient(q)` returns a function, such that for $t \in G/A$ and $x \in G$, `OnQuotient(q)(t, x)` 
-#! returns $q(xhx^{-1})$, where $h \in G$ satisfies $q(h) = t$.
+#! returns $q(x^{-1}hx)$, where $h \in G$ satisfies $q(h) = t$.
 #!  
 #! @Arguments q
 #! @Returns a function
@@ -14,8 +14,8 @@ DeclareGlobalFunction("OnQuotient");
 
 #! @Description 
 #!
-#! Let $G$ be a finite group, with subgroups $B \leq A \leq G$, with $B$ normal in $G$. The function 
-#! `CentralizerMod(S, A, B)` returns the subgroup $C_G(A/B)$, given by:
+#! Let $G$ be a finite group, with subgroups $B \leq A \leq G$, where $B$ is normal in $G$. The operation
+#! `CentralizerMod(G, A, B)` returns the subgroup $C_G(A/B)$, given by:
 #!
 #! $$C_G(A/B) := \langle x \in G \mid [A, x] \leq B \rangle.$$
 #!  
@@ -77,10 +77,10 @@ DeclareGlobalFunction("OnImageNM");
 #! @Description 
 #!
 #! Let $\phi$ be a map and let $L$ be a list of elements in the domain of $\phi$. 
-#! The function `OnImageTuples(L, x)` returns a list containing $\phi(x)$ for each $x \in L$, 
+#! The function `OnImageTuples(L, phi)` returns a list containing $\phi(x)$ for each $x \in L$, 
 #! while maintaining the order.
 #! 
-#! @Arguments L x
+#! @Arguments L phi
 #! @Returns a list
 DeclareGlobalFunction("OnImageTuples");
 
@@ -92,9 +92,30 @@ DeclareGlobalFunction("OnImageTuples");
 #! where $x \in L$ and $\hat{\phi} \in \mathrm{Aut}(G)$ is the preimage of $\phi$ with 
 #! respect to the injective map $n$.
 #! 
-#! @Arguments S A
+#! @Arguments n
 #! @Returns a function
 DeclareGlobalFunction("OnImageTuplesNM");
+
+#! @Description
+#! 
+#! Let $A$ be a group that acts on the set $\Omega$ with kernel $K$, and let $q \colon A \to G$ be a group homomorphism 
+#! with $\ker(q) \leq K$. The function `OnPreImage(q)` returns a function, such that, for some element $g \in G$ and 
+#! $x \in \Omega$, `OnPreImage(q)(x, g)` returns $x^a$, where $a \in A$ is the preimage of $g$ with respect to $q$.
+#! 
+#! @Arguments q
+#! @Returns a function
+DeclareGlobalFunction("OnPreImage");
+
+#! @Description
+#! 
+#! Let $A$ be a group that acts on the set $\Omega$ with kernel $K$, and let $q \colon A \to G$ be a group homomorphism 
+#! with $\ker(q) \leq K$. The function `OnPreImageTuples(q)` returns a function, such that, for some element $g \in G$ 
+#! and a subset $L \subseteq \Omega$, `OnPreImageTuples(q)(L, g)` returns a list consisting of $x^a$ for $x \in L$, 
+#! where $a \in A$ is the preimage of $g$ with respect to $q$.
+#! 
+#! @Arguments q
+#! @Returns a function
+DeclareGlobalFunction("OnPreImageTuples");
 
 #! @Section Group automorphisms
 
@@ -106,7 +127,7 @@ DeclareGlobalFunction("OnImageTuplesNM");
 #!
 #! $$\mathrm{Aut}_G(H) := \langle c_g \mid g \in N_G(H) \rangle,$$
 #!
-#! where $c_g \colon H \to H$ is the conjugation automorphism. It is a subgroup of $\mathrm{Aut}(A)$.
+#! where $c_g \colon H \to H$ is the conjugation automorphism. It is a subgroup of $\mathrm{Aut}(H)$.
 #! 
 #! @Arguments G H
 #! @Returns a subgroup of Aut(H)
@@ -163,10 +184,10 @@ DeclareOperation("Automizer", [IsGroupOfAutomorphismsFiniteGroup, IsGroup and Is
 #! @GroupTitle Restriction of homomorphisms
 #! @Description 
 #!
-#! Let $\phi \colon A \to B$ be a group homomorphism, and let $X \leq A$. The function 
+#! Let $\phi \colon A \to B$ be a group homomorphism, and let $X \leq A$. The operation 
 #! `RestrictedHomomorphismOnto(phi, X)` returns the surjective group homomorphism 
 #! $\phi|_X \colon X \to \phi(X)$ given by restriction. If $\phi$ is also an isomorphism that fixes $X$, 
-#! then the function `RestrictedAutomorphism(phi, X)` returns the group automorphism 
+#! then the operation `RestrictedAutomorphism(phi, X)` returns the group automorphism 
 #! $\phi|_X \colon X \to \phi(X)$ given by restriction.
 #! 
 #! @Arguments phi X
@@ -195,7 +216,7 @@ DeclareOperation("TransferHomomorphismFp", [IsGroup, IsPGroup]);
 
 #! @Section Semi-characteristic subgroups
 
-#! Let $S$ be a $p$-group and $A \leq S$. We say that $S$ is __semi-characteristic__ in $S$ if 
+#! Let $S$ be a $p$-group and $A \leq S$. We say that $A$ is __semi-characteristic__ in $S$ if 
 #! * $A$ is normal in $S$, and
 #! * $A$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$.
 
@@ -210,7 +231,7 @@ DeclareAttribute("SemiAutomorphismGroup", IsPGroup);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group. The operation `SemiCharacteristicSubgroups` returns all the semi-characteristic subgroups
+#! Let $S$ be a $p$-group. The attribute `SemiCharacteristicSubgroups` returns all the semi-characteristic subgroups
 #! of $S$. These are the normal subgroups of $S$ fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$.
 #! 
 #! @Arguments S
@@ -220,10 +241,10 @@ DeclareAttribute("SemiCharacteristicSubgroups", IsPGroup);
 #! @Description 
 #!
 #! Let $S$ be a $p$-group and $A$ be a subgroup of $S$. The operation `IsSemiCharacteristic` checks whether
-#! $E$ is a semi-characteristic in $S$. That is, we check whether:
+#! $A$ is semi-characteristic in $S$. That is, we check whether:
 #! 
-#! * $E$ is normal in $S$, and
-#! * $E$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$.
+#! * $A$ is normal in $S$, and
+#! * $A$ is fixed by $O^p(O^{p'}(\mathrm{Aut}(S)))$.
 #! 
 #! @Arguments S A
 #! @Returns true or false
@@ -236,7 +257,7 @@ DeclareOperation("IsSemiCharacteristic", [IsPGroup, IsPGroup]);
 #! subgroups of $S$ containing $A$.
 #! 
 #! @Arguments S A
-#! @Returns a subgroup of Aut(E)
+#! @Returns a subgroup of S
 DeclareOperation("SemiCharacteristicClosure", [IsPGroup, IsPGroup]);
 
 #! @BeginExample
