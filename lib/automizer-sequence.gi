@@ -1,4 +1,4 @@
-InstallMethod(PE_ValidAutomizers, "method for finding valid automizers", 
+InstallMethod(ValidAutomizers, "method for finding valid automizers", 
     [IsPGroup, IsPGroup], function(S, E)
     local   AutE, # Aut(E)
             InnE, # Inn(E)
@@ -389,7 +389,7 @@ InstallMethod(OrbitStabilizerFusion, "generic method",
                     c := ConjugatorIsomorphism(X, c[2]);
                     X0 := c(X);
                     Y0 := phi(X0);
-                    phi := RestrictedHomomorphism(phi, X0);
+                    phi := RestrictedHomomorphismOnto(phi, X0);
                     i := PositionProperty(T, Z -> IsConjugate(S, Y0, Z));
                     if i <> fail then 
                         d := RepresentativeAction(S, Y0, T[i]);
@@ -570,12 +570,13 @@ InstallMethod(WeakRadicalCheck, "weak radical check",
 
     # Not centric => nothing to do
     if Centralizer(S,W) <> Center(W) then 
-        Info(InfoWarning, 1, "Not centric in F");
+        Info(InfoFusion, 1, "Not centric in F");
         return true;
     fi;
 
     p := PrimePGroup(S);
     R := OrbitStabilizerFusion(S, W, P);
+    Info(InfoFusion, 1, "Orbit-Stabilizer for W computed");
 
     # a fully normalized conjugate of P
     i := PositionMaximum(List(R.orbit, A -> Size(Normalizer(S,A))));
@@ -585,24 +586,33 @@ InstallMethod(WeakRadicalCheck, "weak radical check",
     AutW := AutomorphismGroup(W);
     n := NiceMonomorphism(AutW);
     AutSW := Automizer(S, W);
+    Info(InfoFusion, 1, "n(Aut_S(W)) to be found");
     AutSW := n(AutSW);
+    Info(InfoFusion, 1, "n(Aut_F(W)) to be found");
     AutFW := n(AutFW);
+    Info(InfoFusion, 1, "Found");
 
     # Need to check only if $O_p(\Aut_F(W)) \cap \Aut_S(W) = 1$ for some conjugate
     if ForAny([1..Length(R.orbit)], j -> Centralizer(S, R.orbit[i]) <> Center(R.orbit[i])) then 
-        Info(InfoWarning, 1, "Not centric in F");
+        Info(InfoFusion, 1, "Not centric in F");
         return true;
+# We're struggling with this for some reason
     elif ForAny([1..Length(R.orbit)], j -> Size(Intersection(
         n(Automizer(S,R.orbit[j])^(InverseGeneralMapping(R.maps[j])*R.maps[i])), 
         PCore(AutFW, p)))  <> Index(R.orbit[j], Center(R.orbit[j]))) then 
-        Info(InfoWarning, 1, "Not radical in F");
+        Info(InfoFusion, 1, "Not radical in F");
         return true;
     fi;
+    Info(InfoFusion, 1, "Radical in F");
 
     if Index(AutFW, AutSW) mod p = 0 then 
-        Info(InfoWarning, 1, "Not fully automized");
+        Info(InfoFusion, 1, "Not fully automized");
         return false;
     fi;
+
+    Info(InfoFusion, 1, "Aut_F(W) has order ", Size(AutFW));
+    Info(InfoFusion, 1, "Aut_F(W) is ", StructureDescription(AutFW));
+    
 
     if IsAbelian(W) then
         InnW := Group(IdentityMapping(W));
@@ -631,12 +641,15 @@ InstallMethod(WeakRadicalCheck, "weak radical check",
     # Take preimage to find the subgroup in S
     
     C := List(C, A -> PreImage(t, A));
-    Info(InfoWarning, 1, List(C, A -> [
-        IdGroup(A), Size(n(Automizer(OrbitStabilizerFusion(S, A, P).AutFA, W))), Size(Normalizer(AutFW, n(Automizer(A, W))))
+    Info(InfoFusion, 1, List(C, A -> [
+        StructureDescription(A), 
+        Size(n(Automizer(OrbitStabilizerFusion(S, A, P).AutFA, W))), 
+        Size(Normalizer(AutFW, n(Automizer(A, W))))
     ]));
 
     # Check that
     # $\Aut_F(A) \downarrow W = N_{\Aut_F(W)}(\Aut_A(W))$
+    # TODO: If that doesn't hold, check that A^F <> A^{Aut_F(S)}
     return ForAll(C, A -> 
         Size(n(Automizer(OrbitStabilizerFusion(S, A, P).AutFA, W))) = Size(Normalizer(AutFW, n(Automizer(A, W))))
     );
