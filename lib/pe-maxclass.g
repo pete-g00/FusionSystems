@@ -33,7 +33,7 @@ BindGlobal("FS_SupportsPearls", function(S)
     fi;
     Info(InfoFusion, 1, Length(C), " choice(s) for pearls");
 
-    return ForAny(C, V -> FindSmallestBorel(S, FS_PrimeResidual(AutomorphismGroup(V), p)) <> fail);
+    return ForAny(C, V -> FindSmallestBorel(S, CoprimeResidual(AutomorphismGroup(V), [p])) <> fail);
 end);
 
 # Choices would be:

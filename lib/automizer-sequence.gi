@@ -36,7 +36,7 @@ InstallMethod(ValidAutomizers, "method for finding valid automizers",
     fi;
 
     # Find subgroups containing AutSE within overgroups above p-core. Iterated maximal approach
-    L := [FS_PrimeResidual(AutE,p)];
+    L := [CoprimeResidual(AutE,[p])];
     i := 0;
 
     while i < Length(L) do 
@@ -52,7 +52,7 @@ InstallMethod(ValidAutomizers, "method for finding valid automizers",
         
         M := MaximalSubgroupClassReps(OutFE);
         Info(InfoFusion, 4, "\t\twhich has ", Length(M), " maximal subgroups");
-        M := List(M, A -> FS_PrimeResidual(A,p));
+        M := List(M, A -> CoprimeResidual(A,[p]));
         C := List(M, A -> ContainedConjugates(OutFE, A, OutSE, true));
         I := PositionsProperty(C, A -> A <> fail);
         Info(InfoFusion, 4, "\t\tof which ", Length(I), " contain Aut_S(E)");
@@ -163,7 +163,7 @@ InstallMethod(IsAutomizerBorelCompatible, "check automizer is Borel-compatible",
     A0 := n(A0);
     AutFE := n(AutFE);
     
-    return FS_PrimeResidual(A0, p) = AutFE;
+    return CoprimeResidual(A0, [p]) = AutFE;
 end);
 
 # Checks whether the smallest choice for the focal subgroup in the fusion system

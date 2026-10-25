@@ -110,11 +110,6 @@ InstallOtherMethod(Automizer, "automizer for automorphism groups",
     return AutH;
 end );
 
-# Computes $O^{p'}(G)$
-BindGlobal("FS_PrimeResidual", function(G,p)
-    return NormalClosure(G, SylowSubgroup(G,p));
-end);
-
 # TODO: This should go to autpgrp package
 BindGlobal("FS_PcSubAutPGroup", function(AutPC, A)
     local L;
