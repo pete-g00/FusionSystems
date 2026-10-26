@@ -105,7 +105,16 @@ InstallMethod(IsDSWGroup, "is DSw group",
     local p, n, M, a;
 
     p := PrimePGroup(S);
-    if p <> 2 then return false; fi;
+    if p <> 2 then 
+        a := Number(MaximalSubgroups(S), IsAbelian); 
+        if a = 0 then 
+            return false;
+        elif a = 1 then 
+            return true;
+        else 
+            return Size(S) = p^3 and not IsAbelian(S) and Exponent(S) = p;
+        fi;
+    fi;
 
     n := PValuation(Size(S), p);
 
@@ -149,6 +158,7 @@ InstallMethod(AbelianTest, "RED abelian test",
     AutA := List([1..Length(C0)], i -> Image(N[i], AutA[i]));
 
     AutSA := List(C0, A -> Automizer(S,A));
+    AutSA := List([1..Length(C0)], i -> Image(N[i], AutSA[i]));
 
     return not ForAll([1..Length(C0)], i -> IsSubset(PCore(AutA[i], p), AutSA[i]));
 end );
@@ -247,6 +257,11 @@ BindGlobal("FS_PossiblySupportsReducedFusionSystems_PrePE", function(S)
     fi;
 
     if not OmegaAbelianizationTest(S) then 
+        Info(InfoFusion, 1, "Failed omega test");
+        return false;
+    fi;
+
+    if not AbelianTest(S) then 
         Info(InfoFusion, 1, "Failed omega test");
         return false;
     fi;
