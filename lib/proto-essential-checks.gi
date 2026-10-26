@@ -272,8 +272,6 @@ InstallMethod(ValidAutTest, "PE Valid Aut Test",
     [IsPGroup, IsPGroup, IsInt], function(S, E, i)
     local OutSE, p, n, r, q, AutE, N, AutEp, D, IsSectionOrderValid;
 
-    # TODO: Also validate the rank of $E$
-
     OutSE := IndexNC(Normalizer(S,E), E);
     
     p := PrimePGroup(S);
@@ -293,7 +291,7 @@ InstallMethod(ValidAutTest, "PE Valid Aut Test",
             if a mod (r*(r-1)*(r+1)) = 0 then 
                 return true;
             # Alt(2p)
-            elif n=2 and p>=5 and a mod Factorial(2*p) = 0 then 
+            elif n=2 and p>=5 and 2*a mod Factorial(2*p) = 0 then 
                 return true;
             # PSL(3,4)
             elif n=2 and p=3 and a mod 20160 = 0 then 
@@ -305,8 +303,8 @@ InstallMethod(ValidAutTest, "PE Valid Aut Test",
             elif n=2 and p=5 and a mod 17971200 = 0 then
                 return true;
             # Fi22
-            # elif n=2 and p=5 and a mod ... = 0 then
-
+            elif n=2 and p=5 and a mod 64561751654400 = 0 then
+                return true;
             fi;
         elif i=2 then 
             r := p^(n/3);
