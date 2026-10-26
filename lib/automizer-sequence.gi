@@ -345,7 +345,6 @@ end);
 # A is a subgroup of S
 # If $\calF := \langle L \rangle$, then we return $(\Aut_\calF(A), A^\calF)$
 # $A^\calF$ also contains the actual maps from $A$ to some $\calF$-conjugate
-# Using Breadth-First Search
 InstallMethod(OrbitStabilizerFusion, "generic method", 
     [IsPGroup, IsPGroup, IsList], function(S, A, P)
     local   Q,      # the queue
@@ -353,15 +352,14 @@ InstallMethod(OrbitStabilizerFusion, "generic method",
             T,      # $A^\calF$
             Aut,    # $\Aut_\calF(A)$
             AutFE,  # $\Aut_\calF(E)$
-            phi,    # $\phi \in \Aut_\calF(E)$
             X,      # $X \in A^\calF$
-            X0,     # $S$-conjugate of $X$
+            Aut0,   # $\Aut_{\Aut_\calF(E)}(X)$
+            R,      # $X^{\Aut_\calF(E)}$
+            X0,     # new element in R
             alpha,  # $\alpha \colon A \to X$
-            beta,   # $\beta \colon A \to Y$
-            c,      # $c \colon X \to X0$
-            d,      # $d \colon Y0 \to Y$
-            Y0,      # $X\phi$
-            i;      # position of $X$ or $Y$ in $T$
+            beta,   # $\beta \colon X \to X0$
+            c,      # $X^c = X0$
+            i;      # position of $X$ in $T$
 
     T := [A];
     Q := [A];
@@ -373,36 +371,24 @@ InstallMethod(OrbitStabilizerFusion, "generic method",
         X := Remove(Q);
         i := Position(T, X);
 
-        # alpha : A -> X
-        # c : X -> X0
-        # phi : X0 -> Y0
-        # d : Y0 -> Y
-        # beta : A -> Y 
-
         alpha := m[i];
         for AutFE in P do 
-            for phi in GeneratorsOfGroup(AutFE) do 
-                c := ContainedConjugates(S, Source(phi), X, true);
-                if c <> fail then
-                    c := ConjugatorIsomorphism(X, c[2]);
-                    X0 := c(X);
-                    Y0 := phi(X0);
-                    phi := RestrictedHomomorphismOnto(phi, X0);
-                    i := PositionProperty(T, Z -> IsConjugate(S, Y0, Z));
-                    if i <> fail then 
-                        d := RepresentativeAction(S, Y0, T[i]);
-                        d := ConjugatorIsomorphism(Y0, d);
-                        beta := m[i];
-                        Aut := ClosureGroup(Aut, 
-                            alpha*c*phi*d*InverseGeneralMapping(beta)
-                        );
-                    else
-                        Add(T, Y0);
-                        Add(Q, Y0);
-                        Add(m, alpha*c*phi);
+            c := ContainedConjugates(S, AutomorphismDomain(AutFE), X, true);
+            if c <> fail then
+                c := c[2]^-1;
+                Aut0 := Automizer(AutFE^c, X);
+                Aut := ClosureGroup(Aut, Aut0^InverseGeneralMapping(alpha));
+                R := Orbit(AutFE^c, X, OnImage);
+                for X0 in R do 
+                    Info(InfoWarning, 1, X0);
+                    if ForAll(T, A -> not IsConjugate(S, A, X0)) then 
+                        beta := RepresentativeAction(AutFE^c, X, X0, OnImage);
+                        Add(T, X0);
+                        Add(Q, X0);
+                        Add(m, alpha*beta);
                     fi;
-                fi;
-            od;
+                od;
+            fi;
         od;
     od;
 
@@ -647,7 +633,6 @@ InstallMethod(WeakRadicalCheck, "weak radical check",
 
     # Check that
     # $\Aut_F(A) \downarrow W = N_{\Aut_F(W)}(\Aut_A(W))$
-    # TODO: If that doesn't hold, check that A^F <> A^{Aut_F(S)}
     return ForAll(C, A -> 
         Size(n(Automizer(OrbitStabilizerFusion(S, A, P).AutFA, W))) = Size(Normalizer(AutFW, n(Automizer(A, W))))
     );
