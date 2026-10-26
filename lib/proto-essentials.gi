@@ -124,7 +124,7 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
         for F in A do
             E0 := E^(F[2]);
 
-            AutF := AutomorphismGroup(F[1]);
+            AutF := AutomorphismGroup(E);
             n := NiceMonomorphism(AutF);
             AutF := NiceObject(AutF);
             
@@ -139,7 +139,7 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
         A0 := Filtered(A0, X -> ForAll(L0, Y -> not IsConjugate(S, X, Y)));
         Append(L0, A0);
 
-        if E in L0 or IsProtoEssential(S0, E) then 
+        if E in L or IsProtoEssential(S0, E) then 
             Add(T, E);
         fi;
     od;
