@@ -1,5 +1,4 @@
 ReadPackage("FusionSystems","lib/misc.gi");
-ReadPackage("FusionSystems","lib/valid-choices.g");
 ReadPackage( "FusionSystems", "lib/proto-essentials.gi");
 ReadPackage( "FusionSystems", "lib/proto-essential-checks.gi");
 ReadPackage("FusionSystems","lib/reduced.gi");

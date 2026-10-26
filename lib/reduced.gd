@@ -20,12 +20,7 @@
 #! This function checks whether the group $S$ satisfies certain properties that are known to hold for a $p$-group that 
 #! supports reduced fusion systems. In the process, we compute the proto-essential subgroups of $S$, along with their 
 #! automorphism groups. 
-#! @BeginLatexOnly
-#! See \ref{Section_RedSpecificFn} for the list of specific tests currently implemented.
-#! @EndLatexOnly
-#! @BeginNotLatex
-#! See <Label Ref="Section_RedSpecificFn" /> for the list of specific tests currently implemented.
-#! @EndNotLatex
+#! See Section <Ref Sect="Section_RedSpecificFn"/> for the list of specific tests currently implemented.
 #! We do not construct automizer sequences.
 #! 
 #! @Arguments S
@@ -41,7 +36,7 @@ DeclareAttribute("PossiblySupportsReducedFusionSystems", IsPGroup);
 
 #! @Description 
 #! 
-#! Given a $p$-group $S$ and a list of proto-essential subgroups $L$, the attribute 
+#! Given a $p$-group $S$ and a list of proto-essential subgroups $L$, the operation 
 #! `PossiblySupportsReducedFusionSystems_PE` checks whether there **could** exist a reduced fusion system $\mathcal{F}$ 
 #! on $S$ where the set of essential subgroups $\mathcal{E}(\mathcal{F})$ is a subset of $L$. Note that we run 
 #! `GenerateProtoEssentials` on $L$ (which can, in theory, increase the number of subgroups in $L$).
@@ -52,8 +47,9 @@ DeclareAttribute("PossiblySupportsReducedFusionSystems", IsPGroup);
 #! Nonetheless, $p$-groups that pass the tests in this chapter are quite likely to support reduced fusion systems. 
 #!
 #! This function checks whether the group $S$ satisfies certain properties that are known to hold for a $p$-group that 
-#! supports reduced fusion systems. We also construct the automorphism group for subgroups in $L$s. See ... for the list 
-#! of specific tests currently implemented. We do not construct automizer sequences.
+#! supports reduced fusion systems. We also construct the automorphism group for subgroups in $L$.
+#! See Section <Ref Sect="Section_RedSpecificFn"/> for the list of specific tests currently implemented.
+#! We do not construct automizer sequences.
 #! 
 #! @Arguments S L
 #! @Returns true or false
@@ -117,7 +113,7 @@ DeclareAttribute("IsDSWGroup", IsPGroup);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group. If $S$ has class $a$, the attribute `ExponentTest` checks that $\Omega(Z(S))$ has exponent at most $p^t$, where 
+#! Let $S$ be a $p$-group. If $S$ has class $c$, the attribute `ExponentTest` checks that $Z(S)$ has exponent at most $p^t$, where 
 #! $$t := \left\lceil \frac{c-1}{p-1} \right\rceil.$$
 #! 
 #! This test applies at any prime $p$. It is based on <Cite Key="LP" Where="Theorem A" />.
@@ -146,7 +142,7 @@ DeclareAttribute("ExponentTest", IsPGroup);
 #! Let $S$ be a $2$-group. The attribute `AbelianTest` first asserts whether there exists an abelian subgroup $A$ of $S$ satisfying $[N_S(A) : A] = 2$ and: 
 #! * $N_S(A) = S$; or
 #! * $N_S(A) &lt; S$, with $\mathrm{Aut}_S(A) \nleq O_2(\mathrm{Aut})(A)$.
-#! If so, the function return true only if $S$ is a $\mathcal{DSW}$-group.
+#! If so, the function returns true only if $S$ is a $\mathcal{DSW}$-group.
 #! 
 #! This test only applies at $p=2$. It is based on <Cite Key="AOV13" Where="Proposition 5.2(a), (c)" />.
 #! 
@@ -200,11 +196,10 @@ DeclareAttribute("DerivedCyclicTest", IsPGroup);
 #! @Description 
 #! 
 #! Let $S$ be a $p$-group (for $p$ odd). The attribute `ValidAutTest` returns true only if $\mathrm{Aut}(S)$ is 
-#! not a $p$-group.
+#! not a $p$-group. If we further know that $S$ has class $\leq p-1$, and $\mathrm{Aut}(S)$ has a Hall $p$-complement
+#! $H$, we check that $[S, H] = S$.
 #! 
-# TODO: Proof for valid aut test at $p=3$.
-# TODO: We need to deal with - class $< p$ [\Aut(S), H] < S$ for $p$'-sub of $\Aut(S)$ => invalid
-#! This test does not apply at $p=2$. It is based on <Cite Key="CRA" Where="7.82" /> (for $p \geq 5$).
+#! This test does not apply if $p \leq 3$. It is based on <Cite Key="CRA" Where="7.82" /> and <Cite Key="DGPS" />.
 #! 
 #! @Arguments S
 #! @Returns true or false
@@ -239,7 +234,7 @@ DeclareAttribute("ValidAutTest", IsPGroup);
 
 #! @Description 
 #! 
-#! Let $S$ be a $2$-group, $D := S'$ and $O := \Omega(Z(S))$. The attribute `OmegaAbelianizationTest` return false only if:
+#! Let $S$ be a $2$-group, $D := S'$ and $O := \Omega(Z(S))$. The attribute `OmegaAbelianizationTest` returns false only if:
 #! * $[\Omega(Z(S)) : \Omega(Z(S)) \cap D] = 2$; or
 #! * $\Omega(Z(S)) \nleq D$ if $\mathrm{Aut}(S)$ is a $2$-group.
 #! 
@@ -300,7 +295,7 @@ DeclareAttribute("TransferFpMaximalTest", IsPGroup);
 #! @Description 
 #! 
 #! Let $S$ be a $2$-group and $L$ be a list of (proto-essential) subgroups of $S$. 
-#! The attribute `TransferTest` checks that, if $\mathrm{Aut}(S)$ is a $2$-group, then
+#! The operation `TransferTest` checks that, if $\mathrm{Aut}(S)$ is a $2$-group, then
 #! $$\bigcap_{M \in L} \ker(\mathrm{tr}_M^S) = S',$$
 #! where $\mathrm{tr}_M^S \colon S \to M/M'$ is the transfer homomorphism. Alternatively, 
 #! `TransferFpTest` checks that, if $\mathrm{Aut}(S)$ is a $2$-group, then
@@ -333,7 +328,7 @@ DeclareOperation("TransferFpTest", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and $L := \mathfrak{C}_0$. The function `C0Test` checks that there exists some subgroup 
+#! Let $S$ be a $p$-group, and $L := \mathfrak{C}_0$. The operation `C0Test` checks that there exists some subgroup 
 #! $E$ in $L$ such that $\Omega(Z(S))$ is not semi-characteristic in $E$, i.e. invariant 
 #! under $O^p(O^{p'}(\mathrm{Aut}(E)))$.
 #! 
@@ -353,9 +348,9 @@ DeclareOperation("C0Test", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The function `CTest` checks that:
+#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The operation `CTest` checks that:
 #! * $L$ has at least $2$ elements, or
-#! * if $\mathrm{Aut}(S)$ is a not $2$-group, then the single subgroup in $L$ is not normal in $S$.
+#! * $L$ consists of a single subgroup, which is not normal in $S$, and $\mathrm{Aut}(S)$ is not a $p$-group.
 #! 
 #! This test applies at any prime $p$. It is based on <Cite Key="AOV17" Where="Lemma 2.2(e)" />.
 #! 
@@ -373,7 +368,7 @@ DeclareOperation("CTest", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The function 
+#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The operation 
 #! `SemiCharacteristicGeneratedTest` checks that the subgroup
 #! $$\langle [O^p(\mathrm{Aut}(S)), S], Q_E \mid E \in L \rangle = S,$$
 #! where $Q_E$ is the semi-characteristic closure of $[N_S(E), E]$ in $E$.
@@ -399,7 +394,7 @@ DeclareOperation("SemiCharacteristicGeneratedTest", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The function 
+#! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The operation 
 #! `CoreTest` checks that if $N$ is a normal subgroup of $S$ 
 #! such that $N$ is semi-characteristic (i.e. fixed by $O^p(O^{p'}(\mathrm{Aut}(E)))$) 
 #! in each $E \in L$, then $N = 1$.
@@ -407,7 +402,7 @@ DeclareOperation("SemiCharacteristicGeneratedTest", [IsPGroup, IsList]);
 # TODO: Proof after the paper is out
 #! This test applies at any prime $p$.
 #! 
-#! @Arguments S
+#! @Arguments S L
 #! @Returns true or false
 DeclareOperation("CoreTest", [IsPGroup, IsList]);
 

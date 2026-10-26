@@ -3,7 +3,7 @@
 
 #! 
 #! Let $S$ be a $p$-group, with proto-essential subgroups $E_1, \dots, E_n$. An **automizer sequence** is a list $P := [H_{i_1}, \dots, H_{i_k}]$, where $H_{i_j} \leq \textrm{Aut}(E_{i_j})$ is a valid automizer for $E_{i_j}$ in $S$. 
-#! In other words, $\textrm{Aut}_S(E_{i_j})$ is a Sylow $p$-subgroup of $H_{i_j})$, and $H_{i_j}/\textrm{Inn}(E_{i_j})$ contains a strongly $p$-embedded subgroup. Note that we do not include a choice of $H_S \leq \textrm{Aut}(S)$ here.
+#! In other words, $\textrm{Aut}_S(E_{i_j})$ is a Sylow $p$-subgroup of $H_{i_j}$, and $H_{i_j}/\textrm{Inn}(E_{i_j})$ contains a strongly $p$-embedded subgroup. Note that we do not include a choice of $H_S \leq \textrm{Aut}(S)$ here.
 
 #! These are prototypes for saturated fusion systems. In this chapter, we describe processes to determine many important properties about automizer sequences that will allow us to determine whether the corresponding fusion system would be reduced. Note that the functionalities here are not guaranteed to be correct or complete just yet.
 
@@ -13,14 +13,15 @@
 
 #! @Description
 #! Let $S$ be a $p$-group, and let $L$ be a list of subgroups of $S$, all of which are proto-essential in $S$. We compute all possible automizer sequences involving the subgroups in $L$ that could lead to reduced fusion systems.
+#! Each sequence is returned as a list $A$ of integers, with one entry for each subgroup $E_i$ in $L$: $A[i] = 0$ if $E_i$ is not essential, and otherwise $A[i]$ is the position of $\textrm{Aut}_\mathcal{F}(E_i)$ in `ValidAutomizers(S, E_i)`.
 #! @Arguments S L
-#! @Returns a list of valid Aut_F(E)
+#! @Returns a list of lists of integers
 DeclareOperation("FindReducedSequences", [IsPGroup, IsList]);
 
 #! @Description
-#! Given two automizer sequences $P_1$ and $P_2$, check whether there exists some $\phi \in \textrm{Aut}(S)$ such that $P_1^\phi = P_2$. This computation mimics isomorphism of fusion systems. The action of $\phi$ is dependent of the ordering of the $P_i$'s.
+#! Given two automizer sequences $P_1$ and $P_2$, check whether there exists some $\phi \in \textrm{Aut}(S)$ such that $P_1^\phi = P_2$. This computation mimics isomorphism of fusion systems. The action of $\phi$ depends on the ordering of the $P_i$'s.
 #! @Arguments S P1 P2
-#! @Returns an isomorphism mapping
+#! @Returns an automorphism of $S$, or `fail`
 DeclareOperation("IsomorphismSequences", [IsPGroup, IsList, IsList]);
 
 #! @Description 

@@ -21,12 +21,7 @@
 #! * $\mathrm{Aut}(E)$.
 #! 
 #! Each computation is considered more expensive than the previous one.
-#! @BeginLatexOnly
-#! See \ref{Section_PEChecks} for the list of tests currently implemented.
-#! @EndLatexOnly
-#! @BeginNotLatex
-#! See Section <Ref Label="Section_PEChecks"/> for the list of tests currently implemented.
-#! @EndNotLatex
+#! See Section <Ref Sect="Section_PEChecks"/> for the list of tests currently implemented.
 #! 
 #! Note that it is possible that $E$ is found to be proto-essential even though there is no fusion system $\mathcal{F}$ on $S$
 #! with $E \in \mathcal{E}(\mathcal{F})$. This can be for various reasons, for example, $E$ could be essential in $\mathcal{F}$
@@ -63,7 +58,7 @@ DeclareOperation("IsProtoEssentialNC", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group. The function `Zed0` computes the subgroup $Z_0$ of $S$, which is given by:
+#! Let $S$ be a $p$-group. The attribute `Zed0` computes the subgroup $Z_0$ of $S$, which is given by:
 #! $$Z_0 := \langle x \in Z_2(S) \mid |[S, x]| \leq p \rangle.$$
 #!  
 #! @Arguments S
@@ -71,20 +66,19 @@ DeclareOperation("IsProtoEssentialNC", [IsPGroup, IsPGroup]);
 DeclareAttribute("Zed0", IsPGroup);
 
 # TODO: Odd proof after the paper is out
-# @Description 
- 
-#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `Zed0Test` checks that one of the following holds:
+#! @Description 
+#! 
+#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The operation `Zed0Test` checks that one of the following holds:
 #! * $Z_0 \leq E$; or
 #! * $[N_S(E) : E] = p$, and there exists some $x \in \Omega(Z(E))$ such that $E = C_S(x)$.
 #!
 #! Note that this function is not used when constructing $\mathfrak{C}$ as the choice of $x$ is easier to find while 
 #! the set $\mathfrak{C}_0$ is being constructed.
-
+#!
 #! This test applies at any prime $p$. It is based on <Cite Key="AOV17" Where="Proposition 2.3(a)" /> (proven for $p=2$).
-
-#! @Label Zed0Test
-#! @Arguments S
-#! @Returns a subgroup
+#!
+#! @Arguments S E
+#! @Returns true or false
 DeclareOperation("Zed0Test", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession
@@ -101,7 +95,7 @@ DeclareOperation("Zed0Test", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `RankTest` checks that $\textrm{Out}_S(E)$ 
+#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The operation `RankTest` checks that $\textrm{Out}_S(E)$ 
 #! is isomorphic to  a Sylow $p$-subgroup of a group containing a strongly $p$-embedded subgroup. If so, we return 
 #! a value specifying its type, namely:
 #! * $0$ -- $\textrm{Out}_S(E)$ is cyclic or quaternion;
@@ -110,12 +104,11 @@ DeclareOperation("Zed0Test", [IsPGroup, IsPGroup]);
 #! * $3$ -- Sylow $2$-subgroup of $\mathrm{Sz}(2^{2n+1})$;
 #! * $4$ -- Sylow $3$-subgroup of ${^2\mathrm{G}}_2(3^{2n+1})$; and
 #! * $5$ -- $3^{1+2}_-$ and $5^{1+2}_-$.
-#! We return $-1$ none of the cases above apply. During the process, we also check that the subgroup $E$ has
+#! We return $-1$ if none of the cases above apply. During the process, we also check that the subgroup $E$ has
 #! sufficiently high rank to ensure that $\mathrm{Aut}(E)$ has a possible valid section.
 #!
 #! This test applies at any prime $p$. It is based on <Cite Key="SAM14" Where="Proposition 6.9" />.
 #!  
-#! @Label RankTest
 #! @Arguments S E
 #! @Returns a number
 DeclareOperation("RankTest", [IsPGroup, IsPGroup]);
@@ -150,13 +143,13 @@ DeclareOperation("RankTest", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #!
-#! Let $S$ be a $2$-group and $E$ be a subgroup of $S$. The function `ModuleTest` checks that, if $\mathrm{Out}_S(E)$ has 
+#! Let $S$ be a $2$-group and $E$ be a subgroup of $S$. The operation `ModuleTest` checks that, if $\mathrm{Out}_S(E)$ has 
 #! order $2^k$ (for $k \geq 2$), then for all $x \in \mathrm{Out}_S(E)$, if $x \neq 1$, then $[x, E/\Phi(E)]$ is not cyclic.
 #!
 #! This test applies at $p=2$. It is based on <Cite Key="OV" Where="Proposition 3.3(c)" />.
 #!  
 #! @Arguments S E
-#! @Returns a number
+#! @Returns true or false
 DeclareOperation("ModuleTest", [IsPGroup, IsPGroup]);
 
 #! @BeginExampleSession
@@ -174,7 +167,7 @@ DeclareOperation("ModuleTest", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The function `FrattiniTest` checks that
+#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The operation `FrattiniTest` checks that
 #! $$C_{N_S(E)}(E/\Phi(E)) = E.$$
 #! 
 #! This test applies at any prime $p$. It is based on <Cite Key="sporadics1" Where="Appendix A" />.
@@ -216,8 +209,8 @@ DeclareOperation("FrattiniTest", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `RankTest`).
-#! The function `LiftTest` checks 
+#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see <Ref Oper="RankTest" Label="for IsPGroup, IsPGroup"/>).
+#! The operation `LiftTest` checks 
 #! whether the maps in $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ are present as expected. In particular,
 #! there is some value $a$ known to divide $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ for each choice of $i$.
 #! We check that $a$ divides:
@@ -255,13 +248,13 @@ DeclareOperation("LiftTest", [IsPGroup, IsPGroup, IsInt]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see `RankTest`).
-#!  The function `ValidAutTest` checks
+#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see <Ref Oper="RankTest" Label="for IsPGroup, IsPGroup"/>).
+#!  The operation `ValidAutTest` checks
 #! whether there is a valid section of $\mathrm{Aut}(E)$ that contains the expected $\mathrm{Aut}_{\mathcal{F}}(E)$.
 #! Note that this check is up to (order of) composition factors, and does not imply that the expected section actually
 #! exists inside $\mathrm{Aut}(E)$.
 #! 
-#! This test applies at any prime $p$. It is based on <Cite Key="SAM14" Where="Proposition 6.9" /> or
+#! This test applies at any prime $p$. It is based on <Cite Key="SAM14" Where="Proposition 6.9" /> and
 #! <Cite Key="PS_MAGMA" Where="Proposition 4.5" />.
 #! 
 #! @Arguments S E i
@@ -288,7 +281,7 @@ DeclareOperation("ValidAutTest", [IsPGroup, IsPGroup, IsInt]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, $E$ be a proto-essential subgroup. The function `RadicalTest`checks
+#! Let $S$ be a $p$-group, $E$ be a proto-essential subgroup. The operation `RadicalTest`checks
 #! whether
 #! 
 #! $$|O_p(\textrm{Aut}(E)) \cap \textrm{Aut}_S(E)| = [E : Z(E)].$$
