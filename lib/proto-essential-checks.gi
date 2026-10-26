@@ -111,8 +111,8 @@ InstallMethod(RankTest, "PE rank test",
     if p >= 3 and n mod 3 = 0 and Exponent(OutSE) = p and 
         Length(Set([Center(OutSE), DerivedSubgroup(OutSE), FrattiniSubgroup(OutSE)])) = 1 and 
         NilpotencyClassOfGroup(OutSE) = 2 and IsElementaryAbelian(Center(OutSE)) and 
-        Size(Center(OutSE)) = p^(2*n/3) and HasElementaryAbelianFactorGroup(OutSE, Center(OutSE)) then 
-        if r >= 6*n then 
+        Size(Center(OutSE)) = p^(n/3) and HasElementaryAbelianFactorGroup(OutSE, Center(OutSE)) then 
+        if r >= 2*n then 
             return 2;
         else 
             return -1;
@@ -242,10 +242,8 @@ InstallMethod(LiftTest, "PE Lift Test",
     N := Normalizer(S,E);
     n := PValuation(Index(N, E), p);
 
-    # TODO: This lift is an abelian group, so we can check up to isomorphism as well.
-    
     # cyclic/quaternion case - nothing guaranteed to lift
-    # TODO: If the rank of $E$ is small enough, the $C_p$ might be a subgroup of $\PSL_2(p)$
+    # TODO: If the rank of $E$ is small enough, the $C_p$ might be a subgroup of $\PSL_2(p)$?
     if i = 0 then 
         return true;
     elif i = 1 then 
