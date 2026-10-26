@@ -306,6 +306,15 @@ InstallOtherMethod(CommutatorSubgroup, "method for aut-group",
     return FS_InvariantClosure(A,NormalClosure(P,C));
 end );
 
+InstallOtherMethod(\=, "for automorphism groups",
+    [IsGroupOfAutomorphismsFiniteGroup, IsGroupOfAutomorphismsFiniteGroup], function(A, B)
+    if AutomorphismDomain(A) <> AutomorphismDomain(B) then 
+        return false;
+    else
+        TryNextMethod();
+    fi;
+end);
+
 # Compute the transfer homomorphism on H_1(-,Z), where H is a subgroup
 # of G, but return the map from G to H/[H,H], not from G/[G,G]
 
