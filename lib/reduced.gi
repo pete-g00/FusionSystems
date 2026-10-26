@@ -90,20 +90,14 @@ end );
 
 InstallMethod(CoreTest, "RED core test",
     [IsPGroup, IsList], function(S, L)
-    local p, AutL, n, AutLp, AutS, AutSp, N;
+    local p, N;
 
     p := PrimePGroup(S);
-    AutL := List(L, AutomorphismGroup);
-    n := List(AutL, NiceMonomorphism);
-    AutL := List([1..Length(L)], i -> Image(n[i], AutL[i]));
-    AutLp := List(AutL, A -> PResidual(CoprimeResidual(A, [p]), p));
-    AutLp := List([1..Length(L)], i -> PreImage(n[i], AutLp[i]));
 
     N := NormalSubgroups(S);
-    N := Filtered(N, A -> ForAll([1..Length(L)], i -> IsSubset(L[i], A) and 
-        ForAll(GeneratorsOfGroup(AutLp[i]), x -> Image(x,A) = A)));
-
-    return Length(N) = 1;
+    return ForAll(N, A -> IsTrivial(A) or
+        ForAll(L, E -> not IsSubset(E, A) or not IsSemiCharacteristicSubgroup(E, A))
+    );
 end );
 
 InstallMethod(IsDSWGroup, "is DSw group",
