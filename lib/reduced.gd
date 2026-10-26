@@ -199,7 +199,8 @@ DeclareAttribute("DerivedCyclicTest", IsPGroup);
 #! not a $p$-group. If we further know that $S$ has class $\leq p-1$, and $\mathrm{Aut}(S)$ has a Hall $p$-complement
 #! $H$, we check that $[S, H] = S$.
 #! 
-#! This test does not apply if $p \leq 3$. It is based on <Cite Key="CRA" Where="7.82" /> and <Cite Key="DGPS" />.
+#! The first test applies if $p \geq 5$ and is based on <Cite Key="CRA" Where="7.82" />.
+#! The second test applies if $p \geq 3$ and is based on <Cite Key="DGPS" />.
 #! 
 #! @Arguments S
 #! @Returns true or false

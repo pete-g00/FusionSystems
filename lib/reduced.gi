@@ -171,11 +171,11 @@ InstallMethod(ValidAutTest, "RED valid aut test",
     p := PrimePGroup(S);
     if p = 2 then return true; fi;
     
-    # TODO: Prove this for $p=3$
-
     AutS := AutomorphismGroup(S);
 
-    if IsPGroup(AutS) then 
+    if p >= 5 and IsPGroup(AutS) then 
+        return false;
+    elif p = 3 and IsPGroup(AutS) and NilpotencyClassOfGroup(S) = 2 then 
         return false;
     fi;
 
