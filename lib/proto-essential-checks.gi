@@ -254,11 +254,11 @@ InstallMethod(LiftTest, "PE Lift Test",
             return n=2 and p>=5 and CheckLift((p-1)^2, 2*(p-1));
         fi;
     elif i = 2 then 
-        return CheckLift((p^2-1)/Gcd(3,p-1), (p^2-1)/Gcd(3,p-1));
-    elif i = 3 then 
-        return CheckLift(p^(n/3)-1, p^(n/3)-1);
-    elif i = 4 then 
-        return CheckLift(p^n-1, p^n-1);
+        return CheckLift((p^2-1)/Gcd(3,p+1), (p^2-1)/Gcd(3,p-1));
+    elif i = 3 and n mod 2 = 0 then 
+        return CheckLift(p^(n/2)-1, p^(n/2)-1);
+    elif i = 4 and n mod 3 = 0 then 
+        return CheckLift(p^(n/3)-1, p^n-1);
     elif i = 5 then 
         return CheckLift(p-1, p-1);
     else
