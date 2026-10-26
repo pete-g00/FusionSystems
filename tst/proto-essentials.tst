@@ -5,7 +5,7 @@ gap> Ex := Image(iso, Intersection(P, Image(Embedding(G, 2))));;
 gap> IsPGroup(S);; IsPGroup(Ex);;
 gap> IdGroup(S/Ex);
 [ 27, 3 ]
-gap> PE_RankTest(S, Ex);
+gap> RankTest(S, Ex);
 2
 gap> IsProtoEssential(S, Ex);
 true

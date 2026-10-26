@@ -90,13 +90,11 @@ end );
 
 InstallMethod(CoreTest, "RED core test",
     [IsPGroup, IsList], function(S, L)
-    local p, N;
-
-    p := PrimePGroup(S);
+    local N;
 
     N := NormalSubgroups(S);
     return ForAll(N, A -> IsTrivial(A) or
-        ForAll(L, E -> not IsSubset(E, A) or not IsSemiCharacteristicSubgroup(E, A))
+        not ForAll(L, E -> IsSubset(E, A) and IsSemiCharacteristic(E, A))
     );
 end );
 
@@ -160,7 +158,7 @@ InstallMethod(AbelianTest, "RED abelian test",
     AutSA := List(C0, A -> Automizer(S,A));
     AutSA := List([1..Length(C0)], i -> Image(N[i], AutSA[i]));
 
-    return not ForAll([1..Length(C0)], i -> IsSubset(PCore(AutA[i], p), AutSA[i]));
+    return ForAll([1..Length(C0)], i -> IsSubset(PCore(AutA[i], p), AutSA[i]));
 end );
 
 InstallMethod(DerivedCyclicTest, "RED derived cyclic test",
@@ -262,7 +260,7 @@ BindGlobal("FS_PossiblySupportsReducedFusionSystems_PrePE", function(S)
     fi;
 
     if not AbelianTest(S) then 
-        Info(InfoFusion, 1, "Failed omega test");
+        Info(InfoFusion, 1, "Failed abelian test");
         return false;
     fi;
 
