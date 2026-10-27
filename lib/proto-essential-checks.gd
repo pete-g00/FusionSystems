@@ -198,14 +198,6 @@ DeclareOperation("FrattiniTest", [IsPGroup, IsPGroup]);
 #! false
 #! @EndExampleSession 
 
-# Value   | Description                   | $a$
-# ----------------------------------------------------------------------------------------------------------
-# $0$     | Cyclic or quaternion          | $-$ 
-# $1$     | Elementary abelian            | $\frac{1}{(2, p-1)} (p^n-1)$ OR $(p-1)^2$ ($p \geq 5$, $n = 2$) 
-# $2$     | $\PSU_3(p^n)$                 | $\frac{1}{(3,p-1)}(p^2-1)$ 
-# $3$     | $\mathrm{Sz}(2^{2n+1})$       | $2^{2n+1}-1$ 
-# $4$     | ${^2\mathrm{G}}_2(3^{2n+1})$  | $3^{2n+1}-1$ 
-# $5$     | $3^{1+2}_-, 5^{1+2}_-$        | $p-1$ 
 
 #! @Description 
 #!
@@ -217,8 +209,48 @@ DeclareOperation("FrattiniTest", [IsPGroup, IsPGroup]);
 #! * $|\mathrm{Aut}(N_S(E))|$;
 #! * $|N_{\mathrm{Aut}(E)}(\mathrm{Aut}_S(E))|$; and
 #! * $|N_{\mathrm{Out}(E)}(\mathrm{Out}_S(E)) : C_{\mathrm{Out}(E)}(\mathrm{Out}_S(E))|$.
+#! We also perform a similar check for exponent. Specific values are given in the following table for each value.
+#! 
+#! <Table Align="|c|c|c|">
+#! <Row>
+#! <Item> Value </Item>
+#! <Item> Description </Item>
+#! <Item> Type of lift </Item>
+#! </Row>
+#! <Row>
+#! <Item> $0$ </Item>
+#! <Item> Cyclic or quaternion </Item>
+#! <Item> $-$ </Item>
+#! </Row>
+#! <Row>
+#! <Item> $1$ </Item>
+#! <Item> Elementary abelian </Item>
+#! <Item> Cyclic of order $\frac{1}{(2, p-1)} (p^n-1)$ or ... ($p \geq 5$, $n = 2$) </Item>
+#! </Row>
+#! <Row>
+#! <Item> $2$ </Item>
+#! <Item> Type $\mathrm{PSU}_3(p^n)$ </Item>
+#! <Item> Cyclic of order $\frac{1}{(3,p^n+1)}(p^{2n}+1)$ </Item>
+#! </Row>
+#! <Row>
+#! <Item> $3$ </Item>
+#! <Item> Type $\mathrm{Sz}(2^{2n+1})$ </Item>
+#! <Item> Cyclic of order $2^{2n+1}-1$ </Item>
+#! </Row>
+#! <Row>
+#! <Item> $4$ </Item>
+#! <Item> Type $\mathrm{Ree}(3^{2n+1})$ </Item>
+#! <Item> Cyclic of order $3^{2n+1}-1$ </Item>
+#! </Row>
+#! <Row>
+#! <Item> $5$ </Item>
+#! <Item> $3^{1+2}_-$, $5^{1+2}_-$ </Item>
+#! <Item> Cyclic of order $p-1$ </Item>
+#! </Row>
+#! </Table>
 #!
-#! This test applies at any prime $p$. It is based on <Cite Key="sporadics1" Where="Lemma A.1" /> and <Cite Key="OV" Where="Proposition 3.3(b)" />.
+#! This test applies at any prime $p$. It is based on <Cite Key="sporadics1" Where="Lemma A.1" /> 
+#! and <Cite Key="OV" Where="Proposition 3.3(b)" />.
 #! 
 #! @Arguments S E i
 #! @Returns true or false
