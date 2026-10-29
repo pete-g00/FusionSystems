@@ -14,7 +14,7 @@ InstallMethod(Automizer, "method for groups", [IsGroup, IsGroup], function(G, H)
         AutGH := Group(L);
     fi;
 
-    SetIsGroupOfAutomorphisms(AutGH, true);
+    SetIsGroupOfAutomorphismsFiniteGroup(AutGH, true);
     SetAutomorphismDomain(AutGH, H);
 
     return AutGH;
@@ -200,7 +200,7 @@ end);
 # $\Aut_\calF(E)^g$ for some $g \in S$ and $E \leq S$
 InstallOtherMethod(\^, "method to conjugate automorphism group by an element of an overgroup",
     FS_IsAutGroupAndElementFamilies,
-    [IsGroupOfAutomorphisms, IsMultiplicativeElementWithInverse], function(Aut0, g)
+    [IsGroupOfAutomorphismsFiniteGroup, IsMultiplicativeElementWithInverse], function(Aut0, g)
     local E, c, t, G;
 
     E := AutomorphismDomain(Aut0);
@@ -215,7 +215,7 @@ InstallOtherMethod(\^, "method to conjugate automorphism group by an element of 
 end );
 
 InstallOtherMethod(\^, "method to conjugate automorphism group by some map from an overgroup",
-    [IsGroupOfAutomorphisms, IsGroupHomomorphism and IsBijective], function(Aut0, phi)
+    [IsGroupOfAutomorphismsFiniteGroup, IsGroupHomomorphism and IsBijective], function(Aut0, phi)
     local E, c, t, G;
 
     # for phi in Aut(E) this is ordinary conjugation, done by the library

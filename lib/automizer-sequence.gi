@@ -380,12 +380,11 @@ InstallMethod(OrbitStabilizerFusion, "generic method",
                 Aut := ClosureGroup(Aut, Aut0^InverseGeneralMapping(alpha));
                 R := Orbit(AutFE^c, X, OnImage);
                 for X0 in R do 
-                    Info(InfoWarning, 1, X0);
                     if ForAll(T, A -> not IsConjugate(S, A, X0)) then 
                         beta := RepresentativeAction(AutFE^c, X, X0, OnImage);
                         Add(T, X0);
                         Add(Q, X0);
-                        Add(m, alpha*beta);
+                        Add(m, RestrictedHomomorphismOnto(alpha*beta, A));
                     fi;
                 od;
             fi;
@@ -550,7 +549,7 @@ end;
 
 InstallMethod(WeakRadicalCheck, "weak radical check", 
     [IsPGroup, IsPGroup, IsList], function(S, W, P)
-    local p, R, i, AutFW, AutW, n, AutSW, InnW, q, OutSW, OutFW, C, NSW, I, t;
+    local CheckRadical, p, R, i, AutFW, AutW, n, AutSW, InnW, q, OutSW, OutFW, C, NSW, I, t;
 
     # Not centric => nothing to do
     if Centralizer(S,W) <> Center(W) then 
@@ -560,7 +559,6 @@ InstallMethod(WeakRadicalCheck, "weak radical check",
 
     p := PrimePGroup(S);
     R := OrbitStabilizerFusion(S, W, P);
-    Info(InfoFusion, 1, "Orbit-Stabilizer for W computed");
 
     # a fully normalized conjugate of P
     i := PositionMaximum(List(R.orbit, A -> Size(Normalizer(S,A))));
@@ -570,20 +568,27 @@ InstallMethod(WeakRadicalCheck, "weak radical check",
     AutW := AutomorphismGroup(W);
     n := NiceMonomorphism(AutW);
     AutSW := Automizer(S, W);
-    Info(InfoFusion, 1, "n(Aut_S(W)) to be found");
     AutSW := n(AutSW);
-    Info(InfoFusion, 1, "n(Aut_F(W)) to be found");
     AutFW := n(AutFW);
-    Info(InfoFusion, 1, "Found");
+
+    CheckRadical := function(j) 
+        local a, Aut;
+        a := InverseGeneralMapping(R.maps[j])*R.maps[i];
+        Aut := Automizer(S,R.orbit[j])^a;
+        
+        # TODO: This shouldn't be necessary!
+        SetIsGroupOfAutomorphismsFiniteGroup(Aut, true);
+        SetAutomorphismDomain(Aut, R.orbit[i]);
+        
+        return Size(Intersection(n(Aut), 
+        PCore(AutFW, p))) <> Index(R.orbit[j], Center(R.orbit[j]));
+    end;
 
     # Need to check only if $O_p(\Aut_F(W)) \cap \Aut_S(W) = 1$ for some conjugate
     if ForAny([1..Length(R.orbit)], j -> Centralizer(S, R.orbit[i]) <> Center(R.orbit[i])) then 
         Info(InfoFusion, 1, "Not centric in F");
         return true;
-# We're struggling with this for some reason
-    elif ForAny([1..Length(R.orbit)], j -> Size(Intersection(
-        n(Automizer(S,R.orbit[j])^(InverseGeneralMapping(R.maps[j])*R.maps[i])), 
-        PCore(AutFW, p)))  <> Index(R.orbit[j], Center(R.orbit[j]))) then 
+    elif ForAny([1..Length(R.orbit)], CheckRadical) then 
         Info(InfoFusion, 1, "Not radical in F");
         return true;
     fi;
@@ -634,8 +639,7 @@ InstallMethod(WeakRadicalCheck, "weak radical check",
     # Check that
     # $\Aut_F(A) \downarrow W = N_{\Aut_F(W)}(\Aut_A(W))$
     return ForAll(C, A -> 
-        Size(n(Automizer(OrbitStabilizerFusion(S, A, P).AutFA, W))) = Size(Normalizer(AutFW, n(Automizer(A, W))))
-    );
+        Size(n(Automizer(OrbitStabilizerFusion(S, A, P).AutFA, W))) = Size(Normalizer(AutFW, n(Automizer(A, W)))));
 end);
 
 BindGlobal("FS_Zip", function(L)
