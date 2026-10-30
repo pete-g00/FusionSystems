@@ -119,7 +119,7 @@
   \indexspace
 
   \item \texttt  {TransferFpMaximalTest}
-    \subitem for IsPGroup, \hyperpage{17}
+    \subitem for IsPGroup, \hyperpage{18}
   \item \texttt  {TransferFpTest}
     \subitem for IsPGroup, IsList, \hyperpage{18}
   \item \texttt  {TransferHomomorphism}
@@ -127,7 +127,7 @@
   \item \texttt  {TransferHomomorphismFp}
     \subitem for IsGroup, IsPGroup, \hyperpage{26}
   \item \texttt  {TransferMaximalTest}
-    \subitem for IsPGroup, \hyperpage{17}
+    \subitem for IsPGroup, \hyperpage{18}
   \item \texttt  {TransferTest}
     \subitem for IsPGroup, IsList, \hyperpage{18}
 

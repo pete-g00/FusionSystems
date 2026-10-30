@@ -2,34 +2,34 @@
   
   [1XReferences[101X
   
-  [[20XAOV13[120X]  [16XAndersen,  K.,  Oliver,  B.  and  Ventura,  J.[116X, [17XFusion systems and amalgams[117X, [18XMathematische Zeitschrift[118X, Springer, [19X274[119X, 3
-  (2013), 1119--1154.
+  [[20XAOV13[120X]  [16XAndersen, K., Oliver, B. and Ventura, J.[116X, [17XFusion systems and amalgams[117X, [18XMathematische Zeitschrift[118X, Springer,
+  [19X274[119X, 3 (2013), 1119--1154.
   
-  [[20XAOV17[120X]  [16XAndersen,  K.,  Oliver,  B.  and  Ventura,  J.[116X, [17XReduced fusion systems over 2-groups of small order[117X, [18XJournal of Algebra[118X,
-  Elsevier, [19X489[119X (2017), 310--372.
+  [[20XAOV17[120X]  [16XAndersen,  K.,  Oliver, B. and Ventura, J.[116X, [17XReduced fusion systems over 2-groups of small order[117X, [18XJournal of
+  Algebra[118X, Elsevier, [19X489[119X (2017), 310--372.
   
-  [[20XAKO11[120X]  [16XAschbacher,  M.,  Kessar,  R.  and  Oliver,  B.[116X, [17XFusion systems in algebra and topology[117X, Cambridge University Press, [19X391[119X
-  (2011).
+  [[20XAKO11[120X]  [16XAschbacher,  M.,  Kessar,  R.  and Oliver, B.[116X, [17XFusion systems in algebra and topology[117X, Cambridge University
+  Press, [19X391[119X (2011).
   
   [[20XCra11[120X] [16XCraven, D.[116X, [17XThe theory of fusion systems: An algebraic approach[117X, Cambridge University Press, [19X131[119X (2011).
   
-  [[20XDGPS11[120X]  [16XD\'\iaz,  A.,  Glesser,  A.,  Park,  S. and Stancu, R.[116X, [17XTate's and Yoshida's theorems on control of transfer for fusion
-  systems[117X, [18XJournal of the London Mathematical Society[118X, Wiley Online Library, [19X84[119X, 2 (2011), 475--494.
+  [[20XDGPS11[120X] [16XD\'\iaz, A., Glesser, A., Park, S. and Stancu, R.[116X, [17XTate's and Yoshida's theorems on control of transfer for
+  fusion systems[117X, [18XJournal of the London Mathematical Society[118X, Wiley Online Library, [19X84[119X, 2 (2011), 475--494.
   
-  [[20XGau26[120X]  [16XGautam,  P.[116X,  [17XFusion  Systems  on  Sylow  3-subgroups of Fischer and Monster sporadic groups -- II[117X, [18XarXiv preprint arXiv[118X
-  (2026).
+  [[20XGau26[120X] [16XGautam, P.[116X, [17XFusion Systems on Sylow 3-subgroups of Fischer and Monster sporadic groups -- II[117X, [18XarXiv preprint
+  arXiv[118X (2026).
   
-  [[20XGau27[120X]  [16XGautam,  P.[116X,  [17XFusion  Systems  on  Sylow  3-subgroups  of  Fischer and Monster sporadic groups -- I[117X, [18XJournal of Algebra[118X,
-  Elsevier, [19X710[119X (2027), 810--859.
+  [[20XGau27[120X]  [16XGautam,  P.[116X,  [17XFusion  Systems  on Sylow 3-subgroups of Fischer and Monster sporadic groups -- I[117X, [18XJournal of
+  Algebra[118X, Elsevier, [19X710[119X (2027), 810--859.
   
-  [[20XLP10[120X]  [16XLynd,  J.  and  Park,  S.[116X,  [17XAnalogues  of  Goldschmidt's  thesis  for fusion systems[117X, [18XJournal of Algebra[118X, [19X324[119X, 12 (2010),
-  3487-3493.
+  [[20XLP10[120X]  [16XLynd,  J.  and  Park,  S.[116X, [17XAnalogues of Goldschmidt's thesis for fusion systems[117X, [18XJournal of Algebra[118X, [19X324[119X, 12
+  (2010), 3487-3493.
   
-  [[20XOV09[120X]  [16XOliver,  B.  and  Ventura, J.[116X, [17XSaturated fusion systems over 2-groups[117X, [18XTransactions of the American Mathematical Society[118X,
-  [19X361[119X, 12 (2009), 6661--6728.
+  [[20XOV09[120X] [16XOliver, B. and Ventura, J.[116X, [17XSaturated fusion systems over 2-groups[117X, [18XTransactions of the American Mathematical
+  Society[118X, [19X361[119X, 12 (2009), 6661--6728.
   
-  [[20XPS21[120X]  [16XParker,  C.  and Semeraro, J.[116X, [17XAlgorithms for fusion systems with applications to p-groups of small order[117X, [18XMathematics of
-  Computation[118X, [19X90[119X, 331 (2021), 2415--2461.
+  [[20XPS21[120X]  [16XParker,  C.  and  Semeraro,  J.[116X, [17XAlgorithms for fusion systems with applications to p-groups of small order[117X,
+  [18XMathematics of Computation[118X, [19X90[119X, 331 (2021), 2415--2461.
   
   [[20XSam14[120X] [16XSambale, B.[116X, [17XBlocks of finite groups and their invariants[117X, Springer, [19X2127[119X (2014).
   

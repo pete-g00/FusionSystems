@@ -29,7 +29,7 @@
 \contentsline {subsection}{\numberline {4.2.4}\textcolor {Chapter }{DerivedCyclicTest (for IsPGroup)}}{16}{subsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.2.5}\textcolor {Chapter }{ValidAutTest (for IsPGroup)}}{16}{subsection.4.2.5}%
 \contentsline {subsection}{\numberline {4.2.6}\textcolor {Chapter }{OmegaAbelianizationTest (for IsPGroup)}}{17}{subsection.4.2.6}%
-\contentsline {subsection}{\numberline {4.2.7}\textcolor {Chapter }{Transfer test for a group}}{17}{subsection.4.2.7}%
+\contentsline {subsection}{\numberline {4.2.7}\textcolor {Chapter }{Transfer test for a group}}{18}{subsection.4.2.7}%
 \contentsline {subsection}{\numberline {4.2.8}\textcolor {Chapter }{Transfer test with a list}}{18}{subsection.4.2.8}%
 \contentsline {subsection}{\numberline {4.2.9}\textcolor {Chapter }{C0Test (for IsPGroup, IsList)}}{19}{subsection.4.2.9}%
 \contentsline {subsection}{\numberline {4.2.10}\textcolor {Chapter }{CTest (for IsPGroup, IsList)}}{19}{subsection.4.2.10}%

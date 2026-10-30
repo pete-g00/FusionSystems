@@ -1,19 +1,19 @@
 # Fdb version 4
-["bibtex _main"] 1792922335.89377 "_main.aux" "_main.bbl" "_main" 1792922401.29575 0
-  "./FusionSystems.bib" 1792922013 2619 cc5c398ec967eed7921b48bab3ab23fc ""
+["bibtex _main"] 1793357843.88796 "_main.aux" "_main.bbl" "_main" 1793358229.89278 0
+  "./FusionSystems.bib" 1793357842 2602 f13c4084baa93eba1c2ab27072d1b5cd ""
   "C:/Users/j46794pg/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/alpha.bst" 1291864736 23907 a5f93555796fb564b924339521f10a7c ""
-  "_main.aux" 1792922400 23671 474cfbadf517d7792e9a5d83695e3fe4 "pdflatex"
+  "_main.aux" 1793358228 23671 b987230f1bea284bb743373acb1add27 "pdflatex"
   (generated)
   "_main.bbl"
   "_main.blg"
   (rewritten before read)
-["makeindex _main.idx"] 1792922335.59513 "_main.idx" "_main.ind" "_main" 1792922401.29421 0
-  "_main.idx" 1792922400 5026 86edf12b379735c48a7449c4b0eca652 "pdflatex"
+["makeindex _main.idx"] 1793357840.52144 "_main.idx" "_main.ind" "_main" 1793358229.89178 0
+  "_main.idx" 1793358228 5026 af4c8c9efb89f5064e816f86809a0500 "pdflatex"
   (generated)
   "_main.ilg"
   "_main.ind"
   (rewritten before read)
-["pdflatex"] 1792922399.30588 "c:/Users/j46794pg/Downloads/gap-4.16.0/gap-4.16.0/pkg/FusionSystems/doc/_main.tex" "_main.pdf" "_main" 1792922401.2983 0
+["pdflatex"] 1793358227.77508 "c:/Users/j46794pg/Downloads/gap-4.16.0/gap-4.16.0/pkg/FusionSystems/doc/_main.tex" "_main.pdf" "_main" 1793358229.89376 0
   "C:/Users/j46794pg/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1779017625 82714 c9c37d051a0c563641ee6353df77525b ""
   "C:/Users/j46794pg/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecit1095.pk" 1792318684 30228 c50f4ef02314f132f02b5316d13d7935 ""
   "C:/Users/j46794pg/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecst1095.pk" 1746014396 26848 4c8aff3efc1ac330ad814511c82ad219 ""
@@ -142,14 +142,14 @@
   "C:/Users/j46794pg/AppData/Local/Programs/MiKTeX/tex/latex/refcount/refcount.sty" 1576433952 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "C:/Users/j46794pg/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/j46794pg/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "_main.aux" 1792922400 23671 474cfbadf517d7792e9a5d83695e3fe4 "pdflatex"
-  "_main.bbl" 1792922336 2168 87110d5d8f28863b8a9804c3135c0d25 "bibtex _main"
-  "_main.brf" 1792922400 1130 afafe7c625a8ac25208fea99b231049d "pdflatex"
-  "_main.ind" 1792922335 4751 81725f4238f45b05f273441ca7111a5b "makeindex _main.idx"
-  "_main.out" 1792922400 2728 b4be4cdc3fe8e92bd6e7d76466c81758 "pdflatex"
-  "_main.tex" 1792922397 79609 7fd73f09c06592771f5974ecf5355d37 ""
-  "_main.toc" 1792922400 8010 667bf5afb0db3daffdf4195b956ea43d "pdflatex"
-  "c:/Users/j46794pg/Downloads/gap-4.16.0/gap-4.16.0/pkg/FusionSystems/doc/_main.tex" 1792922397 79609 7fd73f09c06592771f5974ecf5355d37 ""
+  "_main.aux" 1793358228 23671 b987230f1bea284bb743373acb1add27 "pdflatex"
+  "_main.bbl" 1793357844 2151 a92b4d71503fa2f64b40a592a500faa3 "bibtex _main"
+  "_main.brf" 1793358228 1130 7b0ff5319fe0ac9362d0b147d12992d1 "pdflatex"
+  "_main.ind" 1793357840 4751 420dddb96516063a695dbe7165defe2a "makeindex _main.idx"
+  "_main.out" 1793358228 2728 b4be4cdc3fe8e92bd6e7d76466c81758 "pdflatex"
+  "_main.tex" 1793358226 80141 ce4e5cd0c89ffdb701e05ee1d6d29cdf ""
+  "_main.toc" 1793358228 8010 b18e1c1f02039f6dad83d74b31e3e32c "pdflatex"
+  "c:/Users/j46794pg/Downloads/gap-4.16.0/gap-4.16.0/pkg/FusionSystems/doc/_main.tex" 1793358226 80141 ce4e5cd0c89ffdb701e05ee1d6d29cdf ""
   (generated)
   "_main.aux"
   "_main.brf"

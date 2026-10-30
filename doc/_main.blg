@@ -7,7 +7,7 @@ Reallocating 'name_of_file' (item size: 1) to 18 items.
 Database file #1: FusionSystems.bib
 You've used 11 entries,
             2543 wiz_defined-function locations,
-            636 strings with 5810 characters,
+            636 strings with 5795 characters,
 and the built_in function-call counts, 4280 in all, are:
 = -- 426
 > -- 195

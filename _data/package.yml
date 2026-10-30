@@ -60,8 +60,9 @@ bibtex: |
       month =            {Oct},
       year =             {2026},
       note =             {GAP package},
-      howpublished =     {\href                                                           {https://pete-g00.github.io/FusionSystems/}
-                          {\texttt{https://pete\texttt{\symbol{45}}g00.github.io/}\discretionary {}{}{}\texttt{FusionSystems/}}},
+      howpublished =     {\href                                              {https://pete-g00.github.io/FusionSystems/}
+                          {\texttt{https://pete\texttt{\symbol{45}}g00.github.io/}\discretionary
+                          {}{}{}\texttt{FusionSystems/}}},
       printedkey =       {GL26}
     }
 
