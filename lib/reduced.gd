@@ -73,11 +73,14 @@ DeclareOperation("PossiblySupportsReducedFusionSystems_PE", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Given a $p$-group $S$, the attribute `IsDSWGroup` checks whether $p=2$, and that $S$ is isomorphic to dihedral, semi-dihedral group, or the 
-#! wreath product $C_{2^a} \wr C_2$.
+#! Given a $2$-group $S$, the attribute `IsDSWGroup` checks whether $p=2$, and that $S$ is isomorphic to dihedral, semi-dihedral group, or the 
+#! wreath product $C_{2^a} \wr C_2$. Instead, if $p$ is odd, we merely
+#! note whether the group has a subgroup of index $p$ (and if it has
+#! multiple such subgroups, whether $S$ is the extraspecial
+#! group of order $p^3$ and exponent $p$).'
 #! 
 #! Using the work of Oliver and his collaborators, there are many properties on a $2$-group $S$ that imply that, if $S$ supports reduced fusion systems,
-#! then $S$ is isomorphic to one of the three groups (and is called a $\mathcal{DSW}$-group) (see, for example, <Cite Key="AOV13" Where="Proposition 5.2" />).
+#! then $S$ is a DSW group (see, for example, <Cite Key="AOV13" Where="Proposition 5.2" />).
 #! 
 #! @Arguments S
 #! @Returns true or false
@@ -199,7 +202,8 @@ DeclareAttribute("DerivedCyclicTest", IsPGroup);
 #! not a $p$-group. If we further know that $S$ has class $\leq p-1$, and $\mathrm{Aut}(S)$ has a Hall $p$-complement
 #! $H$, we check that $[S, H] = S$.
 #! 
-#! This test does not apply if $p \leq 3$. It is based on <Cite Key="CRA" Where="7.82" /> and <Cite Key="DGPS" />.
+#! The first test applies if $p \geq 5$ and is based on <Cite Key="CRA" Where="7.82" />.
+#! The second test applies if $p \geq 3$ and is based on <Cite Key="DGPS" />.
 #! 
 #! @Arguments S
 #! @Returns true or false

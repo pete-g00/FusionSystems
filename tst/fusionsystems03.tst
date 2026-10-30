@@ -10,7 +10,7 @@
 #
 gap> START_TEST("fusionsystems03.tst");
 
-# lib/proto-essential-checks.gd:35-43
+# doc/_Chapter_ProtoEssentialChecks.xml:51-59
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> C := SubgroupsSolvableGroup(S);;
@@ -19,7 +19,7 @@ gap> C := Filtered(C, A -> IsProtoEssential(S, A));
 gap> List(C, StructureDescription);
 [ "(C3 x C3) : C3", "C3 x C3", "C3 x C3 x C3" ]
 
-# lib/proto-essential-checks.gd:85-95
+# doc/_Chapter_ProtoEssentialChecks.xml:124-134
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> Z0 := Zed0(S);
@@ -30,7 +30,7 @@ gap> Length(C);
 gap> Number(C, A -> Zed0Test(S,A));
 66
 
-# lib/proto-essential-checks.gd:118-142
+# doc/_Chapter_ProtoEssentialChecks.xml:173-197
 gap> S := SmallGroup(3^6, 479);
 <pc group of size 729 with 6 generators>
 gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
@@ -55,7 +55,7 @@ gap> RankTest(S, T);
 gap> RankTest(S, U);
 -1
 
-# lib/proto-essential-checks.gd:157-165
+# doc/_Chapter_ProtoEssentialChecks.xml:213-221
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> C := SubgroupsSolvableGroup(S);;
@@ -64,7 +64,7 @@ gap> Length(C);
 gap> Number(C, A -> Zed0Test(S,A) and ModuleTest(S,A));
 24
 
-# lib/proto-essential-checks.gd:181-201
+# doc/_Chapter_ProtoEssentialChecks.xml:237-257
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
@@ -85,7 +85,7 @@ true
 gap> FrattiniTest(S, T);
 false
 
-# lib/proto-essential-checks.gd:229-249
+# doc/_Chapter_ProtoEssentialChecks.xml:327-347
 gap> S := SmallGroup(3^6, 479);
 <pc group of size 729 with 6 generators>
 gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
@@ -106,7 +106,7 @@ true
 gap> LiftTest(S, T, 1);
 false
 
-# lib/proto-essential-checks.gd:266-282
+# doc/_Chapter_ProtoEssentialChecks.xml:367-383
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
@@ -123,7 +123,7 @@ true
 gap> ValidAutTest(S, C, 0);
 false
 
-# lib/proto-essential-checks.gd:297-313
+# doc/_Chapter_ProtoEssentialChecks.xml:401-417
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));

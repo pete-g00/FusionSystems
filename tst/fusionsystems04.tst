@@ -10,13 +10,13 @@
 #
 gap> START_TEST("fusionsystems04.tst");
 
-# lib/reduced.gd:30-35
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:37-42
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> PossiblySupportsReducedFusionSystems(S);
 true
 
-# lib/reduced.gd:58-69
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:68-79
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
@@ -28,7 +28,7 @@ true
 gap> PossiblySupportsReducedFusionSystems_PE(S, L{[3..5]});
 false
 
-# lib/reduced.gd:86-112
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:104-130
 gap> S := DihedralGroup(2^3);
 <pc group of size 8 with 3 generators>
 gap> IsDSWGroup(S);
@@ -55,7 +55,7 @@ gap> StructureDescription(S);
 gap> IsDSWGroup(S);
 false
 
-# lib/reduced.gd:125-138
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:146-159
 gap> S := SmallGroup(3^4, 13);
 <pc group of size 81 with 4 generators>
 gap> StructureDescription(S);
@@ -69,7 +69,7 @@ gap> StructureDescription(S);
 gap> ExponentTest(S);
 false
 
-# lib/reduced.gd:153-166
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:183-196
 gap> S := DihedralGroup(2^4);
 <pc group of size 16 with 4 generators>
 gap> AbelianTest(S);
@@ -83,7 +83,7 @@ gap> StructureDescription(Center(S));
 gap> AbelianTest(S);
 false
 
-# lib/reduced.gd:181-194
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:219-232
 gap> S := DihedralGroup(2^4);
 <pc group of size 16 with 4 generators>
 gap> DerivedCyclicTest(S);
@@ -97,7 +97,7 @@ gap> StructureDescription(Center(S));
 gap> DerivedCyclicTest(S);
 false
 
-# lib/reduced.gd:209-234
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:250-275
 gap> S := SmallGroup(5^5, 38);
 <pc group of size 3125 with 5 generators>
 gap> NilpotencyClassOfGroup(S);
@@ -123,7 +123,7 @@ gap> AutomorphismGroup(S);
 gap> ValidAutTest(S);
 false
 
-# lib/reduced.gd:248-259
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:298-309
 gap> S := DihedralGroup(2^4);
 <pc group of size 16 with 4 generators>
 gap> OmegaAbelianizationTest(S);
@@ -135,7 +135,7 @@ gap> StructureDescription(S);
 gap> OmegaAbelianizationTest(S);
 false
 
-# lib/reduced.gd:284-291
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:334-341
 gap> S := SmallGroup(2^7, 903);
 <pc group of size 128 with 7 generators>
 gap> TransferMaximalTest(S);
@@ -143,7 +143,7 @@ false
 gap> TransferFpMaximalTest(S);
 true
 
-# lib/reduced.gd:315-326
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:365-376
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
@@ -155,21 +155,21 @@ true
 gap> TransferTest(S, L{[3..5]});
 false
 
-# lib/reduced.gd:342-348
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:393-399
 gap> L := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;
 gap> Length(L);
 32
 gap> Number(L, S -> C0Test(S, MainProtoEssentials(S, 0)));
 17
 
-# lib/reduced.gd:362-368
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:422-428
 gap> L := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;
 gap> Length(L);
 32
 gap> Number(L, S -> CTest(S, AllProtoEssentials(S)));
 16
 
-# lib/reduced.gd:383-394
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:446-457
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
@@ -181,7 +181,7 @@ true
 gap> SemiCharacteristicGeneratedTest(S, L{[3..5]});
 false
 
-# lib/reduced.gd:410-420
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:475-485
 gap> S := SmallGroup(256, 6366);
 <pc group of size 256 with 8 generators>
 gap> L := AllProtoEssentials(S);
