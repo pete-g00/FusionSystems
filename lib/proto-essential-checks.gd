@@ -225,7 +225,7 @@ DeclareOperation("FrattiniTest", [IsPGroup, IsPGroup]);
 #! <Row>
 #! <Item> $1$ </Item>
 #! <Item> Elementary abelian </Item>
-#! <Item> Cyclic of order $\frac{1}{(2, p-1)} (p^n-1)$ or ... ($p \geq 5$, $n = 2$) </Item>
+#! <Item> Cyclic of order $\frac{1}{(2, p-1)} (p^n-1)$ or $(C_{p-1} \times C_{\frac{1}{2}(p-1)}) \ldotp C_2$ ($p \geq 5$, $n = 2$) </Item>
 #! </Row>
 #! <Row>
 #! <Item> $2$ </Item>

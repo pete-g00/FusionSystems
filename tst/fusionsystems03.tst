@@ -85,7 +85,7 @@ true
 gap> FrattiniTest(S, T);
 false
 
-# doc/_Chapter_ProtoEssentialChecks.xml:287-307
+# doc/_Chapter_ProtoEssentialChecks.xml:327-347
 gap> S := SmallGroup(3^6, 479);
 <pc group of size 729 with 6 generators>
 gap> A := First(MaximalSubgroups(S), IsElementaryAbelian);
@@ -106,7 +106,7 @@ true
 gap> LiftTest(S, T, 1);
 false
 
-# doc/_Chapter_ProtoEssentialChecks.xml:327-343
+# doc/_Chapter_ProtoEssentialChecks.xml:367-383
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
@@ -123,7 +123,7 @@ true
 gap> ValidAutTest(S, C, 0);
 false
 
-# doc/_Chapter_ProtoEssentialChecks.xml:361-377
+# doc/_Chapter_ProtoEssentialChecks.xml:401-417
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> A := First(MaximalSubgroups(S), A -> IsElementaryAbelian(A));
