@@ -90,20 +90,12 @@ end );
 
 InstallMethod(CoreTest, "RED core test",
     [IsPGroup, IsList], function(S, L)
-    local p, AutL, n, AutLp, AutS, AutSp, N;
-
-    p := PrimePGroup(S);
-    AutL := List(L, AutomorphismGroup);
-    n := List(AutL, NiceMonomorphism);
-    AutL := List([1..Length(L)], i -> Image(n[i], AutL[i]));
-    AutLp := List(AutL, A -> PResidual(CoprimeResidual(A, [p]), p));
-    AutLp := List([1..Length(L)], i -> PreImage(n[i], AutLp[i]));
+    local N;
 
     N := NormalSubgroups(S);
-    N := Filtered(N, A -> ForAll([1..Length(L)], i -> IsSubset(L[i], A) and 
-        ForAll(GeneratorsOfGroup(AutLp[i]), x -> Image(x,A) = A)));
-
-    return Length(N) = 1;
+    return ForAll(N, A -> IsTrivial(A) or
+        not ForAll(L, E -> IsSubset(E, A) and IsSemiCharacteristic(E, A))
+    );
 end );
 
 InstallMethod(IsDSWGroup, "is DSw group",
@@ -111,7 +103,16 @@ InstallMethod(IsDSWGroup, "is DSw group",
     local p, n, M, a;
 
     p := PrimePGroup(S);
-    if p <> 2 then return false; fi;
+    if p <> 2 then 
+        a := Number(MaximalSubgroups(S), IsAbelian); 
+        if a = 0 then 
+            return false;
+        elif a = 1 then 
+            return true;
+        else 
+            return Size(S) = p^3 and not IsAbelian(S) and Exponent(S) = p;
+        fi;
+    fi;
 
     n := PValuation(Size(S), p);
 
@@ -155,8 +156,9 @@ InstallMethod(AbelianTest, "RED abelian test",
     AutA := List([1..Length(C0)], i -> Image(N[i], AutA[i]));
 
     AutSA := List(C0, A -> Automizer(S,A));
+    AutSA := List([1..Length(C0)], i -> Image(N[i], AutSA[i]));
 
-    return not ForAll([1..Length(C0)], i -> IsSubset(PCore(AutA[i], p), AutSA[i]));
+    return ForAll([1..Length(C0)], i -> IsSubset(PCore(AutA[i], p), AutSA[i]));
 end );
 
 InstallMethod(DerivedCyclicTest, "RED derived cyclic test",
@@ -171,11 +173,11 @@ InstallMethod(ValidAutTest, "RED valid aut test",
     p := PrimePGroup(S);
     if p = 2 then return true; fi;
     
-    # TODO: Prove this for $p=3$
-
     AutS := AutomorphismGroup(S);
 
-    if IsPGroup(AutS) then 
+    if p >= 5 and IsPGroup(AutS) then 
+        return false;
+    elif p = 3 and IsPGroup(AutS) and NilpotencyClassOfGroup(S) = 2 then 
         return false;
     fi;
 
@@ -254,6 +256,11 @@ BindGlobal("FS_PossiblySupportsReducedFusionSystems_PrePE", function(S)
 
     if not OmegaAbelianizationTest(S) then 
         Info(InfoFusion, 1, "Failed omega test");
+        return false;
+    fi;
+
+    if not AbelianTest(S) then 
+        Info(InfoFusion, 1, "Failed abelian test");
         return false;
     fi;
 

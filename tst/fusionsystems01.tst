@@ -10,7 +10,7 @@
 #
 gap> START_TEST("fusionsystems01.tst");
 
-# doc/intro.autodoc:27-33
+# doc/_Chapter_Introduction.xml:40-46
 gap> S := SmallGroup(2^7, 931);;
 gap> Length(AllProtoEssentials(S));
 5

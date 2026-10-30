@@ -10,7 +10,7 @@
 #
 gap> START_TEST("fusionsystems05.tst");
 
-# lib/misc.gd:26-40
+# doc/_Chapter_Other_functions.xml:37-51
 gap> S := SmallGroup(5^6, 643);
 <pc group of size 15625 with 6 generators>
 gap> U := UpperCentralSeries(S);
@@ -25,7 +25,7 @@ Group([ a1, <identity> of ..., a3, a4, a5, a6 ])
 gap> A = R;
 false
 
-# lib/misc.gd:62-75
+# doc/_Chapter_Other_functions.xml:79-92
 gap> S := SmallGroup(5^6, 642);
 <pc group of size 15625 with 6 generators>
 gap> AutS := AutomorphismGroup(S);
@@ -39,7 +39,7 @@ gap> V := Group(S.2, S.6);
 gap> A := Stabilizer(AutS, V, OnImageNM(n));
 <permutation group of size 12500 with 7 generators>
 
-# lib/misc.gd:117-130
+# doc/_Chapter_Other_functions.xml:171-184
 gap> G := AlternatingGroup(6);
 Alt( [ 1 .. 6 ] )
 gap> S := SylowSubgroup(G, 2);
@@ -53,7 +53,7 @@ gap> AutGM := List(M, A -> Automizer(G, A));
 gap> List(AutGM, StructureDescription);
 [ "S3", "S3", "C2" ]
 
-# lib/misc.gd:138-159
+# doc/_Chapter_Other_functions.xml:191-212
 gap> S := SmallGroup(5^6, 642);
 <pc group of size 15625 with 6 generators>
 gap> V := Group(S.2, S.6);
@@ -75,7 +75,7 @@ gap> Index(AutV, AutSV);
 gap> Size(AutSV);
 20
 
-# lib/misc.gd:242-275
+# doc/_Chapter_Other_functions.xml:318-351
 gap> S := SmallGroup(2^8, 6331);
 <pc group of size 256 with 8 generators>
 gap> E1 := Group(S.1, S.2, S.4, S.5, S.6, S.7, S.8);
