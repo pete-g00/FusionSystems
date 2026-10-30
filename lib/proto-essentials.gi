@@ -35,12 +35,9 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         
         j := Position(L, DerivedSubgroup(S));
         L := L{[j+1..Length(L)]};
-        Info(InfoFusion, 1, Length(L), " iterations");
         
         q := List(L, A -> NaturalHomomorphismByNormalSubgroup(S,A));
 
-        Info(InfoFusion, 1, "Finding conjugacy classes");
-        
         Q := List(q, Image);
         C := List(Q, A -> ClassesSolvableGroup(A,0));
         C := List(C, A -> Filtered(A, a -> Order(a.representative) = p));
@@ -48,15 +45,15 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         C := List([1..Length(C)], i -> List(C[i], A -> PreImage(q[i], A)));
 
         if onlyOne = -1 then 
-            Info(InfoFusion, 1, "Excluding the top iteration");
+            Info(InfoFusion, 1, "Finding C - C0");
             C0 := C[Length(C)];
             C := Filtered(Flat(C{[2..Length(C)]}), A -> ForAll(C0, B -> not IsConjugate(S, A, B)));
         else 
+            Info(InfoFusion, 1, "Finding C");
             C := Flat(C);
         fi;
     elif onlyOne = 0 then
-        Info(InfoFusion, 1, "Only the top iteration");
-        Info(InfoFusion, 1, "Finding conjugacy classes");
+        Info(InfoFusion, 1, "Finding C0");
 
         C := ClassesSolvableGroup(S, 0);
         C := Filtered(C, a -> Order(a.representative) = p);
@@ -65,15 +62,12 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         Error("Second argument must be -1, 0 or 1");
     fi;
 
-    Info(InfoFusion, 1, Length(C), " subgroups, including possibly duplicates");
-    Info(InfoFusion, 2, "\tFinding S-reps");
-
     C := Orbits(S, C);
-    Info(InfoFusion, 1, Length(C), " up to S-conjugacy");
+    Info(InfoFusion, 1, Length(C), " subgroups up to S-conjugacy");
 
     C := List(C, Representative);
     
-    Info(InfoFusion, 1, "Checking proto-essentials");
+    Info(InfoFusion, 1, "Checking proto-essential(s)");
     C := Filtered(C, E -> IsProtoEssential(S,E));
 
     return C;
@@ -94,6 +88,7 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
             A0, # the conjugates of E
             A0F, # the current conjugates of E
             A, # the larger proto-essentials containing E
+            K, # the valid choices in A
             F, # an element in A
             E0, # some Aut(S)-conjugate of E contained inside F
             AutF, # Aut(F)
@@ -103,7 +98,7 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
         return L;
     fi;
 
-    Info(InfoFusion, 1, "Generating all proto-essential subgroups");
+    Info(InfoFusion, 1, "Generating all proto-essential subgroups from ", Length(L), " subgroups");
         
     I := [];
     L0 := ShallowCopy(L);
@@ -119,17 +114,17 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
 
         A0 := [E]; 
         A := List(T, X -> ContainedConjugates(S, X, E, true));
-        A := Filtered(A, X -> X <> fail);
+        K := PositionsProperty(A, X -> X <> fail);
 
-        for F in A do
-            E0 := E^(F[2]);
+        for i in K do
+            E0 := (T[i])^((A[i][2])^-1);
 
-            AutF := AutomorphismGroup(F[1]);
+            AutF := AutomorphismGroup(E0);
             n := NiceMonomorphism(AutF);
             AutF := NiceObject(AutF);
             
             # Find Aut(F)-conjugates of subgroups in A0 that are not already present (up to Aut(S)-conjugacy)
-            A0F := Orbit(AutF, E0, OnImageNM(n));
+            A0F := Orbit(AutF, E, OnImageNM(n));
             A0F := Orbits(S, A0F);
             A0F := Filtered(A0F, X -> ForAll(A0, Y -> not Y in X));
             A0F := List(A0F, Representative);
@@ -139,10 +134,11 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
         A0 := Filtered(A0, X -> ForAll(L0, Y -> not IsConjugate(S, X, Y)));
         Append(L0, A0);
 
-        if E in L0 or IsProtoEssential(S0, E) then 
+        if E in L or IsProtoEssential(S, E) then 
             Add(T, E);
         fi;
     od;
+    Info(InfoFusion, 1, "Generated ", Length(T), " subgroups");
 
     return T;
 end);
