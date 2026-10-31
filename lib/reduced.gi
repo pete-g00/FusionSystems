@@ -2,9 +2,11 @@
 InstallMethod(ExponentTest, "RED exponent test",
     [IsPGroup], function(S)
     local c, t, p;
-
-    c := NilpotencyClassOfGroup(S);
+    
+    if IsAbelian(S) then return false; fi;
     p := PrimePGroup(S);
+    
+    c := NilpotencyClassOfGroup(S);
     t := Int(Ceil(Float((c-1)/(p-1))));
 
     return Exponent(Center(S)) <= p^t;
@@ -42,10 +44,9 @@ end );
 
 InstallMethod(TransferTest, "RED transfer test",
     [IsPGroup, IsList], function(S, L)
-    local p, AutS, K, KF;
+    local AutS, K, KF;
     
-    p := PrimePGroup(S);
-    if p <> 2 then return true; fi;
+    if IsAbelian(S) then return false; fi;
 
     AutS := AutomorphismGroup(S);
     if not IsPGroup(AutS) then return true; fi;
@@ -56,20 +57,14 @@ end );
 
 InstallMethod(TransferMaximalTest, "RED transfer maximal test",
     [IsPGroup], function(S)
-    local p;
-    
-    p := PrimePGroup(S);
-    if p <> 2 then return true; fi;
-    
     return TransferTest(S, MaximalSubgroups(S));
 end );
 
 InstallMethod(TransferFpTest, "RED transfer fp test",
     [IsPGroup, IsList], function(S, L)
-    local p, AutS, K, KF;
+    local AutS, K, KF;
     
-    p := PrimePGroup(S);
-    if p <> 2 then return true; fi;
+    if IsAbelian(S) then return false; fi;
 
     AutS := AutomorphismGroup(S);
     if not IsPGroup(AutS) then return true; fi;
@@ -80,17 +75,14 @@ end );
 
 InstallMethod(TransferFpMaximalTest, "RED transfer fp maximal test",
     [IsPGroup], function(S)
-    local p;
-    
-    p := PrimePGroup(S);
-    if p <> 2 then return true; fi;
-    
     return TransferFpTest(S, MaximalSubgroups(S));
 end );
 
 InstallMethod(CoreTest, "RED core test",
     [IsPGroup, IsList], function(S, L)
     local N;
+    
+    if IsAbelian(S) then return false; fi;
 
     N := NormalSubgroups(S);
     return ForAll(N, A -> IsTrivial(A) or
@@ -102,6 +94,8 @@ InstallMethod(IsDSWGroup, "is DSw group",
     [IsPGroup], function(S)
     local p, n, M, a;
 
+    if IsAbelian(S) then return false; fi;
+
     p := PrimePGroup(S);
     if p <> 2 then 
         a := Number(MaximalSubgroups(S), IsAbelian); 
@@ -110,7 +104,7 @@ InstallMethod(IsDSWGroup, "is DSw group",
         elif a = 1 then 
             return true;
         else 
-            return Size(S) = p^3 and not IsAbelian(S) and Exponent(S) = p;
+            return Size(S) = p^3 and Exponent(S) = p;
         fi;
     fi;
 
@@ -136,10 +130,12 @@ InstallMethod(AbelianTest, "RED abelian test",
     [IsPGroup], function(S)
     local p, C0, AutA, N, AutSA;
 
-    if IsDSWGroup(S) then return true; fi;
-
+    if IsAbelian(S) then return false; fi;
+    
     p := PrimePGroup(S);
     if p <> 2 then return true; fi;
+
+    if IsDSWGroup(S) then return true; fi;
 
     C0 := ClassesSolvableGroup(S, 0);
     C0 := List(C0, x -> x.centralizer);
@@ -170,6 +166,8 @@ InstallMethod(ValidAutTest, "RED valid aut test",
     [IsPGroup], function(S)
     local p, AutS, n, H;
 
+    if IsAbelian(S) then return false; fi;
+
     p := PrimePGroup(S);
     if p = 2 then return true; fi;
     
@@ -179,9 +177,8 @@ InstallMethod(ValidAutTest, "RED valid aut test",
         return false;
     elif p = 3 and IsPGroup(AutS) and NilpotencyClassOfGroup(S) = 2 then 
         return false;
-    fi;
-
-    if NilpotencyClassOfGroup(S) > p-1 then 
+    elif NilpotencyClassOfGroup(S) > p or 
+        (NilpotencyClassOfGroup(S) = p and (Size(S) > p^(p+1) or IsElementaryAbelian(Centralizer(S, FS_SecondCentre(S))))) then 
         return true;
     fi;
 
@@ -201,8 +198,12 @@ InstallMethod(OmegaAbelianizationTest, "RED omega abelianization test",
     [IsPGroup], function(S)
     local p, AutS, O, D;
 
+    if IsAbelian(S) then return false; fi;
     p := PrimePGroup(S);
-    if p <> 2 then return true; fi;
+
+    if p <> 2 then 
+        return true; 
+    fi;
 
     O := Omega(Center(S), p);
     D := DerivedSubgroup(S);
@@ -219,6 +220,9 @@ end );
 InstallMethod(C0Test, "RED C0 test",
     [IsPGroup, IsList], function(S, C0)
     local p;
+    
+    if IsAbelian(S) then return false; fi;
+
     p := PrimePGroup(S);
     return not ForAll(C0, A -> IsSemiCharacteristic(A, Omega(Center(S), p)));
 end );
@@ -226,6 +230,8 @@ end );
 InstallMethod(CTest, "RED C test",
     [IsPGroup, IsList], function(S, C)
     local p, AutS;
+    
+    if IsAbelian(S) then return false; fi;
 
     if IsEmpty(C) then 
         return false;
@@ -241,6 +247,7 @@ end );
 
 BindGlobal("FS_PossiblySupportsReducedFusionSystems_PrePE", function(S)
     # Dihedral, semidihedral and wreathed groups (p=2) support reduced fs.
+    if IsAbelian(S) then return false; fi;
     if IsDSWGroup(S) then return true; fi;
 
     if not ExponentTest(S) then 
@@ -274,6 +281,8 @@ InstallMethod(PossiblySupportsReducedFusionSystems_PE, "Possibly supports reduce
     # TODO: Maximal class
     # TODO: Class 2
     # TODO: Abelian sub. of index p (non-maximal class)
+
+    if IsAbelian(S) then return false; fi;
     
     if not FS_PossiblySupportsReducedFusionSystems_PrePE(S) then 
         return false;
@@ -318,6 +327,9 @@ InstallMethod(PossiblySupportsReducedFusionSystems, "Possibly supports reduced f
     # TODO: Maximal class
     # TODO: Class 2
     # TODO: Abelian sub. of index p (non-maximal class)
+    
+    if IsAbelian(S) then return false; fi;
+    if IsDSWGroup(S) then return true; fi;
 
     if not FS_PossiblySupportsReducedFusionSystems_PrePE(S) then 
         return false;
