@@ -25,7 +25,7 @@ gap> C0 := MainProtoEssentials(S, 0);
 [ Group([ f1, f2, f4, f6, f7 ]), Group([ f1, f3, f5, f6, f7 ]), 
 Group([ f2, f3, f4, f5, f6, f7 ]) ]
 gap> C := MainProtoEssentials(S, -1);
-[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f7, f1, f3, f4, f5, f6 ]) ]
+[ Group([ f5, f6, f7, f1, f3, f4 ]), Group([ f7, f1, f2, f4, f5, f6 ]) ]
 
 # doc/_Chapter_ProtoEssentialSubgroups.xml:98-105
 gap> S := SmallGroup(3^6, 321);
