@@ -18,6 +18,9 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
 
     if Length(arg) > 1 then 
         onlyOne := arg[2];
+        if not onlyOne in [1, 0, -1] then 
+            Error("Second argument must be -1, 0 or 1");
+        fi;
     else 
         onlyOne := 1;
     fi;
@@ -47,7 +50,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         if onlyOne = -1 then 
             Info(InfoFusion, 1, "Finding C - C0");
             C0 := C[Length(C)];
-            C := Filtered(Flat(C{[2..Length(C)]}), A -> ForAll(C0, B -> not IsConjugate(S, A, B)));
+            C := Filtered(Flat(C{[1..Length(C)-1]}), A -> ForAll(C0, B -> not IsConjugate(S, A, B)));
         else 
             Info(InfoFusion, 1, "Finding C");
             C := Flat(C);
@@ -58,8 +61,6 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         C := ClassesSolvableGroup(S, 0);
         C := Filtered(C, a -> Order(a.representative) = p);
         C := List(C, a -> a.centralizer);
-    else 
-        Error("Second argument must be -1, 0 or 1");
     fi;
 
     C := Orbits(S, C);

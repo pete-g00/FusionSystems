@@ -67,8 +67,8 @@ InstallMethod(RankTest, "PE rank test",
             log_pr, # ceil(log_p(r))
             OutSE; # \Out_S(E)
 
-    if IsTrivial(E) then 
-        return false;
+    if IsTrivial(E) or S = E then 
+        return -1;
     fi;
 
     p := PrimePGroup(S);
@@ -261,6 +261,8 @@ InstallMethod(LiftTest, "PE Lift Test",
         return CheckLift(p^(n/3)-1, p^n-1);
     elif i = 5 then 
         return CheckLift(p-1, p-1);
+    elif i = -1 then 
+        return false;
     else
         Error("Invalid value i");
     fi;
@@ -269,6 +271,8 @@ end );
 InstallMethod(ValidAutTest, "PE Valid Aut Test",
     [IsPGroup, IsPGroup, IsInt], function(S, E, i)
     local OutSE, p, n, r, q, AutE, N, AutEp, D, IsSectionOrderValid;
+
+    if i = -1 then return false; fi;
 
     OutSE := IndexNC(Normalizer(S,E), E);
     
