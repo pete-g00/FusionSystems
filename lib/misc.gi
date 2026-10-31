@@ -102,7 +102,11 @@ InstallOtherMethod(Automizer, "automizer for automorphism groups",
     g := GeneratorsOfGroup(AutG0);
     h := List(g, phi -> RestrictedAutomorphism(phi, H));
 
-    AutH := Group(h);
+    if IsEmpty(h) then 
+        AutH := Group(IdentityMapping(H));
+    else 
+        AutH := Group(h);
+    fi;
     
     SetIsGroupOfAutomorphismsFiniteGroup(AutH, true);
     SetAutomorphismDomain(AutH, H);
@@ -373,6 +377,10 @@ InstallMethod(SemiAutomorphismGroup, "method for a p-group",
     [IsPGroup], function(S)
     local p, AutS, InnS, AutSp, n;
 
+    if IsTrivial(S) then 
+        return AutomorphismGroup(S);
+    fi;
+
     p := PrimePGroup(S);
 
     AutS := AutomorphismGroup(S);
@@ -382,7 +390,8 @@ InstallMethod(SemiAutomorphismGroup, "method for a p-group",
     InnS := InnerAutomorphismGroup(S);
     InnS := n(InnS);
 
-    AutSp := PResidual(AutS, p);
+    AutSp := CoprimeResidual(AutS, [p]);
+    AutSp := PResidual(AutSp, p);
     AutSp := ClosureGroup(AutSp, InnS);
     AutSp := PreImage(n, AutSp);
 
@@ -413,12 +422,12 @@ end );
 
 InstallMethod(SemiCharacteristicClosure, "method for p-group and subgroup", 
     [IsPGroup, IsPGroup], function(S,P)
-    local semichars;
+    local N;
 
     if IsSemiCharacteristic(S, P) then return P; fi;
 
-    semichars := SemiCharacteristicSubgroups(S);
-    semichars := Filtered(semichars, A -> IsSubset(A, P));
+    N := SemiCharacteristicSubgroups(S);
+    N := Filtered(N, A -> IsSubset(A, P));
 
-    return Intersection(semichars);
+    return Intersection(N);
 end);
