@@ -2,6 +2,18 @@
 
 The GAP package `FusionSystems` is a package that allows us to work with fusion systems in GAP. It is currently a work in progress and supports the construction of proto-essential subgroups. We also currently support (a non-exhaustive) check as to whether a group can support corefree and reduced fusion systems. 
 
+Fusion systems can be constructed from automizers (`FusionSystemByAutomizers`, `FusionSystemOfGroup`) and tested for saturation (`IsSaturatedFusionSystem`), following the Magma package of Parker and Semeraro. All saturated fusion systems on a small p-group can be enumerated with `AllSaturatedFusionSystems`, following Section 4 of Parker and Semeraro, *Algorithms for fusion systems with applications to p-groups of small order*, Math. Comp. 90 (2021). The options `CoreFree` and `FullFocal` restrict the output to fusion systems with O_p(F) = 1 and O^p(F) = F, respectively:
+
+```
+gap> S := SmallGroup(27, 3);;
+gap> Length(AllSaturatedFusionSystems(S));
+15
+gap> Length(AllSaturatedFusionSystems(S : CoreFree, FullFocal));
+4
+```
+
+All tests used to discard candidates before the saturation test hold for arbitrary saturated fusion systems and are independent of the classification of finite simple groups; the manual lists them with their sources.
+
 The first version of the package aims to add further functionalities, including (but not limited to):
 * constructing fusion systems in GAP;
 * storing small fusion systems; and
