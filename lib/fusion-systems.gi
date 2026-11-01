@@ -25,43 +25,69 @@ BindGlobal("FS_ConjugationPerms", function(elts, gens)
     return List(gens, g -> PermList(List(elts, x -> PositionSorted(elts, x^g))));
 end);
 
-# data of S: S-conjugacy class representatives of S-centric subgroups
+# Subgroups of S are described by their keys: the (increasing) lists of positions of their elements in AsSSortedList(S).
+BindGlobal("FS_Key", function(D, Q)
+    return List(AsSSortedList(Q), x -> PositionSorted(D.eltsS, x));
+end);
+
+# data of S: S-conjugacy class representatives reps of S-centric subgroups, their normalizers and element lists, and the
+# sorted list keys of the keys of all S-centric subgroups, where keyid[k] = [j, t] with Q^t = reps[j] for the subgroup Q
+# with key keys[k]
 BindGlobal("FS_CentricData", function(S)
-    local reps;
+    local hom, reps, D, j, t;
     if IsBound(S!.FS_CentricData) then
         return S!.FS_CentricData;
     fi;
-    reps := Filtered(List(ConjugacyClassesSubgroups(S), Representative), R -> FS_IsSCentric(S, R));
-    reps := rec(reps := reps,
-                info := List(reps, R -> [Size(R), Size(Center(R)), AbelianInvariants(R)]),
-                norm := List(reps, R -> Normalizer(S, R)),
-                elts := List(reps, AsSSortedList));
+    # S-centric subgroups contain Z(S)
+    hom := NaturalHomomorphismByNormalSubgroup(S, Center(S));
+    reps := List(ConjugacyClassesSubgroups(Image(hom)), C -> PreImage(hom, Representative(C)));
+    reps := Filtered(reps, R -> FS_IsSCentric(S, R));
+    D := rec(reps := reps,
+             norm := List(reps, R -> Normalizer(S, R)),
+             elts := List(reps, AsSSortedList),
+             eltsS := AsSSortedList(S),
+             keys := [],
+             keyid := []);
+    for j in [1..Length(reps)] do
+        for t in RightTransversal(S, D.norm[j]) do
+            Add(D.keys, Set(List(D.elts[j], x -> PositionSorted(D.eltsS, x^t))));
+            Add(D.keyid, [j, t^-1]);
+        od;
+    od;
+    SortParallel(D.keys, D.keyid);
     if IsComponentObjectRep(S) then
-        S!.FS_CentricData := reps;
+        S!.FS_CentricData := D;
     fi;
-    return reps;
+    return D;
+end);
+
+# [j, t] with Q^t = D.reps[j] for the subgroup Q with the given key, or fail if Q is not S-centric
+BindGlobal("FS_IdentifyKey", function(D, key)
+    local k;
+    k := PositionSorted(D.keys, key);
+    if k <= Length(D.keys) and D.keys[k] = key then
+        return D.keyid[k];
+    fi;
+    return fail;
 end);
 
 # [j, t] with Q^t = D.reps[j] for the data D of FS_CentricData(S), or fail if Q is not S-centric
 BindGlobal("FS_IdentifyCentricSubgroup", function(S, D, Q)
-    local inf, j, t;
-    if not FS_IsSCentric(S, Q) then
-        return fail;
-    fi;
-    inf := [Size(Q), Size(Center(Q)), AbelianInvariants(Q)];
-    for j in [1..Length(D.reps)] do
-        if D.info[j] = inf then
-            t := RepresentativeAction(S, Q, D.reps[j]);
-            if t <> fail then
-                return [j, t];
-            fi;
-        fi;
-    od;
-    Error("FS_IdentifyCentricSubgroup: no representative found");
+    return FS_IdentifyKey(D, FS_Key(D, Q));
 end);
 
 BindGlobal("FS_IdentifySubgroup", function(F, Q)
     return FS_IdentifyCentricSubgroup(F!.S, F!.data, Q);
+end);
+
+# list m with m[i] the position of the image of D.eltsS[i] under the map a, for the positions i in key
+BindGlobal("FS_PositionMap", function(D, a, key)
+    local m, i;
+    m := [];
+    for i in key do
+        m[i] := PositionSorted(D.eltsS, Image(a, D.eltsS[i]));
+    od;
+    return m;
 end);
 
 InstallMethod(FusionSystemByAutomizers, "for a p-group, a list of automorphisms and a list of automizers",
@@ -98,55 +124,44 @@ InstallMethod(PrintObj, "for a fusion system", [IsFusionSystem], function(F)
     Print(ViewString(F));
 end);
 
-# apply an edge of the fusion graph to an element of the source representative
-BindGlobal("FS_ApplyEdge", function(m, x)
-    if IsList(m) then
-        return Image(m[2], x^m[1])^m[3];
-    fi;
-    return x^m;
-end);
-
-# edges [i, j, m] of the fusion graph; bad contains the vertices from which a generator leads to a
-# subgroup which is not S-centric
+# edges [i, j, m] of the fusion graph, where m[k] is the index in elts[j] of the image of elts[i][k]; bad contains the
+# vertices from which a generator leads to a subgroup which is not S-centric
 BindGlobal("FS_FusionGraphEdges", function(F)
-    local S, edges, bad, j, n, data, E, gens, XE, R, s, Q, x, g, id;
+    local S, D, edges, bad, j, x, data, E, keyE, sub, g, gm, k, img, id, i, s, t;
     S := F!.S;
+    D := F!.data;
     edges := [];
     bad := [];
-    for j in [1..Length(F!.reps)] do
-        for n in GeneratorsOfGroup(F!.norm[j]) do
-            Add(edges, [j, j, n]);
+    for j in [1..Length(D.reps)] do
+        for x in GeneratorsOfGroup(D.norm[j]) do
+            Add(edges, [j, j, List(D.elts[j], y -> PositionSorted(D.elts[j], y^x))]);
         od;
     od;
     data := Concatenation([[S, F!.AS]], F!.ess);
     for E in data do
-        gens := E[2];
-        E := E[1];
-        # S-centric subgroups of E with their identification; for E = S the representatives suffice
-        # since Inn(S) is contained in the fusion system
-        if E = S then
-            XE := List([1..Length(F!.reps)], j -> [F!.reps[j], [j, One(S)]]);
+        # S-centric subgroups of E (positions in D.keys); for E = S the representatives suffice since Inn(S) is
+        # contained in the fusion system
+        if E[1] = S then
+            keyE := [1..Size(S)];
+            sub := List(D.reps, R -> PositionSorted(D.keys, FS_Key(D, R)));
         else
-            XE := [];
-            for j in [1..Length(F!.reps)] do
-                R := F!.reps[j];
-                if Size(E) mod Size(R) = 0 then
-                    for s in RightTransversal(S, F!.norm[j]) do
-                        Q := R^s;
-                        if IsSubset(E, Q) then
-                            Add(XE, [Q, [j, s^-1]]);
-                        fi;
-                    od;
-                fi;
-            od;
+            keyE := FS_Key(D, E[1]);
+            sub := Filtered([1..Length(D.keys)], k -> Length(D.keys[k]) <= Length(keyE) and IsSubsetSet(keyE, D.keys[k]));
         fi;
-        for x in XE do
-            for g in gens do
-                id := FS_IdentifySubgroup(F, Image(g, x[1]));
+        for g in E[2] do
+            gm := FS_PositionMap(D, g, keyE);
+            for k in sub do
+                img := Set(List(D.keys[k], i -> gm[i]));
+                id := FS_IdentifyKey(D, img);
+                i := D.keyid[k][1];
                 if id = fail then
-                    AddSet(bad, x[2][1]);
+                    AddSet(bad, i);
                 else
-                    Add(edges, [x[2][1], id[1], [x[2][2]^-1, g, id[2]]]);
+                    # the subgroup with key keys[k] is reps[i]^s
+                    s := D.keyid[k][2]^-1;
+                    t := id[2];
+                    Add(edges, [i, id[1], List(D.elts[i], y -> PositionSorted(D.elts[id[1]],
+                        D.eltsS[gm[PositionSorted(D.eltsS, y^s)]]^t))]);
                 fi;
             od;
         od;
@@ -156,7 +171,7 @@ end);
 
 # fusion graph: components, transport maps and automizers of the F-centric representatives
 BindGlobal("FS_FusionGraph", function(F)
-    local n, ge, adj, e, comp, root, tr, good, aut, r, queue, members, u, w, im, A, ims, pe, v, trperm;
+    local n, ge, adj, e, comp, root, tr, inv, good, aut, r, queue, members, u, w, A, pe, v, m, k;
     if IsBound(F!.good) then
         return F;
     fi;
@@ -171,14 +186,18 @@ BindGlobal("FS_FusionGraph", function(F)
     od;
     comp := ListWithIdenticalEntries(n, 0);
     root := ListWithIdenticalEntries(n, 0);
-    tr := [];        # tr[v][k] is the image of the k-th element of the root in reps[v]
+    # tr[v][k] is the index in elts[v] of the image of the k-th element of the root of the component of v,
+    # and inv[v] is the inverse list
+    tr := [];
+    inv := [];
     good := ListWithIdenticalEntries(n, false);
     aut := [];
     for r in [1..n] do
         if comp[r] = 0 then
             comp[r] := r;
             root[r] := r;
-            tr[r] := ShallowCopy(F!.elts[r]);
+            tr[r] := [1..Length(F!.elts[r])];
+            inv[r] := tr[r];
             queue := [r];
             members := [r];
             while queue <> [] do
@@ -189,11 +208,18 @@ BindGlobal("FS_FusionGraph", function(F)
                             comp[w] := r;
                             root[w] := r;
                             if w = e[2] then
-                                tr[w] := List(tr[u], x -> FS_ApplyEdge(e[3], x));
+                                tr[w] := e[3]{tr[u]};
                             else
-                                im := List(F!.elts[w], x -> FS_ApplyEdge(e[3], x));
-                                tr[w] := List(tr[u], y -> F!.elts[w][Position(im, y)]);
+                                m := [];
+                                for k in [1..Length(e[3])] do
+                                    m[e[3][k]] := k;
+                                od;
+                                tr[w] := m{tr[u]};
                             fi;
+                            inv[w] := [];
+                            for k in [1..Length(tr[w])] do
+                                inv[w][tr[w][k]] := k;
+                            od;
                             Add(queue, w);
                             Add(members, w);
                         fi;
@@ -205,8 +231,7 @@ BindGlobal("FS_FusionGraph", function(F)
                 A := Group(FS_ConjugationPerms(F!.elts[r], GeneratorsOfGroup(F!.reps[r])), ());
                 for e in ge.edges do
                     if comp[e[1]] = r then
-                        ims := List(tr[e[1]], x -> FS_ApplyEdge(e[3], x));
-                        pe := PermList(List(ims, y -> Position(tr[e[2]], y)));
+                        pe := PermList(inv[e[2]]{e[3]{tr[e[1]]}});
                         if not pe in A then
                             A := ClosureGroup(A, pe);
                         fi;
@@ -214,8 +239,7 @@ BindGlobal("FS_FusionGraph", function(F)
                 od;
                 for v in members do
                     good[v] := true;
-                    trperm := PermList(List(tr[v], y -> PositionSorted(F!.elts[v], y)));
-                    aut[v] := A^trperm;
+                    aut[v] := A^PermList(tr[v]);
                 od;
             fi;
         fi;
