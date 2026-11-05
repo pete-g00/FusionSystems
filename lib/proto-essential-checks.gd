@@ -95,23 +95,23 @@ DeclareOperation("Zed0Test", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group and $E$ be a subgroup of $S$. The operation `RankTest` checks that $\textrm{Out}_S(E)$ 
-#! is isomorphic to  a Sylow $p$-subgroup of a group containing a strongly $p$-embedded subgroup. If so, we return 
-#! a value specifying its type, namely:
-#! * $0$ -- $\textrm{Out}_S(E)$ is cyclic or quaternion;
-#! * $1$ -- $\textrm{Out}_S(E)$ is elementary abelian of order $\geq p^2$;
-#! * $2$ -- Sylow $p$-subgroup of $\textrm{PSU}_3(p^n)$;
-#! * $3$ -- Sylow $2$-subgroup of $\mathrm{Sz}(2^{2n+1})$;
-#! * $4$ -- Sylow $3$-subgroup of ${^2\mathrm{G}}_2(3^{2n+1})$; and
-#! * $5$ -- $3^{1+2}_-$ and $5^{1+2}_-$.
-#! We return $-1$ if none of the cases above apply. During the process, we also check that the subgroup $E$ has
-#! sufficiently high rank to ensure that $\mathrm{Aut}(E)$ has a possible valid section.
+#! Let $S_0$ be a $p$-group. The function `SPESylowType` find the type of the group $G$ that has $_0$ as a 
+#! Sylow $p$-subgroup and contains a strongly $p$-embedded subgroup. In particular, we return 
+#! a value specifying the type, namely:
+#! * $0$ -- $S_0$ is cyclic or quaternion;
+#! * $1$ -- $S_0$ is elementary abelian of order $\geq p^2$;
+#! * $2$ -- $G \cong \textrm{PSU}_3(p^n)$;
+#! * $3$ -- $G \cong \mathrm{Sz}(2^{2n+1})$;
+#! * $4$ -- $G \cong {^2\mathrm{G}}_2(3^{2n+1})$; and
+#! * $5$ -- $S_0$ is isomorphic to $3^{1+2}_-$ or $5^{1+2}_-$.
+#! We return $-1$ if none of the cases above apply. If $r$ is given, we also check that the 
+#! $G$ can be a section of $\mathrm{GL}_r(p)$.
 #!
 #! This test applies at any prime $p$. It is based on <Cite Key="SAM14" Where="Proposition 6.9" />.
 #!  
-#! @Arguments S E
+#! @Arguments S0 [r]
 #! @Returns a number
-DeclareOperation("RankTest", [IsPGroup, IsPGroup]);
+DeclareGlobalFunction("SPESylowType");
 
 #! @BeginExampleSession
 #! gap> S := SmallGroup(3^6, 479);
@@ -127,15 +127,15 @@ DeclareOperation("RankTest", [IsPGroup, IsPGroup]);
 #! Group([ f3^2, f4^2, f5^2, f6^2 ])
 #! gap> U := Intersection(A, B, C);
 #! Group([ f3^2, f5^2, f6^2 ])
-#! gap> RankTest(S, A);
+#! gap> SPESylowType(Normalizer(S,A)/A, Rank(A));
 #! 0
-#! gap> RankTest(S, B);
+#! gap> SPESylowType(Normalizer(S,B)/B, Rank(B));
 #! 0
-#! gap> RankTest(S, C);
+#! gap> SPESylowType(Normalizer(S,C)/C, Rank(C));
 #! 0
-#! gap> RankTest(S, T);
+#! gap> SPESylowType(Normalizer(S,T)/T, Rank(T));
 #! 1
-#! gap> RankTest(S, U);
+#! gap> SPESylowType(Normalizer(S,U)/U, Rank(U));
 #! -1
 #! @EndExampleSession
 
@@ -159,7 +159,7 @@ DeclareOperation("ModuleTest", [IsPGroup, IsPGroup]);
 #! gap> Length(C);
 #! 135
 #! gap> Number(C, A -> Zed0Test(S,A) and ModuleTest(S,A));
-#! 24
+#! 8
 #! @EndExampleSession 
 
 # TODO: Change this? Compare with the BL version of this code. Certainly check also wrt. $Z(E)$
@@ -201,7 +201,7 @@ DeclareOperation("FrattiniTest", [IsPGroup, IsPGroup]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see <Ref Oper="RankTest" Label="for IsPGroup, IsPGroup"/>).
+#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see <Ref Func="SPESylowType"/>).
 #! The operation `LiftTest` checks 
 #! whether the maps in $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ are present as expected. In particular,
 #! there is some value $a$ known to divide $N_{\mathrm{Out}_{\mathcal{F}}(E)}(\mathrm{Out}_S(E))$ for each choice of $i$.
@@ -280,7 +280,7 @@ DeclareOperation("LiftTest", [IsPGroup, IsPGroup, IsInt]);
 
 #! @Description 
 #!
-#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see <Ref Oper="RankTest" Label="for IsPGroup, IsPGroup"/>).
+#! Let $S$ be a $p$-group, $E$ be a subgroup of $S$ of type $i$ (see <Ref Func="SPESylowType"/>).
 #!  The operation `ValidAutTest` checks
 #! whether there is a valid section of $\mathrm{Aut}(E)$ that contains the expected $\mathrm{Aut}_{\mathcal{F}}(E)$.
 #! Note that this check is up to (order of) composition factors, and does not imply that the expected section actually

@@ -10,7 +10,7 @@ gap> Number(M, A -> ValidAutTest(S, A, 0));
 gap> Number(M, A -> ValidAutTest(S, A, -1));
 0
 gap> C := SubgroupsSolvableGroup(S);;
-gap> I := List(C, A -> RankTest(S, A));;
+gap> I := List(C, A -> SPESylowType(Normalizer(S, A)/A, Rank(A)));;
 gap> Number([1..Length(I)], i -> ValidAutTest(S, C[i], I[i]));
 17
 
@@ -22,14 +22,14 @@ gap> Number(M, A -> ValidAutTest(S, A, 0));
 gap> Number(M, A -> ValidAutTest(S, A, -1));
 0
 gap> C := SubgroupsSolvableGroup(S);;
-gap> I := List(C, A -> RankTest(S, A));;
+gap> I := List(C, A -> SPESylowType(Normalizer(S, A)/A, Rank(A)));;
 gap> Number([1..Length(I)], i -> ValidAutTest(S, C[i], I[i]));
 6
 
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>
 gap> C := SubgroupsSolvableGroup(S);;
-gap> I := List(C, A -> RankTest(S, A));;
+gap> I := List(C, A -> SPESylowType(Normalizer(S, A)/A, Rank(A)));;
 gap> Number([1..Length(I)], i -> ValidAutTest(S, C[i], I[i]));
 7
 gap> Number(C, A -> Size(A) = 3^2 and IsElementaryAbelian(A));
@@ -38,14 +38,14 @@ gap> Number(C, A -> Size(A) = 3^2 and IsElementaryAbelian(A));
 gap> S := SmallGroup(11^3, 3);
 <pc group of size 1331 with 3 generators>
 gap> C := SubgroupsSolvableGroup(S);;
-gap> I := List(C, A -> RankTest(S, A));;
+gap> I := List(C, A -> SPESylowType(Normalizer(S, A)/A, Rank(A)));;
 gap> Number([1..Length(I)], i -> ValidAutTest(S, C[i], I[i]));
 12
 
 gap> S := SmallGroup(5^5, 30);
 <pc group of size 3125 with 5 generators>
 gap> C := SubgroupsSolvableGroup(S);;
-gap> I := List(C, A -> RankTest(S, A));;
+gap> I := List(C, A -> SPESylowType(Normalizer(S, A)/A, Rank(A)));;
 gap> Number([1..Length(I)], i -> ValidAutTest(S, C[i], I[i]));
 42
 

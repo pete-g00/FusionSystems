@@ -9,7 +9,7 @@ gap> Number(M, A -> FrattiniTest(S, A));
 0
 gap> C := SubgroupsSolvableGroup(S);;
 gap> Number(C, A -> FrattiniTest(S, A));
-14
+2
 
 gap> S := SmallGroup(256, 5352);
 <pc group of size 256 with 8 generators>
@@ -18,7 +18,7 @@ gap> Number(M, A -> FrattiniTest(S, A));
 4
 gap> C := SubgroupsSolvableGroup(S);;
 gap> Number(C, A -> FrattiniTest(S, A));
-20
+13
 
 gap> S := SmallGroup(3^4, 7);
 <pc group of size 81 with 4 generators>

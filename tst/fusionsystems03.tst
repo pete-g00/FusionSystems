@@ -44,15 +44,15 @@ gap> T := Intersection(A, B);
 Group([ f3^2, f4^2, f5^2, f6^2 ])
 gap> U := Intersection(A, B, C);
 Group([ f3^2, f5^2, f6^2 ])
-gap> RankTest(S, A);
+gap> SPESylowType(Normalizer(S,A)/A, Rank(A));
 0
-gap> RankTest(S, B);
+gap> SPESylowType(Normalizer(S,B)/B, Rank(B));
 0
-gap> RankTest(S, C);
+gap> SPESylowType(Normalizer(S,C)/C, Rank(C));
 0
-gap> RankTest(S, T);
+gap> SPESylowType(Normalizer(S,T)/T, Rank(T));
 1
-gap> RankTest(S, U);
+gap> SPESylowType(Normalizer(S,U)/U, Rank(U));
 -1
 
 # doc/_Chapter_ProtoEssentialChecks.xml:213-221
@@ -62,7 +62,7 @@ gap> C := SubgroupsSolvableGroup(S);;
 gap> Length(C);
 135
 gap> Number(C, A -> Zed0Test(S,A) and ModuleTest(S,A));
-24
+8
 
 # doc/_Chapter_ProtoEssentialChecks.xml:237-257
 gap> S := SmallGroup(3^4, 7);

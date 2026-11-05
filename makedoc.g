@@ -12,6 +12,8 @@ AutoDoc( rec(
             "lib/proto-essential-checks.gd",
             "lib/reduced.gd",
             "lib/automizer-sequence.gd",
+            "lib/fusion-systems.gd",
+            "lib/enumeration.gd",
             "lib/misc.gd",
         ],
         scan_dirs := [],

@@ -58,121 +58,93 @@ InstallMethod(Zed0Test, "PE Z0 test",
     return ForAny(RightTransversal(OE, OS), x -> Centralizer(S, x) = E);
 end );
 
-InstallMethod(RankTest, "PE rank test", 
-    [IsPGroup, IsPGroup], function(S, E)
-    local   p, # the prime
-            r, # the rank of E
-            NSE, # N_S(E)
-            n, # \Out_S(E) = p^n
-            log_pr, # ceil(log_p(r))
-            OutSE; # \Out_S(E)
+# [SAM14, Theorem 6.9, Proposition 6.10]: if E is essential in a saturated fusion system and E/Phi(E) has rank r, then
+# N = Out_S(E) is a Sylow p-subgroup of a group with a strongly p-embedded subgroup acting faithfully on E/Phi(E), so
+# |N|^2 <= p^r and N is cyclic, quaternion, elementary abelian, or of one of the following types: for p = 2, a Suzuki
+# 2-group with Omega(N) = Z(N) = Phi(N) = N' and |N| = |Z(N)|^2 or |Z(N)|^3 (Sz(2^n), PSU(3, 2^n)); for odd p, a group of
+# exponent p with Z(N) = N' = Phi(N) elementary abelian of order |N|^(1/3) (PSU(3, p^n)); for p = 3, 5, the extraspecial
+# group p^(1+2)_-; for p = 3, a group with |N| = |Z(N)|^3 = 3^(6n+3), n >= 1, and Omega(N) = Phi(N) = N' = Z_2(N)
+# elementary abelian of order |Z(N)|^2 (Ree groups). The bound on |N| is [PS_MAGMA, Lemma 4.7, Proposition 4.8(4)] and
+# the list of types is [PS_MAGMA, Corollary 4.6, Proposition 4.8(3)]. For p = 2, all of this follows from Bender's
+# theorem; for odd p, it depends on the classification of finite simple groups.
+InstallGlobalFunction(SPESylowType, function(S0, arg...)
+    local p, Z, Om, Phi, Der;
 
-    if IsTrivial(E) or S = E then 
+    if IsTrivial(S0) then 
+        return -1; 
+    fi;
+
+    p := PrimePGroup(S0);
+
+    if not IsEmpty(arg) and Size(S0)^2 > p^arg[1] then
         return -1;
+    elif IsCyclic(S0) then
+        return 0;
+    elif IsElementaryAbelian(S0) then
+        return 1;
     fi;
 
-    p := PrimePGroup(S);
-
-    r := Rank(E);
-    NSE := Normalizer(S,E);
-    n := PValuation(IndexNC(NSE,E), p);
-
-    log_pr := Int(Ceil(Log2(Float(r))/Log2(Float(p))));
-
-    OutSE := NSE/E;
-
-    # p-rank 1
-    if IsCyclic(OutSE) then 
-        if PValuation(Size(OutSE), p) <= log_pr then 
-            return 0;
-        else 
-            return -1;
-        fi;
-    elif IsQuaternionGroup(OutSE) then 
-        if PValuation(Size(OutSE), p) <= log_pr+1 then 
-            return 0;
-        else 
-            return -1;
-        fi;
+    # a noncyclic p-group with a unique subgroup of order p is generalized quaternion
+    Om := Omega(S0, p);
+    if Size(Om) = p then
+        return 0;
     fi;
-
-    # PSL(2,p^n)
-    if IsElementaryAbelian(OutSE) then 
-        if 2*PValuation(Size(OutSE),p) <= r then 
-            return 1;
-        else 
-            return -1;
-        fi;
-    fi;
-
-    # TODO: These are not currently determined up to isomorphism
     
-    # PSU(3,p^n) [p odd]
-    if p >= 3 and n mod 3 = 0 and Exponent(OutSE) = p and 
-        Length(Set([Center(OutSE), DerivedSubgroup(OutSE), FrattiniSubgroup(OutSE)])) = 1 and 
-        NilpotencyClassOfGroup(OutSE) = 2 and IsElementaryAbelian(Center(OutSE)) and 
-        Size(Center(OutSE)) = p^(n/3) and HasElementaryAbelianFactorGroup(OutSE, Center(OutSE)) then 
-        if r >= 2*n then 
-            return 2;
-        else 
-            return -1;
-        fi;
-    fi;
-
-    if p = 2 and 2*PValuation(Size(OutSE),2) <= r
-        and Length(Set([Omega(OutSE, p), Center(OutSE), FrattiniSubgroup(OutSE), DerivedSubgroup(OutSE)])) = 1 then 
-        # Sz(2^2n+1)
-        if Size(OutSE) = Size(Omega(OutSE, p))^2 then 
-            return 3;
-        # PSU(3, 2^2n)
-        elif Size(OutSE) = Size(Omega(OutSE, p))^3 then 
-            return 2;
-        fi;
-    fi;
-
-    # ^2 G_2(q)
-    if p = 3 and 2*PValuation(Size(OutSE),p) <= r
-        and Length(Set([Omega(OutSE, p), FS_SecondCentre(OutSE), FrattiniSubgroup(OutSE), DerivedSubgroup(OutSE)])) = 1 then 
+    Z := Center(S0);
+    Phi := FrattiniSubgroup(S0);
+    Der := DerivedSubgroup(S0);
+    
+    if p = 2 and Om = Z and Phi = Z and Der = Z and Size(S0) = Size(Z)^2 then
+        return 3;
+    elif p = 2 and Om = Z and Phi = Z and Der = Z and Size(S0) = Size(Z)^3 then
+        return 2;
+    elif IsOddInt(p) and Exponent(S0) = p and IsElementaryAbelian(Z) and Der = Z and Phi = Z and Size(S0) = Size(Z)^3 then
+        return 2;
+    elif p in [3, 5] and Size(S0) = p^3 and Exponent(S0) = p^2 and not IsAbelian(S0) then
+        return 5;
+    elif p = 3 and Size(S0) > 27 and Size(S0) = Size(Z)^3 and PadicValuation(Size(S0), 3) mod 6 = 3 and
+           Om = Phi and Om = Der and Om = FS_SecondCentre(S0) and IsElementaryAbelian(Om) and Size(Om) = Size(Z)^2 then 
         return 4;
-    fi;
-    
-    # 3^{1+2}_-
-    if Size(OutSE) = 3^3 and IdGroup(OutSE)[2] = 4 and r >= 6 then 
-        return 5;
-    # 5^{1+2}_-
-    elif Size(OutSE) = 5^3 and IdGroup(OutSE)[2] = 4 and r >= 20 then 
-        return 5;
     fi;
 
     return -1;
 end );
 
 InstallMethod(ModuleTest, "PE Module Test", 
-    [IsPGroup, IsPGroup], function(S, P)
-    local p,FP,NSP,k,l,s,sP;
-
+    [IsPGroup, IsPGroup], function(S, E)
+    local p, d, FP, N, hom, S0, dims, C, s, mDim, Z, n, k;
+    
     p := PrimePGroup(S);
     if p <> 2 then return true; fi;
+    if IsCyclic(E) or S = E then return false; fi;
 
-    FP := FrattiniSubgroup(P);
-    NSP := Normalizer(S,P); 
+    d := RankPGroup(E);
+    FP := FrattiniSubgroup(E);
 
-    k := PValuation(IndexNC(NSP, P), p);
-    l := Rank(P);
+    N := Normalizer(S, E);
+    hom := NaturalHomomorphismByNormalSubgroup(N, E);
+    S0 := Image(hom);
+    k := PValuation(Size(S0), 2);
 
-    if k >= 2 then
-        # Note [s,P/Phi(P)] = [s,P]Phi(P)/Phi(P), and we can check the
-        # inequality for s in a transversal to P in N_S(P), because for
-        # each s in P, we have [s,Phi(P)] \leq Phi(P). 
-        for s in RightTransversal(NSP,P) do
-            if s in P then continue; fi;
-            sP := CommutatorSubgroup(Group(s),P); 
-            # Since [s,P]Phi(P)/Phi(P) is elementary abelian, to require
-            # its rank \geq 2 is the same as requiring its order \geq 4. 
-            if IndexNC(sP, Intersection(sP,FP)) < 4 then
-                return false;
-            fi;
-        od;
+    # dimensions of [s, E/Phi(E)] for representatives s of the nontrivial classes of S0
+    dims := [];
+    C := ConjugacyClasses(S0);
+    for s in C do
+        s := Representative(s);
+        if s <> One(S0) then
+            s := PreImagesRepresentative(hom, s);
+            Add(dims, PValuation(Size(ClosureGroup(FP, List(GeneratorsOfGroup(E), x -> Comm(x, s)))), 2) - PValuation(Size(FP), 2));
+        fi;
+    od;
+
+    mDim := Minimum(dims);
+    Z := Center(S0);
+
+    n := PValuation(Size(Z), 2);
+    if d < 2*k or (k >= 2 and mDim < 2) or (IsElementaryAbelian(Z) and mDim < n) or
+        (k >= 3 and Size(Omega(S0, 2)) = 2 and (d < 3 * 2^(k - 2) or mDim < 2^(k - 2))) then
+        Info(InfoFusion, 3, "subgroup of order ", Size(E), " fails ModuleTest");
+        return false;
     fi;
 
     return true;
@@ -180,12 +152,30 @@ end );
 
 InstallMethod(FrattiniTest, "PE Frattini Test", 
     [IsPGroup, IsPGroup], function(S, E)
-    # Specific case when $C_{N_S(E)}(E/\Phi(E)) = N_S(E)$
-    if CommutatorSubgroup(Normalizer(S,E), E) = FrattiniSubgroup(E) then 
+    local p, N, FP, Theta, T, C;
+
+    p := PrimePGroup(S);
+    
+    if IsCyclic(E) or S = E then
         return false;
     fi;
 
-    return CentralizerMod(Normalizer(S,E),E,FrattiniSubgroup(E)) = E;
+    N := Normalizer(S, E);
+    FP := FrattiniSubgroup(E);
+
+    for Theta in [TrivialSubgroup(E), Center(E), FS_SecondCentre(E)] do
+        T := ClosureGroup(FP, Theta);
+        C := CentralizerMod(N, E, T);
+        if Size(T) > Size(FP) then
+            C := Intersection(C, CentralizerMod(N, T, FP));
+        fi;
+        if Size(C) > Size(E) then
+            Info(InfoFusion, 3, "subgroup of order ", Size(E), " fails FrattiniTest");
+            return false;
+        fi;
+    od;
+
+    return true;
 end );
 
 InstallMethod(LiftTest, "PE Lift Test", 
@@ -262,6 +252,7 @@ InstallMethod(LiftTest, "PE Lift Test",
     elif i = 5 then 
         return CheckLift(p-1, p-1);
     elif i = -1 then 
+        Info(InfoFusion, 3, "subgroup of order ", Size(E), " fails LiftTest");
         return false;
     else
         Error("Invalid value i");
@@ -319,7 +310,8 @@ InstallMethod(ValidAutTest, "PE Valid Aut Test",
             elif n=3 and p=5 and a mod 898128000 = 0 then 
                 return true;
             # J2
-            # elif n=3 and p=5 and a mod ... = 0 then
+            elif n=3 and p=5 and a mod 604800 = 0 then
+                return true;
             fi;
         elif i=3 then 
             r := p^(n/2);
@@ -388,7 +380,7 @@ end);
 
 InstallMethod(IsProtoEssentialNC, "PE check NC",
     [IsPGroup, IsPGroup], function(S, E)
-    local i;
+    local N, i;
     if not FrattiniTest(S, E) then 
         Info(InfoFusion, 2, "\tFailed frattini test");
         return false;
@@ -399,7 +391,8 @@ InstallMethod(IsProtoEssentialNC, "PE check NC",
         return false;
     fi;
 
-    i := RankTest(S, E);
+    N := Normalizer(S, E);
+    i := SPESylowType(N/E, Rank(E));
     if i=-1 then 
         Info(InfoFusion, 2, "\tFailed rank test");
         return false;
