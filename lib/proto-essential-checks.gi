@@ -386,39 +386,63 @@ InstallMethod(RadicalTest, "PE Radical Test",
     return Size(Intersection(AutEp, AutSE)) = IndexNC(E, Center(E));
 end);
 
+InstallMethod(ValidIdTest, "PE Valid Id Test", 
+    [IsPGroup, IsPGroup], function(S, E)
+    local p, N, OutSE, I;
+
+    p := PrimePGroup(S);
+    if p <> 2 or Size(E) > 2^8 then 
+        return true;
+    fi;
+
+    N := Normalizer(S,E);
+    OutSE := N/E;
+    I := IdGroup(OutSE);
+    if not IsBound(ValidChoices!.(I[1])) or not IsBound(ValidChoices!.(I[1])!.(I[2])) then 
+        return false;
+    fi;
+    
+    return IdGroup(E) in ValidChoices!.(I[1])!.(I[2]);
+end );
+
 InstallMethod(IsProtoEssentialNC, "PE check NC",
     [IsPGroup, IsPGroup], function(S, E)
     local i;
+    if not ValidIdTest(S, E) then 
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails ValidIdTest");
+        return false;
+    fi;
+
     if not FrattiniTest(S, E) then 
-        Info(InfoFusion, 2, "\tFailed frattini test");
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails FrattiniTest");
         return false;
     fi;
 
     if not ModuleTest(S, E) then
-        Info(InfoFusion, 2, "\tFailed module test");
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails ModuleTest");
         return false;
     fi;
 
     i := RankTest(S, E);
     if i=-1 then 
-        Info(InfoFusion, 2, "\tFailed rank test");
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails RankTest");
         return false;
     fi;
 
     if not LiftTest(S, E, i) then 
-        Info(InfoFusion, 2, "\tFailed lift test");
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails LiftTest");
         return false;
     fi;
 
     if not ValidAutTest(S, E, i) then 
-        Info(InfoFusion, 2, "\tFailed valid aut test");
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails ValidAutTest");
         return false;
     fi;
 
     if RadicalTest(S, E) then 
         return true;
     else 
-        Info(InfoFusion, 2, "\tFailed radical test");
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails RadicalTest");
         return false;
     fi;
 end);
@@ -428,11 +452,11 @@ InstallMethod(IsProtoEssential, "PE check",
     if S = E then  
         Info(InfoFusion, 2, "\tE = S");
         return false;
-    elif S = E or not IsSubset(E, Centralizer(S,E)) then 
-        Info(InfoFusion, 2, "\tFailed centric test");
+    elif not IsSubset(E, Centralizer(S,E)) then 
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails CentricTest");
         return false;
     elif not Zed0Test(S, E) then 
-        Info(InfoFusion, 2, "\tFailed Z0 test");
+        Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails Zed0Test");
         return false;
     fi;
 

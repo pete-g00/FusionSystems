@@ -35,7 +35,7 @@ false
 gap> S := SmallGroup(32, 2);
 <pc group of size 32 with 5 generators>
 gap> AbelianTest(S);
-true
+false
 
 gap> S := AbelianGroup([8,4]);
 <pc group of size 32 with 2 generators>
@@ -45,7 +45,7 @@ false
 gap> S := SmallGroup(32, 4);
 <pc group of size 32 with 5 generators>
 gap> AbelianTest(S);
-true
+false
 
 gap> S := SmallGroup(32, 8);
 <pc group of size 32 with 5 generators>
@@ -60,12 +60,12 @@ true
 gap> S := SmallGroup(32, 12);
 <pc group of size 32 with 5 generators>
 gap> AbelianTest(S);
-true
+false
 
 gap> S := SmallGroup(32, 17);
 <pc group of size 32 with 5 generators>
 gap> AbelianTest(S);
-true
+false
 
 gap> S := DirectProduct(DihedralGroup(16), DihedralGroup(8));
 <pc group of size 128 with 7 generators>

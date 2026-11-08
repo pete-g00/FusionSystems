@@ -128,7 +128,7 @@ end );
 
 InstallMethod(AbelianTest, "RED abelian test",
     [IsPGroup], function(S)
-    local p, C0;
+    local p, C0, M;
 
     if IsAbelian(S) then return false; fi;
     
@@ -136,6 +136,16 @@ InstallMethod(AbelianTest, "RED abelian test",
     if p <> 2 then return true; fi;
 
     if IsDSWGroup(S) then return true; fi;
+
+    if NilpotencyClassOfGroup(S) = 2 then 
+        M := MaximalSubgroups(S);
+    else 
+        M := [Centralizer(S, FS_SecondCentre(S))];
+    fi;
+    
+    if ForAny(M, A -> IsAbelian(A) and Index(S, A) = 2) then 
+        return false; 
+    fi;
 
     C0 := ClassesSolvableGroup(S, 0);
     C0 := List(C0, x -> x.centralizer);

@@ -10,11 +10,11 @@ gap> Length(C);
 gap> SetInfoLevel(InfoFusion, 2);
 gap> C := GenerateProtoEssentials(S, C);;
 #I  Generating all proto-essential subgroups from 3 subgroups
-#I      Failed centric test
-#I      Failed centric test
-#I      Failed centric test
-#I      Failed centric test
-#I      Failed centric test
+#I      subgroup of order 9 fails CentricTest
+#I      subgroup of order 9 fails CentricTest
+#I      subgroup of order 9 fails CentricTest
+#I      subgroup of order 9 fails CentricTest
+#I      subgroup of order 9 fails CentricTest
 #I  Generated 3 subgroups
 gap> SetInfoLevel(InfoFusion, 0);
 gap> ForAll(C, A -> IsProtoEssential(S, A));

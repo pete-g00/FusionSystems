@@ -293,6 +293,8 @@ DeclareOperation("LiftTest", [IsPGroup, IsPGroup, IsInt]);
 #! @Returns true or false
 DeclareOperation("ValidAutTest", [IsPGroup, IsPGroup, IsInt]);
 
+DeclareOperation("ValidIdTest", [IsPGroup, IsPGroup]);
+
 #! @BeginExampleSession
 #! gap> S := SmallGroup(3^4, 7);
 #! <pc group of size 81 with 4 generators>
