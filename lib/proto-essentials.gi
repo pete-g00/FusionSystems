@@ -95,7 +95,7 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
     C := List(C, Representative);
 
     C := Filtered(C, A -> ForAll(C0, B -> not IsConjugate(S, A, B)));
-    Info(InfoFusion, 2, Length(C0), " proper subgroup(s) up to S-conjugacy passing Zed0Test");
+    Info(InfoFusion, 2, Length(C), " proper subgroup(s) up to S-conjugacy passing Zed0Test");
     
     Info(InfoFusion, 2, "Checking proto-essential(s)");
     C := Filtered(C, E -> IsProtoEssentialNC(S,E));
