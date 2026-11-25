@@ -15,7 +15,7 @@ InstallMethod(C0Subgroups, "C subgroups", [IsPGroup], function(S)
         E := C0[i].centralizer;
         x := C0[i].representative;
         if not IsSubset(E, Z0) then 
-            if Index(Normalizer(S,E), E) = 2 then 
+            if Index(Normalizer(S,E), E) = p then 
                 Add(I, i);
             fi;
         else 
