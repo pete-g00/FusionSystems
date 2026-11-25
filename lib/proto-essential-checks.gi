@@ -392,7 +392,7 @@ InstallMethod(ValidIdTest, "PE Valid Id Test",
 
     p := PrimePGroup(S);
     if p <> 2 or Size(E) > 2^8 then 
-        return true;
+        return not IsPrimePowerInt(InitAutomorphismGroupOver(E).size);
     fi;
 
     N := Normalizer(S,E);
@@ -408,6 +408,11 @@ end );
 InstallMethod(IsProtoEssentialNC, "PE check NC",
     [IsPGroup, IsPGroup], function(S, E)
     local i;
+    
+    if IsTrivial(E) then 
+        return false;
+    fi;
+
     if not ValidIdTest(S, E) then 
         Info(InfoFusion, 2, "\tsubgroup of order ", Size(E), " fails ValidIdTest");
         return false;

@@ -1,12 +1,46 @@
+InstallMethod(C0Subgroups, "C subgroups", [IsPGroup], function(S)
+    local p, Z0, R, I, i, E, x, C0;
+
+    Info(InfoFusion, 1, "Finding C0");
+
+    p := PrimePGroup(S);
+    Z0 := Zed0(S);
+
+    C0 := ClassesSolvableGroup(S, 0);
+    C0 := Filtered(C0, a -> Order(a.representative) = p);
+    C0 := Filtered(C0, a -> a.centralizer <> S);
+
+    I := [];
+    for i in [1..Length(C0)] do 
+        E := C0[i].centralizer;
+        x := C0[i].representative;
+        if not IsSubset(E, Z0) then 
+            if Index(Normalizer(S,E), E) = 2 then 
+                Add(I, i);
+            fi;
+        else 
+            Add(I, i);
+        fi;
+    od;
+
+    C0 := List(I, i -> C0[i].centralizer);
+    C0 := Orbits(S, C0);
+    C0 := List(C0, Representative);
+    Info(InfoFusion, 2, Length(C0), " proper subgroup(s) up to S-conjugacy passing Zed0Test");
+    
+    Info(InfoFusion, 2, "Checking proto-essential(s)");
+    C0 := Filtered(C0, E -> IsProtoEssentialNC(S,E));
+
+    return C0;
+end);
+
 # TODO: Accommodate for:
 # - not checking Aut(S)-conjugates of certain subgroups
 InstallGlobalFunction(MainProtoEssentials,  function(arg...)
     local   S, # the group
+            Z0, # Zed0(S)
             onlyOne, # whether to only check the top iteration
             p, # the prime
-            G, # holomorph of S
-            i, # Embedding of S to G
-            S0, # Image of S in G
             L, # central series of S' (labelled Z_i)
             j, # final position
             q, # quotient map S/Z_i
@@ -15,6 +49,10 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
             C; # the proto-essential subgroups
 
     S := arg[1];
+
+    if IsAbelian(S) then 
+        return [];
+    fi;
 
     if Length(arg) > 1 then 
         onlyOne := arg[2];
@@ -25,51 +63,46 @@ InstallGlobalFunction(MainProtoEssentials,  function(arg...)
         onlyOne := 1;
     fi;
 
-    if IsAbelian(S) then 
-        return [];
+    Z0 := Zed0(S);
+    C0 := C0Subgroups(S);
+    if onlyOne = 0 then 
+        return C0;
     fi;
+
+    Info(InfoFusion, 1, "Finding C - C0");
 
     p := PrimePGroup(S);
-
-    if onlyOne in [1, -1] then 
-        L := LowerCentralSeries(S);
-        # Deals with a bug in CompositionSeriesThrough (will be fixed in v4.18)
-        L := FS_CSThru(S, L);
-        
-        j := Position(L, DerivedSubgroup(S));
-        L := L{[j+1..Length(L)]};
-        
-        q := List(L, A -> NaturalHomomorphismByNormalSubgroup(S,A));
-
-        Q := List(q, Image);
-        C := List(Q, A -> ClassesSolvableGroup(A,0));
-        C := List(C, A -> Filtered(A, a -> Order(a.representative) = p));
-        C := List(C, A -> List(A, a -> a.centralizer));
-        C := List([1..Length(C)], i -> List(C[i], A -> PreImage(q[i], A)));
-
-        if onlyOne = -1 then 
-            Info(InfoFusion, 1, "Finding C - C0");
-            C0 := C[Length(C)];
-            C := Filtered(Flat(C{[1..Length(C)-1]}), A -> ForAll(C0, B -> not IsConjugate(S, A, B)));
-        else 
-            Info(InfoFusion, 1, "Finding C");
-            C := Flat(C);
-        fi;
-    elif onlyOne = 0 then
-        Info(InfoFusion, 1, "Finding C0");
-
-        C := ClassesSolvableGroup(S, 0);
-        C := Filtered(C, a -> Order(a.representative) = p);
-        C := List(C, a -> a.centralizer);
-    fi;
-
-    C := Orbits(S, C);
-    Info(InfoFusion, 1, Length(C), " subgroups up to S-conjugacy");
-
-    C := List(C, Representative);
+    L := LowerCentralSeries(S);
+    # Deals with a bug in CompositionSeriesThrough (will be fixed in v4.18)
+    L := FS_CSThru(S, L);
     
-    Info(InfoFusion, 1, "Checking proto-essential(s)");
-    C := Filtered(C, E -> IsProtoEssential(S,E));
+    j := Position(L, DerivedSubgroup(S));
+    L := L{[j+1..Length(L)-1]};
+    
+    q := List(L, A -> NaturalHomomorphismByNormalSubgroupNC(S,A));
+
+    Q := List(q, Image);
+    C := List(Q, A -> ClassesSolvableGroup(A,0));
+    C := List([1..Length(C)], i -> Filtered(C[i], a ->  Order(a.representative) = p and a.centralizer <> Q[i]));
+
+    C := List(C, A -> List(A, a -> a.centralizer));
+    C := List([1..Length(C)], i -> List(C[i], A -> PreImage(q[i], A)));
+
+    C := Flat(C);
+    C := Filtered(C, A -> IsSubset(A, Z0));
+    
+    C := Orbits(S, C);
+    C := List(C, Representative);
+
+    C := Filtered(C, A -> ForAll(C0, B -> not IsConjugate(S, A, B)));
+    Info(InfoFusion, 2, Length(C0), " proper subgroup(s) up to S-conjugacy passing Zed0Test");
+    
+    Info(InfoFusion, 2, "Checking proto-essential(s)");
+    C := Filtered(C, E -> IsProtoEssentialNC(S,E));
+
+    if onlyOne = 1 then 
+        C := Flat([C0, C]);
+    fi;
 
     return C;
 end);

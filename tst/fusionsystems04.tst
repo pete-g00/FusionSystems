@@ -20,8 +20,8 @@ true
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
-[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), 
-Group([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), 
+[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]),
+Group([ f5, f6, f7, f1, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]),
 Group([ f1, f3, f5, f6, f7 ]) ]
 gap> PossiblySupportsReducedFusionSystems_PE(S, L{[1..3]});
 true
@@ -147,8 +147,8 @@ true
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
-[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), 
-Group([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), 
+[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]),
+Group([ f5, f6, f7, f1, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]),
 Group([ f1, f3, f5, f6, f7 ]) ]
 gap> TransferTest(S, L{[1..3]});
 true
@@ -169,19 +169,21 @@ gap> Length(L);
 gap> Number(L, S -> CTest(S, AllProtoEssentials(S)));
 16
 
-# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:438-449
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:438-451
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
-[ Group([ f7, f1, f2, f4, f5, f6 ]), Group([ f5, f6, f7, f1, f3, f4 ]), 
-Group([ f5, f6, f7, f2, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]), 
+[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]),
+Group([ f5, f6, f7, f1, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]),
 Group([ f1, f3, f5, f6, f7 ]) ]
 gap> SemiCharacteristicGeneratedTest(S, L{[1..3]});
 true
 gap> SemiCharacteristicGeneratedTest(S, L{[3..5]});
+true
+gap> SemiCharacteristicGeneratedTest(S, L{[1,4,5]});
 false
 
-# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:467-477
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:469-479
 gap> S := SmallGroup(256, 6366);
 <pc group of size 256 with 8 generators>
 gap> L := AllProtoEssentials(S);

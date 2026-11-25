@@ -191,45 +191,27 @@ InstallMethod(ValidAutTest, "RED valid aut test",
     return CommutatorSubgroup(H, S) = S;
 end );
 
-BindGlobal("FS_OmegaAbelianizationTest1", function(S)
-    local p, AutS, O, D;
-
-    if IsAbelian(S) then return false; fi;
-    p := PrimePGroup(S);
-
-    if p <> 2 then 
-        return true; 
-    fi;
-
-    O := Omega(Center(S), p);
-    D := DerivedSubgroup(S);
-
-    return Index(O, Intersection(O, D)) <> 2;
-end );
-
-BindGlobal("FS_OmegaAbelianizationTest2", function(S)
-    local p, AutS, O, D;
-
-    if IsAbelian(S) then return false; fi;
-    p := PrimePGroup(S);
-
-    if p <> 2 then 
-        return true; 
-    fi;
-
-    O := Omega(Center(S), p);
-    D := DerivedSubgroup(S);
-
-    AutS := AutomorphismGroup(S);
-
-    return not IsPGroup(AutS) or IsSubset(D, O);
-end );
-
 InstallMethod(OmegaAbelianizationTest, "RED omega abelianization test",
     [IsPGroup], function(S)
     local p, AutS, O, D;
 
-    return FS_OmegaAbelianizationTest1(S) or FS_OmegaAbelianizationTest2(S);
+    if IsTrivial(S) then return false; fi;
+
+    p := PrimePGroup(S);
+    if p <> 2 then return true; fi;
+
+    O := Omega(Center(S), p);
+    D := DerivedSubgroup(S);
+
+    if IsTrivial(D) then return false; fi;
+
+    if p = 2 and Index(O, Intersection(O, D)) = 2 then 
+        return false;
+    fi;
+
+    AutS := AutomorphismGroup(S);
+
+    return not IsPGroup(AutS) or IsSubset(D, O);
 end );
 
 InstallMethod(C0Test, "RED C0 test",
@@ -285,23 +267,24 @@ end );
 BindGlobal("FS_PossiblySupportsReducedFusionSystems_PrePE", function(S)
     if not ExponentTest(S) then 
         Info(InfoFusion, 1, "Exponent of Z(S) too big");
+        # return 2;
         return false;
     fi;
 
     # If $S'$ is cyclic, then $S$ must have an abelian index p 
-    # TODO: Further check that that this sub proto-essential too
     if not DerivedCyclicTest(S) and not IsDSWGroup(S) then 
         Info(InfoFusion, 1, "Derived subgroup is cyclic");
-        return false;
-    fi;
-
-    if not FS_OmegaAbelianizationTest1(S) then 
-        Info(InfoFusion, 1, "Failed omega test (1)");
+        # return 3;
         return false;
     fi;
 
     if not AbelianTest(S) then 
         Info(InfoFusion, 1, "Failed abelian test");
+        return false;
+    fi;
+
+    if not OmegaAbelianizationTest(S) then 
+        Info(InfoFusion, 1, "Failed omega test");
         return false;
     fi;
 
@@ -312,10 +295,6 @@ InstallMethod(PossiblySupportsReducedFusionSystems_PE, "Possibly supports reduce
     [IsPGroup, IsList], function(S, C)
     local p, L;
     
-    if not FS_PossiblySupportsReducedFusionSystems_PrePE(S) then 
-        return false;
-    fi;
-
     p := PrimePGroup(S);
     
     if not CTest(S, C) then 
@@ -350,41 +329,27 @@ end );
 
 InstallMethod(PossiblySupportsReducedFusionSystems, "Possibly supports reduced fusion systems",
     [IsPGroup], function(S)
-    local C0, C;
+    local C0, C, i;
     
     # TODO: Maximal class
     # TODO: Abelian sub. of index p (non-maximal class)
 
-    # TODO: Deal with p odd as well
-    if PrimePGroup(S) = 2 and IsDSWGroup(S) then 
-        Info(InfoFusion, 1, "S is DSW group");
-        return true; 
-    # elif (PClassPGroup(S) = 2 or NilpotencyClassOfGroup(S) = 2) then 
-    #     if FS_ReducedFusionSystems_Class2(S) then 
-    #         Info(InfoFusion, 1, "S is valid of class 2");
-    #         return true;
-    #     else 
-    #         Info(InfoFusion, 1, "S is invalid of class 2");
-    #         return false;
-    #     fi;
-    elif IsAbelian(S) then 
+    if IsAbelian(S) then 
         Info(InfoFusion, 1, "S is abelian");
-        return false; 
-    fi;
-
-    if not FS_PossiblySupportsReducedFusionSystems_PrePE(S) then 
         return false;
+    elif PrimePGroup(S) = 2 and IsDSWGroup(S) then 
+        Info(InfoFusion, 1, "S is DSW group");
+        return true;
     fi;
-
+    
     C0 := MainProtoEssentials(S, 0);
     if not C0Test(S, C0) then 
         Info(InfoFusion, 1, "Failed C0 test");
         return false;
     fi;
 
-    if not FS_OmegaAbelianizationTest2(S) then 
-        Info(InfoFusion, 1, "Failed C0 test");
-        return false;
+    if not FS_PossiblySupportsReducedFusionSystems_PrePE(S) then
+        return false; 
     fi;
 
     C := MainProtoEssentials(S, -1);
