@@ -267,28 +267,26 @@ end );
 BindGlobal("FS_PossiblySupportsReducedFusionSystems_PrePE", function(S)
     if not ExponentTest(S) then 
         Info(InfoFusion, 1, "Exponent of Z(S) too big");
-        # return 2;
-        return false;
+        return 2;
     fi;
 
     # If $S'$ is cyclic, then $S$ must have an abelian index p 
     if not DerivedCyclicTest(S) and not IsDSWGroup(S) then 
         Info(InfoFusion, 1, "Derived subgroup is cyclic");
-        # return 3;
-        return false;
+        return 3;
     fi;
 
     if not AbelianTest(S) then 
         Info(InfoFusion, 1, "Failed abelian test");
-        return false;
+        return 4;
     fi;
 
     if not OmegaAbelianizationTest(S) then 
         Info(InfoFusion, 1, "Failed omega test");
-        return false;
+        return 5;
     fi;
 
-    return true;
+    return 0;
 end);
 
 InstallMethod(PossiblySupportsReducedFusionSystems_PE, "Possibly supports reduced fusion systems (PE version)",
@@ -299,57 +297,49 @@ InstallMethod(PossiblySupportsReducedFusionSystems_PE, "Possibly supports reduce
     
     if not CTest(S, C) then 
         Info(InfoFusion, 1, "Failed C test");
-        return false;
+        return 6;
     fi;
 
     if not TransferTest(S, C) or not TransferFpTest(S, C) then 
         Info(InfoFusion, 1, "Failed transfer test");
-        return false;
+        return 7;
     fi;
 
     L := GenerateProtoEssentials(S, C);
-
-    if not ValidAutTest(S) then 
-        Info(InfoFusion, 1, "Failed valid Aut(S) test");
-        return false;
-    fi;
-
     if not CoreTest(S, L) then 
         Info(InfoFusion, 1, "Failed core test");
-        return false;
+        return 8;
     fi;
 
     if not SemiCharacteristicGeneratedTest(S, L) then 
         Info(InfoFusion, 1, "Failed semi-characteristic generation test");
-        return false;
+        return 9;
     fi;
 
-    return true;
+    return 0;
 end );
 
 InstallMethod(PossiblySupportsReducedFusionSystems, "Possibly supports reduced fusion systems",
     [IsPGroup], function(S)
     local C0, C, i;
     
-    # TODO: Maximal class
-    # TODO: Abelian sub. of index p (non-maximal class)
-
-    if IsAbelian(S) then 
-        Info(InfoFusion, 1, "S is abelian");
-        return false;
+    if PClassPGroup(S) <= 2 or NilpotencyClassOfGroup(S) <= 2 then 
+        Info(InfoFusion, 1, "S has class <= 2");
+        return -1;
     elif PrimePGroup(S) = 2 and IsDSWGroup(S) then 
         Info(InfoFusion, 1, "S is DSW group");
-        return true;
+        return -1;
     fi;
     
     C0 := MainProtoEssentials(S, 0);
     if not C0Test(S, C0) then 
         Info(InfoFusion, 1, "Failed C0 test");
-        return false;
+        return 1;
     fi;
 
-    if not FS_PossiblySupportsReducedFusionSystems_PrePE(S) then
-        return false; 
+    i := FS_PossiblySupportsReducedFusionSystems_PrePE(S);
+    if i <> 0 then
+        return i; 
     fi;
 
     C := MainProtoEssentials(S, -1);
