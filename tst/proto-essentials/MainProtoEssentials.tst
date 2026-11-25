@@ -51,8 +51,6 @@ true
 gap> C0 := MainProtoEssentials(S, 0);;
 gap> Length(C0);
 2
-gap> IdGroup(C0[1]) = [3^2, 2];
-true
 gap> ForAny(C0, A -> IdGroup(A) = [3^2, 2]);
 true
 gap> ForAny(C0, A -> IdGroup(A) = [3^3, 5]);

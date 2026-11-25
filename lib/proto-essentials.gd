@@ -1,5 +1,7 @@
 DeclareInfoClass("InfoFusion");
 
+DeclareAttribute("C0Subgroups", IsPGroup);
+
 #! @Chapter Proto-essential subgroups
 #! @ChapterLabel ProtoEssentialSubgroups
 
