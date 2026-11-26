@@ -214,16 +214,6 @@ InstallMethod(OmegaAbelianizationTest, "RED omega abelianization test",
     return not IsPGroup(AutS) or IsSubset(D, O);
 end );
 
-InstallMethod(C0Test, "RED C0 test",
-    [IsPGroup, IsList], function(S, C0)
-    local p;
-    
-    if IsAbelian(S) then return false; fi;
-
-    p := PrimePGroup(S);
-    return not ForAll(C0, A -> IsSemiCharacteristic(A, Omega(Center(S), p)));
-end );
-
 InstallMethod(CTest, "RED C test",
     [IsPGroup, IsList], function(S, C)
     local p, AutS;
@@ -267,14 +257,12 @@ end );
 BindGlobal("FS_PossiblySupportsReducedFusionSystems_PrePE", function(S)
     if not ExponentTest(S) then 
         Info(InfoFusion, 1, "Exponent of Z(S) too big");
-        # return 2;
         return false;
     fi;
 
     # If $S'$ is cyclic, then $S$ must have an abelian index p 
     if not DerivedCyclicTest(S) and not IsDSWGroup(S) then 
         Info(InfoFusion, 1, "Derived subgroup is cyclic");
-        # return 3;
         return false;
     fi;
 
