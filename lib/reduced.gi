@@ -331,7 +331,7 @@ InstallMethod(PossiblySupportsReducedFusionSystems, "Possibly supports reduced f
     fi;
     
     C0 := MainProtoEssentials(S, 0);
-    if not C0Test(S, C0) then 
+    if IsEmpty(C0) then 
         Info(InfoFusion, 1, "Failed C0 test");
         return false;
     fi;
