@@ -330,26 +330,6 @@ DeclareOperation("TransferFpTest", [IsPGroup, IsList]);
 
 #! @Description 
 #! 
-#! Let $S$ be a $p$-group, and $L := \mathfrak{C}_0$. The operation `C0Test` checks that there exists some subgroup 
-#! $E$ in $L$ such that $\Omega(Z(S))$ is not semi-characteristic in $E$, i.e. invariant 
-#! under $O^p(O^{p'}(\mathrm{Aut}(E)))$.
-#! 
-#! This test applies at any prime $p$. It is based on <Cite Key="sporadics2" Where="Corollary 3.12" />.
-#! 
-#! @Arguments S L
-#! @Returns true or false
-DeclareOperation("C0Test", [IsPGroup, IsList]);
-
-#! @BeginExampleSession
-#! gap> L := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;
-#! gap> Length(L);
-#! 32
-#! gap> Number(L, S -> C0Test(S, MainProtoEssentials(S, 0)));
-#! 17
-#! @EndExampleSession 
-
-#! @Description 
-#! 
 #! Let $S$ be a $p$-group, and let $L$ be a list of proto-essential subgroups of $S$. The operation `CTest` checks that:
 #! * $L$ has at least $2$ elements, or
 #! * $L$ consists of a single subgroup, which is not normal in $S$, and $\mathrm{Aut}(S)$ is not a $p$-group.

@@ -155,21 +155,14 @@ true
 gap> TransferTest(S, L{[3..5]});
 false
 
-# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:385-391
-gap> L := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;
-gap> Length(L);
-32
-gap> Number(L, S -> C0Test(S, MainProtoEssentials(S, 0)));
-17
-
-# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:414-420
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:391-397
 gap> L := AllSmallGroups(3^5, A -> NilpotencyClassOfGroup(A) >= 3);;
 gap> Length(L);
 32
 gap> Number(L, S -> CTest(S, AllProtoEssentials(S)));
 16
 
-# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:438-451
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:415-428
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
@@ -183,7 +176,7 @@ true
 gap> SemiCharacteristicGeneratedTest(S, L{[1,4,5]});
 false
 
-# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:469-479
+# doc/_Chapter_Checks_for_reduced_fusion_systems.xml:446-456
 gap> S := SmallGroup(256, 6366);
 <pc group of size 256 with 8 generators>
 gap> L := AllProtoEssentials(S);

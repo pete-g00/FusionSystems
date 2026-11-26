@@ -214,16 +214,6 @@ InstallMethod(OmegaAbelianizationTest, "RED omega abelianization test",
     return not IsPGroup(AutS) or IsSubset(D, O);
 end );
 
-InstallMethod(C0Test, "RED C0 test",
-    [IsPGroup, IsList], function(S, C0)
-    local p;
-    
-    if IsAbelian(S) then return false; fi;
-
-    p := PrimePGroup(S);
-    return not ForAll(C0, A -> IsSemiCharacteristic(A, Omega(Center(S), p)));
-end );
-
 InstallMethod(CTest, "RED C test",
     [IsPGroup, IsList], function(S, C)
     local p, AutS;
@@ -332,7 +322,7 @@ InstallMethod(PossiblySupportsReducedFusionSystems, "Possibly supports reduced f
     fi;
     
     C0 := MainProtoEssentials(S, 0);
-    if not C0Test(S, C0) then 
+    if IsEmpty(C0) then 
         Info(InfoFusion, 1, "Failed C0 test");
         return 1;
     fi;
