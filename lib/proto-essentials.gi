@@ -109,12 +109,12 @@ end);
 
 InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials using the main proto-essentials", 
     [IsPGroup, IsList], function(S, L)
-    local   G, # holomorph of S
-            i, # Embedding of S to G
-            S0, # Image of S in G
-            I, # the conjugates of essentials already considered
+    local   I, # the conjugates of essentials already considered
             J, # the conjugates of essentials that still need to be considered
-            L0, # the conjugates of essentials
+            AutS, # Aut(S)
+            i,
+            n, # some nice monomorphism
+            L0, # the Aut(S)-conjugates of essentials
             j, # position of the current essential
             E, # current essential
             T, # the proto-essentials
@@ -125,8 +125,8 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
             K, # the valid choices in A
             F, # an element in A
             E0, # some Aut(S)-conjugate of E contained inside F
-            AutF, # Aut(F)
-            n; # nice monomorphism for Aut(F)
+            AutF; # Aut(F)
+            
     
     if IsEmpty(L) then 
         return L;
@@ -135,7 +135,15 @@ InstallMethod(GenerateProtoEssentials, "method to generate proto-essentials usin
     Info(InfoFusion, 1, "Generating all proto-essential subgroups from ", Length(L), " subgroups");
         
     I := [];
-    L0 := ShallowCopy(L);
+
+    # TODO: Compute all $\Aut(S)$-conjugates of subs in $L$, then take a $S$-representative
+    AutS := AutomorphismGroup(S);
+    n := NiceMonomorphism(AutS);
+    AutS := Image(n, AutS);
+    L0 := Orbits(AutS, L, OnImageNM(n));
+    L0 := List(L0, A -> List(Orbits(S,  A), Representative));
+    L0 := Flat(L0);
+
     T := [];
 
     while Length(I) <> Length(L0) do 
