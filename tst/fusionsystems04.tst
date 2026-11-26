@@ -20,9 +20,9 @@ true
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
-[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]),
-Group([ f5, f6, f7, f1, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]),
-Group([ f1, f3, f5, f6, f7 ]) ]
+[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]), 
+Group([ f7, f1, f3, f5, f4, f6*f7 ]), Group([ f1, f2, f4, f6, f7 ]), 
+Group([ f1, f3, f5, f6*f7, f7 ]) ]
 gap> PossiblySupportsReducedFusionSystems_PE(S, L{[1..3]});
 true
 gap> PossiblySupportsReducedFusionSystems_PE(S, L{[3..5]});
@@ -147,9 +147,9 @@ true
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
-[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]),
-Group([ f5, f6, f7, f1, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]),
-Group([ f1, f3, f5, f6, f7 ]) ]
+[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]), 
+Group([ f7, f1, f3, f5, f4, f6*f7 ]), Group([ f1, f2, f4, f6, f7 ]), 
+Group([ f1, f3, f5, f6*f7, f7 ]) ]
 gap> TransferTest(S, L{[1..3]});
 true
 gap> TransferTest(S, L{[3..5]});
@@ -173,9 +173,9 @@ gap> Number(L, S -> CTest(S, AllProtoEssentials(S)));
 gap> S := SmallGroup(2^7, 931);
 <pc group of size 128 with 7 generators>
 gap> L := AllProtoEssentials(S);
-[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]),
-Group([ f5, f6, f7, f1, f3, f4 ]), Group([ f1, f2, f4, f6, f7 ]),
-Group([ f1, f3, f5, f6, f7 ]) ]
+[ Group([ f2, f3, f4, f5, f6, f7 ]), Group([ f7, f1, f2, f4, f5, f6 ]), 
+Group([ f7, f1, f3, f5, f4, f6*f7 ]), Group([ f1, f2, f4, f6, f7 ]), 
+Group([ f1, f3, f5, f6*f7, f7 ]) ]
 gap> SemiCharacteristicGeneratedTest(S, L{[1..3]});
 true
 gap> SemiCharacteristicGeneratedTest(S, L{[3..5]});
